@@ -61,7 +61,11 @@ NSString *RimeProbeType(NSString *sharedDir, NSString *userDir) {
         int n = ctx.menu.num_candidates < 6 ? ctx.menu.num_candidates : 6;
         for (int i = 0; i < n; i++) {
             const char *tx = ctx.menu.candidates[i].text;
-            if (tx) { if (cand.length) { [cand appendString:@" / "]; } [cand appendFormat:@"%s", tx]; }
+            if (!tx) { continue; }
+            // 关键：用 stringWithUTF8String 解码，勿用 %s（会按非 UTF-8 解释导致中文乱码）
+            NSString *t = [NSString stringWithUTF8String:tx];
+            if (!t) { t = [NSString stringWithCString:tx encoding:NSUTF8StringEncoding]; }
+            if (t.length) { if (cand.length) { [cand appendString:@" / "]; } [cand appendString:t]; }
         }
     }
     api->free_context(&ctx);
