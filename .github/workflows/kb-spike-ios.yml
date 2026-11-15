@@ -1,0 +1,45 @@
+name: kb-spike-ios
+# P0 spike S1/S2：无签名构建，验证能生成 App + 键盘扩展 .appex。仅手动触发，不挂 push。
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: macos-26
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: |
+          cd kb-spike
+          xcodegen generate
+          ls -la
+
+      - name: Build unsigned (app + keyboard extension)
+        run: |
+          cd kb-spike
+          set -o pipefail
+          xcodebuild \
+            -project KBSpike.xcodeproj \
+            -scheme KBSpike \
+            -sdk iphoneos \
+            -configuration Release \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            build | tail -60
+
+      - name: Verify .appex present inside .app/PlugIns
+        run: |
+          cd kb-spike
+          APP=$(find build -name "KBSpike.app" -type d | head -1)
+          echo "APP=$APP"
+          echo "--- all .appex ---"
+          find build -name "*.appex" -type d -print
+          echo "--- PlugIns ---"
+          ls -la "$APP/PlugIns" || true
+          test -n "$(find build -name '*.appex' -type d -print -quit)" && echo "S1_OK: appex found" || (echo "S1_FAIL: no appex"; exit 1)
