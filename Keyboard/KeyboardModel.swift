@@ -11,7 +11,9 @@ protocol KeyboardModeling: AnyObject {
     var mode: Direction { get }
     var buffer: String { get }
     var candidates: [String] { get }
+    var candidateTranslations: [String?] { get }   // 与 candidates 等长、平行；每个候选的另一语种首选译词（#6/#9）
     var primaryTranslation: String? { get }
+    var punctuationFullWidth: Bool { get }          // 标点全角(true,中文)/半角(false,英文)（#12）
     var status: KBStatus { get }
     var onChange: (() -> Void)? { get set }   // 每次状态更新后【主线程】回调
 
@@ -20,16 +22,19 @@ protocol KeyboardModeling: AnyObject {
     func space() -> String                    // 返回应上屏文本
     func newline() -> String
     func toggleMode()
+    func togglePunctuation()                   // 数字态「，。」键：切全/半角标点（#12）
     func selectCandidate(_ index: Int) -> String?
 }
 
-/// B1 期间前端联调用：纯内存假数据，无需引擎/词库。
+/// B1/B2 前端联调用：纯内存假数据，无需引擎/词库。
 /// B2 起用真实 `KeyboardModel(engine:cedict:settings:)`（同协议，UI 零改动）。
 final class MockKeyboardModel: KeyboardModeling {
     private(set) var mode: Direction = .zh2en
     private(set) var buffer = ""
     private(set) var candidates: [String] = []
+    private(set) var candidateTranslations: [String?] = []
     private(set) var primaryTranslation: String?
+    private(set) var punctuationFullWidth: Bool = true
     private(set) var status: KBStatus = .ready
     var onChange: (() -> Void)?
 
@@ -54,11 +59,10 @@ final class MockKeyboardModel: KeyboardModeling {
     func input(letter: Character) {
         if mode == .zh2en {
             buffer.append(Character(letter.lowercased()))
-            recompute()
         } else {
             buffer.append(letter)
-            recompute()
         }
+        recompute()
         notifyChange()
     }
 
@@ -71,9 +75,11 @@ final class MockKeyboardModel: KeyboardModeling {
     private func recompute() {
         if mode == .zh2en {
             candidates = pinyin[buffer] ?? []
-            primaryTranslation = candidates.first.flatMap { zh2en[$0] }
+            candidateTranslations = candidates.map { zh2en[$0] }
+            primaryTranslation = candidateTranslations.first ?? nil
         } else {
             candidates = []
+            candidateTranslations = []
             primaryTranslation = en2zh[buffer.lowercased()]
         }
     }
@@ -87,15 +93,18 @@ final class MockKeyboardModel: KeyboardModeling {
 
     func toggleMode() {
         mode = (mode == .zh2en) ? .en2zh : .zh2en
+        punctuationFullWidth = (mode == .zh2en)   // 中文默认全角、英文半角
         clearComposition(); notifyChange()
     }
+
+    func togglePunctuation() { punctuationFullWidth.toggle(); notifyChange() }
 
     func selectCandidate(_ index: Int) -> String? {
         guard index >= 0 && index < candidates.count else { return nil }
         let t = candidates[index]; clearComposition(); notifyChange(); return t
     }
 
-    private func clearComposition() { buffer = ""; candidates = []; primaryTranslation = nil }
+    private func clearComposition() { buffer = ""; candidates = []; candidateTranslations = []; primaryTranslation = nil }
 
     private func notifyChange() {
         DispatchQueue.main.async { [weak self] in self?.onChange?() }
