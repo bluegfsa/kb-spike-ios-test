@@ -33,6 +33,8 @@ final class KeyboardView: UIView {
     private let rowsStack = UIStackView()
     private var isChinese = true
     private var layoutMode: KeyboardLayoutMode = .letters
+    /// 底行「中/EN」键的稳定引用（避免按位置查找）。
+    private weak var modeKeyButton: UIButton?
 
     // MARK: - init
     override init(frame: CGRect) {
@@ -183,9 +185,11 @@ final class KeyboardView: UIView {
         row.addArrangedSubview(makeKey("空格", font: 15, accessibility: "空格") { [weak self] in
             self?.onSpace?()
         })
-        row.addArrangedSubview(makeKey(isChinese ? "中" : "EN", font: 15, accessibility: "切换中英文") { [weak self] in
+        let modeButton = makeKey(isChinese ? "中" : "EN", font: 15, accessibility: "切换中英文") { [weak self] in
             self?.onToggleMode?()
-        })
+        }
+        modeKeyButton = modeButton
+        row.addArrangedSubview(modeButton)
         row.addArrangedSubview(makeKey("换行", font: 15, accessibility: "换行") { [weak self] in
             self?.onReturn?()
         })
@@ -251,12 +255,9 @@ final class KeyboardView: UIView {
         refreshBottomModeKey()
     }
 
-    /// 只更新底行「中/EN」键标题。
+    /// 更新底行「中/EN」键标题（用稳定引用，不靠位置）。
     private func refreshBottomModeKey() {
-        guard let row = rowsStack.arrangedSubviews.last as? UIStackView else { return }
-        if let modeButton = row.arrangedSubviews.dropLast(1).last as? UIButton {
-            modeButton.setTitle(isChinese ? "中" : "EN", for: .normal)
-        }
+        modeKeyButton?.setTitle(isChinese ? "中" : "EN", for: .normal)
     }
 
     @objc private func onCandidateTap(_ sender: UITapGestureRecognizer) {

@@ -32,7 +32,11 @@ final class KeyboardViewController: UIInputViewController {
         keyboardView.onBackspace = { [weak self] in self?.handleBackspace() }
         keyboardView.onSpace = { [weak self] in self?.handleSpace() }
         keyboardView.onReturn = { [weak self] in self?.handleReturn() }
-        keyboardView.onToggleMode = { [weak self] in self?.model.toggleMode() }
+        keyboardView.onToggleMode = { [weak self] in
+            guard let self else { return }
+            self.model.toggleMode()
+            self.render() // 同步再渲染一次，确保中/EN 标题与模式立刻翻转（不单靠异步 onChange）
+        }
         keyboardView.onCandidate = { [weak self] index in self?.handleCandidate(index) }
         keyboardView.onAdvanceKeyboard = { [weak self] in self?.advanceToNextInputMode() }
     }

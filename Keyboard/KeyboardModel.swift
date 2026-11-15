@@ -35,15 +35,20 @@ final class MockKeyboardModel: KeyboardModeling {
 
     private let pinyin: [String: [String]] = [
         "ni": ["你", "尼", "泥"], "nihao": ["你好", "你"], "wo": ["我"], "women": ["我们"],
-        "zhongguo": ["中国"], "xiexie": ["谢谢"], "shijie": ["世界"], "dianhua": ["电话"]
+        "zhongguo": ["中国"], "xiexie": ["谢谢"], "shijie": ["世界"], "dianhua": ["电话"],
+        "qi": ["七", "起", "气", "期"], "hao": ["好"], "shu": ["书"], "chi": ["吃"],
+        "zaijian": ["再见"], "duibuqi": ["对不起"], "meiguanxi": ["没关系"]
     ]
     private let zh2en: [String: String] = [
         "你": "you", "你好": "hello", "我": "I", "我们": "we", "中国": "China",
-        "谢谢": "thanks", "世界": "world", "电话": "phone"
+        "谢谢": "thanks", "世界": "world", "电话": "phone",
+        "七": "seven", "起": "rise", "气": "air", "期": "period", "好": "good",
+        "书": "book", "吃": "eat", "再见": "goodbye", "对不起": "sorry", "没关系": "never mind"
     ]
     private let en2zh: [String: String] = [
         "hello": "你好", "you": "你", "china": "中国", "thanks": "谢谢", "i": "我",
-        "we": "我们", "world": "世界", "phone": "电话"
+        "we": "我们", "world": "世界", "phone": "电话",
+        "seven": "七", "good": "好", "book": "书", "eat": "吃", "goodbye": "再见", "sorry": "对不起"
     ]
 
     func input(letter: Character) {
