@@ -1,0 +1,31 @@
+name: KBSpike
+options:
+  bundleIdPrefix: com.smallblocks
+  deploymentTarget:
+    iOS: "15.0"
+settings:
+  base:
+    CODE_SIGNING_ALLOWED: "NO"
+    CODE_SIGNING_REQUIRED: "NO"
+targets:
+  KBSpike:
+    type: application
+    platform: iOS
+    sources: [App]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.smallblocks.kbspike
+        INFOPLIST_FILE: App/Info.plist
+        GENERATE_INFOPLIST_FILE: "NO"
+    dependencies:
+      - target: KBSpikeKeyboard
+        embed: true
+  KBSpikeKeyboard:
+    type: app-extension
+    platform: iOS
+    sources: [Keyboard]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.smallblocks.kbspike.keyboard
+        INFOPLIST_FILE: Keyboard/Info.plist
+        GENERATE_INFOPLIST_FILE: "NO"
