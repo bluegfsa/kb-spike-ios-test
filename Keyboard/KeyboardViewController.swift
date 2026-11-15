@@ -1,95 +1,127 @@
 import UIKit
-import Darwin
 
-/// 读进程内存：footprint（预算口径）+ internal（dirty/内部近似 live）。
-func vmInfoMB() -> (footprint: Double, internalMem: Double)? {
-    var info = task_vm_info_data_t()
-    var count = mach_msg_type_number_t(MemoryLayout<task_vm_info_data_t>.size / MemoryLayout<natural_t>.size)
-    let kr = withUnsafeMutablePointer(to: &info) {
-        $0.withMemoryRebound(to: integer_t.self, capacity: Int(count)) {
-            task_info(mach_task_self_, task_flavor_t(TASK_VM_INFO), $0, &count)
-        }
-    }
-    guard kr == KERN_SUCCESS else { return nil }
-    return (Double(info.phys_footprint) / 1048576.0, Double(info.internal) / 1048576.0)
-}
-
-/// 探针版（干净）：只读内存 + librime 引擎/词库部署结果，不含任何按键、不含合成演示。
+/// 键盘扩展入口：只绑 `KeyboardModeling`（B1 用 `MockKeyboardModel`），不碰引擎/词库细节。
+/// 交互按实现级接口 v0.2 §6 执行；引擎接上后换成真实 `KeyboardModel`，本文件零改动。
 final class KeyboardViewController: UIInputViewController {
-    private let titleLabel = UILabel()
-    private let memLabel = UILabel()
-    private let rimeLabel = UILabel()
-    private let nextKeyboardButton = UIButton(type: .system)
-    private var timer: Timer?
-    private var peakMB: Double = 0
-    private var didInitRime = false
+    private let keyboardView = KeyboardView()
+    private let statusBanner = UILabel()
+    private var model: KeyboardModeling = MockKeyboardModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .systemBackground
+        setupKeyboardView()
+        setupStatusBanner()
+        model.onChange = { [weak self] in self?.render() }
+        render()
+    }
 
-        titleLabel.text = "双译键盘 (spike)"
-        titleLabel.font = .systemFont(ofSize: 15, weight: .medium)
-
-        memLabel.font = .monospacedDigitSystemFont(ofSize: 12, weight: .regular)
-        memLabel.textColor = .systemRed
-        memLabel.numberOfLines = 2
-        memLabel.text = "内存: —"
-
-        rimeLabel.font = .systemFont(ofSize: 12)
-        rimeLabel.textColor = .systemGreen
-        rimeLabel.numberOfLines = 4
-
-        let stack = UIStackView(arrangedSubviews: [titleLabel, memLabel, rimeLabel])
-        stack.axis = .vertical; stack.alignment = .center; stack.spacing = 8
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stack)
-
-        nextKeyboardButton.setTitle("🌐", for: .normal)
-        nextKeyboardButton.addTarget(self, action: #selector(advanceToNextInputMode), for: .touchUpInside)
-        nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(nextKeyboardButton)
-
+    // MARK: - 视图装配
+    private func setupKeyboardView() {
+        keyboardView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(keyboardView)
         NSLayoutConstraint.activate([
-            stack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            nextKeyboardButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            nextKeyboardButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
+            keyboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            keyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            keyboardView.topAnchor.constraint(equalTo: view.topAnchor),
+            keyboardView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            keyboardView.heightAnchor.constraint(equalToConstant: 291),
         ])
 
-        runRimeDeploy()
-        updateMem()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
-            self?.updateMem()
-        }
+        keyboardView.onKeyText = { [weak self] text in self?.handleKeyText(text) }
+        keyboardView.onBackspace = { [weak self] in self?.handleBackspace() }
+        keyboardView.onSpace = { [weak self] in self?.handleSpace() }
+        keyboardView.onReturn = { [weak self] in self?.handleReturn() }
+        keyboardView.onToggleMode = { [weak self] in self?.model.toggleMode() }
+        keyboardView.onCandidate = { [weak self] index in self?.handleCandidate(index) }
+        keyboardView.onAdvanceKeyboard = { [weak self] in self?.advanceToNextInputMode() }
     }
 
-    /// 后台部署 librime（编译词典可能耗时数秒，避免阻塞扩展主线程被 watchdog 杀）。
-    private func runRimeDeploy() {
-        guard !didInitRime else { return }
-        didInitRime = true
-        rimeLabel.text = "librime 部署中…（首次编译词典）"
-        let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
-            ?? URL(fileURLWithPath: NSTemporaryDirectory())
-        let shared = base.appendingPathComponent("rime/shared")
-        let user = base.appendingPathComponent("rime/user")
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            let status = RimeProbeType(shared.path, user.path)
-            DispatchQueue.main.async { self?.rimeLabel.text = status }
-        }
+    /// needInit/error 时的静态提示条（不申请完全访问 → 不做扩展内跳转，只提示手动开宿主）。
+    private func setupStatusBanner() {
+        statusBanner.font = .systemFont(ofSize: 13)
+        statusBanner.textColor = .label
+        statusBanner.backgroundColor = .secondarySystemBackground
+        statusBanner.textAlignment = .center
+        statusBanner.numberOfLines = 2
+        statusBanner.isHidden = true
+        statusBanner.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(statusBanner)
+        NSLayoutConstraint.activate([
+            statusBanner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            statusBanner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            statusBanner.topAnchor.constraint(equalTo: view.topAnchor),
+            statusBanner.heightAnchor.constraint(equalToConstant: 40),
+        ])
+        view.bringSubviewToFront(statusBanner)
     }
 
-    private func updateMem() {
-        guard let v = vmInfoMB() else { memLabel.text = "内存: 不可读"; return }
-        if v.footprint > peakMB { peakMB = v.footprint }
-        memLabel.text = String(
-            format: "footprint %.1f MB (峰值 %.1f, 硬顶60)\n内部/dirty %.1f MB",
-            v.footprint, peakMB, v.internalMem
+    // MARK: - 渲染（model.onChange 主线程回调后执行）
+    private func render() {
+        let isChinese = model.mode == .zh2en
+        let gloss: String? = model.primaryTranslation.map { isChinese ? "EN \($0)" : "中 \($0)" }
+        keyboardView.update(
+            candidates: model.candidates,
+            buffer: model.buffer,
+            gloss: gloss,
+            isChinese: isChinese
         )
+        switch model.status {
+        case .ready:
+            statusBanner.isHidden = true
+        case .needInit:
+            statusBanner.text = "请先打开『双译键盘』App 完成首次初始化"
+            statusBanner.isHidden = false
+        case .error(let message):
+            statusBanner.text = "词典未就绪：\(message)"
+            statusBanner.isHidden = false
+        }
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        timer?.invalidate(); timer = nil
+    // MARK: - 交互
+    private func handleKeyText(_ text: String) {
+        guard text.count == 1, let character = text.first else {
+            textDocumentProxy.insertText(text)
+            return
+        }
+        if character.isLetter && character.isASCII {
+            model.input(letter: character)
+            // 中文态：字母进拼音 buffer（不直接上屏，候选栏显示）；英文态：直入文档。
+            if model.mode == .en2zh {
+                textDocumentProxy.insertText(String(character))
+            }
+        } else {
+            // 数字/符号：直接上屏，不进拼音 buffer。
+            textDocumentProxy.insertText(text)
+        }
+    }
+
+    private func handleBackspace() {
+        if model.mode == .zh2en && !model.buffer.isEmpty {
+            model.backspace() // 只删拼音串，未落文档
+        } else {
+            textDocumentProxy.deleteBackward() // 先删真实文本
+            model.backspace() // 再同步 buffer/候选
+        }
+    }
+
+    private func handleSpace() {
+        let text = model.space()
+        if !text.isEmpty {
+            textDocumentProxy.insertText(text)
+        }
+    }
+
+    private func handleReturn() {
+        let text = model.newline()
+        if !text.isEmpty {
+            textDocumentProxy.insertText(text)
+        }
+    }
+
+    private func handleCandidate(_ index: Int) {
+        if let text = model.selectCandidate(index) {
+            textDocumentProxy.insertText(text)
+        }
     }
 }
