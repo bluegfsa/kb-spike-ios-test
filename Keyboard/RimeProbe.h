@@ -1,5 +1,9 @@
 #import <Foundation/Foundation.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 NS_ASSUME_NONNULL_BEGIN
 
 /// S4b-2a 探针：返回 librime 的版本串与链接状态（证明 xcframework 静态库已链入扩展）。
@@ -10,3 +14,7 @@ NSString *RimeProbeVersion(void);
 NSString *RimeProbeInit(NSString *sharedDir, NSString *userDir);
 
 NS_ASSUME_NONNULL_END
+
+#ifdef __cplusplus
+}
+#endif
