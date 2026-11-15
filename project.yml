@@ -29,3 +29,14 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.smallblocks.kbspike.keyboard
         INFOPLIST_FILE: Keyboard/Info.plist
         GENERATE_INFOPLIST_FILE: "NO"
+        SWIFT_OBJC_BRIDGING_HEADER: Keyboard/KBSpikeKeyboard-Bridging-Header.h
+        CLANG_CXX_LIBRARY: libc++
+        CLANG_CXX_LANGUAGE_STANDARD: c++17
+        HEADER_SEARCH_PATHS:
+          - $(SRCROOT)/Frameworks/librime-headers
+        LIBRARY_SEARCH_PATHS:
+          - $(SRCROOT)/Frameworks
+        OTHER_LDFLAGS:
+          - -lrime-ios-arm64
+          - -lc++
+          - -lz

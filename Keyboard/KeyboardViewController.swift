@@ -14,19 +14,20 @@ func vmInfoMB() -> (footprint: Double, internalMem: Double)? {
     return (Double(info.phys_footprint) / 1048576.0, Double(info.internal) / 1048576.0)
 }
 
-/// 最小键盘扩展 + 内存读数 + 拼音 mmap 查词 + 「堆 vs mmap」对照探针。
-/// 顶部显示 footprint、峰值、内部(dirty)；中部演示拼音前缀查候选；底部按钮可跑一次「全量解析进堆」对照。
+/// 最小键盘扩展：内存读数 + 拼音 mmap 查词 + 堆探测对照 + librime 引擎初始化探针。
 final class KeyboardViewController: UIInputViewController {
     private let titleLabel = UILabel()
     private let memLabel = UILabel()
     private let dictLabel = UILabel()
     private let pinyinLabel = UILabel()
+    private let rimeLabel = UILabel()
     private let nextKeyboardButton = UIButton(type: .system)
     private let probeButton = UIButton(type: .system)
     private var timer: Timer?
     private var peakMB: Double = 0
     private var dict: MmapDict?
     private var pinyin: PinyinEngine?
+    private var didInitRime = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,18 +41,12 @@ final class KeyboardViewController: UIInputViewController {
         memLabel.numberOfLines = 2
         memLabel.text = "内存: —"
 
-        dictLabel.font = .systemFont(ofSize: 11)
-        dictLabel.textColor = .darkGray
-        dictLabel.numberOfLines = 2
+        dictLabel.font = .systemFont(ofSize: 11); dictLabel.textColor = .darkGray; dictLabel.numberOfLines = 2
+        pinyinLabel.font = .systemFont(ofSize: 11); pinyinLabel.textColor = .systemBlue; pinyinLabel.numberOfLines = 2
+        rimeLabel.font = .systemFont(ofSize: 11); rimeLabel.textColor = .systemGreen; rimeLabel.numberOfLines = 3
 
-        pinyinLabel.font = .systemFont(ofSize: 11)
-        pinyinLabel.textColor = .systemBlue
-        pinyinLabel.numberOfLines = 2
-
-        let stack = UIStackView(arrangedSubviews: [titleLabel, memLabel, dictLabel, pinyinLabel])
-        stack.axis = .vertical
-        stack.alignment = .center
-        stack.spacing = 6
+        let stack = UIStackView(arrangedSubviews: [titleLabel, memLabel, dictLabel, pinyinLabel, rimeLabel])
+        stack.axis = .vertical; stack.alignment = .center; stack.spacing = 5
         stack.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(stack)
 
@@ -77,6 +72,7 @@ final class KeyboardViewController: UIInputViewController {
 
         loadDict()
         loadPinyin()
+        runRimeProbe()
         updateMem()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.updateMem()
@@ -85,8 +81,7 @@ final class KeyboardViewController: UIInputViewController {
 
     private func loadDict() {
         guard let url = Bundle(for: KeyboardViewController.self).url(forResource: "dict", withExtension: "txt") else {
-            dictLabel.text = "词库资源未打包"
-            return
+            dictLabel.text = "词库资源未打包"; return
         }
         dict = MmapDict(url: url)
         guard let d = dict else { dictLabel.text = "词库 mmap 失败"; return }
@@ -96,13 +91,22 @@ final class KeyboardViewController: UIInputViewController {
 
     private func loadPinyin() {
         guard let url = Bundle(for: KeyboardViewController.self).url(forResource: "pinyin", withExtension: "txt") else {
-            pinyinLabel.text = "拼音表未打包"
-            return
+            pinyinLabel.text = "拼音表未打包"; return
         }
         pinyin = PinyinEngine(url: url)
         guard let p = pinyin else { pinyinLabel.text = "拼音 mmap 失败"; return }
         let hits = p.candidates("ni", limit: 6)
         pinyinLabel.text = "拼音 \(p.count) 条 · ni → " + (hits.prefix(4).joined(separator: " / "))
+    }
+
+    private func runRimeProbe() {
+        guard !didInitRime else { return }
+        didInitRime = true
+        let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+            ?? URL(fileURLWithPath: NSTemporaryDirectory())
+        let shared = base.appendingPathComponent("rime/shared")
+        let user = base.appendingPathComponent("rime/user")
+        rimeLabel.text = RimeProbeInit(shared.path, user.path)
     }
 
     @objc private func runHeapProbe() {
@@ -124,7 +128,6 @@ final class KeyboardViewController: UIInputViewController {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        timer?.invalidate()
-        timer = nil
+        timer?.invalidate(); timer = nil
     }
 }
