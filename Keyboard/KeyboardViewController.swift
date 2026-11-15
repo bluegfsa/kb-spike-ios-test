@@ -14,19 +14,14 @@ func vmInfoMB() -> (footprint: Double, internalMem: Double)? {
     return (Double(info.phys_footprint) / 1048576.0, Double(info.internal) / 1048576.0)
 }
 
-/// 最小键盘扩展：内存读数 + 拼音 mmap 查词 + 堆探测对照 + librime 部署并打拼音出字。
+/// 探针版（干净）：只读内存 + librime 引擎/词库部署结果，不含任何按键、不含合成演示。
 final class KeyboardViewController: UIInputViewController {
     private let titleLabel = UILabel()
     private let memLabel = UILabel()
-    private let dictLabel = UILabel()
-    private let pinyinLabel = UILabel()
     private let rimeLabel = UILabel()
     private let nextKeyboardButton = UIButton(type: .system)
-    private let probeButton = UIButton(type: .system)
     private var timer: Timer?
     private var peakMB: Double = 0
-    private var dict: MmapDict?
-    private var pinyin: PinyinEngine?
     private var didInitRime = false
 
     override func viewDidLoad() {
@@ -36,17 +31,17 @@ final class KeyboardViewController: UIInputViewController {
         titleLabel.text = "双译键盘 (spike)"
         titleLabel.font = .systemFont(ofSize: 15, weight: .medium)
 
-        memLabel.font = .monospacedDigitSystemFont(ofSize: 11, weight: .regular)
+        memLabel.font = .monospacedDigitSystemFont(ofSize: 12, weight: .regular)
         memLabel.textColor = .systemRed
         memLabel.numberOfLines = 2
         memLabel.text = "内存: —"
 
-        dictLabel.font = .systemFont(ofSize: 11); dictLabel.textColor = .darkGray; dictLabel.numberOfLines = 2
-        pinyinLabel.font = .systemFont(ofSize: 11); pinyinLabel.textColor = .systemBlue; pinyinLabel.numberOfLines = 2
-        rimeLabel.font = .systemFont(ofSize: 11); rimeLabel.textColor = .systemGreen; rimeLabel.numberOfLines = 4
+        rimeLabel.font = .systemFont(ofSize: 12)
+        rimeLabel.textColor = .systemGreen
+        rimeLabel.numberOfLines = 4
 
-        let stack = UIStackView(arrangedSubviews: [titleLabel, memLabel, dictLabel, pinyinLabel, rimeLabel])
-        stack.axis = .vertical; stack.alignment = .center; stack.spacing = 5
+        let stack = UIStackView(arrangedSubviews: [titleLabel, memLabel, rimeLabel])
+        stack.axis = .vertical; stack.alignment = .center; stack.spacing = 8
         stack.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(stack)
 
@@ -55,48 +50,18 @@ final class KeyboardViewController: UIInputViewController {
         nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nextKeyboardButton)
 
-        probeButton.setTitle("堆探测", for: .normal)
-        probeButton.titleLabel?.font = .systemFont(ofSize: 11)
-        probeButton.addTarget(self, action: #selector(runHeapProbe), for: .touchUpInside)
-        probeButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(probeButton)
-
         NSLayoutConstraint.activate([
             stack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             nextKeyboardButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             nextKeyboardButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
-            probeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            probeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
         ])
 
-        loadDict()
-        loadPinyin()
         runRimeDeploy()
         updateMem()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.updateMem()
         }
-    }
-
-    private func loadDict() {
-        guard let url = Bundle(for: KeyboardViewController.self).url(forResource: "dict", withExtension: "txt") else {
-            dictLabel.text = "词库资源未打包"; return
-        }
-        dict = MmapDict(url: url)
-        guard let d = dict else { dictLabel.text = "词库 mmap 失败"; return }
-        let hits = d.prefix("hello", limit: 3)
-        dictLabel.text = "mmap 词库 \(d.count) 条 · hello → " + (hits.first ?? "无命中")
-    }
-
-    private func loadPinyin() {
-        guard let url = Bundle(for: KeyboardViewController.self).url(forResource: "pinyin", withExtension: "txt") else {
-            pinyinLabel.text = "拼音表未打包"; return
-        }
-        pinyin = PinyinEngine(url: url)
-        guard let p = pinyin else { pinyinLabel.text = "拼音 mmap 失败"; return }
-        let hits = p.candidates("ni", limit: 6)
-        pinyinLabel.text = "拼音 \(p.count) 条 · ni → " + (hits.prefix(4).joined(separator: " / "))
     }
 
     /// 后台部署 librime（编译词典可能耗时数秒，避免阻塞扩展主线程被 watchdog 杀）。
@@ -112,14 +77,6 @@ final class KeyboardViewController: UIInputViewController {
             let status = RimeProbeType(shared.path, user.path)
             DispatchQueue.main.async { self?.rimeLabel.text = status }
         }
-    }
-
-    @objc private func runHeapProbe() {
-        guard let url = Bundle(for: KeyboardViewController.self).url(forResource: "pinyin", withExtension: "txt") else { return }
-        let n = HeapDictProbe.build(url: url)
-        let fp = vmInfoMB()?.footprint ?? -1
-        probeButton.setTitle("已入堆 \(n)", for: .normal)
-        pinyinLabel.text = "堆探测: 全量解析 \(n) 键进内存, footprint≈" + String(format: "%.1fMB", fp)
     }
 
     private func updateMem() {
