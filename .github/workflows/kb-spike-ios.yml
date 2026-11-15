@@ -11,18 +11,23 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install XcodeGen
         run: brew install xcodegen
+      - name: Generate dictionary (mmap asset)
+        run: node tools/gen_dict.js
       - name: Generate Xcode project
         run: |
           xcodegen generate
           ls -la
+          ls -la Keyboard
       - name: Build unsigned (app + keyboard extension)
         run: |
           set -o pipefail
-          xcodebuild -project KBSpike.xcodeproj -scheme KBSpike -sdk iphoneos -configuration Release -derivedDataPath build CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build | tail -80
-      - name: Verify .appex present inside .app/PlugIns
+          xcodebuild -project KBSpike.xcodeproj -scheme KBSpike -sdk iphoneos -configuration Release -derivedDataPath build CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build | tail -100
+      - name: Verify .appex + dict bundled
         run: |
           APP=$(find build -name "KBSpike.app" -type d | head -1)
           echo "APP=$APP"
           find build -name "*.appex" -type d -print
           ls -la "$APP/PlugIns" || true
+          echo "--- dict in bundle ---"
+          find build -iname "dict.txt" -print
           test -n "$(find build -name '*.appex' -type d -print -quit)" && echo "S1_OK: appex found" || (echo "S1_FAIL: no appex"; exit 1)
