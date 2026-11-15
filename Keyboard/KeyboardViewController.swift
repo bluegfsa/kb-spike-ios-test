@@ -17,7 +17,7 @@ func currentFootprintMB() -> Double? {
 /// 最小键盘扩展 + 内存读数（S1/S2 打包验证 + S4 真机内存观测）。
 /// 键盘顶部实时显示「当前 / 峰值」phys_footprint，用户打字时即可看峰值。
 final class KeyboardViewController: UIInputViewController {
-    private let title = UILabel()
+    private let titleLabel = UILabel()
     private let memLabel = UILabel()
     private let nextKeyboardButton = UIButton(type: .system)
     private var timer: Timer?
@@ -27,10 +27,10 @@ final class KeyboardViewController: UIInputViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
 
-        title.text = "双译键盘 (spike)"
-        title.textAlignment = .center
-        title.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(title)
+        titleLabel.text = "双译键盘 (spike)"
+        titleLabel.textAlignment = .center
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(titleLabel)
 
         memLabel.text = "内存: —"
         memLabel.font = .monospacedDigitSystemFont(ofSize: 12, weight: .regular)
@@ -45,8 +45,8 @@ final class KeyboardViewController: UIInputViewController {
         view.addSubview(nextKeyboardButton)
 
         NSLayoutConstraint.activate([
-            title.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            title.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             memLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             memLabel.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 28),
             nextKeyboardButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
