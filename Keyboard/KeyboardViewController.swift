@@ -14,16 +14,19 @@ func vmInfoMB() -> (footprint: Double, internalMem: Double)? {
     return (Double(info.phys_footprint) / 1048576.0, Double(info.internal) / 1048576.0)
 }
 
-/// 最小键盘扩展 + 内存读数 + mmap 词典样例。
-/// 键盘顶部/中部显示 footprint、峰值、内部(dirty) 占用；并演示 mmap 词库前缀查词。
+/// 最小键盘扩展 + 内存读数 + 拼音 mmap 查词 + 「堆 vs mmap」对照探针。
+/// 顶部显示 footprint、峰值、内部(dirty)；中部演示拼音前缀查候选；底部按钮可跑一次「全量解析进堆」对照。
 final class KeyboardViewController: UIInputViewController {
     private let titleLabel = UILabel()
     private let memLabel = UILabel()
     private let dictLabel = UILabel()
+    private let pinyinLabel = UILabel()
     private let nextKeyboardButton = UIButton(type: .system)
+    private let probeButton = UIButton(type: .system)
     private var timer: Timer?
     private var peakMB: Double = 0
     private var dict: MmapDict?
+    private var pinyin: PinyinEngine?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +44,11 @@ final class KeyboardViewController: UIInputViewController {
         dictLabel.textColor = .darkGray
         dictLabel.numberOfLines = 2
 
-        let stack = UIStackView(arrangedSubviews: [titleLabel, memLabel, dictLabel])
+        pinyinLabel.font = .systemFont(ofSize: 11)
+        pinyinLabel.textColor = .systemBlue
+        pinyinLabel.numberOfLines = 2
+
+        let stack = UIStackView(arrangedSubviews: [titleLabel, memLabel, dictLabel, pinyinLabel])
         stack.axis = .vertical
         stack.alignment = .center
         stack.spacing = 6
@@ -53,14 +60,23 @@ final class KeyboardViewController: UIInputViewController {
         nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nextKeyboardButton)
 
+        probeButton.setTitle("堆探测", for: .normal)
+        probeButton.titleLabel?.font = .systemFont(ofSize: 11)
+        probeButton.addTarget(self, action: #selector(runHeapProbe), for: .touchUpInside)
+        probeButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(probeButton)
+
         NSLayoutConstraint.activate([
             stack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             nextKeyboardButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             nextKeyboardButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
+            probeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+            probeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
         ])
 
         loadDict()
+        loadPinyin()
         updateMem()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.updateMem()
@@ -76,6 +92,25 @@ final class KeyboardViewController: UIInputViewController {
         guard let d = dict else { dictLabel.text = "词库 mmap 失败"; return }
         let hits = d.prefix("hello", limit: 3)
         dictLabel.text = "mmap 词库 \(d.count) 条 · hello → " + (hits.first ?? "无命中")
+    }
+
+    private func loadPinyin() {
+        guard let url = Bundle(for: KeyboardViewController.self).url(forResource: "pinyin", withExtension: "txt") else {
+            pinyinLabel.text = "拼音表未打包"
+            return
+        }
+        pinyin = PinyinEngine(url: url)
+        guard let p = pinyin else { pinyinLabel.text = "拼音 mmap 失败"; return }
+        let hits = p.candidates("ni", limit: 6)
+        pinyinLabel.text = "拼音 \(p.count) 条 · ni → " + (hits.prefix(4).joined(separator: " / "))
+    }
+
+    @objc private func runHeapProbe() {
+        guard let url = Bundle(for: KeyboardViewController.self).url(forResource: "pinyin", withExtension: "txt") else { return }
+        let n = HeapDictProbe.build(url: url)
+        let fp = vmInfoMB()?.footprint ?? -1
+        probeButton.setTitle("已入堆 \(n)", for: .normal)
+        pinyinLabel.text = "堆探测: 全量解析 \(n) 键进内存, footprint≈" + String(format: "%.1fMB", fp)
     }
 
     private func updateMem() {
