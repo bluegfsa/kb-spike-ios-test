@@ -6,12 +6,12 @@ extern "C" {
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// S4b-2a 探针：返回 librime 的版本串与链接状态（证明 xcframework 静态库已链入扩展）。
+/// S4b-2a 探针：返回 librime 的版本串与链接状态（证明静态库已链入扩展）。
 NSString *RimeProbeVersion(void);
 
-/// S4b-2a 探针：用给定 shared/user 数据目录初始化 librime 引擎（不加载词库，只起引擎+插件），
-/// 返回状态串（含版本、是否创建了会话）。用于测「引擎本体+插件」的 footprint 基线。
-NSString *RimeProbeInit(NSString *sharedDir, NSString *userDir);
+/// S4b-2b：把捆绑的 rime 数据复制到可写 shared 目录，首次启动部署 pinyin_simp，
+/// 建会话、模拟输入 "nihao" 取候选，返回状态串（含候选与 session）。
+NSString *RimeProbeType(NSString *sharedDir, NSString *userDir);
 
 NS_ASSUME_NONNULL_END
 

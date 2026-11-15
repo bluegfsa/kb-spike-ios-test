@@ -1,7 +1,7 @@
 import UIKit
 import Darwin
 
-/// 读进程内存：footprint（预算口径）+ internal（dirty/内部占用，近似 live 申请量）。
+/// 读进程内存：footprint（预算口径）+ internal（dirty/内部近似 live）。
 func vmInfoMB() -> (footprint: Double, internalMem: Double)? {
     var info = task_vm_info_data_t()
     var count = mach_msg_type_number_t(MemoryLayout<task_vm_info_data_t>.size / MemoryLayout<natural_t>.size)
@@ -14,7 +14,7 @@ func vmInfoMB() -> (footprint: Double, internalMem: Double)? {
     return (Double(info.phys_footprint) / 1048576.0, Double(info.internal) / 1048576.0)
 }
 
-/// 最小键盘扩展：内存读数 + 拼音 mmap 查词 + 堆探测对照 + librime 引擎初始化探针。
+/// 最小键盘扩展：内存读数 + 拼音 mmap 查词 + 堆探测对照 + librime 部署并打拼音出字。
 final class KeyboardViewController: UIInputViewController {
     private let titleLabel = UILabel()
     private let memLabel = UILabel()
@@ -43,7 +43,7 @@ final class KeyboardViewController: UIInputViewController {
 
         dictLabel.font = .systemFont(ofSize: 11); dictLabel.textColor = .darkGray; dictLabel.numberOfLines = 2
         pinyinLabel.font = .systemFont(ofSize: 11); pinyinLabel.textColor = .systemBlue; pinyinLabel.numberOfLines = 2
-        rimeLabel.font = .systemFont(ofSize: 11); rimeLabel.textColor = .systemGreen; rimeLabel.numberOfLines = 3
+        rimeLabel.font = .systemFont(ofSize: 11); rimeLabel.textColor = .systemGreen; rimeLabel.numberOfLines = 4
 
         let stack = UIStackView(arrangedSubviews: [titleLabel, memLabel, dictLabel, pinyinLabel, rimeLabel])
         stack.axis = .vertical; stack.alignment = .center; stack.spacing = 5
@@ -72,7 +72,7 @@ final class KeyboardViewController: UIInputViewController {
 
         loadDict()
         loadPinyin()
-        runRimeProbe()
+        runRimeDeploy()
         updateMem()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.updateMem()
@@ -99,14 +99,19 @@ final class KeyboardViewController: UIInputViewController {
         pinyinLabel.text = "拼音 \(p.count) 条 · ni → " + (hits.prefix(4).joined(separator: " / "))
     }
 
-    private func runRimeProbe() {
+    /// 后台部署 librime（编译词典可能耗时数秒，避免阻塞扩展主线程被 watchdog 杀）。
+    private func runRimeDeploy() {
         guard !didInitRime else { return }
         didInitRime = true
+        rimeLabel.text = "librime 部署中…（首次编译词典）"
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
             ?? URL(fileURLWithPath: NSTemporaryDirectory())
         let shared = base.appendingPathComponent("rime/shared")
         let user = base.appendingPathComponent("rime/user")
-        rimeLabel.text = RimeProbeInit(shared.path, user.path)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let status = RimeProbeType(shared.path, user.path)
+            DispatchQueue.main.async { self?.rimeLabel.text = status }
+        }
     }
 
     @objc private func runHeapProbe() {
