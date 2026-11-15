@@ -27,7 +27,6 @@ final class KeyboardView: UIView {
     var onReturn: (() -> Void)?
     var onToggleMode: (() -> Void)?
     var onTogglePunctuation: (() -> Void)?
-    var onAdvanceKeyboard: (() -> Void)?
     var onCandidate: ((Int) -> Void)?
 
     // 注入状态
@@ -47,6 +46,9 @@ final class KeyboardView: UIView {
     private let candidateStack = UIStackView()
     private let rowsStack = UIStackView()
     private weak var modeKeyButton: ModeToggleButton?
+    private weak var returnKeyButton: ClosureButton?
+    /// 回车键标题，随宿主 App 的 returnKeyType 变（#15/规格 §D·§G2），默认换行。
+    private var returnKeyTitle = "换行"
 
     // 长按连删（#14）
     private var deleteTimer: Timer?
@@ -139,6 +141,14 @@ final class KeyboardView: UIView {
     /// 强制切到字母键盘（#13：数字态点中英切换后回字母）。
     func showLetters() { setLayoutMode(.letters) }
 
+    /// 按宿主 App 的 `returnKeyType` 设置回车键标题（发送/搜索/前往/完成/换行…）。
+    /// 动作始终为换行符，具体是发送还是换行由宿主决定（规格 §D/§G2）。
+    func setReturnKeyTitle(_ title: String) {
+        guard title != returnKeyTitle else { return }
+        returnKeyTitle = title
+        returnKeyButton?.setTitle(title, for: .normal)
+    }
+
     // MARK: - 行构建
     private func makeRow() -> UIStackView {
         let row = UIStackView()
@@ -209,7 +219,8 @@ final class KeyboardView: UIView {
         return row
     }
 
-    /// 底行：字母态 `123｜🌐｜空格｜中/英｜换行`；数字态 `，。｜🌐｜空格｜中/英｜换行`（标点全/半角切换 #12）。
+    /// 底行：字母态 `123｜空格｜中/英｜回车`；数字态 `，。｜空格｜中/英｜回车`。
+    /// 地球键已按用户要求删除；回车键面随 returnKeyType 变、动作统一换行符。
     private func makeBottomRow() -> UIStackView {
         let row = makeRow()
         if layoutMode == .letters {
@@ -222,9 +233,6 @@ final class KeyboardView: UIView {
                 self?.onTogglePunctuation?()
             })
         }
-        row.addArrangedSubview(makeKey("🌐", font: 18, kind: .function, accessibility: "切换到下一个键盘") { [weak self] in
-            self?.onAdvanceKeyboard?()
-        })
         row.addArrangedSubview(makeKey("空格", font: 15, kind: .function, accessibility: "空格") { [weak self] in
             self?.onSpace?()
         })
@@ -234,20 +242,17 @@ final class KeyboardView: UIView {
         modeButton.accessibilityLabel = "切换中英文"
         modeKeyButton = modeButton
         row.addArrangedSubview(modeButton)
-        row.addArrangedSubview(makeKey("换行", font: 15, kind: .function, accessibility: "换行") { [weak self] in
+        let returnKey = makeKey(returnKeyTitle, font: 15, kind: .function, accessibility: "回车") { [weak self] in
             self?.onReturn?()
-        })
+        }
+        returnKeyButton = returnKey
+        row.addArrangedSubview(returnKey)
         return row
     }
 
     // MARK: - 组件工厂
-    private func makeKey(
-        _ title: String,
-        font: CGFloat,
-        kind: KeyKind = .letter,
-        accessibility: String,
-        onTap: @escaping () -> Void
-    ) -> ClosureButton {
+    private func makeKey(_ title: String, font: CGFloat, kind: KeyKind = .letter,
+                         accessibility: String, onTap: @escaping () -> Void) -> ClosureButton {
         let button = ClosureButton(frame: .zero)
         button.onTap = onTap
         button.setTitle(title, for: .normal)
@@ -279,8 +284,7 @@ final class KeyboardView: UIView {
 
     // MARK: - 外部状态注入
     /// 刷新候选/译文/输入串/语言/标点宽度。由 VC 在 model.onChange 后调用（主线程）。
-    func update(candidates: [String], translations: [String?], buffer: String,
-                isChinese: Bool, punctuationFullWidth: Bool) {
+    func update(candidates: [String], translations: [String?], buffer: String, isChinese: Bool, punctuationFullWidth: Bool) {
         let modeChanged = (isChinese != self.isChinese)
         let punctChanged = (punctuationFullWidth != self.punctuationFullWidth)
         self.isChinese = isChinese

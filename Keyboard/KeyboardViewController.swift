@@ -58,7 +58,6 @@ final class KeyboardViewController: UIInputViewController {
             self.render()
         }
         keyboardView.onCandidate = { [weak self] index in self?.handleCandidate(index) }
-        keyboardView.onAdvanceKeyboard = { [weak self] in self?.advanceToNextInputMode() }
     }
 
     /// needInit/error 时的静态提示条（不申请完全访问 → 不做扩展内跳转，只提示手动开宿主）。
@@ -80,8 +79,27 @@ final class KeyboardViewController: UIInputViewController {
         view.bringSubviewToFront(statusBanner)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        keyboardView.setReturnKeyTitle(currentReturnKeyTitle())
+    }
+
+    /// 读宿主 App 期望的回车键类型，映射键面文字；动作统一为换行符（规格 §D/§G2）。
+    private func currentReturnKeyTitle() -> String {
+        switch textDocumentProxy.returnKeyType {
+        case .send?: return "发送"
+        case .search?: return "搜索"
+        case .go?: return "前往"
+        case .done?: return "完成"
+        case .next?: return "下一项"
+        case .continue?: return "继续"
+        default: return "换行"
+        }
+    }
+
     // MARK: - 渲染（model.onChange 主线程回调后执行）
     private func render() {
+        keyboardView.setReturnKeyTitle(currentReturnKeyTitle())
         let isChinese = model.mode == .zh2en
         var candidates = model.candidates
         var translations = model.candidateTranslations
