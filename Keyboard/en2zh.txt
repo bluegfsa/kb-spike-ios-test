@@ -286,7 +286,7 @@ accordingly	相应地
 accordion	手风琴
 accordionist	手风琴师
 accost	招呼
-account	报告
+account	账户
 accountability	负有责任
 accountable	负有责任
 accountancy	会计工作
@@ -921,7 +921,7 @@ agreeable	令人愉快
 agreeableness	适合
 agreeably	令人愉快地
 agreed	同意
-agreement	同意
+agreement	协议
 agribusiness	农业综合经营
 agricola	阿格里科拉
 agricultural	农业
@@ -2140,7 +2140,7 @@ applicant	申请者
 application	应用
 applied	应用
 applique	嵌花
-apply	涂
+apply	申请
 appoint	任命
 appointee	被任命者
 appointing	任命
@@ -2336,7 +2336,7 @@ argos	阿哥斯
 argot	行话
 arguable	可辩论
 arguably	可论证地
-argue	提出理由
+argue	争论
 arguing	争辩
 argument	争论
 argumentation	争论
@@ -3023,7 +3023,7 @@ authentically	可靠地
 authenticate	证明可信
 authentication	证明可信
 authenticity	可靠性
-author	作家
+author	作者
 authoress	女作家
 authorial	著作者
 authorisation	授权
@@ -3091,7 +3091,7 @@ auxerre	人名
 auxiliary	辅助者
 avail	有用
 availability	有效性
-available	可利用
+available	可用的
 avalanche	雪崩
 avalon	阿瓦隆(凯尔特族传说中的西方乐土岛
 avant	激进
@@ -3974,7 +3974,7 @@ beast	畜生
 beastie	动物
 beastliness	兽性
 beastly	野兽
-beat	心跳
+beat	打败
 beat-up	破旧
 beatable	可打
 beaten	被打败了
@@ -5110,7 +5110,7 @@ bo	体臭
 boa	蟒蛇
 boadicea	博阿迪西亚
 boar	公猪
-board	木板
+board	板
 boarded	搭乘
 boarder	寄膳者
 boarding	木板
@@ -6721,7 +6721,7 @@ camisole	背心式女内衣
 camo	迷彩服
 camouflage	伪装
 camp	露营
-campaign	战役
+campaign	运动
 campaigner	从军者
 campaigning	作战
 campanile	钟楼
@@ -7721,7 +7721,7 @@ chapstick	无色唇膏
 chapter	章
 char	家庭杂务
 charabanc	一种大型游览车
-character	个性
+character	性格
 characterful	表现性格
 characterisation	<英>=characterization
 characterise	表示的特性
@@ -8383,7 +8383,7 @@ ciudad	城市
 civet	香猫
 civic	市的
 civics	公民学
-civil	市民
+civil	公民的
 civilian	平民
 civilianization	平民化
 civilisation	文明
@@ -8404,7 +8404,7 @@ clad	在金属外包上另一种金属
 cladding	包层
 clade	进化枝
 claiborne	克莱本
-claim	要求
+claim	声称
 claimant	提出要求者
 clair	自治体国际化协会
 claire	克莱儿
@@ -8741,7 +8741,7 @@ co-author	合著者
 co-operation	合作
 co-operative	合作
 co-star	联合主演
-coach	四轮大马车
+coach	教练
 coaching	辅导
 coachload	长途汽车的全体乘客
 coachman	马车夫
@@ -9246,7 +9246,7 @@ commodious	宽敞
 commoditization	商品化
 commodity	农产品
 commodore	海军准将
-common	通常
+common	常见的
 commonality	共同特性
 commonalty	平民
 commoner	平民
@@ -11234,7 +11234,7 @@ curragh	沼泽地
 curran	人名
 currant	葡萄干
 currency	货币
-current	涌流
+current	当前的
 currently	现在
 curricular	课程
 curriculum	课程
@@ -11286,7 +11286,7 @@ custody	监护
 custom	习惯
 customarily	照例
 customary	习惯
-customer	消费者
+customer	顾客
 customisation	定制化服务
 customise	<主英>=customize
 customised	依照顾客具体要求而制造
@@ -12491,7 +12491,7 @@ desperately	拼命地
 desperation	绝望
 despicable	可鄙
 despise	轻视
-despite	轻视
+despite	尽管
 despoil	夺取
 despoiler	掠夺者
 despoliation	掠夺
@@ -13981,7 +13981,7 @@ draught	气流
 draughtsman	起草人
 draughtsmanship	制图术
 draughty	通风
-draw	拉
+draw	画
 drawback	缺点
 drawbridge	吊桥
 drawcord	拉绳
@@ -14094,7 +14094,7 @@ drool	流口水
 droop	下垂
 drooping	下垂
 droopy	下垂
-drop	滴
+drop	落下
 drop-off	下降
 dropcloth	<美>(油漆
 droplet	小滴
@@ -15500,7 +15500,7 @@ envious	嫉妒
 enviously	羡慕地
 environ	包围
 environment	环境
-environmental	周围
+environmental	环境的
 environmentalism	环境保护论
 environmentalist	环保人士
 environmentally	有关环境方面
@@ -16968,7 +16968,7 @@ feedstock	原料
 feedstuff	饲料
 feel	感觉
 feeler	触角
-feeling	摸
+feeling	感觉
 feelingly	富于感情
 feet	脚
 feetham	人名
@@ -17255,7 +17255,7 @@ fillet	头带
 filling	充填物
 fillip	弹指
 filly	小雌马
-film	软片
+film	电影
 film-maker	电影摄制者
 filmed	拍摄
 filmer	菲尔默
@@ -17276,7 +17276,7 @@ filtration	过滤
 fin	鳍
 finable	应罚款
 finagle	欺骗
-final	期末考试
+final	最后的
 finale	结局
 finalise	把最后定下来
 finalist	决赛选手
@@ -17296,7 +17296,7 @@ finder	发现者
 finderscope	寻星镜
 finding	发现
 findlay	人名
-fine	罚款
+fine	好的
 finely	雅致地
 finery	装饰
 finesse	策略
@@ -17766,7 +17766,7 @@ flutter	摆动
 fluttery	焦急不安
 fluvial	河流
 flux	流出
-fly	苍蝇
+fly	飞
 flyaway	宽松
 flyboy	<美口>飞机驾驶员
 flybridge	驾驶桥楼
@@ -23506,7 +23506,7 @@ indistinguishable	不能辨别
 indistinguishably	无差别地
 indite	写成文章
 indium	铟
-individual	人
+individual	个人
 individualise	赋予个性
 individualised	赋予个性
 individualism	个人主义
@@ -27160,7 +27160,7 @@ lisle	莱尔线
 lisp	咬着舌说
 lissa	人名
 lissome	柔软
-list	目录
+list	列表
 listed	列出
 listen	听
 listenable	值得一听
@@ -28101,7 +28101,7 @@ mailroom	邮件收发室
 mailshot	邮寄广告
 maim	使残废
 maimed	受伤
-main	主要部分
+main	主要的
 maine	缅因州
 mainframe	主机
 mainland	大陆
@@ -29064,7 +29064,7 @@ measles	麻疹
 measly	患麻疹
 measurable	可测量
 measurably	可以测定的程度
-measure	尺寸
+measure	措施
 measured	整齐
 measureless	无限
 measurement	尺寸
@@ -29116,7 +29116,7 @@ mediator	调停者
 medic	苜蓿属植物
 medica	国际医院及医疗设备用品展览会
 medicaid	医疗补助方案
-medical	医生
+medical	医疗的
 medicalization	用医疗的方法处理
 medically	医学
 medicament	医药
@@ -29640,7 +29640,7 @@ midas	导弹防御警报系统
 midbrain	中脑
 midday	正午
 midden	垃圾堆
-middle	中央
+middle	中间
 middle-aged	中年
 middlebrow	只有中等文化素养
 middleman	中间人
@@ -30045,7 +30045,7 @@ misread	读错
 misremember	记错
 misrepresent	不如实地叙述
 misrule	施暴政
-miss	失误
+miss	错过
 missa	[宗]弥撒
 missal	弥撒书
 misshapen	造型不佳
@@ -30175,7 +30175,7 @@ moderately	适当地
 moderating	减速
 moderation	缓和
 moderator	主席
-modern	现代人
+modern	现代的
 modern-day	现代
 moderne	现代风格
 modernisation	<主英>=modernization
@@ -31245,7 +31245,7 @@ nato	北大西洋公约组织
 natter	抱怨
 nattily	整洁地
 natty	整洁
-natural	白痴
+natural	自然
 naturalise	授与以国籍
 naturalised	使入国籍
 naturalism	自然主义
@@ -33944,7 +33944,7 @@ participial	分词
 participle	分词
 particle	颗粒
 particleboard	芯板材
-particular	一项(或条
+particular	特别的
 particularism	完全忠于一种理论
 particularistic	特殊主义
 particularity	特殊性
@@ -34135,7 +34135,7 @@ patronymic	源于父名
 patsy	容易受骗的人
 patten	木套鞋
 patter	急速拍打声
-pattern	模范
+pattern	模式
 patterned	被组成图案
 patterning	图案结构
 patterson	帕特森
@@ -34527,8 +34527,8 @@ perfidy	不诚实
 perforate	穿孔于
 perforation	穿孔
 perforce	必然地
-perform	进行
-performance	施行
+perform	表演
+performance	表现
 performative	[哲]述行
 performativity	表演性
 performer	表演者
@@ -35008,7 +35008,7 @@ phylogenetically	系统发生
 phylogeny	种系发生
 phylum	门
 physic	药品
-physical	身体
+physical	身体的
 physicality	肉体性
 physically	按自然规律
 physician	医师
@@ -35599,7 +35599,7 @@ ply	厚度
 plymouth	普利茅斯
 plyometrics	肌肉增强训练
 plywood	夹板
-pm	出纳员
+pm	下午
 pmt	经期前紧张症状
 pn	清注意
 pnc	太平洋邻里协会
@@ -35885,7 +35885,7 @@ poppycock	胡说
 pops	流行曲调
 popsicle	冰棍
 populace	平民
-popular	通俗
+popular	流行的
 popularisation	<主英>=popularization
 popularise	vi. 使通俗化
 popularity	名声
@@ -35974,7 +35974,7 @@ position	位置
 positional	位置
 positioned	放置
 positioning	定位
-positive	肯定
+positive	积极的
 positively	明确地
 positiveness	信心
 positivism	实证论
@@ -36458,7 +36458,7 @@ presser	压制工
 pressing	紧迫
 pressman	印刷工
 pressroom	印刷间
-pressure	压
+pressure	压力
 pressured	紧迫
 pressurise	对施加压力
 pressurised	加压
@@ -36720,7 +36720,7 @@ profanity	玷污神圣
 profess	声称
 professed	明言
 profession	职业
-professional	专业人才
+professional	专业的
 professionalism	职业特性
 professionalization	职业化
 professionalize	vi. 职业化
@@ -37912,7 +37912,7 @@ randomize	使随机化
 randomized	随机化
 randomly	偶然
 randy	喧闹
-range	排
+range	范围
 rangefinder	测距仪
 rangeland	牧场
 ranger	王室守林人
@@ -38113,7 +38113,7 @@ readjustment	再整理
 readmission	重新接纳
 readmit	重新接纳
 readout	宣读
-ready	预备好的状态
+ready	准备好的
 ready-made	现成
 readymade	<准备好>杂志
 reaffirm	重申
@@ -38136,7 +38136,7 @@ realistically	写实地
 reality	实在
 realizable	可实现
 realization	实现
-realize	了解
+realize	意识到
 realized	实现
 really	实际上
 realm	王国
@@ -38740,7 +38740,7 @@ rekindle	再点火
 relabel	重新贴标签于
 relapse	回复
 relatable	有关系
-relate	讲
+relate	有关
 related	讲述
 relatedly	与有亲戚关系地
 relatedness	与有亲戚关系
@@ -39017,7 +39017,7 @@ repot	把移植于其他盆中
 repp	一种条花织品
 reprehend	申斥
 reprehensible	应斥责
-represent	表现
+represent	代表
 representable	能被描绘
 representation	表示法
 representational	代表
@@ -39187,7 +39187,7 @@ respire	呼吸
 respite	暂缓
 resplendent	辉煌
 resplendently	耀眼地
-respond	以回答
+respond	回应
 respondent	回答
 respondents	<律>被告
 responder	回答者
@@ -39355,7 +39355,7 @@ revalue	再评价
 revamp	换新鞋面
 revanchist	复仇主义者
 revd	牧师的尊称
-reveal	露出
+reveal	显露
 revealing	暴露
 revealingly	启发人地
 reveille	起床号
@@ -39701,7 +39701,7 @@ risen	升起
 riser	起床者
 risible	能笑
 rising	上升
-risk	冒险
+risk	风险
 riskiness	富有冒险性的事
 riskless	无危险
 risks	风险
@@ -40391,7 +40391,7 @@ sadness	悲哀
 sae	美国汽车工程师学会
 saeed	萨伊德
 safari	旅行
-safe	保险箱
+safe	安全的
 safecracker	保险箱窃贼
 safeguard	保卫
 safeguarding	安全防护
@@ -40767,7 +40767,7 @@ savanna	热带草原
 savannah	大草原
 savant	学者
 savary	人名
-save	救球
+save	保存
 saved	已保存
 saver	节省的器具
 savile	人名
@@ -40894,7 +40894,7 @@ scavenge	打扫
 scavenger	清道夫
 sce	索尼电脑娱乐
 scenario	剧本提纲
-scene	场
+scene	场景
 scenery	风景
 scenic	风景好
 scenically	布景地
@@ -41355,7 +41355,7 @@ secs	半导体设备通信标准
 sect	宗派
 sectarian	宗派
 sectarianism	宗派主义
-section	区段
+section	部分
 sectional	部分
 sectionalism	地方主义
 sector	扇形
@@ -41579,7 +41579,7 @@ seneschal	管家
 seng	人名
 senile	高龄
 senility	高龄
-senior	年长者
+senior	高级的
 seniority	长辈
 senna	山扁豆
 senor	先生
@@ -41712,7 +41712,7 @@ serialism	十二音阶
 serialization	连载
 serialize	连载
 serie	批量
-series	串联
+series	系列
 serif	西文字体中的短细线
 serious	严肃
 seriously	严肃地
@@ -41911,7 +41911,7 @@ shaper	成形机
 shaping	成形
 shapiro	夏皮罗
 shard	陶瓷碎片
-share	部分
+share	分享
 sharecropper	小佃农
 sharecropping	收益分成耕种
 shared	共享
@@ -42551,7 +42551,7 @@ singer	歌手
 singer-songwriter	写词并演唱的歌手
 singh	辛格
 singing	歌唱
-single	单身
+single	单一的
 single-handed	单独
 single-minded	诚实
 singleness	单一
@@ -43354,7 +43354,7 @@ sombre	昏暗
 sombrely	昏暗地
 sombrero	阔边帽
 some	一些
-somebody	了不起的人
+somebody	某人
 someday	有一天
 somehow	不知何故
 someone	有人
@@ -43516,7 +43516,7 @@ southeastern	东南方
 southeastward	往东南
 southend	索森德
 southerly	向南
-southern	南方人
+southern	南方的
 southerner	南方人
 southernmost	最南
 southey	骚塞
@@ -43667,7 +43667,7 @@ speciation	物种形成
 specie	硬币
 species	种
 specifiable	可指明
-specific	特效药
+specific	特定的
 specifically	特定地
 specification	规格
 specificity	特异性
@@ -44533,7 +44533,7 @@ stitcher	钉书机
 stitchery	针线活
 stoat	白鼬
 stochastic	随机
-stock	树干
+stock	股票
 stockade	栅栏
 stockbroker	股票经纪人
 stockbroking	代客买卖证券业务
@@ -44884,7 +44884,7 @@ studiously	故意地
 studley	人名
 study	学习
 studying	学习
-stuff	原料
+stuff	东西
 stuffed	已经喂饱了
 stuffer	填塞工人
 stuffiness	闷热
@@ -46165,7 +46165,7 @@ tartness	酸
 tarty	& n. 放荡
 tarzan	健壮
 tashkent	塔什干[乌兹别克共和国首都]
-task	工作
+task	任务
 taskbar	任务栏
 taskforce	特别工作组
 taskmaster	工头
@@ -46448,7 +46448,7 @@ tenant	承租人
 tenanted	承租人
 tenascin	生腱蛋白
 tench	丁鲷
-tend	走向
+tend	倾向于
 tendency	趋向
 tendentious	有偏见
 tender	嫩的
@@ -47474,7 +47474,7 @@ touchpaper	火绒线
 touchscreen	触摸屏
 touchstone	试金石
 touchy	易怒
-tough	恶棍
+tough	艰难的
 toughen	变坚韧
 toughie	流氓
 toughly	强硬地
@@ -47810,7 +47810,7 @@ treasure	宝物
 treasured	宝贵
 treasurer	会计
 treasury	国库
-treat	宴请
+treat	对待
 treatable	好对付
 treater	谈判者
 treatise	论文
@@ -50146,7 +50146,7 @@ variegated	杂色
 variegation	斑驳
 varietal	品种
 variety	多样
-various	不同
+various	各种
 variously	各种各样
 varley	loop[电]华莱回路
 varmint	害虫
@@ -50561,7 +50561,7 @@ viola	中提琴
 violate	违犯
 violation	违反
 violator	违反者
-violence	猛烈
+violence	暴力
 violent	暴力
 violently	猛烈地
 violet	堇菜
@@ -51385,7 +51385,7 @@ westcott	韦斯科特
 wester	西风
 westering	西沉
 westerly	向西
-western	西方人
+western	西方的
 westerner	西方人
 westernize	vi. 西洋化
 westernmost	最西
@@ -52330,7 +52330,7 @@ yank	猛拉
 yankee	新英格兰人
 yap	狂吠
 yappy	喜欢叫嚷
-yard	码
+yard	院子
 yardage	车站旁牲畜栏的使用
 yardarm	桁端
 yardley	人名
