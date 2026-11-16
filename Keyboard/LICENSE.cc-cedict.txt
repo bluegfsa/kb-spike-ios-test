@@ -1,0 +1,14 @@
+CC-CEDICT — 汉英词典数据
+================================
+
+本项目 zh2en.txt（中→英短译表）由 CC-CEDICT 数据生成。
+
+- 项目：CC-CEDICT (Chinese-English Dictionary)
+- 来源：https://www.mdbg.net/chinese/dictionary?page=cc-cedict
+- 下载：https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts_utf-8_mdbg.txt.gz
+- 许可：CC BY-SA 4.0（Creative Commons Attribution-ShareAlike 4.0 International）
+- 许可全文：https://creativecommons.org/licenses/by-sa/4.0/
+
+按 CC BY-SA 4.0 要求：保留署名、注明来源，且基于本数据的衍生数据以相同许可（CC BY-SA 4.0）提供。
+
+生成脚本：tools/gen_cedict.js

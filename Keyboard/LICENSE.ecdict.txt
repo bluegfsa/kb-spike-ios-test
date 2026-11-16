@@ -1,0 +1,15 @@
+ECDICT — 英汉词典数据库
+================================
+
+本项目 en2zh.txt（英→中短译表）由 ECDICT 数据生成，仅取常用词并抽取主译短义。
+
+- 项目：ECDICT (Free English to Chinese Dictionary Database)
+- 作者：skywind3000
+- 来源：https://github.com/skywind3000/ECDICT
+- 许可：MIT License
+- 版权：Copyright (c) skywind3000
+
+MIT License 允许在保留版权与许可声明的前提下自由使用、复制、修改、合并、发布、分发、再授权及销售。
+完整 MIT 文本见 https://github.com/skywind3000/ECDICT/blob/master/LICENSE
+
+生成脚本：tools/gen_en2zh.py
