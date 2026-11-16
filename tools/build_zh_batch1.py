@@ -15,15 +15,18 @@ CORR = {
  '中的':'(in)','他的':'his','还要':'still want','这次':'this time','一个':'a','没有':'not have','不是':'not',
  '不过':'however','不会':"won't",'一直':'always','产品':'product','事情':'matter','目前':'now','方面':'aspect',
  '项目':'project','不错':'not bad','支持':'support','意思':'meaning','特别':'special','就是':'exactly',
+ '要':'want', '中':'middle',
 }
 src=r'tools/zh_batch1_draft.tsv'
 out_core=r'tools/core_zh_batch1.tsv'
 out_trace=r'tools/core_zh_batch1_留痕.tsv'
 rows=[]
+SKIP={'回复日期'}
 for ln in open(src,encoding='utf-8'):
     ln=ln.rstrip('\n')
     if not ln: continue
     p=ln.split('\t'); w=p[0]; orig=p[1] if len(p)>1 else ''; wt=p[2] if len(p)>2 else ''
+    if w in SKIP: continue
     final=CORR.get(w, orig)
     changed=(w in CORR)
     basis='人工复核：常用义/公认主译' if changed else 'CC-CEDICT首义，人工复核确认'

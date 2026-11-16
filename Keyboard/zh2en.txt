@@ -3984,7 +3984,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 丫髻	bun (of hair)
 丫鬟	servant girl
 丬	"piece of wood" radical in Chinese characters (Kangxi radical 90), mirror image of 片[pian4]
-中	(bound form) China
+中	middle
 中专	vocational secondary school
 中世纪	medieval
 中东	Middle East
@@ -99898,7 +99898,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 西鲱	allis shad (Alosa alosa)
 西鹌鹑	(bird species of China) common quail (Coturnix coturnix)
 西黄鹡鸰	(bird species of China) western yellow wagtail (Motacilla flava)
-要	(bound form) to demand
+要	want
 要不	otherwise
 要不得	intolerable
 要不是	if it were not for

@@ -128,6 +128,7 @@ const ZH_OVERRIDES = {
   '每一': 'every', '更多': 'more',
   // 中→英已知怪义（评审官 B2.7 抽检点名）
   '时代': 'era', '流行': 'popular', '在之间': 'between', '区段': 'section', '捆绑物': 'bundle',
+  '要': 'want',
 };
 for (const k in ZH_OVERRIDES) zh2en.set(k, ZH_OVERRIDES[k]);
 
