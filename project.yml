@@ -17,6 +17,14 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.smallblocks.kbspike
         INFOPLIST_FILE: App/Info.plist
         GENERATE_INFOPLIST_FILE: "NO"
+    preBuildScripts:
+      - name: LogicSelfTest
+        basedOnDependencyAnalysis: false
+        script: |
+          set -e
+          xcrun swiftc -o "$DERIVED_FILE_DIR/logic_selftest" \
+            "$SRCROOT/Keyboard/KeyboardLogic.swift" "$SRCROOT/tools/SelfTest/main.swift"
+          "$DERIVED_FILE_DIR/logic_selftest"
     dependencies:
       - target: KBSpikeKeyboard
         embed: true

@@ -12,6 +12,7 @@ final class KeyboardViewController: UIInputViewController {
     private var heightConstraint: NSLayoutConstraint?
     private let memHUD = UILabel()
     private var memTimer: Timer?
+    private var returnKeyTimer: Timer?
     private var hudOn = false
 
     override func viewDidLoad() {
@@ -33,6 +34,7 @@ final class KeyboardViewController: UIInputViewController {
     /// #2/#3：高度按内容＋底部安全区自适应（不写死 291），露白/挡输入框问题由此解决。
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        syncReturnKeyTitle()
         let height = keyboardView.intrinsicKeyboardHeight(bottomInset: view.safeAreaInsets.bottom)
         if let constraint = heightConstraint, abs(constraint.constant - height) > 0.5 {
             constraint.constant = height
@@ -136,6 +138,21 @@ final class KeyboardViewController: UIInputViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        syncReturnKeyTitle()
+        // S2-02：同一 App 内切换输入框不会触发 viewWillAppear，用轻量轮询同步回车键面。
+        returnKeyTimer?.invalidate()
+        returnKeyTimer = Timer.scheduledTimer(withTimeInterval: 0.4, repeats: true) { [weak self] _ in
+            self?.syncReturnKeyTitle()
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        returnKeyTimer?.invalidate()
+        returnKeyTimer = nil
+    }
+
+    private func syncReturnKeyTitle() {
         keyboardView.setReturnKeyTitle(currentReturnKeyTitle())
     }
 
@@ -195,7 +212,11 @@ final class KeyboardViewController: UIInputViewController {
                 textDocumentProxy.insertText(String(character))
             }
         } else {
-            // 数字/符号：直接上屏，不进拼音 buffer（全/半角标点已在视图层映射好）。
+            // 数字/符号：直接上屏；中文态若还有未提交的拼音，先把拼音提交再插符号（S2-01，避免候选残留）。
+            if model.mode == .zh2en && !model.buffer.isEmpty {
+                let committed = model.space()
+                if !committed.isEmpty { textDocumentProxy.insertText(committed) }
+            }
             textDocumentProxy.insertText(text)
         }
     }
@@ -211,9 +232,7 @@ final class KeyboardViewController: UIInputViewController {
 
     private func handleSpace() {
         let text = model.space()
-        if !text.isEmpty {
-            textDocumentProxy.insertText(text)
-        }
+        textDocumentProxy.insertText(text.isEmpty ? " " : text) // S2-03：中文态空拼音按空格不再被吞
     }
 
     private func handleReturn() {
@@ -229,7 +248,10 @@ final class KeyboardViewController: UIInputViewController {
         }
     }
 
-    deinit { memTimer?.invalidate() }
+    deinit {
+        memTimer?.invalidate()
+        returnKeyTimer?.invalidate()
+    }
 }
 
 extension KeyboardViewController: UIGestureRecognizerDelegate {

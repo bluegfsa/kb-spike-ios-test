@@ -35,10 +35,6 @@ final class KeyboardView: UIView {
     private var isShiftActive = false
     private var layoutMode: KeyboardLayoutMode = .letters
 
-    // 标点全/半角 5 键组（架构 §C：，。？！、↔ , . ? ! ,）
-    private let punctFull: [Character] = ["，", "。", "？", "！", "、"]
-    private let punctHalf: [Character] = [",", ".", "?", "!", ","]
-
     // 子视图
     private let candidateBar = UIView()
     private let pinyinLabel = UILabel()
@@ -209,8 +205,8 @@ final class KeyboardView: UIView {
         row.addArrangedSubview(makeKey("←", font: 20, kind: .function, accessibility: "返回字母键盘") { [weak self] in
             self?.setLayoutMode(.letters)
         })
-        for i in punctFull.indices {
-            let glyph = String(punctuationFullWidth ? punctFull[i] : punctHalf[i])
+        for i in 0..<KeyboardLogic.punctFull.count {
+            let glyph = KeyboardLogic.punctuationGlyph(fullWidth: punctuationFullWidth, index: i)
             row.addArrangedSubview(makeKey(glyph, font: 20, kind: .function, accessibility: "标点 \(glyph)") { [weak self] in
                 self?.onKeyText?(glyph)
             })
@@ -353,7 +349,7 @@ final class KeyboardView: UIView {
 
     // MARK: - 字母大小写 / 手势 / 定时器
     private func displayLetter(_ ch: Character) -> String {
-        (isChinese || !isShiftActive) ? String(ch) : String(ch).uppercased()
+        KeyboardLogic.letter(ch, isChinese: isChinese, shift: isShiftActive)
     }
 
     private func handleLetterTap(_ ch: Character) {
@@ -385,7 +381,7 @@ final class KeyboardView: UIView {
         let timer = Timer(timeInterval: deleteInterval, repeats: false) { [weak self] _ in
             guard let self else { return }
             self.onBackspace?()
-            self.deleteInterval = max(0.03, self.deleteInterval * 0.85)
+            self.deleteInterval = KeyboardLogic.nextDeleteInterval(from: self.deleteInterval)
             self.scheduleDeleteTick()
         }
         RunLoop.main.add(timer, forMode: .common)
