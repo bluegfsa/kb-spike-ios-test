@@ -49,6 +49,30 @@ CORR.update({
  '电':'electricity','修':'to repair','沈':'surname Shen','鬼':'ghost','木':'wood','层':'layer','份':'portion',
  '赵':'surname Zhao','合':'to combine','噶':'ga','派':'faction','帅':'handsome','胡':'beard','天津':'Tianjin',
 })
+# 两字/多字词系统性纠偏（评审官 REVIEW：这批只过了单字，多字词字面/次要义未管，逐条通读 1155 条后纠）
+CORR.update({
+ # batch2 多字
+ '水平':'level','不想':"don't want",'心里':"in one's heart",'不到':'less than','更新':'to update','密码':'password',
+ '培训':'to train','故事':'story','都会':'metropolis','机构':'organization','不管':'regardless','升级':'to upgrade',
+ '帖子':'post','交易':'transaction','错误':'error','运行':'to run','收入':'income','形式':'form','所谓':'so-called',
+ '不然':'otherwise','担心':'to worry','马甲':'vest','回复':'to reply','款':'fund','推出':'to launch',
+ # batch3 多字
+ '失败':'to fail','恢复':'to recover','输入':'to input','维护':'to maintain','登录':'to log in','沟通':'to communicate',
+ '点击':'to click','代理':'agent','女生':'girl','性能':'performance','行动':'action','有了':'have','即可':'is enough',
+ '值得':'worth','老大':'boss','追求':'to pursue','加油':'to cheer','创新':'innovation','使得':'to make','经典':'classic',
+ '提前':'in advance','倒是':'actually','酒店':'hotel','轻松':'relaxed','参考':'reference','推广':'to promote',
+ '心中':"in one's heart",'格式':'format','一句':'a sentence',
+ # batch4 多字
+ '推进':'to advance','在于':'to lie in','建筑':'building','文档':'document','大小':'size','作出':'to make','公开':'public',
+ '保存':'to save','从事':'to engage in','做出':'to make','基于':'based on','强大':'powerful','为主':'mainly','流程':'process',
+ '拍摄':'to shoot','开放':'open','微软':'Microsoft','成长':'to grow up','高级':'advanced','重视':'to value','商务':'business',
+ '查看':'to check','面试':'interview','交通':'traffic','仅仅':'only','周围':'surroundings','近期':'recent','导演':'director',
+ '始终':'all along','为啥':'why','将会':'will','看法':'view','一声':'a sound','而言':'in terms of','收购':'to acquire',
+ '老人':'elderly','队伍':'team','天下':'the world','年代':'decade','举办':'to hold','果然':'as expected','妻子':'wife',
+ '界面':'interface','只好':'have to','说法':'statement','渠道':'channel','影片':'film','无所谓':"doesn't matter",
+ '死亡':'death','伟大':'great','表演':'performance','落实':'to implement','奥':'profound',
+})
+
 wt={}; inb=False
 for ln in open(r'Keyboard/pinyin_simp.dict.yaml',encoding='utf-8'):
     ln=ln.rstrip('\n')

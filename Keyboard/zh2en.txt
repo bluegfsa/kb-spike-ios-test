@@ -447,7 +447,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 一口气	one breath
 一口气儿	erhua variant of 一口氣|一口气[yi1 kou3 qi4]
 一古脑儿	variant of 一股腦兒|一股脑儿[yi1 gu3 nao3 r5]
-一句	a line of verse
+一句	a sentence
 一句话	in a word
 一只	one animal
 一叶知秋	lit. the falling of one leaf heralds the coming of autumn (idiom)
@@ -495,7 +495,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 一塌糊涂	muddled and completely collapsing (idiom)
 一壁	at the same time
 一壁厢	see 一壁[yi1 bi4]
-一声	first tone in Mandarin
+一声	a sound
 一声不吭	to not say a word
 一声不响	to keep totally silent
 一夔已足	one talented person is enough for the job (idiom)
@@ -2365,7 +2365,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 不列颠战役	Battle of Britain (Jul-Oct 1940)
 不列颠诸岛	British Isles
 不利	unfavorable
-不到	not to arrive
+不到	less than
 不到火候不揭锅	don't act until the time is ripe (idiom)
 不到长城非好汉	lit. until you reach the Great Wall, you're not a proper person
 不到黄河心不死	lit. not to stop until one reaches the Yellow River (idiom)
@@ -2649,7 +2649,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 不惜血本	to spare no effort
 不惟	not only
 不惮	(literary) unafraid
-不想	unexpectedly
+不想	don't want
 不愉快	disagreeable
 不意	unexpectedly
 不愠不火	calm
@@ -2791,7 +2791,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 不满	dissatisfied
 不满意	dissatisfied
 不灵	not work
-不然	not so
+不然	otherwise
 不爽	not well
 不特	not only
 不独	not only
@@ -2885,7 +2885,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 不等边三角形	scalene triangle
 不简单	not simple
 不算	to not calculate
-不管	not to be concerned
+不管	regardless
 不管三七二十一	regardless of the consequences
 不管不顾	(idiom) to pay scant regard to (sth)
 不管怎样	in any case
@@ -4848,7 +4848,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 丹麦包	Danish pastry
 为	for
 为上	to be valued above all else
-为主	to rely mainly on
+为主	mainly
 为之一振	to be energized by it
 为了	in order to
 为五斗米折腰	(allusion to Tao Qian 陶潛|陶潜[Tao2 Qian2], who used this phrase when he resigned from government service rather than show subservience to a visiting inspector) to bow and scrape for five pecks of rice (that being a part of his salary as a local magistrate)
@@ -4861,7 +4861,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 为何	why
 为例	used in the construction 以...為例|以...为例, "to take ... as an example"
 为准	to serve as the norm
-为啥	dialectal equivalent of 為什麼|为什么[wei4 shen2 me5]
+为啥	why
 为善最乐	doing good deeds brings the greatest joy (idiom)
 为夫	(archaic) term used by a husband to refer to himself when speaking to his wife
 为害	to cause harm
@@ -5087,7 +5087,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 举债	to raise a loan
 举兵	(literary) to raise an army
 举凡	such things as ...
-举办	to conduct
+举办	to hold
 举动	act
 举发	to expose (e.g., wrongdoing)
 举国	the entire country
@@ -7043,7 +7043,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 交换虚电路	Switched Virtual Circuit
 交接	(of two things) to come into contact
 交接班	to change shift
-交易	to deal
+交易	transaction
 交易会	trade fair
 交易员	dealer
 交易市场	exchange
@@ -7096,7 +7096,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 交运	to meet with luck
 交还	to return sth
 交迫	to be beleaguered
-交通	to be connected
+交通	traffic
 交通协管员	traffic warden
 交通卡	public transportation card
 交通堵塞	road congestion
@@ -7822,7 +7822,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 仄声	oblique tone
 仄径	narrow path
 仅	barely
-仅仅	barely
+仅仅	only
 仅作参考	for reference only
 仅供	only for
 仅供参考	for reference only
@@ -7922,7 +7922,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 从严	strict
 从中	from among them
 从中作梗	(idiom) to deliberately create obstacles
-从事	to go for
+从事	to engage in
 从井救人	to jump into a well to rescue sb else (idiom)
 从今以后	from now on
 从从容容	unhurried
@@ -8197,7 +8197,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 代母	godmother
 代沟	generation gap
 代班	(Tw) to take over sb's job
-代理	to act on behalf of sb in a responsible position
+代理	agent
 代理人	agent
 代理商	agent
 代理孕母	(Tw) surrogacy
@@ -8996,7 +8996,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 伟哥	Viagra (male impotence drug)
 伟器	great talent
 伟士牌	Vespa (scooter)
-伟大	huge
+伟大	great
 伟岸	imposing
 伟晶岩	pegmatite
 伟绩	great acts
@@ -9865,7 +9865,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 作假	to counterfeit
 作兴	maybe
 作准	to be valid
-作出	to put out
+作出	to make
 作别	to take one's leave
 作势	to adopt an attitude
 作古	to die
@@ -10057,7 +10057,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 使役	to use (an animal or servant)
 使徒	apostle
 使徒行传	Acts of the Apostles (New Testament)
-使得	usable
+使得	to make
 使性	to throw a fit
 使性子	to lose one's temper
 使成	to cause
@@ -10544,7 +10544,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 保外就医	to release for medical treatment (of a prisoner)
 保姆	nanny
 保媒	to act as go-between (between prospective marriage partners etc)
-保存	to conserve
+保存	to save
 保守	conservative
 保守主义	conservatism
 保守党	conservative political parties
@@ -11019,7 +11019,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 倒时差	to adjust to a different time zone
 倒映	to reflect (producing an inverted image)
 倒春寒	cold snap during the spring
-倒是	contrary to what one might expect
+倒是	actually
 倒替	to take turns (responsibility)
 倒木	fallen tree
 倒果为因	to reverse cause and effect
@@ -11255,7 +11255,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 值守	(of a security guard etc) to be on duty, keeping an eye on things
 值宿	on night duty
 值当	(coll.) worth it
-值得	worth the money
+值得	worth
 值得一提	to be worth mentioning
 值日	on day duty
 值日生	student on duty
@@ -11543,7 +11543,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 做伴儿	erhua variant of 做伴[zuo4 ban4]
 做作	affected
 做准备工作	to make preparations
-做出	to put out
+做出	to make
 做到	to accomplish
 做功	(physics) to do work
 做功夫	to practice (work skills)
@@ -13333,7 +13333,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 公平竞争	fair competition
 公平贸易	fair trade
 公府	government post in Han dynasty
-公开	open
+公开	public
 公开信	open letter
 公开化	to make public
 公开讨论会	open forum
@@ -16643,7 +16643,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 创投	venture capital investment (abbr. for 創業投資|创业投资[chuang4 ye4 tou2 zi1])
 创投基金	venture capital fund
 创收	to generate revenue
-创新	to bring forth new ideas
+创新	innovation
 创新精神	creativity
 创汇	to earn foreign exchange
 创牌子	(of a company) to establish a brand name
@@ -17978,7 +17978,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 加沃特	(loanword) gavotte, French dance popular in 18th century
 加沙	Gaza (territory adjacent to Israel and Egypt)
 加沙地带	Gaza Strip
-加油	to add oil
+加油	to cheer
 加油工	gas station attendant
 加油枪	fuel nozzle
 加油添醋	to add interest (to a story)
@@ -19375,7 +19375,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 升糖	to raise blood glucose levels
 升糖指数	glycemic index
 升糖素	(Tw) glucagon
-升级	to go up by one grade
+升级	to upgrade
 升结肠	ascending colon (anatomy)
 升职	to get promoted (at work etc)
 升腾	to rise
@@ -20803,7 +20803,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 即兴之作	improvisation
 即兴发挥	improvisation
 即刻	immediately
-即可	equivalent to 就可以
+即可	is enough
 即墨	see 即墨區|即墨区[Ji2 mo4 Qu1]
 即墨区	Jimo, a district of Qingdao City 青島市|青岛市[Qing1 dao3 Shi4], Shandong
 即如	such as
@@ -21427,7 +21427,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 参照系	frame of reference
 参看	to consult for reference
 参禅	to practice Chan Buddhist meditation
-参考	consultation
+参考	reference
 参考书	reference book
 参考文献	cited material
 参考材料	reference material
@@ -22937,7 +22937,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 只争旦夕	see 只爭朝夕|只争朝夕[zhi3 zheng1 zhao1 xi1]
 只争朝夕	(idiom) to seize every minute
 只可意会，不可言传	can be understood, but not described (idiom, from Zhuangzi 莊子|庄子[Zhuang1 zi3])
-只好	to have no other option but to 
+只好	have to
 只字不提	(idiom) to say not a single word about it
 只当	(coll.) to take (sth) as …
 只得	to have no alternative but to
@@ -25267,7 +25267,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 周口市	Zhoukou, prefecture-level city in Henan Province 河南省[He2 nan2 Sheng3]
 周口店	Zhoukoudian prehistoric site in Fangshan district 房山區|房山区[Fang2 shan1 qu1], Beijing
 周四	Thursday
-周围	environs
+周围	surroundings
 周围性眩晕	peripheral vertigo
 周围神经	(anatomy) peripheral nervous system
 周处	Zhou Chu (236-297), Jin dynasty general
@@ -26554,7 +26554,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 商会	chamber of commerce
 商兑	to discuss and deliberate
 商办	to consult and act upon
-商务	commercial affairs
+商务	business
 商务中心区	central business district (e.g. CBD of Beijing)
 商务印书馆	The Commercial Press, Beijing (est. 1897)
 商务汉语考试	Business Chinese Test (BCT)
@@ -27699,7 +27699,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 回墨印	self-inking stamp
 回声	echo
 回声定位	echolocation
-回复	to recover
+回复	to reply
 回天	to reverse a desperate situation
 回天乏术	(idiom) nothing can be done to remedy the situation
 回天无力	see 無力回天|无力回天[wu2 li4 hui2 tian1]
@@ -28838,7 +28838,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 在世	to be alive
 在之间	between
 在乎	to rest with
-在于	to rest with
+在于	to lie in
 在任	to be in office
 在位	to be on the throne
 在位时代	reign (of a king, emperor etc)
@@ -29860,11 +29860,11 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 培根	(loanword) bacon
 培植	to cultivate
 培育	to train
-培训	to cultivate
+培训	to train
 培训班	training class
 基	(bound form) base
 基业	foundation
-基于	because of
+基于	based on
 基体	base body
 基佬	(slang) gay guy
 基准	(surveying) datum
@@ -31848,7 +31848,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 大将	a general or admiral
 大将军	important general
 大尉	captain (army rank)
-大小	large and small
+大小	size
 大小三度	major and minor third (musical interval)
 大小便	using the toilet
 大小写	capitals and lowercase letters
@@ -32483,7 +32483,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 天上下刀子	lit. knives rain down from the sky (idiom)
 天上不会掉馅饼	there is no such thing as a free lunch (idiom)
 天上掉馅饼	a meat pie falls from the sky (idiom)
-天下	land under heaven
+天下	the world
 天下乌鸦一般黑	all crows are black (idiom)
 天下兴亡，匹夫有责	The rise and fall of the nation concerns everyone (idiom). Everyone bears responsibility for the prosperity of society.
 天下大乱	the whole country in rebellion
@@ -33137,7 +33137,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 失调	imbalance
 失调电压	offset voltage
 失责	breach of responsibility
-失败	to be defeated
+失败	to fail
 失败主义	defeatism
 失败是成功之母	Failure is the mother of success.
 失败者	loser
@@ -33699,7 +33699,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 奢靡	extravagant
 奢香	She Xiang (c. 1361-1396), lady who served as Yi ethnic group leader in Yunnan in early Ming times
 奣	clear and cloudless sky
-奥	obscure
+奥	profound
 奥丁	Odin (god in Norse mythology)
 奥丁谐振器	Oudin coil
 奥什	Osh (city in Kyrgyzstan)
@@ -33880,7 +33880,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 女流	(derog.) woman
 女犯	female offender in imperial China (old)
 女王	queen
-女生	schoolgirl
+女生	girl
 女生外向	a woman is born to leave her family (idiom)
 女的	woman
 女皇	empress
@@ -34423,7 +34423,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 妻儿	wife and child
 妻妾	wives and concubines (of a polygamous man)
 妻妾成群	to have many wives and concubines
-妻子	wife and children
+妻子	wife
 妻室	wife
 妻小	wife and children
 妻离子散	a family wrenched apart (idiom)
@@ -34463,7 +34463,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 始点	starting point
 始祖	primogenitor
 始祖鸟	archaeopteryx
-始终	from beginning to end
+始终	all along
 始终不渝	unswerving
 始终如一	unswerving from start to finish (idiom)
 姐	older sister
@@ -37434,7 +37434,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 密歇根湖	Lake Michigan, one of the Great Lakes 五大湖[Wu3 da4 hu2]
 密特朗	Mitterrand
 密电	coded telegram
-密码	cipher
+密码	password
 密码保护	password protection
 密码子	(biochemistry) codon
 密码学	cryptography
@@ -37939,7 +37939,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 导流板	spoiler (automotive)
 导液管	(medicine) catheter
 导游	tour guide
-导演	to direct
+导演	director
 导火索	fuse (for explosive)
 导火线	fuse (for explosives)
 导热性	heat conduction
@@ -38110,7 +38110,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 将乐县	Jiangle, a county in Sanming City 三明市[San1 ming2 Shi4], Fujian
 将今论古	to observe the present to study the past
 将令	(old) (military) a command
-将会	auxiliary verb introducing future action: may
+将会	will
 将伯	to ask for assistance
 将伯之助	assistance that one gets from another
 将信将疑	see 半信半疑[ban4 xin4 ban4 yi2]
@@ -41189,7 +41189,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 帕金森病	Parkinson's disease
 帕马森	Parmesan
 帖	fitting snugly
-帖子	card
+帖子	post
 帖撒罗尼迦	Thessalonica
 帖撒罗尼迦前书	First epistle of St Paul to the Thessalonians
 帖撒罗尼迦后书	Second Epistle of St Paul to the Thessalonians
@@ -41847,7 +41847,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 年事	years of age
 年事已高	old in years
 年产	annual production
-年代	a decade of a century
+年代	decade
 年代初	beginning of an age
 年代剧	period drama
 年代学	chronology (the science of determining the dates of past events)
@@ -42899,7 +42899,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 建立	to establish
 建立时间	(electronics) setup time
 建立者	founder
-建筑	to construct
+建筑	building
 建筑业	building industry
 建筑学	architectural
 建筑工人	construction worker
@@ -43066,7 +43066,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 开掘	to dig
 开播	(agriculture) to begin sowing
 开支	expenditures
-开放	to bloom
+开放	open
 开放式系统	open system(s)
 开放式网络	open network
 开放性	openness
@@ -43906,7 +43906,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 强嘴	to talk back
 强国	(ironically) mainland China (Taiwan & Hong Kong usage)
 强壮	strong
-强大	big and strong
+强大	powerful
 强奸	to rape
 强奸犯	rapist
 强奸罪	rape
@@ -44205,7 +44205,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 形容词	adjective
 形容词短语	adjectival phrase
 形容辞	adjective
-形式	outer appearance
+形式	form
 形式主义	formalism (in philosophy, art, or literary theory)
 形式化	formalization
 形式发票	pro forma invoice
@@ -44378,7 +44378,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 影帝	(male) superstar of the silver screen
 影星	film star
 影本	copy (of a document)
-影片	a copy of a film
+影片	film
 影碟	DVD
 影碟机	DVD player
 影视	movies and television
@@ -44869,7 +44869,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 微调	fine tuning
 微贱	humble
 微距	(photography) (of a lens etc) macro
-微软	Microsoft Corporation
+微软	Microsoft
 微辣	mildly spicy
 微速摄影	time-lapse photography
 微醺	tipsy
@@ -45017,7 +45017,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 心上人	sweetheart
 心下	in mind
 心不在焉	absent-minded
-心中	central point
+心中	in one's heart
 心中无数	to have no idea
 心中有数	to know what's going on
 心中有鬼	to harbor ulterior motives (idiom)
@@ -45259,7 +45259,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 心酸	to feel sad
 心醉	enchanted
 心醉神迷	ecstatic
-心里	chest
+心里	in one's heart
 心里有数	to know the score (idiom)
 心里有谱	to have a plan in mind
 心里有鬼	to have secret motives
@@ -45968,7 +45968,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 性禁忌	sexual taboo
 性福	(neologism c. 2008) (slang) (coined as a pun on 幸福[xing4 fu2]) satisfied with one's sex life
 性细胞	sexual cell
-性能	function
+性能	performance
 性腺	gonad
 性蕾期	phallic stage (psychology)
 性虐待	sexual abuse
@@ -46303,7 +46303,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 恞	happy
 恟	scared, nervous
 恢	(bound form) vast
-恢复	to reinstate
+恢复	to recover
 恢复原状	to restore sth to its original state
 恢复名誉	to rehabilitate
 恢复常态	to return to normal
@@ -47923,7 +47923,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 成都	Chengdu
 成都体育大学	Chengdu Sports University
 成都市	Chengdu, sub-provincial city and capital of Sichuan Province 四川省[Si4 chuan1 Sheng3]
-成长	to mature
+成长	to grow up
 成长型思维	growth mindset
 成长率	growth rate
 成问题	to be a problem
@@ -48314,7 +48314,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 所见所闻	what one hears and sees (idiom)
 所言不虚	see 所言非虛|所言非虚[suo3 yan2 fei1 xu1]
 所言非虚	(after a pronoun or name) what (you, they etc) say is true
-所谓	what is meant by the expression 
+所谓	so-called
 所部	troops under one's command
 所长	director
 所闻	heard
@@ -50432,7 +50432,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 担子	carrying pole and the loads on it
 担当	to take upon oneself
 担待	to pardon
-担心	anxious
+担心	to worry
 担忧	to worry
 担惊受怕	(idiom) apprehensive
 担懮	worry
@@ -50691,7 +50691,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 拍打	to pat
 拍拍屁股走人	to make oneself scarce
 拍拖	(dialect) to date sb
-拍摄	to take
+拍摄	to shoot
 拍板	wooden clappers (percussion instrument)
 拍案	lit. to slap the table (in amazement, praise, anger, resentment etc)
 拍案叫绝	lit. slap the table and shout with praise (idiom)
@@ -52593,7 +52593,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 推介会	promotional seminar
 推估	to estimate
 推倒	to push over
-推出	to push out
+推出	to launch
 推力	driving force
 推动	to push
 推动力	driving force
@@ -52616,7 +52616,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 推尊	to esteem
 推展	to propagate
 推崇	to esteem
-推广	to extend
+推广	to promote
 推度	to infer
 推延	to procrastinate
 推开	to push open (a gate etc)
@@ -52677,7 +52677,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 推车	cart
 推车发动	to push-start (a car)
 推辞	to decline (an appointment, invitation etc)
-推进	to impel
+推进	to advance
 推进剂	propellant
 推进器	propeller
 推进机	see 推進器|推进器[tui1 jin4 qi4]
@@ -52817,7 +52817,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 提列	to make provision (against a loss)
 提到	to mention
 提制	to refine
-提前	to shift to an earlier date
+提前	in advance
 提前投票	early vote
 提包	handbag
 提升	to promote
@@ -54075,7 +54075,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 收件箱	inbox
 收伏	variant of 收服[shou1 fu2]
 收假	(of holidays) to come to an end
-收入	to take in
+收入	income
 收兵	to retreat
 收养	to take in and care for (an elderly person, a dog etc)
 收冬	harvest season
@@ -54186,7 +54186,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 收词	to collect words
 收货	to receive delivery
 收货人	consignee
-收购	to purchase or acquire in bulk or at an official level
+收购	to acquire
 收购要约	takeover bid
 收费	to charge a fee
 收费站	tollbooth
@@ -54541,7 +54541,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 故世	to die
 故业	old estate
 故乡	home
-故事	old practice
+故事	story
 故事片	fictional film
 故事线	storyline
 故云	that's why it is called...
@@ -55321,7 +55321,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 文本框	(computing) text box
 文本编辑器	text editor
 文案	(newspapers etc) copy
-文档	file
+文档	document
 文档对象模型	Document Object Model (DOM)
 文武	civil and military
 文武双全	well versed in letters and military technology (idiom)
@@ -56643,7 +56643,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 无所属	unaffiliated
 无所用心	not paying attention to anything (idiom)
 无所畏忌	without any fear of consequences
-无所谓	to be indifferent
+无所谓	doesn't matter
 无所适从	not knowing which course to follow (idiom)
 无把握	uncertain
 无拘无束	free and unconstrained (idiom)
@@ -58849,7 +58849,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 更张	lit. to restring one's bow
 更换	to replace (a worn-out tire etc)
 更改	to alter
-更新	to replace the old with new
+更新	to update
 更新世	Pleistocene (geological epoch from 2m years ago, covering the most recent ice ages)
 更新换代	reform and renewal
 更是	even more
@@ -59152,7 +59152,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 有为	promising
 有为有守	able to act while maintaining one's integrity (idiom)
 有主见	opinionated
-有了	I've got a solution!
+有了	have
 有了胎	pregnant
 有事	to be occupied with sth
 有亏职守	(to be guilty of) dereliction of duty
@@ -60205,7 +60205,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 机时	usage time of a machine, computer or instrument (typically measured in hours)
 机智	quick-witted
 机杼	a loom
-机构	mechanism
+机构	organization
 机枪	machine gun
 机械	machine
 机械人	(HK) robot
@@ -61409,7 +61409,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 果洛	see 果洛藏族自治州[Guo3 luo4 Zang4 zu2 Zi4 zhi4 zhou1]
 果洛州	see 果洛藏族自治州[Guo3 luo4 Zang4 zu2 Zi4 zhi4 zhou1]
 果洛藏族自治州	Golog Tibetan Autonomous Prefecture, in Qinghai Province 青海省[Qing1 hai3 Sheng3]
-果然	really
+果然	as expected
 果皮	(fruit) peel
 果盘	fruit plate
 果真	really
@@ -61776,7 +61776,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 查点	to check
 查理周刊	Charlie Hebdo (French magazine)
 查理大帝	Charlemagne (c. 747-c. 814), King of the Franks, Holy Roman Emperor from 800
-查看	to look over
+查看	to check
 查票员	ticket inspector
 查禁	to prohibit
 查究	to follow up a study
@@ -62433,7 +62433,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 格尔木	see 格爾木市|格尔木市[Ge2 er3 mu4 Shi4]
 格尔木市	Golmud, a county-level city in Haixi Mongol and Tibetan Autonomous Prefecture 海西蒙古族藏族自治州[Hai3 xi1 Meng3 gu3 zu2 Zang4 zu2 Zi4 zhi4 zhou1], Qinghai
 格局	structure
-格式	form
+格式	format
 格式化	(computing) to format
 格式塔	(loanword) gestalt
 格式塔疗法	Gestalt therapy
@@ -64228,7 +64228,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 欺骗餐	cheat meal
 欻	suddenly
 欼	drink
-款	section
+款	fund
 款伏	to obey
 款儿	haughty manner
 款冬	coltsfoot (Tussilago farfara), plant in sunflower family Asteracae used a cough suppressant
@@ -64781,7 +64781,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 死了张屠夫，不吃混毛猪	lit. just because Zhang the butcher dies, doesn't mean we'll have to eat pork mixed with bristles (idiom)
 死于安乐	see 生於憂患，死於安樂|生于忧患，死于安乐[sheng1 yu2 you1 huan4 , si3 yu2 an1 le4]
 死于非命	violent death (idiom)
-死亡	to die
+死亡	death
 死亡人数	number of people killed
 死亡率	mortality rate
 死亡笔记	Death note (Japanese: デスノート), translation of cult manga series by author ŌBA Tsugumi 大場鶇|大场鸫[Da4 chang3 Dong1] (pen-name) and illustrator OBATA Takeshi 小畑健[Xiao3 tian2 Jian4]
@@ -66054,7 +66054,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 水师	navy (in Qing times)
 水帘洞	cave with a waterfall at its mouth
 水幕	water screen (screen formed of sprayed water droplets, used for displaying projected images, for temperature control, or for air purification)
-水平	horizontal
+水平	level
 水平仪	level (device to determine horizontal)
 水平尺	spirit level
 水平尾翼	(aviation) tailplane
@@ -67193,7 +67193,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 沟涧	gully
 沟渠	channel
 沟谷	gully
-沟通	to join
+沟通	to communicate
 沟道	groove
 没	(negative prefix for verbs) have not
 没sei了	see 沒誰了|没谁了[mei2 sei2 le5]
@@ -68972,7 +68972,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 流离失所	destitute and homeless (idiom)
 流离遇合	to reunite after being homeless refugees
 流离颠沛	destitute and homeless (idiom)
-流程	course
+流程	process
 流程图	flow chart
 流程表	flow chart
 流窜	to roam all over the place
@@ -70813,7 +70813,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 渠	(artificial) stream
 渠县	Qu County or Quxian, a county in Dazhou City 達州市|达州市[Da2 zhou1 Shi4], Sichuan
 渠沟	trench
-渠道	irrigation ditch
+渠道	channel
 渠魁	rebel leader
 渡	to cross
 渡假	(Tw) to go on holidays
@@ -72992,7 +72992,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 点军	see 點軍區|点军区[Dian3 jun1 Qu1]
 点军区	Dianjun, a district of Yichang City 宜昌市[Yi2 chang1 Shi4], Hubei
 点出	to point out
-点击	to hit
+点击	to click
 点击付费广告	pay-per-click advertising
 点击数	number of clicks
 点击率	click-through rate (CTR) (Internet)
@@ -78251,7 +78251,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 界碑	tablet marking the boundary between two regions, districts etc
 界线	limits
 界限	boundary
-界面	contact surface
+界面	interface
 界首	see 界首市[Jie4 shou3 Shi4]
 界首市	Jieshou, a county-level city in Fuyang City 阜陽市|阜阳市[Fu4 yang2 Shi4], Anhui
 畎	field drains
@@ -79043,7 +79043,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 登峰	to climb a mountain
 登峰造极	to reach great heights (in technical skills or scholastic achievements)
 登广告	to advertise
-登录	to register
+登录	to log in
 登徒子	Master Dengtu, a famous historical lecherous character
 登愣	ta da!
 登报	to publish in the newspapers
@@ -80860,7 +80860,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 看来	apparently
 看板	billboard
 看样子	it seems
-看法	way of looking at a thing
+看法	view
 看涨	(finance) bullish
 看淡	to regard as unimportant
 看清	to see clearly
@@ -88261,7 +88261,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 经侦	economic crime investigation
 经信委	Economy and Informatization Commission
 经停	to stop over (en route)
-经典	the classics
+经典	classic
 经典场论	classical field theory (physics)
 经典案例	case study
 经办	to handle
@@ -88918,7 +88918,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 维德角	Cape Verde (Tw)
 维恩图	Venn diagram
 维扬	historical name for Yangzhou 揚州|扬州[Yang2 zhou1]
-维护	to defend
+维护	to maintain
 维护和平	to uphold peace
 维拉	Vala (Middle-earth)
 维拉港	Port Vila, capital of Vanuatu
@@ -90544,7 +90544,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 老乡	fellow townsman
 老二	second-eldest child in a family
 老于世故	experienced in the ways of the world (idiom)
-老人	old man or woman
+老人	elderly
 老人家	polite term for old woman or man
 老人院	nursing home
 老伯	uncle (polite form of address for older male)
@@ -90581,7 +90581,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 老墨	(coll.) a Mexican
 老处女	unmarried old woman
 老外	(coll.) foreigner (esp. non Asian person)
-老大	old age
+老大	boss
 老大不小	no longer a child (idiom)
 老大哥	big brother
 老大妈	"Madam" (affectionate term for an elderly woman)
@@ -90891,7 +90891,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 而已	that's all
 而是	rather
 而立之年	(idiom) the age of 30
-而言	as far as ... is concerned
+而言	in terms of
 耍	to play with
 耍嘴皮	to show off with clever talk
 耍嘴皮子	to talk glibly
@@ -96571,7 +96571,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 落埋怨	to get blamed
 落基山	Rocky Mountains in West US and Canada
 落子	see 蓮花落|莲花落[lian2 hua1 lao4]
-落实	practical
+落实	to implement
 落寞	lonely
 落尘	dust fall
 落差	drop in elevation
@@ -98754,7 +98754,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 行列	formation
 行列式	determinant (math.)
 行刺	to assassinate
-行动	operation
+行动	action
 行动不便	unable to move freely
 行动主义	activism
 行动值	(gaming) action points (points required to complete an action)
@@ -99134,7 +99134,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 表明	to make clear
 表格	form
 表温	surface temperature
-表演	play
+表演	performance
 表演赛	exhibition match
 表率	example
 表现	performance
@@ -101979,7 +101979,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 说来话长	start explaining and it's a long story (idiom)
 说来说去	(idiom) when all is said and done
 说死	to say definitely
-说法	to expound Buddhist teachings
+说法	statement
 说溜嘴	to make a slip of the tongue
 说漏嘴	to blurt out
 说理	to reason
@@ -105997,7 +105997,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 轻易	easy
 轻机关枪	also written 輕機槍|轻机枪
 轻机枪	light machine gun
-轻松	light
+轻松	relaxed
 轻柔	soft
 轻武器	light weapon
 轻水	light water (as opposed to heavy water)
@@ -106196,7 +106196,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 辒辌	(sleeping) carriage
 输	to lose
 输不起	to take defeat with bad grace
-输入	to import
+输入	to input
 输入法	input method
 输入系统	input system
 输入设备	input device (computer)
@@ -106843,7 +106843,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 运营	to be in operation
 运营商	operator (of a power station, transport network etc)
 运营总监	chief operating officer (COO)
-运行	to move along one's course
+运行	to run
 运行方式	operating method
 运行时	(computing) runtime
 运行时错误	run-time error (in computing)
@@ -106905,7 +106905,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 近日点	perihelion, the nearest point of a planet in elliptic orbit to the sun
 近景	scene in the foreground
 近景魔术	close-up magic
-近期	near in time
+近期	recent
 近朱者赤，近墨者黑	those who handle cinnabar are stained red
 近朱近墨	one is judged by the company one keeps (idiom)
 近来	recently
@@ -107636,7 +107636,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 追梦	to chase a dream
 追歼	to pursue and kill
 追比	to flog
-追求	to pursue (a goal etc) stubbornly
+追求	to pursue
 追溯	lit. to go upstream
 追究	to investigate
 追索	to demand payment
@@ -109217,7 +109217,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 都	all
 都不	none
 都什么年代了	What decade are you living in?
-都会	city
+都会	metropolis
 都会传奇	urban legend (translation of recent Western term)
 都兰	see 都蘭縣|都兰县[Du1 lan2 Xian4]
 都兰县	Dulan, a county in Haixi Mongol and Tibetan Autonomous Prefecture 海西蒙古族藏族自治州[Hai3 xi1 Meng3 gu3 zu2 Zang4 zu2 Zi4 zhi4 zhou1], Qinghai
@@ -109476,7 +109476,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 酒帘	wine shop sign
 酒席	feast
 酒庄	winery
-酒店	wine shop
+酒店	hotel
 酒店业	the catering industry
 酒廊	bar
 酒徒	drunkard
@@ -110134,7 +110134,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 重要	important
 重要性	importance
 重见天日	to see the light again (idiom)
-重视	to attach importance to sth
+重视	to value
 重视教育	to stress education
 重训	(Tw) weight training (abbr. for 重量訓練|重量训练[zhong4 liang4 xun4 lian4])
 重设	to reset
@@ -111692,7 +111692,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 错角	(geometry) alternate angles
 错解	misinterpretation
 错语	(TCM) paraphasia
-错误	mistaken
+错误	error
 错读	to mispronounce
 错车	to give right of way to another vehicle
 错过	to miss (train, opportunity etc)
@@ -112921,7 +112921,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 阜阳市	Fuyang, prefecture-level city in Anhui Province 安徽省[An1 hui1 Sheng3]
 阞	layer
 队	team
-队伍	troops
+队伍	team
 队列	formation (of troops)
 队友	teammate
 队员	team member
@@ -115833,7 +115833,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 面见	to meet face to face
 面誉	to praise sb in his presence
 面议	to bargain face-to-face
-面试	to be interviewed
+面试	interview
 面试官	interviewer
 面谀	to praise sb to his face
 面谈	face-to-face meeting
@@ -118084,7 +118084,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 马王堆	Mawangdui in Changsha, Hunan, a recent Han dynasty archaeological site
 马球	polo
 马瑙斯	Manaus (city in Brazil)
-马甲	corset
+马甲	vest
 马甲线	(neologism, attested by 2013) (coll.) vertical groove visible on either side of the belly in a person with well-toned abs
 马略卡	Mallorca or Majorca (island of Spain)
 马眼	male's pee hole
@@ -118969,7 +118969,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 高粱	sorghum
 高精度	high precision
 高纤维	high fiber
-高级	high level
+高级	advanced
 高级专员	high commissioner
 高级中学	senior high school
 高级小学	upper primary school
