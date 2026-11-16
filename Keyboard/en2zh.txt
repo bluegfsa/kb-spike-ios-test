@@ -32840,7 +32840,7 @@ oral	口试
 orally	口头
 oran	奥兰
 orang	猩猩
-orange	柑橘
+orange	橙
 orangeman	奥兰治党员
 orangery	橘园
 orangey	似橙
@@ -40370,7 +40370,7 @@ sacristan	教堂司事
 sacristy	圣器收藏室
 sacrosanct	极神圣
 sacrum	骶骨
-sad	忧愁
+sad	难过
 sadat	萨达特
 saddam	萨达姆
 sadden	使忧愁

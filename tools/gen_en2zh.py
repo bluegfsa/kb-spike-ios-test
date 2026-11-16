@@ -39,6 +39,7 @@ OVERRIDES = {
     'else': '其他', 'along': '沿着', 'carry': '携带', 'thank': '谢谢', 'pick': '挑选',
     'special': '特别的', 'space': '空间', 'produce': '生产', 'industry': '工业',
     'cover': '覆盖', 'major': '主要的', 'break': '打破',
+    'sad': '难过', 'orange': '橙',
     'my': '我的', 'your': '你的', 'his': '他的', 'her': '她的', 'its': '它的',
     'our': '我们的', 'their': '他们的',
 }
