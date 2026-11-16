@@ -158,6 +158,20 @@ if (fs.existsSync(zhShiCorePath)) {
   }
   console.log('applied core_zh_shi_batch1:', n);
 }
+for (const bn of ['2', '3', '4']) {
+  const zp = path.join(__dirname, `core_zh_shi_batch${bn}.tsv`);
+  if (fs.existsSync(zp)) {
+    let n = 0;
+    for (const ln of fs.readFileSync(zp, 'utf8').split(/\r?\n/)) {
+      const t = ln.indexOf('\t');
+      if (t < 0) continue;
+      const k = ln.slice(0, t), v = ln.slice(t + 1);
+      if (v) zh2en.set(k, v); else zh2en.delete(k);
+      n++;
+    }
+    console.log(`applied core_zh_shi_batch${bn}:`, n);
+  }
+}
 const keys = [...zh2en.keys()].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
 const out = keys.map(k => k + '\t' + zh2en.get(k)).join('\n') + '\n';
 fs.writeFileSync(path.join(outDir, 'zh2en.txt'), out, 'utf8');

@@ -20,9 +20,21 @@ CORR = {
  '连':'even','全部':'all','专业':'major','建议':'to suggest','跑':'to run','办法':'way','消息':'news',
  '终于':'finally','图':'picture','路':'road','全国':'nationwide','另外':'in addition','有关':'related to',
  '设置':'to set','妈妈':'mom','产生':'to produce','上面':'above','服务器':'server','如此':'so','不少':'quite a few',
- # 空译补齐
  '让我':'let me','好了':'okay','我是':'I am','来说':'in terms of','我也':'me too','这一':'this','也有':'also have','也不':'neither',
 }
+# rime 词频权重
+wt={}; inb=False
+for ln in open(r'Keyboard/pinyin_simp.dict.yaml',encoding='utf-8'):
+    ln=ln.rstrip('\n')
+    if not inb:
+        if ln.strip()=='...': inb=True
+        continue
+    p=ln.split('\t')
+    if len(p)<3: continue
+    s=p[0]
+    try: x=int(p[-1])
+    except: continue
+    if s not in wt or x>wt[s]: wt[s]=x
 src=r'tools/zh_shi_batch1_draft.tsv'; out_core=r'tools/core_zh_shi_batch1.tsv'; out_trace=r'tools/core_zh_shi_batch1_留痕.tsv'
 rows=[]
 for ln in open(src,encoding='utf-8'):
@@ -30,13 +42,15 @@ for ln in open(src,encoding='utf-8'):
     if not ln: continue
     p=ln.split('\t'); w=p[0]; orig=p[1] if len(p)>1 else ''
     final=CORR.get(w,orig)
-    changed=(w in CORR)
+    changed=(final!=orig)  # 按实际改动计（no-op 不算修正）
     basis='人工复核：常用义/公认主译' if changed else 'CC-CEDICT首义，人工复核确认'
-    rows.append((w,orig,final,basis))
+    rows.append((w,wt.get(w,''),orig,final,basis))
 with open(out_core,'w',encoding='utf-8') as f:
-    for w,o,fi,b in rows: f.write(w+'\t'+fi+'\n')
+    for w,t,o,fi,b in rows: f.write(w+'\t'+fi+'\n')
+nchg=0
 with open(out_trace,'w',encoding='utf-8') as f:
-    f.write('词\t原义(CC-CEDICT)\t校正后主义\t依据源\t复核人\t日期\t是否留空\n')
-    for w,o,fi,b in rows:
-        f.write(f'{w}\t{o}\t{fi}\t{b}\t架构师\t2026-11-16\t{"是" if fi=="" else "否"}\n')
-print('zh_shi batch1', len(rows), 'corrected', len(CORR))
+    f.write('词\t词频(weight)\t原义(CC-CEDICT)\t校正后主义\t依据源\t复核人\t日期\t是否留空\n')
+    for w,t,o,fi,b in rows:
+        if fi!=o: nchg+=1
+        f.write(f'{w}\t{t}\t{o}\t{fi}\t{b}\t架构师\t2026-11-16\t{"是" if fi=="" else "否"}\n')
+print('zh_shi batch1', len(rows), 'actual_corrected', nchg)
