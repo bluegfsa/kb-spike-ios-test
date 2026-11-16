@@ -280,7 +280,7 @@ final class KeyboardView: UIView {
 
     // MARK: - 外部状态注入
     /// 刷新候选/译文/输入串/语言/标点宽度。由 VC 在 model.onChange 后调用（主线程）。
-    func update(candidates: [String], translations: [String?], buffer: String, isChinese: Bool, punctuationFullWidth: Bool) {
+    func update(candidates: [String], translations: [String?], buffer: String, isChinese: Bool, punctuationFullWidth: Bool, selectable: Bool) {
         let modeChanged = (isChinese != self.isChinese)
         let punctChanged = (punctuationFullWidth != self.punctuationFullWidth)
         self.isChinese = isChinese
@@ -297,14 +297,14 @@ final class KeyboardView: UIView {
         for (index, text) in candidates.enumerated() {
             let translation: String? = index < translations.count ? translations[index] : nil
             candidateStack.addArrangedSubview(
-                makeCandidateItem(text: text, translation: translation, highlight: index == 0, index: index)
+                makeCandidateItem(text: text, translation: translation, highlight: selectable && index == 0, index: index, selectable: selectable)
             )
         }
         candidateScroll.isHidden = candidates.isEmpty
     }
 
     /// 单个候选：汉字 19pt（首选加粗＋下划线）＋译文 11pt 灰，间距 4；候选间 16。
-    private func makeCandidateItem(text: String, translation: String?, highlight: Bool, index: Int) -> UIView {
+    private func makeCandidateItem(text: String, translation: String?, highlight: Bool, index: Int, selectable: Bool) -> UIView {
         let container = UIView()
         let hanzi = UILabel()
         if highlight {
@@ -341,9 +341,11 @@ final class KeyboardView: UIView {
             stack.topAnchor.constraint(equalTo: container.topAnchor),
             stack.bottomAnchor.constraint(equalTo: container.bottomAnchor),
         ])
-        container.isUserInteractionEnabled = true
+        container.isUserInteractionEnabled = selectable
         container.tag = index
-        container.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(candidateTapped(_:))))
+        if selectable {
+            container.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(candidateTapped(_:))))
+        }
         return container
     }
 

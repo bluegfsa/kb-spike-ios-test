@@ -185,7 +185,8 @@ final class KeyboardViewController: UIInputViewController {
             translations: translations,
             buffer: model.buffer,
             isChinese: isChinese,
-            punctuationFullWidth: model.punctuationFullWidth
+            punctuationFullWidth: model.punctuationFullWidth,
+            selectable: isChinese // 英文态译文占位不可点（S3-02）
         )
         switch model.status {
         case .ready:
