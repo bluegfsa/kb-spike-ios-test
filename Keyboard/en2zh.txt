@@ -330,12 +330,12 @@ ace	幺点
 acellular	非细胞
 acequia	灌溉水渠
 acer	宏碁（公司名
-acerbic	酸
+acerbic	酸的
 acerbically	酸地
 acerbity	涩
 acetaminophen	乙酰
 acetate	醋酸盐
-acetic	醋
+acetic	醋的
 acetone	丙酮
 acetyl	乙酰
 acetylcholine	乙酰胆碱
@@ -504,7 +504,7 @@ aden	亚丁
 adenauer	人名
 adenine	腺嘌呤
 adenocarcinoma	腺癌
-adenoid	腺
+adenoid	腺的
 adenoidal	腺样
 adenoma	腺瘤
 adenomatous	腺瘤
@@ -693,7 +693,7 @@ aegean	爱琴海
 aegis	羊皮盾
 aeneas	特洛伊战争中的勇士
 aeneid	埃涅伊特
-aeolian	风
+aeolian	风的
 aeon	永世
 aerate	使暴露于空气中
 aerated	充气
@@ -839,7 +839,7 @@ agatha	阿加莎
 agave	龙舌兰
 age	年龄
 age-old	古老
-aged	老
+aged	老的
 ageing	变老
 ageist	年龄歧视者
 ageless	不老
@@ -1059,7 +1059,7 @@ alamein	阿拉曼[埃及北部一村庄]
 alamo	白杨
 alamos	偶氮磷
 alan	艾伦
-alar	翼
+alar	翼的
 alarm	惊恐
 alarmed	受惊
 alarming	使人惊恐
@@ -1204,7 +1204,7 @@ alix	阿利克斯
 aliyah	<希伯来>登台读经文
 alizarin	茜素
 alkali	碱
-alkaline	碱
+alkaline	碱的
 alkalinity	碱度
 alkaloid	生物碱
 alkyd	醇酸树脂
@@ -2058,7 +2058,7 @@ apnoea	呼吸暂停
 apocalypse	启示
 apocalyptic	天启
 apocrypha	作者（或真实性
-apocryphal	伪
+apocryphal	伪的
 apogee	远地点
 apolitical	不关心政治
 apollinaire	阿波利奈尔
@@ -2214,8 +2214,8 @@ aquatic	水生动物
 aquatint	凹板腐蚀制版法
 aquavit	白兰地
 aqueduct	水管
-aqueous	水
-aquiline	鹰
+aqueous	水的
+aquiline	鹰的
 aquitaine	阿基坦
 ara	非洲铁路协会
 arab	阿拉伯人
@@ -2246,7 +2246,7 @@ arbitrate	仲裁
 arbitration	仲裁
 arbitrator	仲裁人
 arbor	藤架
-arboreal	树
+arboreal	树的
 arboretum	树木园
 arborist	树木栽培家
 arborvitae	金钟柏
@@ -2355,7 +2355,7 @@ aridity	干旱
 ariel	瞪羚
 aries	白羊座
 aright	正确地
-arise	站立
+arise	出现
 aristide	人名
 aristo	<英口>贵族
 aristocracy	贵族
@@ -2595,13 +2595,13 @@ ashton	阿什顿
 ashtray	烟灰缸
 ashurst	阿什赫斯特
 ashworth	雅狮威
-ashy	灰
+ashy	灰的
 asia	亚洲
 asian	亚洲人
 asiatic	亚洲人
 aside	小声说的话
 asif	阿西夫
-asinine	驴
+asinine	驴的
 ask	问
 askance	怀疑地
 askari	民兵
@@ -2742,7 +2742,7 @@ astoundingly	令人惊奇地
 astra	阿斯特拉
 astragalus	距骨
 astrakhan	阿斯特拉罕羔皮
-astral	星
+astral	星的
 astray	迷途地
 astrid	阿斯特丽德
 astride	跨着
@@ -2974,21 +2974,21 @@ augustinian	奥古斯丁教义
 augusto	人名
 augustus	奥古斯都
 auk	海雀
-auld	老
+auld	老的
 aung	人名
 aunt	阿姨
 auntie	阿姨
 aunty	阿姨
 aura	气氛
 aurae	气氛
-aural	耳
+aural	耳的
 aurally	听觉上
 aurangzeb	奥朗则布（印度莫卧儿王朝皇帝
 aurelius	马可.奥里利乌斯(罗马皇帝兼斯多葛派哲学家
 aureole	光轮
 aureus	奥里斯
 auricle	耳廓
-auricular	耳
+auricular	耳的
 aurora	曙光
 auroral	曙光
 auschwitz	奥许维次
@@ -3006,7 +3006,7 @@ austere	严峻
 austerely	严格地
 austerity	朴素
 austin	奥斯丁
-austral	南
+austral	南的
 australasia	澳大拉西亚
 australasian	澳大拉西亚
 australia	澳洲
@@ -3085,7 +3085,7 @@ autoroute	<法>高速公路
 autostrada	意大利的高速公路
 autoworker	<美>汽车工人
 autumn	秋天
-autumnal	秋
+autumnal	秋的
 auvergne	奥弗涅
 auxerre	人名
 auxiliary	辅助者
@@ -3175,14 +3175,14 @@ awkwardness	笨拙
 awl	钻子
 awning	遮篷
 awol	absent without leave 擅离职守
-awry	歪
+awry	歪的
 aww	average weekly wage 周平均工资
 ax	斧头
 axa	法国安盛（AXA Financial
 axe	斧
 axel	前外一周半跳
 axeman	伐木者
-axial	轴
+axial	轴的
 axially	轴向地
 axilla	腋
 axillary	腋窝
@@ -3351,7 +3351,7 @@ bacteriology	细菌学
 bacteriophage	噬菌体
 bacterium	细菌
 bactrian	大夏人[语]
-bad	坏
+bad	坏的
 baddeley	人名
 baddie	坏人
 baddy	坏人
@@ -4545,7 +4545,7 @@ bifocals	双光眼镜
 bifurcate	分叉
 bifurcated	分为两部分
 bifurcation	双叉
-big	大
+big	大的
 bigamist	重婚者
 bigamy	重婚
 bigeye	大眼鲷
@@ -4782,7 +4782,7 @@ biter	咬人的人
 biting	刺痛
 bitingly	犀利地
 bitmap	位图
-bitter	苦
+bitter	苦的
 bitterly	怨恨地
 bittern	盐卤
 bitterness	苦味
@@ -5081,7 +5081,7 @@ blundell	人名
 blunder	大错
 blunderbuss	老式的大口径短枪
 blundering	粗笨
-blunt	钝
+blunt	钝的
 bluntly	坦率地
 bluntness	钝
 blur	使模糊
@@ -5188,7 +5188,7 @@ boggy	似沼泽
 bogie	妖怪
 bogle	妖怪
 bogota	波哥大
-bogus	假
+bogus	假的
 bogwood	埋设在地底下的木材
 bogy	妖怪
 bohemia	波希米亚
@@ -5254,7 +5254,7 @@ bomblet	小炸弹
 bombproof	防弹
 bombshell	炸弹
 bombsight	投弹瞄准器
-bon	好
+bon	好的
 bonanza	富矿带
 bonaparte	波拿巴(①姓氏
 bonaventure	中世纪帆船上第四桅杆上的帆
@@ -5388,7 +5388,7 @@ borderless	无边界
 borderline	边界
 bordon	人名
 bore	令人讨厌的人
-boreal	北
+boreal	北的
 bored	无聊
 boredom	厌烦
 boreham	人名
@@ -5396,7 +5396,7 @@ borehole	地上凿洞
 borer	穿孔者
 borg	柏格
 borgia	博尔吉亚（意大利15
-boric	硼
+boric	硼的
 boring	烦人
 boringly	无趣地
 boris	鲍里斯
@@ -5434,7 +5434,7 @@ botch	拙笨地修补
 both	两者
 botha	人名
 bother	烦扰
-bothered	烦
+bothered	烦的
 bothersome	讨厌
 bothwell	博斯韦尔
 bothy	茅屋
@@ -5508,7 +5508,7 @@ boutros	人名
 bovary	包法利
 boveri	人名
 bovey	人名
-bovine	牛
+bovine	牛的
 bovis	人名
 bovril	浓缩牛肉汁
 bovver	街斗
@@ -5579,7 +5579,7 @@ brace	支柱
 bracelet	手镯
 bracero	<美> 墨西哥短期合同工
 bracewell	人名
-brachial	臂
+brachial	臂的
 brachiopod	腕足动物
 bracing	新鲜
 bracingly	令人振奋地
@@ -5642,7 +5642,7 @@ bramwell	布拉姆韦尔
 bran	糠
 branch	树枝
 branched	分枝
-branchial	鳃
+branchial	鳃的
 branching	分歧
 branco	布兰科
 brand	商标
@@ -5951,7 +5951,7 @@ brody	布洛迪
 brogan	劳动靴
 brogue	土腔
 broil	烤
-broiled	炙
+broiled	炙的
 broiler	小鸡
 broiling	灼热
 broke	一文不名
@@ -6106,7 +6106,7 @@ bubba	好老弟
 bubble	泡沫
 bubblegum	<美俚>泡泡糖摇滚舞曲
 bubbly	多泡
-buccal	颊
+buccal	颊的
 buccaneer	海盗
 buccaneering	海盗行为
 buccleuch	人名
@@ -6664,7 +6664,7 @@ calm	平稳
 calming	平静
 calmly	平静地
 calmness	平静
-caloric	热
+caloric	热的
 calorie	卡路里
 calorific	生热
 calorimeter	热量计
@@ -6769,7 +6769,7 @@ cancel	取消
 cancellation	取消
 cancelled	被取消
 cancer	癌
-cancerous	癌
+cancerous	癌的
 candelabra	枝状大烛台
 candelabrum	枝状大烛台
 candice	坎蒂丝
@@ -6847,7 +6847,7 @@ cantilevered	带悬臂
 cantina	小酒店
 canto	长诗的篇章
 canton	州
-cantonal	州
+cantonal	州的
 cantonese	广东人
 cantonment	宿营地
 cantor	祈祷文吟诵人
@@ -6950,12 +6950,12 @@ carbine	卡宾枪
 carbohydrate	碳水化合物
 carbolic	碳制
 carbon	碳
-carbonaceous	碳
+carbonaceous	碳的
 carbonara	<意>n.烤面条加干酪沙司
 carbonate	碳酸盐
 carbonated	含二氧化碳
 carbonation	二氧化碳饱和
-carbonic	碳
+carbonic	碳的
 carboniferous	石炭纪
 carbonized	碳化
 carbuncle	痈
@@ -7092,7 +7092,7 @@ carouse	喧闹的酒会或宴会
 carousel	竞技比武大会
 carp	鲤鱼
 carpaccio	生牛肉片
-carpal	腕
+carpal	腕的
 carpark	停车场
 carpathian	喀尔巴阡山脉
 carpel	心皮
@@ -7452,9 +7452,9 @@ celeriac	块根芹
 celerity	迅速
 celery	芹菜
 celeste	天蓝色
-celestial	天
+celestial	天的
 celia	西莉亚
-celiac	腹
+celiac	腹的
 celibacy	独身
 celibate	独身者
 celica	赛利卡
@@ -7532,7 +7532,7 @@ centrum	中心
 centurion	百人队队长
 century	世纪
 ceo	首席执行官
-cephalic	头
+cephalic	头的
 cephalopod	头足动物
 cephalosporin	头孢菌素
 cer	陶瓷
@@ -7543,7 +7543,7 @@ cereal	谷类食品
 cerebellar	小脑
 cerebellopontine	小脑脑桥
 cerebellum	小脑
-cerebral	脑
+cerebral	脑的
 cerebrospinal	脑脊髓
 cerebrum	大脑
 ceremonial	仪式
@@ -7573,7 +7573,7 @@ certitude	确实性
 cerulean	蔚蓝
 cerumen	耵聍
 cervantes	塞万提斯
-cervical	颈
+cervical	颈的
 cervix	器官的颈部
 cesar	恺撒
 cesare	人名
@@ -8146,7 +8146,7 @@ chopsticks	筷子
 choral	合唱队
 chorale	赞美诗
 chord	弦
-chordal	索
+chordal	索的
 chordate	具有脊索
 chore	零工
 chorea	舞蹈病
@@ -8381,7 +8381,7 @@ cityscape	都市风景
 citywide	全市
 ciudad	城市
 civet	香猫
-civic	市
+civic	市的
 civics	公民学
 civil	市民
 civilian	平民
@@ -8680,7 +8680,7 @@ clotted	为块状物阻塞
 cloture	讨论终结提付表决
 cloud	云
 cloudburst	倾盆大雨
-clouded	阴
+clouded	阴的
 cloudiness	多云
 clouding	无光泽
 cloudless	晴朗
@@ -9119,7 +9119,7 @@ columba	天鸽座
 columbarium	骨灰安置所
 columbia	哥伦比亚
 columbian	哥伦比亚
-columbine	鸽
+columbine	鸽的
 columbus	哥伦布
 column	专栏
 columnar	圆柱
@@ -9441,7 +9441,7 @@ con	精读
 conan	科南
 concatenate	如锁链般连接
 concatenation	串联
-concave	凹
+concave	凹的
 concavity	中央凹陷
 conceal	隐藏
 concealed	隐蔽
@@ -10289,7 +10289,7 @@ corollary	必然的结果
 corona	冠
 coronagraph	日冕仪
 coronal	冠
-coronary	冠
+coronary	冠的
 coronation	加冕礼
 coronavirus	日冕形病毒
 coroner	验尸官
@@ -10863,7 +10863,7 @@ crimson	深红色
 cringe	畏缩
 cringing	奉承
 crinkle	皱
-crinkled	皱
+crinkled	皱的
 crinkly	起皱
 crinoline	裙衬
 criollo	生长于拉丁美洲各国的人
@@ -10874,7 +10874,7 @@ crippled	跛腿
 crippling	曲折
 cripps	克里普斯
 crisis	危机
-crisp	脆
+crisp	脆的
 crispbread	薄脆饼干
 crispin	鞋匠
 crisply	酥脆地
@@ -11684,7 +11684,7 @@ dea	数据交换协议
 deacon	副主祭
 deaconess	女执事
 deactivate	撤消遣散
-dead	死
+dead	死的
 deadbeat	赖债不还的人
 deaden	使减弱
 deadening	减弱
@@ -11700,7 +11700,7 @@ deadness	死
 deadpan	无表情的脸
 deadweight	自重
 deadwood	枯枝
-deaf	聋
+deaf	聋的
 deafen	使聋
 deafening	震耳欲聋
 deafeningly	震耳欲聋地
@@ -11774,7 +11774,7 @@ debut	初次登台
 debutant	初次登台的人
 debutante	初进社交界的少女/女子
 dec	美国数字电子公司
-decadal	十
+decadal	十的
 decade	十年
 decadence	颓废
 decadent	衰微
@@ -11926,7 +11926,7 @@ dee	D字形马具
 deed	行为
 deejay	播放音乐的人
 deem	认为
-deep	深
+deep	深的
 deep-seated	根深蒂固
 deepen	深化
 deepening	加深
@@ -12022,7 +12022,7 @@ defroster	除霜器
 deft	敏捷熟练
 deftly	灵巧地
 deftness	熟练
-defunct	死
+defunct	死的
 defuse	去掉的引信
 defy	藐视
 deg	程度
@@ -12368,7 +12368,7 @@ deprogrammer	消除受毒化思想的专家
 dept	部
 deptford	德特福德
 depth	深度
-depthless	浅
+depthless	浅的
 deputation	代理人的任命
 depute	指定代理人
 deputise	委为代表
@@ -12455,7 +12455,7 @@ deserved	应得
 deservedly	应得报酬地
 deserving	该受
 desiccate	使干
-desiccated	干
+desiccated	干的
 desiccation	干燥
 desiderata	<拉>迫切需要得到之物
 desideratum	所愿望之物
@@ -12879,14 +12879,14 @@ dim	暗淡
 dimbleby	人名
 dime	10分硬币(美
 dimension	尺寸
-dimensional	维
+dimensional	维的
 dimer	二聚物
 diminish	减少
 diminished	减退了
 diminishment	缩减
 diminuendo	渐弱演奏
 diminution	减少
-diminutive	小
+diminutive	小的
 dimitri	迪米特里
 dimity	麻纱
 dimly	微暗
@@ -13408,7 +13408,7 @@ distaff	卷线杆
 distain	使变色
 distal	末梢
 distance	距离
-distant	远
+distant	远的
 distantly	远
 distaste	讨厌
 distasteful	味道差
@@ -13526,7 +13526,7 @@ dividend	被除数
 divider	划分者
 divination	占卜
 divinatory	占卜
-divine	神
+divine	神的
 divinely	象神一样地
 diviner	占卜者
 diving	潜水
@@ -13795,7 +13795,7 @@ dornier	人名
 dorothea	多萝西娅
 dorothy	桃乐茜
 dorrit	人名
-dorsal	背
+dorsal	背的
 dorset	多塞特
 dorsum	背
 dortmund	多特蒙得
@@ -14143,7 +14143,7 @@ drunkenly	酒醉地
 drury	lane 特鲁里街(伦敦西区街名
 druthers	选择
 druze	德鲁士
-dry	干
+dry	干的
 dryad	树神
 dryden	屈莱顿
 dryer	干衣机
@@ -14221,14 +14221,14 @@ dukedom	公爵领土
 dulcet	悦目
 dulcie	达尔西
 dulcimer	洋琴
-dull	钝
+dull	钝的
 dullard	蠢人
 dully	钝地
 dulux	醇酸树脂
 dulwich	达利奇
 duly	恰当地
 duma	杜马
-dumb	哑
+dumb	哑的
 dumbarton	登巴顿
 dumbass	笨蛋
 dumbbell	哑铃
@@ -14295,7 +14295,7 @@ duodenum	十二指肠
 duomo	大教堂
 dup	打开
 dupe	傻瓜
-duplex	双
+duplex	双的
 duplicate	副本
 duplicated	复制
 duplication	副本
@@ -14428,10 +14428,10 @@ earl	伯爵
 earldom	伯爵的身分
 earle	厄尔
 earless	无耳
-earlier	早
-earliest	早
+earlier	早的
+earliest	早的
 earlobe	耳垂
-early	早
+early	早的
 earmark	耳上记号
 earn	赚得
 earned	挣得
@@ -14459,7 +14459,7 @@ earthshaking	惊天动地
 earthward	向地球
 earthwork	土木工事
 earthworm	蚯蚓
-earthy	土
+earthy	土的
 earwax	耳垢
 earwig	蠼螋
 earworm	螟蛉
@@ -14475,7 +14475,7 @@ eastbound	往东
 eastbourne	伊斯特本
 eastender	East End的变形
 easter	复活节
-easterly	东
+easterly	东的
 eastern	东方人
 easterner	东方人
 easternmost	最东部
@@ -14831,8 +14831,8 @@ electoral	选举人
 electorally	从选举方面来讲
 electorate	选民
 electra	多区无线电导航系统
-electric	电
-electrical	电
+electric	电的
+electrical	电的
 electrically	电力地
 electrician	电学家
 electricity	电
@@ -14885,7 +14885,7 @@ elements	原理
 elena	埃琳娜（女子名
 elephant	象
 elephantiasis	象皮病
-elephantine	象
+elephantine	象的
 elevate	举起
 elevated	提高
 elevation	海拔
@@ -15069,7 +15069,7 @@ emersonian	爱默生的拥护者或模仿者
 emery	金刚砂
 emetic	催吐剂
 emf	电动势
-emic	位
+emic	位的
 emigrant	移民
 emigrate	移居
 emigration	移民
@@ -15150,7 +15150,7 @@ empson	恩普森
 emptied	耗尽
 emptily	空虚地
 emptiness	空虚
-empty	空
+empty	空的
 empty-handed	空手
 empyreal	最高天
 empyrean	最高天
@@ -15419,7 +15419,7 @@ entangled	卷入
 entanglement	纠缠
 entente	协定
 enter	进入
-enteric	肠
+enteric	肠的
 enteritis	肠炎
 enterocyte	肠上皮细胞
 enterprise	企业
@@ -15477,7 +15477,7 @@ entrepot	仓库
 entrepreneur	企业家
 entrepreneurial	创业
 entrepreneurship	企业家能力/职能
-entropic	熵
+entropic	熵的
 entropy	熵
 entrust	信托
 entry	登录
@@ -15512,7 +15512,7 @@ envy	羡慕
 enwrap	围绕
 enya	恩雅
 enzo	恩佐
-enzymatic	酶
+enzymatic	酶的
 enzyme	酶
 eocene	始新世
 eoin	人名
@@ -15836,9 +15836,9 @@ ethane	乙烷
 ethanol	乙醇
 ethel	埃塞尔
 ether	醚
-ethereal	轻
+ethereal	轻的
 ethereally	轻妙地
-etheric	醚
+etheric	醚的
 ethernet	以太网
 ethic	道德规范
 ethical	伦理
@@ -16027,7 +16027,7 @@ evesham	伊夫舍姆
 evian	法国依云矿泉水
 evict	逐出
 eviction	逐出
-evidence	根据
+evidence	证据
 evident	显然
 evidential	证据
 evidentiary	证据
@@ -16301,7 +16301,7 @@ expendable	可消费
 expenditure	开支
 expense	费用
 expenses	开支
-expensive	贵
+expensive	贵的
 expensively	昂贵地
 experience	经历
 experienced	富有经验
@@ -16404,7 +16404,7 @@ extending	扩展
 extensible	可展开
 extension	延长
 extensional	外延
-extensive	广
+extensive	广的
 extensively	广大
 extensor	伸肌
 extent	范围
@@ -16747,7 +16747,7 @@ fantasy	幻想
 fantasyland	梦境
 fanzine	爱好者杂志
 fao	粮食及农业组织
-far	远
+far	远的
 far-reaching	深远
 faraday	法拉第
 farah	法拉赫
@@ -16804,7 +16804,7 @@ fashanu	人名
 fashion	流行
 fashionable	时髦
 fashionably	时髦地
-fashioned	式
+fashioned	式的
 fashionista	非常时髦的人
 faso	人名
 fast	快速
@@ -16974,7 +16974,7 @@ feet	脚
 feetham	人名
 fei	发射误差指示器
 feign	假装
-feigned	假
+feigned	假的
 feinstein	范斯坦
 feint	伪装
 feistiness	易怒
@@ -16986,7 +16986,7 @@ felicitate	庆祝
 felicitous	巧妙
 felicitously	恰当地
 felicity	快乐
-feline	猫
+feline	猫的
 felipe	人名
 felix	菲力克斯
 felixstowe	费力克斯托港
@@ -17066,12 +17066,12 @@ ferrero	费列罗
 ferrers	人名
 ferret	白鼬
 ferrete	人名
-ferric	铁
+ferric	铁的
 ferrier	人名
 ferries	渡船
 ferris	费理斯
 ferromagnetic	铁磁体
-ferrous	铁
+ferrous	铁的
 ferrule	金属手杖
 ferry	渡船
 ferryboat	渡船
@@ -17085,9 +17085,9 @@ fertilization	使肥沃
 fertilize	施肥
 fertilized	已受精
 fertilizer	肥料
-fervent	热
+fervent	热的
 fervently	热烈地
-fervid	热
+fervid	热的
 fervor	热情
 fervour	炽热
 fescue	教鞭
@@ -17605,11 +17605,11 @@ fleming	佛兰芒人
 flemish	佛兰德人
 flesh	肉
 fleshiness	肥胖
-fleshless	瘦
+fleshless	瘦的
 fleshly	肉体
 fleshpot	煮肉锅
 fleshpots	美食
-fleshy	肉
+fleshy	肉的
 fletcher	弗莱彻（姓氏
 fleur	粉状填料
 fleury	饰以百合花纹
@@ -17697,7 +17697,7 @@ florid	华丽
 florida	佛罗里达州
 florin	弗罗林
 florist	花匠
-floristic	花
+floristic	花的
 florrie	弗洛丽
 floss	丝棉
 flotilla	小舰队
@@ -17773,7 +17773,7 @@ flybridge	驾驶桥楼
 flyby	在低空飞过指定地点
 flycatcher	捕蝇器
 flyer	飞鸟
-flying	飞
+flying	飞的
 flyleaf	飞页
 flyover	立交桥
 flypaper	捕蝇纸
@@ -18008,7 +18008,7 @@ forfar	人名
 forfeit	没收物
 forfeiture	没收物
 forge	熔炉
-forged	锻
+forged	锻的
 forger	铁匠
 forgery	伪造
 forget	忘记
@@ -18052,7 +18052,7 @@ forme	印版
 formed	成形
 former	从前
 formerly	从前
-formic	蚁
+formic	蚁的
 formica	胶木
 formidable	巨大
 formidably	可怕地
@@ -18741,7 +18741,7 @@ galleried	有长廊
 gallery	走廊
 galley	战舰
 galliano	加利安奴香草甜酒
-gallic	瘿
+gallic	瘿的
 galling	擦伤人
 gallipoli	加利波利
 gallium	镓
@@ -18897,7 +18897,7 @@ gasset	人名
 gassing	放气
 gassy	气体
 gaston	加斯顿
-gastric	胃
+gastric	胃的
 gastritis	胃炎
 gastroenteritis	肠胃炎
 gastroenterologist	胃肠病学家
@@ -19315,7 +19315,7 @@ gimmick	暗机关
 gimmickry	花招
 gimmicky	巧妙手法
 gimp	绒丝带
-gimpy	瘸
+gimpy	瘸的
 gin	杜松子酒
 gina	吉娜
 ginger	姜
@@ -19379,7 +19379,7 @@ giza	吉萨
 gizmo	小发明
 gizzard	砂囊
 gk	车库里做出的模型
-glacial	冰
+glacial	冰的
 glacially	冰川地
 glaciated	冻结成冰
 glaciation	冻结成冰
@@ -19409,10 +19409,10 @@ glamorously	令人向往地
 glamour	魅力
 glamourous	迷人
 glance	一瞥
-glancing	斜
+glancing	斜的
 glancingly	随便地
 gland	腺
-glandular	腺
+glandular	腺的
 glanville	人名
 glare	闪耀光
 glaring	闪耀
@@ -19486,7 +19486,7 @@ gloaming	夕幕
 gloat	满足地看
 gloating	心满意足
 glob	一滴
-global	通用
+global	全球
 globalisation	全球化
 globalism	全球主义
 globalize	使全球化
@@ -19651,7 +19651,7 @@ gold	黄金
 goldberg	犹太老板
 goldblum	人名
 goldbrick	逃避工作
-golden	金
+golden	金的
 goldenrod	一种黄花属植物
 goldfield	采金区
 goldfinch	红额金翅雀
@@ -19937,7 +19937,7 @@ grapevine	葡萄藤
 graph	曲线图
 grapheme	书写单位
 graphic	生动
-graphical	图
+graphical	图的
 graphically	生动地
 graphics	制图法
 graphite	石墨
@@ -19950,7 +19950,7 @@ graptolite	笔石( 古元脊椎动物
 grasmere	格拉斯米尔
 grasp	把握
 graspable	能理解
-grasping	抓
+grasping	抓的
 grass	草
 grasshopper	蚱蜢
 grassland	牧草地
@@ -20020,7 +20020,7 @@ greaseproof	不透油
 greaser	加油脂/涂油脂的工人
 greasewood	黑肉叶刺茎藜
 greasy	油腻
-great	大
+great	大的
 greatcoat	厚大衣
 greatly	很
 greatness	大
@@ -20127,7 +20127,7 @@ grifter	赌棍
 grigg	格里格
 grill	烤架
 grille	格子
-grilled	烤
+grilled	烤的
 grilling	格栅
 grillwork	格子形图案
 grim	冷酷
@@ -20153,7 +20153,7 @@ griot	（西非
 grip	紧握
 gripe	紧握
 gripper	握者
-gripping	抓
+gripping	抓的
 grippy	<口>患流行性感冒
 gris	网格资源信息服务
 grisaille	纯以灰色的装饰画法
@@ -20191,7 +20191,7 @@ grooming	修饰
 groomsman	男傧相
 groove	凹槽
 grooved	带纹道
-groovy	槽
+groovy	槽的
 grope	摸索
 groping	暗中摸索
 gros	横棱绸
@@ -20207,7 +20207,7 @@ grotesque	奇异风格
 grotesquely	奇异地
 grotesquerie	怪异图案
 grotto	洞穴
-grotty	坏
+grotty	坏的
 grouch	脾气的发作
 groucho	人名
 grouchy	不高兴
@@ -20661,7 +20661,7 @@ halsey	人名
 halstead	霍尔斯特德
 halt	停止
 halter	缰绳
-halting	跛
+halting	跛的
 haltingly	迟疑不决地
 halton	人名
 halve	二等分
@@ -20848,7 +20848,7 @@ hardening	硬化
 hardest	极难
 hardhat	建筑工人
 hardheaded	不易激动
-hardie	难
+hardie	难的
 hardihood	胆大无敌
 hardiness	强壮
 harding	哈丁
@@ -20867,7 +20867,7 @@ hardwearing	经久耐穿
 hardwicke	人名
 hardwood	硬木
 hardworking	苦干
-hardy	难
+hardy	难的
 hare	野兔
 harebell	圆叶风铃草
 harebrained	轻率
@@ -21208,7 +21208,7 @@ heartwarming	暖人心房
 heartwood	心材
 hearty	诚恳
 heat	热
-heated	热
+heated	热的
 heatedly	加热地
 heater	加热器
 heath	石南荒原
@@ -21234,7 +21234,7 @@ heavenwards	向天空
 heavily	很重地
 heaviness	重
 heaving	举起
-heavy	重
+heavy	重的
 heavy-duty	重型
 heavy-handed	笨手笨脚
 heavy-handedness	笨手笨脚
@@ -21276,7 +21276,7 @@ heeler	制做鞋跟的工人
 heelpiece	鞋后跟
 heffer	人名
 heft	重量
-hefty	重
+hefty	重的
 hegarty	赫加蒂
 hegel	黑格尔
 hegelian	黑格尔
@@ -21518,7 +21518,7 @@ herrick	赫里克
 herring	青鱼
 herringbone	鲱鱼鱼骨
 herriot	赫里欧(①姓氏 ②Edouard
-hers	她
+hers	她的
 herschel	赫歇尔
 herself	她自己
 hersh	赫什
@@ -21804,7 +21804,7 @@ hnc	国家高级合格证书
 hnd	国家高等技术学校毕业证书
 ho	嗬
 hoagie	<美>=hero sandwich
-hoar	白
+hoar	白的
 hoard	贮藏物
 hoarder	囤积者
 hoarding	贮藏
@@ -22116,7 +22116,7 @@ hornpipe	号笛
 hornsby	人名
 hornsey	霍恩西
 hornworm	天蛾幼虫
-horny	角
+horny	角的
 horology	测时法
 horoscope	星占
 horowitz	霍罗威茨
@@ -22151,11 +22151,11 @@ horseshit	胡说
 horseshoe	马蹄铁
 horsetail	马尾
 horsewoman	女骑马者
-horsey	马
+horsey	马的
 horsham	霍舍姆
 horsley	霍斯利
 horst	地垒
-horsy	马
+horsy	马的
 hortative	劝告
 hortatory	激励
 horticultural	园艺
@@ -22193,7 +22193,7 @@ hostile	敌人
 hostilities	战争行动
 hostility	敌意
 hosting	作战
-hot	热
+hot	热的
 hotbed	温床
 hotchpotch	什锦浓汤
 hotdog	卖弄
@@ -22715,7 +22715,7 @@ icosahedral	二十面
 icosahedron	二十面体
 icrc	国际红十字委员会
 ics	国际外科医生协会
-icy	冰
+icy	冰的
 id	遗传素质
 idaho	爱达荷州
 idb	illicit diamond buying <南非>违法购买金刚石
@@ -22794,7 +22794,7 @@ iglesia	人名
 igloo	圆顶建筑
 igm	instantaneous gain modulation 瞬时增益调制
 ignatius	伊格内修斯
-igneous	火
+igneous	火的
 ignite	点燃
 igniter	点火器
 ignition	点火
@@ -23702,7 +23702,7 @@ infinitesimally	无限小地
 infinitive	不定式
 infinitude	无限
 infinity	无限大
-infirm	弱
+infirm	弱的
 infirmary	医院
 infirmity	虚弱
 inflame	激怒
@@ -24071,7 +24071,7 @@ insufferably	不能忍受地
 insufficiency	不充分
 insufficient	不够
 insufficiently	不够地
-insular	岛
+insular	岛的
 insularity	岛屿生活状况
 insulate	使绝缘
 insulated	隔热
@@ -24353,7 +24353,7 @@ interweave	交织
 interwoven	互相编织
 intestacy	未留遗嘱而死亡
 intestate	没有遗嘱
-intestinal	肠
+intestinal	肠的
 intestine	内部
 intifada	以色列占领区的巴勒斯坦人暴动
 intimacy	亲密
@@ -25222,7 +25222,7 @@ jotting	简短的笔记
 joubert	人名
 joule	焦耳
 jounce	震动
-journal	日记
+journal	期刊
 journalism	新闻业
 journalist	新闻记者
 journalistic	新闻业
@@ -26040,7 +26040,7 @@ label	标签
 labeled	有标签
 labelled	贴上标签
 labia	唇
-labial	唇
+labial	唇的
 labile	不安定
 labor	劳动
 laboratory	实验室
@@ -26079,13 +26079,13 @@ lacklustre	无光泽
 laconic	简洁
 laconically	简洁地
 lacquer	瓷漆
-lacrimal	泪
+lacrimal	泪的
 lacroix	人名
 lacrosse	长曲棍球
 lactase	乳糖酶
 lactate	分泌乳汁
 lactation	分泌乳汁
-lactic	乳
+lactic	乳的
 lactose	乳糖
 lacuna	空白
 lacustrine	湖泊
@@ -26252,7 +26252,7 @@ languor	怠惰
 languorous	怠惰
 languorously	疲倦地
 langur	叶猴
-lank	瘦
+lank	瘦的
 lanka	兰卡
 lanky	瘦长
 lanolin	羊毛脂
@@ -26286,7 +26286,7 @@ larceny	盗窃罪
 larch	落叶松属植物
 lard	猪油
 larder	食物橱
-large	大
+large	大的
 large-scale	大规模
 largely	大量地
 largeness	巨大
@@ -26338,7 +26338,7 @@ laszlo	拉斯洛
 lat	拉特
 latch	门闩
 latchkey	弹簧锁钥匙
-late	迟
+late	迟的
 late-night	深夜
 latecomer	迟到者
 lately	近来
@@ -26456,7 +26456,7 @@ lawsuit	诉讼
 lawton	劳顿
 lawyer	律师
 lawyerly	如律师
-lax	松
+lax	松的
 laxative	通便
 laxity	松弛
 laxton	人名
@@ -26523,7 +26523,7 @@ leaguer	围攻
 leah	利亚
 leak	漏洞
 leakage	漏
-leaked	漏
+leaked	漏的
 leakey	李基
 leaky	有漏洞
 leal	忠实
@@ -26665,7 +26665,7 @@ legless	无腿
 lego	乐高积木
 legroom	放脚空间
 legume	豆类
-leguminous	豆
+leguminous	豆的
 legwork	<口>外出搜集情况的工作(如新闻采访
 lehman	雷曼
 lehmann	莱曼
@@ -27067,13 +27067,13 @@ lindley	人名
 lindsay	琳赛〔女子名）
 lindsey	林德赛
 lindy	跳林迪舞
-line	列
+line	线
 line-up	一排人
 lineage	血统
 lineal	直系
 lineament	容貌
 lineaments	<正>特征
-linear	线
+linear	线的
 linearity	线性
 linearly	线
 linebacker	中后卫球员
@@ -27094,7 +27094,7 @@ lingering	拖延
 lingeringly	延迟地
 lingo	外国话
 lingua	舌
-lingual	舌
+lingual	舌的
 linguine	扁面条
 linguini	扁面条
 linguist	语言学家
@@ -27213,7 +27213,7 @@ little	一点点
 littlehampton	利特尔汉普顿
 littlejohn	人名
 littleness	些许
-littler	小
+littler	小的
 littleton	利特尔顿
 littlewood	人名
 litton	利顿
@@ -27224,7 +27224,7 @@ liturgy	礼拜仪式
 liu	线路接口单元
 livability	存活率
 livable	生活过得有价值
-live	活
+live	活的
 liveable	生活过得有价值
 livelihood	生计
 liveliness	活泼
@@ -27362,7 +27362,7 @@ loft	阁楼
 loftily	高尚地
 loftiness	高尚
 loftus	洛夫特斯
-lofty	高
+lofty	高的
 log	记录
 logan	洛根
 logarithm	对数
@@ -27418,7 +27418,7 @@ loneliness	寂寞
 lonely	孤单
 loner	喜孤独的人
 lonesome	寂寞
-long	长
+long	长的
 long-distance	长途
 long-lasting	持久
 long-range	远程
@@ -27478,7 +27478,7 @@ loose	发射
 looseleaf	活页式
 loosely	松弛地
 loosen	放松
-loosened	松
+loosened	松的
 looseness	松
 loosestrife	珍珠菜
 loot	赃物
@@ -27599,7 +27599,7 @@ lowbrow	教养浅薄
 lowdown	内幕
 lowe	劳氏
 lowell	洛厄尔（男子名
-lower	低
+lower	低的
 lowercase	小写字母
 lowering	皱眉
 lowermost	最低
@@ -27642,7 +27642,7 @@ lubricate	使润滑
 lubricated	喝醉了
 lubricating	润滑
 lubrication	润滑
-lubricious	滑
+lubricious	滑的
 luc	人名
 luca	卢卡
 lucan	卢坎
@@ -27706,7 +27706,7 @@ lull	暂停
 lullaby	摇篮曲
 lulu	卓越的人
 lumbago	腰痛
-lumbar	腰
+lumbar	腰的
 lumber	木材
 lumbering	伐木
 lumberjack	伐木工人
@@ -27755,7 +27755,7 @@ lungful	两肺的容量
 lunker	同类中特别大的东西
 lunn	人名
 lupin	羽扇豆
-lupine	狼
+lupine	狼的
 lupton	人名
 lupus	狼疮
 lurch	惨败
@@ -28309,7 +28309,7 @@ mandelson	人名
 mander	曼德
 mandeville	曼德维尔
 mandible	颚
-mandibular	颚
+mandibular	颚的
 mandir	寺庙
 mandolin	曼陀林
 mandoline	曼陀林
@@ -28533,7 +28533,7 @@ marisa	玛丽莎
 marist	玛利亚会会员
 marital	丈夫
 maritima	人名
-maritime	海
+maritime	海的
 marius	马吕斯
 marjoram	墨角兰
 marjorie	马乔里
@@ -28859,7 +28859,7 @@ mawson	莫森(①姓氏 ②Sir Douglas
 maxey	人名
 maxi	长大衣
 maxilla	颌
-maxillary	颌
+maxillary	颌的
 maxim	格言
 maximal	最大
 maximalist	俄国多数派成员
@@ -29034,7 +29034,7 @@ meadowsweet	绣线菊属植物
 meads	人名
 meager	质量差
 meagerly	瘦地
-meagre	瘦
+meagre	瘦的
 meal	一餐
 mealie	玉米
 mealtime	进餐时间
@@ -29076,7 +29076,7 @@ meathead	笨蛋
 meatless	无肉
 meatloaf	烘肉卷
 meatus	口
-meaty	肉
+meaty	肉的
 meaux	人名
 mecca	麦加
 meccano	钢件结构玩具
@@ -29195,7 +29195,7 @@ mehta	梅塔
 mei	技术细则手册
 meier	迈耶
 meikle	多
-mein	我
+mein	我的
 meiosis	成熟分裂
 meir	迈尔
 mek	Methyl Ethyl Ketone 甲基乙基酮
@@ -29247,7 +29247,7 @@ melvyn	人名
 member	成员
 membership	会员的资格
 membrane	薄膜
-membranous	膜
+membranous	膜的
 memento	纪念物
 memet	人名
 memo	备忘录
@@ -29342,7 +29342,7 @@ mercurial	水星
 mercuric	水银
 mercury	水银
 mercy	仁慈
-merde	脏
+merde	脏的
 mere	小湖
 meredith	梅雷迪思
 merely	只
@@ -29430,7 +29430,7 @@ metabolise	使物质替换
 metabolism	新陈代谢
 metabolite	代谢物
 metabolize	使物质交替
-metacarpal	掌
+metacarpal	掌的
 metacognition	元认知
 metacognitive	元认知
 metafiction	超小说(现代小说流派或其作品
@@ -30151,7 +30151,7 @@ mobilization	动员
 mobilize	动员
 mobster	犯罪集团成员
 mobutu	人名
-moby	大
+moby	大的
 moccasin	鹿皮鞋
 mocha	穆哈上等咖啡
 mochi	<日>n.糯米团[日文汉字：饼]
@@ -30763,7 +30763,7 @@ muck	垃圾
 mucking	清理坍方
 muckraker	探听丑闻的人
 muckraking	刺探并散布名人的“丑闻”
-mucky	粪
+mucky	粪的
 mucociliary	黏膜纤毛
 mucosa	粘膜
 mucous	粘液
@@ -30908,7 +30908,7 @@ munroe	芒罗
 munster	明斯特
 muppet	提线木偶
 murad	穆拉德
-mural	壁
+mural	壁的
 muralist	壁画家
 murchison	默奇森河
 murder	谋杀
@@ -30921,7 +30921,7 @@ murdoch	默多克
 murdock	人名
 muriel	穆里尔
 murine	鼠科
-murk	暗
+murk	暗的
 murkily	黝暗地
 murkiness	黝暗
 murky	黝暗
@@ -31197,7 +31197,7 @@ narwhal	独角鲸
 nary	连也没有
 nas	全国科学院
 nasa	国家航空和宇宙航行局
-nasal	鼻
+nasal	鼻的
 nasally	鼻声地
 nascent	发生中
 naseby	纳斯比
@@ -31320,7 +31320,7 @@ neandertal	穴居人
 neanderthal	穴居人
 neap	小潮
 neapolitan	那不勒斯
-near	近
+near	近的
 nearby	附近
 nearer	较近
 nearly	几乎
@@ -31563,7 +31563,7 @@ nevill	人名
 neville	内维尔
 nevin	内文(姓氏
 nevis	尼维斯岛
-new	新
+new	新的
 newall	人名
 newark	纽瓦克市
 newborn	婴儿
@@ -31781,15 +31781,15 @@ nit	没用的人
 nite	夜间
 nitpick	挑剔
 nitrate	硝酸盐
-nitric	氮
+nitric	氮的
 nitride	氮化物
 nitrification	氮化合
 nitrite	亚硝酸盐
 nitro	硝基
 nitrogen	氮
-nitrogenous	氮
+nitrogenous	氮的
 nitroglycerine	硝化甘油
-nitrous	氮
+nitrous	氮的
 nitty	多虱卵
 nitwit	笨人
 nivea	妮维雅
@@ -31822,10 +31822,10 @@ noblewoman	女贵族
 nobly	华丽地
 nobody	小人物
 nock	作凹痕于
-nocturnal	夜
+nocturnal	夜的
 nocturne	夜曲
 nod	点头
-nodal	节
+nodal	节的
 nodding	点头
 noddy	笨人
 node	节
@@ -32165,12 +32165,12 @@ nuclear	核子
 nuclearization	提供核武器[核动力]
 nucleate	成核
 nuclei	核心
-nucleic	核
+nucleic	核的
 nucleon	核子
 nucleotide	核苷酸
 nucleus	核心
 nuclide	核素
-nude	裸
+nude	裸的
 nudge	用肘轻推
 nudist	裸体主义者
 nudity	裸露
@@ -32316,7 +32316,7 @@ objectification	客观化
 objectify	使客观化
 objection	异议
 objectionable	会引起反对
-objective	目
+objective	目的
 objectively	客观地
 objectives	目标
 objectivism	客观主义
@@ -32333,7 +32333,7 @@ oblige	强制
 obliged	感激
 obliging	乐于施惠
 obligingly	亲切地
-oblique	斜
+oblique	斜的
 obliquely	斜
 obliquity	倾斜
 obliterate	擦去
@@ -32398,7 +32398,7 @@ obtain	获得
 obtainable	能得到
 obtrude	逼使
 obtrusive	强迫人
-obtuse	钝
+obtuse	钝的
 obtuseness	感觉迟钝
 obverse	(钱币
 obviate	除去
@@ -32573,13 +32573,13 @@ oilfield	油田
 oiliness	油质
 oilman	石油工人
 oilskin	油布
-oily	油
+oily	油的
 oink	猪叫声
 ointment	软膏
 ok	好
 okapi	霍加皮
 okay	好
-oke	好
+oke	好的
 okhotsk	鄂霍次克海
 okinawa	冲绳县
 okinawan	冲绳人
@@ -32590,7 +32590,7 @@ olaf	奥拉夫
 old	老
 old-style	旧式
 old-time	从前
-olde	古
+olde	古的
 olden	古时
 oldenburg	奥尔登堡
 oldfield	奥德菲尔德
@@ -32681,7 +32681,7 @@ one-sided	只有一边
 one-time	以前
 one-to-one	一对一
 one-way	单行道
-oneiric	梦
+oneiric	梦的
 oneness	单一性
 onerous	繁重
 oneself	自己
@@ -33016,7 +33016,7 @@ osmosis	渗透作用
 osmotic	渗透
 osprey	白色的羽毛
 oss	航天科学局
-osseous	骨
+osseous	骨的
 ossetia	奥塞梯[苏联高加索一地区]
 ossicle	听小骨
 ossie	& adj.<俚> = Australian
@@ -33062,7 +33062,7 @@ otherwise	否则
 otherworld	冥界
 otherworldliness	来世
 otherworldly	来世
-otic	耳
+otic	耳的
 otiose	不必要
 otis	奥蒂斯
 otitis	耳炎
@@ -33078,7 +33078,7 @@ oubliette	地下密牢
 ouch	哎唷
 oud	乌得琴(中东和北非的一种弦乐器
 ought	应该
-oui	是
+oui	是的
 ouija	占卜板
 ould	人名
 ounce	盎司
@@ -33546,7 +33546,7 @@ paignton	佩恩顿
 pail	桶
 pain	痛苦
 paine	佩因（姓氏
-pained	痛
+pained	痛的
 painful	痛苦
 painfully	痛苦地
 painkiller	解痛药
@@ -34258,7 +34258,7 @@ peckham	人名
 peckish	有点饥饿
 pecorino	佩科里诺干酪
 pectin	果胶
-pectoral	胸
+pectoral	胸的
 peculate	挪用
 peculiar	奇特
 peculiarity	特质
@@ -34757,7 +34757,7 @@ petersburg	彼得斯堡
 petersen	人名
 peterson	彼得森
 petiole	叶柄
-petite	小
+petite	小的
 petition	请愿
 petitioner	请愿人
 petits	细小
@@ -34835,7 +34835,7 @@ pharmacologist	药理学家
 pharmacology	药理学
 pharmacopoeia	药典
 pharmacy	药房
-pharyngeal	咽
+pharyngeal	咽的
 pharynx	咽
 phase	时期
 phased	定相
@@ -34845,7 +34845,7 @@ phelan	费伦
 phelps	费尔普斯
 phenobarbital	苯巴比妥
 phenol	苯酚
-phenolic	酚
+phenolic	酚的
 phenology	物候学
 phenom	杰出人才
 phenomena	现象
@@ -34912,7 +34912,7 @@ phlebitis	静脉炎
 phlebotomy	静脉切开术
 phlegm	痰
 phlegmatic	粘液质
-phlegmy	痰
+phlegmy	痰的
 phlogiston	燃素
 phlox	福禄考
 phnom	山
@@ -34931,8 +34931,8 @@ phonetic	语音
 phonetically	按照发音地
 phonetician	语音学者
 phonetics	语音学
-phoney	假
-phonic	音
+phoney	假的
+phonic	音的
 phonics	声学
 phoniness	虚假
 phonogram	音符
@@ -34951,7 +34951,7 @@ phospholipid	磷脂体
 phosphor	金星
 phosphorescence	磷光
 phosphorescent	发出磷光
-phosphoric	磷
+phosphoric	磷的
 phosphorous	亚磷
 phosphorus	启明星
 phosphorylate	使磷酸化
@@ -35279,7 +35279,7 @@ pit	深坑
 pita	皮塔饼
 pitbull	斗牛犬
 pitch	程度
-pitched	斜
+pitched	斜的
 pitcher	有把的大罐
 pitchfork	干草叉
 pitching	护坡
@@ -35608,7 +35608,7 @@ pneumatically	充气地
 pneumatological	pneumatology的变形
 pneumatology	灵物学
 pneumonia	肺炎
-pneumonic	肺
+pneumonic	肺的
 pneumothorax	气胸
 png	可移植的网络图象文件格式
 po	邮局
@@ -35635,8 +35635,8 @@ poe	载货港
 poem	诗
 poet	诗人
 poetess	女诗人
-poetic	诗
-poetical	诗
+poetic	诗的
+poetical	诗的
 poetically	理想化地
 poetics	诗学
 poetry	诗
@@ -35649,7 +35649,7 @@ poindexter	人名
 poinsettia	一品红
 point	点
 point-blank	直射
-pointed	尖
+pointed	尖的
 pointedly	指向地
 pointer	指示物
 pointillism	点彩画法
@@ -35657,7 +35657,7 @@ pointless	不尖
 pointlessly	无意义地
 pointlessness	无意义
 pointon	人名
-pointy	尖
+pointy	尖的
 poirot	白罗
 poise	平衡
 poised	平衡
@@ -35903,7 +35903,7 @@ por	返回后付款
 porcelain	瓷器
 porch	门廊
 porchester	人名
-porcine	猪
+porcine	猪的
 porcupine	豪猪
 pore	毛孔
 pork	猪肉
@@ -36117,7 +36117,7 @@ poverty	贫穷
 pow	战俘
 powder	粉
 powdered	弄成粉末
-powdery	粉
+powdery	粉的
 powell	鲍威尔
 power	力
 power-sharing	权力分享
@@ -36311,7 +36311,7 @@ prefabricated	（建筑物
 preface	序
 prefatory	前言
 prefect	长官
-prefectural	县
+prefectural	县的
 prefecture	地方长官的职位
 prefer	宁可
 preferable	更可取
@@ -37081,7 +37081,7 @@ psalm	圣诗
 psalmist	赞美诗作者
 psalter	诗篇歌集
 psbr	public sector borrowing requirement 公共部门借贷需要
-pseudo	假
+pseudo	假的
 pseudonym	假名
 pseudonymous	使用笔名
 pseudopod	假足
@@ -37229,7 +37229,7 @@ pullman	普尔曼式卧车
 pullout	拔
 pullover	套衫
 pullulate	发芽
-pulmonary	肺
+pulmonary	肺的
 pulmonologist	胸腔科医师
 pulp	果肉
 pulpit	讲道坛
@@ -37300,7 +37300,7 @@ puny	微小
 pup	小狗
 pupa	蛹
 pupae	蛹
-pupal	蛹
+pupal	蛹的
 pupate	化蛹
 pupfish	鳉
 pupil	学生
@@ -37316,7 +37316,7 @@ purchased	已经购买
 purchaser	买方
 purdah	窗帘
 purdy	人名
-pure	纯
+pure	纯的
 purebred	纯种
 pured	纯粹
 puree	菜泥
@@ -37350,7 +37350,7 @@ purplish	略带紫色
 purport	意义
 purported	传说
 purportedly	据称
-purpose	目
+purpose	目的
 purpose-built	为特定目的而造
 purposeful	有目的
 purposefully	自觉地
@@ -37370,7 +37370,7 @@ pursuant	依据
 pursue	追赶
 pursuer	追赶者
 pursuit	追踪
-purulent	脓
+purulent	脓的
 purvey	供给
 purveyor	承办伙食者
 purview	范围
@@ -37592,7 +37592,7 @@ quibble	遁词
 quibbling	诡辩
 quich	Quichua 盖丘亚族
 quiche	乳蛋饼
-quick	快
+quick	快的
 quicken	加快
 quickening	胎动初期
 quicker	快些
@@ -38086,7 +38086,7 @@ re-examine	再检查
 re-run	重复
 rea	农村电气化管理局
 reabsorption	重吸收
-reach	伸出
+reach	到达
 reaches	河段
 reacquaint	重新认识
 react	起反应
@@ -38122,7 +38122,7 @@ reagan	里根
 reaganesque	里根式
 reaganite	里根工作班子成员
 reagent	试剂
-real	真
+real	真的
 realign	vi. 重新排列
 realignment	重新排列
 realisable	<主英>=realizable
@@ -38384,7 +38384,7 @@ recusant	不服从权威
 recuse	要求撤换
 recyclable	可循环再用
 recycle	使再循环
-red	红
+red	红的
 red-hot	炽热
 redaction	编辑
 redbird	红雀
@@ -38612,7 +38612,7 @@ regicide	弑君
 regime	政权
 regimen	养生法
 regiment	团
-regimental	团
+regimental	团的
 regimentation	团的编制
 regimented	受到严格管制
 regina	女王
@@ -38868,7 +38868,7 @@ remould	重新塑造
 remount	再骑上
 removable	可移去
 removal	移动
-remove	移动
+remove	移除
 removed	离开
 remover	移转者
 remunerate	给与报酬
@@ -39143,7 +39143,7 @@ resistance	抵抗力
 resistant	抵抗者
 resister	抵抗者
 resistible	可抵抗
-resistive	抗
+resistive	抗的
 resistivity	抵抗力
 resistor	电阻器
 resit	<英> vt.再参加
@@ -39689,7 +39689,7 @@ ripon	里彭
 riposte	还击
 ripped	喝醉
 ripper	撕裂者
-ripping	撕
+ripping	撕的
 ripple	涟波
 rippling	起涟漪
 rippon	人名
@@ -39734,7 +39734,7 @@ riverbank	河堤
 riverbed	河床
 riverboat	江河中行驶的船
 riverfront	河边地区
-riverine	河
+riverine	河的
 rivers	里弗斯
 riverside	河边
 riverway	河道
@@ -39776,7 +39776,7 @@ roan	沙毛
 roar	吼
 roaring	吼声
 roast	烤肉
-roasted	烤
+roasted	烤的
 roaster	炙烤的人
 roasting	非常热
 rob	抢夺
@@ -39842,7 +39842,7 @@ rod	竿
 roddick	人名
 roddy	罗迪
 roden	罗登
-rodent	咬
+rodent	咬的
 rodeo	竞技表演
 roderick	罗德里克
 rodger	罗杰
@@ -40044,7 +40044,7 @@ rototiller	旋耕机商标名
 rotten	腐烂
 rotter	无赖
 rottweiler	罗特韦尔犬
-rotund	圆
+rotund	圆的
 rotunda	圆形建筑
 rouble	卢布
 rouen	鲁昂
@@ -40169,7 +40169,7 @@ rudd	红眼鱼
 rudder	舵
 rudderless	无指导
 ruddock	知更鸟
-ruddy	红
+ruddy	红的
 rude	粗鲁无礼
 rudely	无礼地
 rudeness	无礼
@@ -40336,7 +40336,7 @@ sabre	军刀
 sabrina	塞布丽娜
 sac	囊
 saccharin	糖精
-saccharine	糖
+saccharine	糖的
 sacco	萨科
 saccule	小囊
 sacerdotal	僧侣
@@ -40436,7 +40436,7 @@ saintly	圣洁
 saith	says的古体
 sak	人名
 sakata	坂田
-sake	目
+sake	目的
 sakhalin	库页岛
 sakharov	人名
 sal	婆罗双树
@@ -40481,7 +40481,7 @@ saliferous	含盐
 salim	萨利姆
 salina	烟碱滩
 salinas	萨利纳斯
-saline	盐
+saline	盐的
 salinity	盐性
 salisbury	索尔兹伯里市（津巴布韦
 saliva	唾液
@@ -40611,7 +40611,7 @@ sandstone	沙岩
 sandstorm	沙暴
 sandvik	山特维克
 sandwich	三明治
-sandy	沙
+sandy	沙的
 sane	神智健全
 sanford	桑福德
 sanger	桑格(①姓氏 ②Frederick
@@ -41121,7 +41121,7 @@ scratcher	抓扒者
 scratching	擦伤
 scratchy	潦草
 scrawl	潦草地写
-scrawny	瘦
+scrawny	瘦的
 scream	尖叫声
 screamer	尖声叫喊的人
 screaming	发出尖叫声
@@ -41367,7 +41367,7 @@ secularist	现世主义者
 secularity	世俗主义
 secularization	俗化
 secularize	使世俗化
-secure	无虑
+secure	安全
 secured	有担保
 securely	安全地
 securing	固定住
@@ -41518,7 +41518,7 @@ sellars	人名
 selleck	赛莱克
 seller	销售者
 sellers	塞勒斯
-selling	卖
+selling	卖的
 sellotape	透明胶带
 sellout	脱销
 selly	人名
@@ -41727,7 +41727,7 @@ serotonergic	含血清素
 serotonin	血清素
 serous	如水
 serpent	巨蛇座
-serpentine	蛇
+serpentine	蛇的
 serps	国家收入关联养老金计划
 serrano	人名
 serrate	锯齿状
@@ -41811,7 +41811,7 @@ sextant	六分仪
 sextet	六重唱
 sexton	教堂司事
 sextuplet	六胞胎之一
-sexual	性
+sexual	性的
 sexuality	性征
 sexualize	使有性别
 sexualized	使有性特征
@@ -42180,7 +42180,7 @@ shoreham	肖勒姆
 shoreline	海岸线
 shoreward	向岸
 shorewards	向海岸
-short	短
+short	短的
 short-lived	短命
 short-range	短射程
 short-sighted	近视
@@ -42347,7 +42347,7 @@ sidelight	侧线
 sideline	副业
 sidelong	横向地
 sideman	伴奏者
-sidereal	星
+sidereal	星的
 sidesaddle	横鞍
 sideshow	杂耍
 sideslip	侧滑
@@ -42387,7 +42387,7 @@ sigh	叹息
 sight	景观
 sighted	有视力
 sighting	照准
-sightless	盲
+sightless	盲的
 sightlessly	看不见地
 sightline	视线
 sightsee	游览
@@ -42447,10 +42447,10 @@ silicon	硅
 silicone	硅树脂
 silicosis	石末沉着病
 silk	丝
-silken	丝
+silken	丝的
 silkily	如丝绸一般地
 silkworm	蚕
-silky	丝
+silky	丝的
 sill	基石
 sillar	未固结熔灰岩
 silliness	愚蠢
@@ -42525,7 +42525,7 @@ sin	罪
 sinai	西奈
 sinatra	辛纳特拉（美国歌手
 sinbad	辛巴达
-since	自以后
+since	自从
 sincere	诚实
 sincerely	真诚地
 sincerity	诚实
@@ -42670,7 +42670,7 @@ sketch	素描
 sketchbook	写生簿
 sketchily	大略地
 sketchy	概略
-skew	斜
+skew	斜的
 skewer	串肉棒
 ski	滑雪橇
 skid	刹住
@@ -42845,14 +42845,14 @@ sliding	滑行
 slight	轻蔑
 slightly	些微地
 sligo	人名
-slim	瘦
+slim	瘦的
 slime	烂泥
 slimeball	粘球
 slimline	细线电缆
 slimmer	<英>(通过节食
 slimming	减轻体重
 slimness	细长
-slimy	泥
+slimy	泥的
 sling	投石器
 slingback	露跟女鞋
 slingshot	弹弓
@@ -42867,14 +42867,14 @@ slipped	打滑
 slipper	拖鞋
 slippered	穿着拖鞋
 slipperiness	滑溜
-slippery	滑
-slippy	快
+slippery	滑的
+slippy	快的
 slipshod	破烂
 slipstream	冲流
 slipway	滑台
 slit	裂缝
 slither	不稳地滑动
-slithery	滑
+slithery	滑的
 slitted	撕裂
 sliver	裂片
 sloan	斯隆
@@ -42914,7 +42914,7 @@ slovenia	斯洛文尼亚
 slovenian	斯洛文尼亚人[语]
 slovenliness	邋遢
 slovenly	邋遢
-slow	慢
+slow	慢的
 slowdown	降低速度
 slowing	放慢
 slowly	慢慢地
@@ -42953,7 +42953,7 @@ smack	风味
 smacker	掴打者
 smacking	活泼
 smale	斯梅尔
-small	小
+small	小的
 small-scale	小比例尺
 smalley	斯莫利
 smallholder	小农
@@ -43059,7 +43059,7 @@ snakebite	蛇咬伤
 snakehead	龟头花
 snakeskin	蛇皮
 snaking	板玻璃的纵向裂纹
-snaky	蛇
+snaky	蛇的
 snap	使突然中断
 snapdragon	金鱼草
 snape	斯内普（姓氏
@@ -43258,7 +43258,7 @@ soe	事件顺序记录
 sofa	沙发
 soffit	拱圈内面
 sofia	索非亚
-soft	软
+soft	软的
 softball	垒球运动
 softcover	软封面
 soften	变柔软
@@ -43492,7 +43492,7 @@ soundtrack	声迹
 soup	汤
 soupcon	细微的痕迹
 soupy	汤汁一样
-sour	酸
+sour	酸的
 source	来源
 sourcebook	原始资料
 sourceless	source的变形
@@ -43722,7 +43722,7 @@ speedometer	速度计
 speedster	高速竞走者
 speedway	汽车竞赛场
 speedwell	婆婆纳属的植物
-speedy	快
+speedy	快的
 speight	熏房挂鱼横条
 speke	人名
 speleology	洞穴学
@@ -43751,8 +43751,8 @@ spf	防晒系数
 sphagnum	泥炭藓
 sphenoid	楔形
 sphere	球
-spheric	球
-spherical	球
+spheric	球的
+spherical	球的
 sphericity	球状
 spheroid	球状体
 spheroidal	球状
@@ -43766,7 +43766,7 @@ spicer	斯派瑟
 spiciness	香馥
 spick	<美俚><贬>美籍西班牙人
 spicule	针状体
-spicy	香
+spicy	香的
 spider	蜘蛛
 spiderlike	蜘蛛似
 spiderweb	蜘蛛网
@@ -43788,7 +43788,7 @@ spillway	溢洪道
 spin	旋转
 spin-off	有用的副产品
 spinach	菠菜
-spinal	针
+spinal	针的
 spindle	纱锭
 spindly	纺锤形
 spindrift	海浪的飞沫
@@ -44347,7 +44347,7 @@ steeliness	钢制
 steelmaker	炼钢工
 steelwork	钢铁工程
 steelworker	炼钢工人
-steely	钢
+steely	钢的
 steen	许许多多
 steep	浸渍
 steeped	充满
@@ -44375,7 +44375,7 @@ steiner	斯坦纳
 steinway	斯坦韦
 stela	石碑
 stele	石柱
-stellar	星
+stellar	星的
 stellenbosch	调离要职
 stem	茎
 stemmed	有茎
@@ -44466,11 +44466,11 @@ stick	棍
 stickball	<美>棍子球游戏
 sticker	屠夫
 stickiness	粘性
-sticking	粘
+sticking	粘的
 stickleback	刺鱼
 stickler	坚持要求某种品质的人
 stickpin	领带夹
-sticky	粘
+sticky	粘的
 stiff	坚硬
 stiffen	使变硬
 stiffened	加强
@@ -45238,7 +45238,7 @@ sully	玷污
 sulphate	硫酸盐
 sulphide	硫化物
 sulphur	硫
-sulphuric	硫
+sulphuric	硫的
 sulphurous	亚硫
 sultan	苏丹
 sultana	无核小葡萄干
@@ -45266,7 +45266,7 @@ summerhouse	凉亭
 summers	萨莫斯
 summerson	人名
 summertime	全盛时期
-summery	夏
+summery	夏的
 summing-up	总结
 summit	顶点
 summiteer	最高级会议参加者
@@ -45943,7 +45943,7 @@ tadeusz	人名
 tadpole	蝌蚪
 tae	教学质量评估
 taekwondo	跆拳道
-taff	胖
+taff	胖的
 taffy	太妃糖
 taft	塔夫脱
 tag	标签
@@ -46016,7 +46016,7 @@ talker	说话的人
 talkie	有声电影
 talking	说话
 talky	对话过多
-tall	高
+tall	高的
 tallboy	高脚五斗橱
 tallgrass	高杆草
 tallinn	塔林[爱沙尼亚共和国首都]
@@ -46131,7 +46131,7 @@ tarantula	鸟蛛
 tardily	缓慢地
 tardiness	慢
 tardis	Traffic and Roads Drive Integrated Systems 交通和道路驾驶综合系统
-tardy	慢
+tardy	慢的
 tare	巢菜
 target	目标
 targeting	目标市场选择
@@ -46156,7 +46156,7 @@ tarred	涂了焦油
 tarry	耽搁
 tarsal	跗骨
 tarsus	踝
-tart	酸
+tart	酸的
 tartan	格子呢
 tartar	酒石
 tartlet	小果馅饼
@@ -46451,7 +46451,7 @@ tench	丁鲷
 tend	走向
 tendency	趋向
 tendentious	有偏见
-tender	嫩
+tender	嫩的
 tenderer	提出者
 tenderfoot	新来者
 tenderize	使嫩化
@@ -46459,7 +46459,7 @@ tenderizer	嫩肉粉
 tenderloin	腰部嫩肉
 tenderly	温和地
 tenderness	柔软
-tendinous	腱
+tendinous	腱的
 tendon	腱
 tendril	卷须
 tenement	房屋
@@ -46722,7 +46722,7 @@ theretofore	在那以前
 thereunder	在那下面
 thereupon	在其上
 therewith	随即
-thermal	热
+thermal	热的
 thermally	热地
 thermals	热裂法炭黑
 thermistor	热敏电阻
@@ -46759,7 +46759,7 @@ they've	they have 他们曾经
 thi	温度-湿度指数
 thiamin	硫胺
 thiamine	硫胺
-thick	厚
+thick	厚的
 thicken	变浓
 thickener	增稠器
 thickening	增厚
@@ -46777,11 +46777,11 @@ thighbone	大腿骨
 thimble	顶针
 thimbleful	极少量
 thimerosal	硫汞撒
-thin	薄
+thin	薄的
 thine	你的东西
 thing	事物
 thingamajig	装置
-thingy	物
+thingy	物的
 think	想
 think-tank	智囊团
 thinkable	能想到
@@ -46818,7 +46818,7 @@ thompson	汤普森
 thomson	汤姆森（①姓氏 ②Sir George Paget
 thong	装皮带
 thor	托尔
-thoracic	胸
+thoracic	胸的
 thorax	胸
 thorburn	人名
 thoreau	梭罗
@@ -46975,7 +46975,7 @@ thusly	<口> = thus
 thwack	拍打
 thwaites	人名
 thwart	横放
-thy	你
+thy	你的
 thyme	百里香
 thymine	胸腺嘧啶
 thymus	胸腺
@@ -47029,7 +47029,7 @@ tiff	一口淡酒
 tiffany	丝纱罗
 tiger	老虎
 tigerish	虎一般
-tight	紧
+tight	紧的
 tighten	勒紧
 tightfisted	吝啬
 tightly	紧紧地
@@ -47125,7 +47125,7 @@ tinkling	叮叮声
 tinkly	叮当响
 tinned	镀锡
 tinnitus	耳鸣
-tinny	锡
+tinny	锡的
 tinplate	镀锡铁皮
 tinsel	金属丝
 tinseltown	浮华城
@@ -47165,7 +47165,7 @@ tiresome	累人
 tiresomely	令人厌倦地
 tiring	引起疲劳
 tisane	煎药
-tissue	薄的织物
+tissue	组织
 tit	山雀
 titan	提坦
 titanic	四价钛
@@ -48123,7 +48123,7 @@ tu	工会
 tuan	先生
 tub	桶
 tuba	大号
-tubal	管
+tubal	管的
 tubbs	人名
 tubby	桶状
 tube	管
@@ -48221,7 +48221,7 @@ turd	粪
 tureen	盖碗
 turf	草皮
 turgenev	屠格涅夫
-turgid	肿
+turgid	肿的
 turin	都灵
 turk	土耳其人
 turkana	图尔卡纳人
@@ -48764,7 +48764,7 @@ uncrossed	未划线
 uncrowded	不拥挤
 uncrowned	未戴皇冠
 unction	涂油
-unctuous	油
+unctuous	油的
 unctuously	油腻地
 uncuffed	未上袖口
 uncultivated	未经耕作
@@ -49473,7 +49473,7 @@ unreachable	不能到达
 unread	没有人读过
 unreadable	不能读
 unready	没预备
-unreal	假
+unreal	假的
 unrealistic	不切实际
 unrealistically	不切实际地
 unreality	不真实
@@ -49911,10 +49911,10 @@ urgently	急切地
 urging	说服
 uri	上呼吸道感染
 uriah	尤赖亚
-uric	尿
+uric	尿的
 urinal	尿壶
 urinalysis	尿分析
-urinary	尿
+urinary	尿的
 urinate	小便
 urination	撒尿
 urine	小便
@@ -49925,7 +49925,7 @@ urologist	泌尿科医师
 urology	泌尿科学
 urquhart	厄克特
 urry	紧贴煤层的黑土或蓝土
-ursine	熊
+ursine	熊的
 ursula	厄休拉
 urticaria	荨麻疹
 uruguay	乌拉圭
@@ -50004,7 +50004,7 @@ uzbekistan	乌兹别克斯坦
 vac	休假
 vacancies	空缺额
 vacancy	空
-vacant	空
+vacant	空的
 vacantly	空虚地
 vacate	vi. 使空出
 vacation	假期
@@ -50019,7 +50019,7 @@ vacillating	犹豫
 vacillation	游移不定
 vacuity	空虚
 vacuole	空泡
-vacuous	空
+vacuous	空的
 vacuum	真空
 vacuuming	真空处理
 vadim	人名
@@ -50028,7 +50028,7 @@ vagal	迷走神经
 vagaries	奇想
 vagary	狂想
 vagina	阴道
-vaginal	鞘
+vaginal	鞘的
 vagrancy	漂泊
 vagrant	流浪汉
 vague	含糊
@@ -50126,7 +50126,7 @@ vaporise	vt. 蒸发
 vaporization	蒸发
 vaporize	蒸发
 vaporizer	汽化器
-vaporous	雾
+vaporous	雾的
 vapour	汽
 vaquero	牧者
 vargas	瓦尔加斯
@@ -50216,7 +50216,7 @@ vehemence	热烈
 vehement	热烈
 vehemently	激烈地
 vehicle	交通工具
-vehicular	车
+vehicular	车的
 veil	面纱
 veiled	蒙上面纱
 veiling	蒙面纱
@@ -50275,7 +50275,7 @@ ventilated	通风
 ventilation	通风
 ventilator	通风设备
 ventilatory	通风
-ventral	腹
+ventral	腹的
 ventricle	室
 ventricular	心室
 ventriloquism	口技
@@ -50376,7 +50376,7 @@ verve	热情
 vervet	黑长尾猴
 very	很
 vesicle	囊
-vesicular	囊
+vesicular	囊的
 vesper	黄昏
 vespers	晚祷
 vessel	船
@@ -50610,14 +50610,14 @@ visas	签证
 viscera	内脏
 visceral	内脏
 viscerally	visceral（内脏
-viscid	粘
+viscid	粘的
 viscoelastic	粘弹性
 visconti	人名
 viscose	粘胶
 viscosity	粘稠
 viscount	子爵
 viscountess	子爵夫人
-viscous	粘
+viscous	粘的
 vise	虎钳
 vishnu	毗瑟挐（守护神
 visibility	可见性
@@ -50728,7 +50728,7 @@ voiceprint	声纹
 voicing	发言
 void	空虚
 voidable	可使无效
-voided	空
+voided	空的
 voila	瞧
 voile	巴里纱
 vojvodina	伏伊伏丁那[南斯拉夫自治省名]
@@ -50923,11 +50923,11 @@ wallington	人名
 wallis	沃利斯
 walloon	瓦龙人[语]
 wallop	乱窜
-walloping	大
+walloping	大的
 wallow	打滚
 wallpaper	壁纸
 wallsend	沃尔森德[英国英格兰东北部城市]
-wally	好
+wally	好的
 walmsley	沃姆斯利
 walnut	胡桃
 walpole	沃波尔
@@ -51143,7 +51143,7 @@ watertight	不透水
 waterway	航道
 waterwheel	水轮
 waterworks	供水系统
-watery	水
+watery	水的
 watford	沃特福德
 watkin	人名
 watkins	沃特金斯
@@ -51170,7 +51170,7 @@ waving	波浪状
 wavy	有波浪
 wax	蜡
 waxed	上过蜡
-waxen	蜡
+waxen	蜡的
 waxwing	朱缘蜡翅鸟
 waxwork	蜡制品
 waxy	蜡制
@@ -51197,7 +51197,7 @@ weaken	削弱
 weakened	虚弱
 weakfish	细肉鱼
 weakling	虚弱的人
-weakly	弱
+weakly	弱的
 weakness	虚弱
 weal	福利
 weald	旷野
@@ -51296,7 +51296,7 @@ weightiness	重
 weighting	附加物
 weightless	无重量
 weightlifter	举重者
-weighty	重
+weighty	重的
 weil	韦伊
 weill	韦尔
 weimar	魏玛
@@ -51314,7 +51314,7 @@ welch	韦尔奇
 welcome	欢迎
 weld	焊接处
 welder	焊接工
-welding	焊
+welding	焊的
 weldon	韦尔登
 welfare	福利
 well	好
@@ -51635,14 +51635,14 @@ whore	娼妓
 whorehouse	妓院
 whorl	轮生体
 whorled	轮生
-whose	谁
+whose	谁的
 whosoever	不管是谁
 why	为什么
 whyte	怀特
 wi	熟铁
 wichita	威奇托
 wick	灯芯
-wicked	坏
+wicked	坏的
 wickedly	坏透地
 wickedness	邪恶
 wickens	人名
@@ -51655,7 +51655,7 @@ wickham	人名
 wicking	灯芯材料
 wid	妇女扶贫计划
 widdowson	人名
-wide	宽
+wide	宽的
 wide-eyed	睁大眼睛
 wide-ranging	范围或内容广泛
 widely	广泛地
@@ -51675,7 +51675,7 @@ wiener	<美>=frankfurter
 wiesbaden	威斯巴登[德意志联邦共和国西部城市]
 wiesel	人名
 wife	妻子
-wifely	妻
+wifely	妻的
 wig	假发
 wigan	本色平纹棉布
 wigeon	野鸭
@@ -52391,7 +52391,7 @@ yeoman	自由民
 yeomanry	自由民
 yeovil	约维尔
 yep	是
-yer	你
+yer	你的
 yerba	巴拉圭茶
 yes	是
 yeshiva	犹太高等学校
@@ -52455,7 +52455,7 @@ youngs	扬斯
 youngster	小孩
 younis	人名
 your	你的
-yours	你
+yours	你的
 yourself	你自己
 yourselves	你们自己
 yous	你们
@@ -52482,7 +52482,7 @@ yule	圣诞节
 yuletide	圣诞季节
 yum	极好
 yummy	美味
-yup	是
+yup	是的
 yuppie	雅皮士
 yuppy	雅皮士（特指肆意挥霍
 yuri	尤里
@@ -52607,7 +52607,7 @@ zola	左拉
 zombie	蛇神
 zomby	僵停
 zon	见"ama"
-zonal	带
+zonal	带的
 zone	地带
 zoned	佩带象征处女的环带
 zoning	分区制

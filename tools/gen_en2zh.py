@@ -40,6 +40,10 @@ OVERRIDES = {
     'special': '特别的', 'space': '空间', 'produce': '生产', 'industry': '工业',
     'cover': '覆盖', 'major': '主要的', 'break': '打破',
     'sad': '难过', 'orange': '橙',
+    # 独立复测查出的包内写死错义（B2.4）：修首义/截断
+    'reach': '到达', 'evidence': '证据', 'line': '线', 'remove': '移除',
+    'since': '自从', 'global': '全球', 'journal': '期刊', 'tissue': '组织',
+    'secure': '安全', 'arise': '出现', 'purpose': '目的',
     'my': '我的', 'your': '你的', 'his': '他的', 'her': '她的', 'its': '它的',
     'our': '我们的', 'their': '他们的',
 }
@@ -58,7 +62,7 @@ def extract(translation):
         ln = BRACKET.sub('', ln)
         first = re.split(r'[,，;；、]', ln)[0].strip()
         first = PAREN.sub('', first).replace('…', '').replace('...', '').strip().rstrip('\r')
-        if first.endswith('的') and len(first) > 1:
+        if first.endswith('的') and len(first) > 2:  # 只去多字形容词的尾「的」（避免把 目的→目 之类截断）
             first = first[:-1]
         if first and CJK.search(first):
             return first
