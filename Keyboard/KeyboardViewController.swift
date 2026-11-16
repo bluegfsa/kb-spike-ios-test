@@ -1,30 +1,24 @@
 import UIKit
 
 /// 键盘扩展入口：只绑 `KeyboardModeling`（B1 用 `MockKeyboardModel`），不碰引擎/词库细节。
-/// 交互按实现级接口 v0.2 §6 + 按键行为规格（#11~#15）执行；引擎接上后换成真实 `KeyboardModel`，本文件零改动。
+/// 交互按实现级接口 v0.2 §6 执行；引擎接上后换成真实 `KeyboardModel`，本文件零改动。
 final class KeyboardViewController: UIInputViewController {
     private let keyboardView = KeyboardView()
     private let statusBanner = UILabel()
-    private var model: KeyboardModeling = MockKeyboardModel()
-    private var heightConstraint: NSLayoutConstraint?
+    private var model: KeyboardModeling = {
+        let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+            ?? URL(fileURLWithPath: NSTemporaryDirectory())
+        return KeyboardModel(sharedDir: base.appendingPathComponent("rime/shared"),
+                             userDir: base.appendingPathComponent("rime/user"))
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = keyboardView.backgroundColor
+        view.backgroundColor = .systemBackground
         setupKeyboardView()
         setupStatusBanner()
         model.onChange = { [weak self] in self?.render() }
         render()
-    }
-
-    /// #2/#3：高度按内容＋底部安全区自适应（不写死 291），露白/挡输入框问题由此解决。
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        let height = keyboardView.intrinsicKeyboardHeight(bottomInset: view.safeAreaInsets.bottom)
-        if let constraint = heightConstraint, abs(constraint.constant - height) > 0.5 {
-            constraint.constant = height
-            view.layoutIfNeeded()
-        }
     }
 
     // MARK: - 视图装配
@@ -36,11 +30,8 @@ final class KeyboardViewController: UIInputViewController {
             keyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             keyboardView.topAnchor.constraint(equalTo: view.topAnchor),
             keyboardView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            keyboardView.heightAnchor.constraint(equalToConstant: 291),
         ])
-        let height = view.heightAnchor.constraint(equalToConstant: 252)
-        height.priority = UILayoutPriority(999)
-        height.isActive = true
-        heightConstraint = height
 
         keyboardView.onKeyText = { [weak self] text in self?.handleKeyText(text) }
         keyboardView.onBackspace = { [weak self] in self?.handleBackspace() }
@@ -49,15 +40,10 @@ final class KeyboardViewController: UIInputViewController {
         keyboardView.onToggleMode = { [weak self] in
             guard let self else { return }
             self.model.toggleMode()
-            self.keyboardView.showLetters() // #13：任意态切中英后回字母键盘
-            self.render()                   // 同步再渲染，label/候选立刻翻转
-        }
-        keyboardView.onTogglePunctuation = { [weak self] in
-            guard let self else { return }
-            self.model.togglePunctuation()
-            self.render()
+            self.render() // 同步再渲染一次，确保中/EN 标题与模式立刻翻转（不单靠异步 onChange）
         }
         keyboardView.onCandidate = { [weak self] index in self?.handleCandidate(index) }
+        keyboardView.onAdvanceKeyboard = { [weak self] in self?.advanceToNextInputMode() }
     }
 
     /// needInit/error 时的静态提示条（不申请完全访问 → 不做扩展内跳转，只提示手动开宿主）。
@@ -79,41 +65,15 @@ final class KeyboardViewController: UIInputViewController {
         view.bringSubviewToFront(statusBanner)
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        keyboardView.setReturnKeyTitle(currentReturnKeyTitle())
-    }
-
-    /// 读宿主 App 期望的回车键类型，映射键面文字；动作统一为换行符（规格 §D/§G2）。
-    private func currentReturnKeyTitle() -> String {
-        switch textDocumentProxy.returnKeyType {
-        case .send?: return "发送"
-        case .search?: return "搜索"
-        case .go?: return "前往"
-        case .done?: return "完成"
-        case .next?: return "下一项"
-        case .continue?: return "继续"
-        default: return "换行"
-        }
-    }
-
     // MARK: - 渲染（model.onChange 主线程回调后执行）
     private func render() {
-        keyboardView.setReturnKeyTitle(currentReturnKeyTitle())
         let isChinese = model.mode == .zh2en
-        var candidates = model.candidates
-        var translations = model.candidateTranslations
-        // 英文态无候选、只有首选译词：用译文占位显示（保留英译中可见性，不带「中/EN」标签 #7）。
-        if !isChinese, candidates.isEmpty, let translation = model.primaryTranslation {
-            candidates = [translation]
-            translations = [nil]
-        }
+        let gloss: String? = model.primaryTranslation.map { isChinese ? "EN \($0)" : "中 \($0)" }
         keyboardView.update(
-            candidates: candidates,
-            translations: translations,
+            candidates: model.candidates,
             buffer: model.buffer,
-            isChinese: isChinese,
-            punctuationFullWidth: model.punctuationFullWidth
+            gloss: gloss,
+            isChinese: isChinese
         )
         switch model.status {
         case .ready:
@@ -140,7 +100,7 @@ final class KeyboardViewController: UIInputViewController {
                 textDocumentProxy.insertText(String(character))
             }
         } else {
-            // 数字/符号：直接上屏，不进拼音 buffer（全/半角标点已在视图层映射好）。
+            // 数字/符号：直接上屏，不进拼音 buffer。
             textDocumentProxy.insertText(text)
         }
     }
@@ -150,7 +110,7 @@ final class KeyboardViewController: UIInputViewController {
             model.backspace() // 只删拼音串，未落文档
         } else {
             textDocumentProxy.deleteBackward() // 先删真实文本
-            model.backspace()                  // 再同步 buffer/候选
+            model.backspace() // 再同步 buffer/候选
         }
     }
 
@@ -162,7 +122,7 @@ final class KeyboardViewController: UIInputViewController {
     }
 
     private func handleReturn() {
-        let text = model.newline() // #15：只换行（第三方键盘无法程序化发送）
+        let text = model.newline()
         if !text.isEmpty {
             textDocumentProxy.insertText(text)
         }
