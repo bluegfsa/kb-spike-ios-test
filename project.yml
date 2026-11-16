@@ -22,7 +22,10 @@ targets:
         basedOnDependencyAnalysis: false
         script: |
           set -e
-          xcrun swiftc -o "$DERIVED_FILE_DIR/logic_selftest" \
+          unset SDKROOT
+          unset SWIFT_EXEC
+          SYSROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          xcrun --sdk macosx swiftc -sdk "$SYSROOT" -o "$DERIVED_FILE_DIR/logic_selftest" \
             "$SRCROOT/Keyboard/KeyboardLogic.swift" "$SRCROOT/tools/SelfTest/main.swift"
           "$DERIVED_FILE_DIR/logic_selftest"
     dependencies:
