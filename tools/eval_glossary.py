@@ -75,6 +75,7 @@ gold_en = load_gold(golddir + '/eval_gold_en2zh.tsv')
 gold_zh = load_gold(golddir + '/eval_gold_zh2en.tsv')
 
 lines = []
+rows = []   # 原始逐词：(dir, query, data, expected, PASS/FAIL)
 def emit(s):
     lines.append(s); print(s)
 
@@ -82,7 +83,9 @@ def emit(s):
 en_ok = 0; en_fail = []
 for q, ex in gold_en:
     g = en2zh.get(q.lower(), '')
-    if match(g, ex): en_ok += 1
+    ok = match(g, ex)
+    rows.append(('en2zh', q, g, '|'.join(ex), 'PASS' if ok else 'FAIL'))
+    if ok: en_ok += 1
     else: en_fail.append((q, g, '|'.join(ex)))
 emit(f"[en→zh] 首选：{en_ok}/{len(gold_en)} = {100.0*en_ok/len(gold_en):.1f}%")
 
@@ -103,7 +106,9 @@ else:
 zh_ok = 0; zh_fail = []
 for q, ex in gold_zh:
     g = zh2en.get(q, '')
-    if match(g, ex): zh_ok += 1
+    ok = match(g, ex)
+    rows.append(('zh2en', q, g, '|'.join(ex), 'PASS' if ok else 'FAIL'))
+    if ok: zh_ok += 1
     else: zh_fail.append((q, g, '|'.join(ex)))
 emit(f"[zh→en] 首选：{zh_ok}/{len(gold_zh)} = {100.0*zh_ok/len(gold_zh):.1f}%")
 emit("[zh→en] 前3：N/A（离线无候选列表；真机引擎出候选另测）")
@@ -118,4 +123,9 @@ if ecd:
 
 if out_p:
     open(out_p, 'w', encoding='utf-8').write('\n'.join(lines) + '\n')
-    print('report ->', out_p)
+    rows_p = out_p.rsplit('.', 1)[0] + '-逐词结果.tsv'
+    with open(rows_p, 'w', encoding='utf-8') as f:
+        f.write('dir\tquery\tdata\texpected\tresult\n')
+        for d, q, g, e, r in rows:
+            f.write(f'{d}\t{q}\t{g}\t{e}\t{r}\n')
+    print('report ->', out_p, '; rows ->', rows_p)
