@@ -251,7 +251,7 @@ accessible	易接近
 accession	到达
 accessorize	附加
 accessory	附件
-accident	意外事件
+accident	事故
 accidental	意外
 accidentally	偶然地
 accidently	偶然地
@@ -346,7 +346,7 @@ acheson	艾奇逊(①姓氏 ②Dean Gooderham
 achievable	做得成
 achieve	完成
 achieved	取得
-achievement	完成
+achievement	成就
 achiever	获得成功的人
 achille	阿喀琉斯
 achilles	阿喀琉斯
@@ -428,7 +428,7 @@ activity	活动
 acton	铠衣
 actor	男演员
 actress	女演员
-actual	真实
+actual	实际的
 actualise	实现
 actuality	事实
 actualization	现实化
@@ -481,7 +481,7 @@ addictive	上瘾
 addington	人名
 addis	艾缔思
 addison	艾迪生
-addition	加法
+addition	增加
 additional	附加
 additionality	额外性
 additionally	另外
@@ -954,7 +954,7 @@ aid	帮助
 aidan	艾丹
 aide	助手
 aided	辅助
-aids	爱滋病
+aids	艾滋病
 aiken	艾肯（美国诗人
 aikido	<日>合气道(日本的一种徒手自卫术
 ail	使苦恼
@@ -1007,7 +1007,7 @@ airing	晾
 airless	无空气
 airlie	人名
 airlift	空运
-airline	航线
+airline	航空公司
 airliner	班机
 airlock	气塞
 airmail	航空邮件
@@ -1091,7 +1091,7 @@ albinism	白化病
 albino	白化病者
 albion	阿尔比恩
 albrecht	人名
-album	粘贴簿
+album	专辑
 albumin	清蛋白
 albuquerque	阿尔伯克基
 alcalde	市长
@@ -1347,7 +1347,7 @@ alternate	交替
 alternately	交替地
 alternating	交互
 alternation	交互
-alternative	两者择一
+alternative	替代的
 alternatively	非此即彼
 alternator	交流发电机
 althorp	人名
@@ -1599,7 +1599,7 @@ analysable	可分析
 analysand	接受精神分析的人
 analyse	分析
 analysis	分析
-analyst	分析者
+analyst	分析师
 analytic	分析
 analytical	分析
 analytics	分析方法
@@ -2026,7 +2026,7 @@ aoun	人名
 ap	自动程序设计
 apace	快速地
 apache	阿帕切族
-apart	成零碎
+apart	分开
 apartheid	种族隔离
 apartment	公寓
 apartness	冷漠
@@ -2098,7 +2098,7 @@ apparel	衣服
 apparent	清晰可见
 apparently	表面上
 apparition	鬼
-appeal	恳求
+appeal	呼吁
 appealing	有感染力
 appealingly	有感染力
 appear	出现
@@ -2157,7 +2157,7 @@ appraising	鉴定
 appraisingly	以品评或评价的眼光
 appreciable	可感知
 appreciably	可估计地
-appreciate	赏识
+appreciate	欣赏
 appreciating	欣赏
 appreciation	感激
 appreciative	有欣赏力
@@ -2599,7 +2599,7 @@ ashy	灰的
 asia	亚洲
 asian	亚洲人
 asiatic	亚洲人
-aside	小声说的话
+aside	在旁边
 asif	阿西夫
 asinine	驴的
 ask	问
@@ -2660,7 +2660,7 @@ assertion	断言
 assertive	武断
 assertively	独断地
 assertiveness	魄力
-assess	估定
+assess	评估
 assessable	可估价
 assessed	对进行评估
 assessing	评价
@@ -4167,6 +4167,7 @@ beholder	观看者
 behoove	理应
 behove	理应
 beige	淡棕色
+being	存在
 beirut	贝鲁特
 beith	人名
 bejesus	老天
@@ -4264,12 +4265,12 @@ bench	长椅子
 benched	台阶形状
 bencher	坐凳子的人
 benching	钳工加工
-bend	变弯曲
+bend	弯曲
 bendable	可弯曲
 bended	弯曲
 bender	扭弄物体的人
 bendy	易弯曲
-beneath	在下方
+beneath	在下面
 benedetti	人名
 benedetto	人名
 benedict	新婚男人
@@ -4860,7 +4861,7 @@ blake	布莱克
 blakemore	布莱克莫尔
 blakeney	人名
 blakey	布莱基
-blame	过失
+blame	责备
 blamed	该死
 blameless	无可责难
 blameworthy	该受责备
@@ -5259,7 +5260,7 @@ bonanza	富矿带
 bonaparte	波拿巴(①姓氏
 bonaventure	中世纪帆船上第四桅杆上的帆
 bonbon	夹心软糖
-bond	捆绑物
+bond	纽带
 bondage	奴役
 bonded	以债券作保证
 bondholder	债券持有人
@@ -5828,7 +5829,7 @@ bridleway	马道
 bridlington	布里德灵顿
 bridport	人名
 brie	布里干酪
-brief	摘要
+brief	简短的
 briefcase	公事包
 briefing	简报
 briefly	简短地
@@ -7214,7 +7215,7 @@ cassius	卡西乌斯
 cassock	法衣
 casson	人名
 cassoulet	豆焖肉
-cast	演员阵容
+cast	投掷
 cast-iron	铸铁
 cast-off	遭遗弃
 castanet	响板
@@ -7874,7 +7875,7 @@ cheerleading	带领啦啦队
 cheerless	不愉快
 cheers	干杯
 cheery	愉快
-cheese	乳酪
+cheese	奶酪
 cheeseboard	制干酪用的缸上的盖
 cheeseburger	干酪汉堡包
 cheesecake	干酪饼
@@ -8043,7 +8044,7 @@ chinstrap	妇女头巾
 chintz	磨擦轧光印花棉布
 chintzy	以印花棉布做成
 chinwag	聊天
-chip	屑片
+chip	芯片
 chipboard	粗纸板
 chipmaker	芯片制造商
 chipmunk	金花鼠
@@ -8344,7 +8345,7 @@ circumscription	界限
 circumspect	细心
 circumspection	细心
 circumspectly	慎重地
-circumstance	环境
+circumstance	情况
 circumstantial	依照情况
 circumstantially	依照情况地
 circumstellar	环绕恒星
@@ -8659,7 +8660,7 @@ close-up	特写镜头
 closed	关闭
 closed-minded	思想保守
 closedown	关闭
-closely	接近地
+closely	密切地
 closeout	出清存货
 closer	关闭者
 closet	壁橱
@@ -8755,7 +8756,7 @@ coalescence	联合
 coalface	采煤工作面
 coalfield	煤田
 coalite	一种无烟燃料
-coalition	结合体
+coalition	联盟
 coalitional	coalition（联合
 coalman	煤商
 coalmine	煤坑
@@ -9168,7 +9169,7 @@ comet	彗星
 cometary	彗星
 comeuppance	应得的惩罚
 comfort	舒适
-comfortable	舒服
+comfortable	舒适的
 comfortably	安乐地
 comforter	安慰的人
 comforting	安慰
@@ -9376,7 +9377,7 @@ compliment	称赞
 complimentary	问候
 compline	晚祷
 comply	顺从
-component	元件
+component	组件
 comport	举动
 comportment	行为
 compose	组成
@@ -9920,7 +9921,7 @@ contemplatively	contemplative的变形
 contemporaneity	同时代
 contemporaneous	同时期
 contemporaneously	同时发生
-contemporary	同时代的人
+contemporary	当代的
 contempt	轻视
 contemptible	卑鄙
 contemptuous	轻蔑
@@ -10006,7 +10007,7 @@ contrarily	反之
 contrariness	反对
 contrariwise	反之亦然
 contrary	相反
-contrast	差别
+contrast	对比
 contrastive	对比
 contrasty	差别强烈
 contravene	违反
@@ -10014,7 +10015,7 @@ contravention	违反
 contretemps	来得不巧的事情
 contribute	有助于
 contributing	贡献
-contribution	捐助
+contribution	贡献
 contributor	贡献者
 contributory	贡献者
 contrite	悔悟了
@@ -10180,7 +10181,7 @@ coptic	科普特人
 copulate	交媾
 copulation	连结
 copulatory	交配
-copy	副本
+copy	复制
 copybook	字帖
 copycat	模仿者
 copying	誊写
@@ -10569,7 +10570,7 @@ covent	女修道院
 coventry	考文垂
 cover	覆盖
 cover-up	掩饰
-coverage	覆盖的范围
+coverage	覆盖范围
 coverall	工作服
 coverdale	科弗代尔
 covered	隐蔽着
@@ -10740,11 +10741,11 @@ craze	狂热
 crazed	癫狂
 crazily	发狂地
 craziness	发狂
-crazy	发狂
+crazy	疯狂的
 cre	中铁快运
 creak	辗轧声
 creaky	嘎吱嘎吱
-cream	乳酪
+cream	奶油
 creamer	分离奶油的器具
 creamery	乳品厂
 creaminess	乳脂状
@@ -10828,7 +10829,7 @@ cretinism	白痴病
 cretinous	白痴病
 crevasse	裂缝
 crevice	裂缝
-crew	全体人员
+crew	工作人员
 crewe	克鲁郡
 crewman	机组乘员
 crewmate	同船工作之船员
@@ -11956,7 +11957,7 @@ defective	有缺陷
 defector	背叛者
 defence	防卫
 defenceless	无防御
-defend	防护
+defend	保卫
 defendable	可防御
 defendant	被告
 defender	防卫者
@@ -11987,7 +11988,7 @@ define	定义
 defined	清晰
 definer	定义者
 definite	明确
-definitely	明确无疑地
+definitely	肯定
 definiteness	确定性
 definition	定义
 definitive	限定词
@@ -12357,7 +12358,7 @@ depressant	有镇静作用
 depressed	沮丧
 depressing	抑压
 depressingly	令人忧愁地
-depression	不景气
+depression	抑郁
 depressive	压抑
 depressor	压抑者
 depressurize	vi. 减压
@@ -13534,7 +13535,7 @@ divining	占卜
 divinity	神
 divinization	奉为神圣
 divisible	可分
-division	分
+division	划分
 divisional	部门
 divisive	区分
 divisiveness	引起分歧
@@ -14197,7 +14198,7 @@ duddon	人名
 dude	<美国
 dudgeon	生气
 dudley	达德利
-due	应得的东西
+due	到期的
 duel	决斗
 dueling	决斗
 duelist	决斗者
@@ -14906,7 +14907,7 @@ elie	埃利
 eligibility	适任
 eligible	有资格当选
 elijah	以利亚
-eliminate	除去
+eliminate	消除
 elimination	除去
 eliminator	排除者
 eline	人名
@@ -15060,7 +15061,7 @@ emerald	翡翠
 emerge	浮现
 emergence	出现
 emergencies	紧急需要
-emergency	紧急状况
+emergency	紧急情况
 emergent	紧急
 emerita	荣誉退职
 emeritus	名誉退休
@@ -15410,7 +15411,7 @@ ensor	恩索尔(①姓氏 ②James
 ensue	跟着发生
 ensuing	接著发生
 ensuite	通常指 "ensuite bathroom"
-ensure	确定
+ensure	确保
 ent	耳鼻喉（ear
 entablature	柱顶线盘
 entail	使成为必需
@@ -15603,7 +15604,7 @@ eq	情商
 eqn	equation 方程式
 equable	平静
 equably	均等地
-equal	对手
+equal	相等的
 equalise	vi. 使相等
 equaliser	<主英>=equalizer
 equality	平等
@@ -15780,7 +15781,7 @@ essayistic	小品
 essen	埃森市
 essence	实质
 essene	古犹太的禁欲
-essential	要素
+essential	必要的
 essentialism	基本教育论
 essentialist	基本教育说
 essentiality	根本性
@@ -15792,7 +15793,7 @@ establish	建立
 established	建立
 establishment	确立
 estancia	大牧场
-estate	不动产
+estate	财产
 este	工程的特殊试验设备
 esteem	尊敬
 esteemed	受人尊敬
@@ -15848,7 +15849,7 @@ ethics	道德规范
 ethiopia	埃塞俄比亚
 ethiopian	埃塞俄比亚
 ethmoid	筛骨
-ethnic	人种
+ethnic	种族的
 ethnical	种族
 ethnically	人种上
 ethnicity	种族划分
@@ -16095,7 +16096,7 @@ exceedingly	极端地
 excel	胜过
 excellence	优秀
 excellency	优点
-excellent	优良
+excellent	优秀的
 excellently	极好地
 excelsior	不断向上
 except	除
@@ -16231,7 +16232,7 @@ existent	存在
 existential	有关存在
 existentialism	存在主义
 existentialist	存在主义者
-existing	存在
+existing	现有的
 exit	出口
 exmoor	埃克斯穆尔高地
 exmouth	人名
@@ -16469,7 +16470,7 @@ extraversion	外倾
 extravert	外向性格的人
 extraverted	外向
 extreme	极端
-extremely	极端地
+extremely	极其
 extremism	极端倾向
 extremity	极端
 extremophile	“嗜极生物”
@@ -16588,7 +16589,7 @@ factsheet	字幕新闻
 factual	事实
 factually	真实地
 facultative	授权
-faculty	才能
+faculty	能力
 fad	时尚
 faddish	趋于时尚
 faddy	一时流行
@@ -16639,7 +16640,7 @@ fairing	集市上卖的礼物
 fairish	还可以
 fairley	人名
 fairlie	人名
-fairly	美观地
+fairly	相当
 fairness	晴朗
 fairway	航路
 fairweather	费尔韦瑟
@@ -16801,7 +16802,7 @@ fascism	法西斯主义
 fascist	法西斯主义者
 fascistic	法西斯主义
 fashanu	人名
-fashion	流行
+fashion	时尚
 fashionable	时髦
 fashionably	时髦地
 fashioned	式的
@@ -17235,7 +17236,7 @@ filamentous	细丝状
 filariasis	丝虫病
 filbert	榛树
 filch	偷窃
-file	档案
+file	文件
 filename	文件名
 filer	文件编档员
 filet	头带
@@ -17447,7 +17448,7 @@ five	五
 fivefold	五重
 fivepence	五便士
 fiver	五镑
-fix	使固定
+fix	修理
 fixable	可固定
 fixate	使固定
 fixated	固恋
@@ -18082,7 +18083,7 @@ forsythia	连翘
 fort	堡垒
 forte	长处
 fortescue	澳洲鳞
-forth	往前
+forth	向前
 forthcoming	即将来临
 forthright	直率地
 forthrightly	直率地
@@ -18576,6 +18577,7 @@ funded	成为有固定利息的长期借款
 funder	投资者
 fundholder	公债所有者
 fundholding	费用负责制
+funding	资金
 fundraise	募捐
 fundraiser	资金筹集活动
 fundraising	筹款
@@ -19015,7 +19017,7 @@ gemma	芽
 gemstone	经雕琢的宝石
 gen	消息
 gendarme	宪兵
-gender	性
+gender	性别
 gendered	依照性别而分类
 gendering	性
 genderless	无性
@@ -19651,7 +19653,7 @@ gold	黄金
 goldberg	犹太老板
 goldblum	人名
 goldbrick	逃避工作
-golden	金的
+golden	金色的
 goldenrod	一种黄花属植物
 goldfield	采金区
 goldfinch	红额金翅雀
@@ -19872,7 +19874,7 @@ gramsci	葛兰西
 gran	外祖母
 granada	格兰纳达薄呢
 granary	谷仓
-grand	庄重
+grand	宏伟的
 grandad	爷爷
 grandaddy	<非正>祖师爷
 grandbaby	小孙儿
@@ -20334,7 +20336,7 @@ guggenheim	<口> = Guggenheim fellowship
 gui	图形用户界面
 guiana	圭亚那地区（包括圭亚那共和国及荷属
 guidance	指导
-guide	引导者
+guide	向导
 guidebook	指南
 guided	有指导
 guideline	指导路线
@@ -20358,7 +20360,7 @@ guillotine	断头台
 guilt	罪行
 guiltily	罪地
 guiltless	无罪
-guilty	犯罪
+guilty	有罪的
 guinea	几内亚
 guinean	几内亚
 guinness	吉尼斯黑啤酒
@@ -20631,7 +20633,7 @@ halibut	大比目鱼
 halide	卤化物
 halifax	哈里法克斯（财富500强公司之一
 halitosis	恶臭
-hall	门厅
+hall	大厅
 hallam	哈勒姆
 halle	哈雷
 hallelujah	赞美上帝的颂歌
@@ -20855,7 +20857,7 @@ hardiness	强壮
 harding	哈丁
 hardline	强硬路线
 hardliner	强硬路线者
-hardly	刚刚
+hardly	几乎不
 hardman	人名
 hardness	坚硬
 hardpan	硬质地层
@@ -21172,7 +21174,7 @@ heap	堆
 heaped	盛满
 hear	听到
 hearer	听者
-hearing	听
+hearing	听力
 hearken	倾听
 hearn	赫恩(Lafcadio
 hearsay	传闻
@@ -21583,7 +21585,7 @@ hezbollah	真主党
 hg	标准德语
 hgv	heavy goods vehicle 重型货车
 hh	倍硬
-hi	喂
+hi	嗨
 hiatt	人名
 hiatus	裂缝
 hiawatha	海华沙
@@ -22249,7 +22251,7 @@ housetop	屋顶
 housewarming	乔迁庆宴
 housewife	主妇
 housework	家事
-housing	遮盖
+housing	住房
 housman	人名
 houston	休斯敦
 hovel	简陋小屋
@@ -23381,6 +23383,7 @@ incorrigibly	无法矫正地
 incorruptibility	不腐败
 incorruptible	不腐败
 increase	增加
+increased	增加的
 increasingly	逐渐地
 incredible	难以置信
 incredibly	不能相信地
@@ -23832,13 +23835,13 @@ inimical	有敌意
 inimitable	无法仿效
 iniquitous	不公正
 iniquity	不公正
-initial	字首
+initial	最初的
 initialize	预置
 initially	最初
 initiate	入会
 initiating	开始
 initiation	开始
-initiative	主动行动
+initiative	主动性
 initiator	创始者
 initiatory	入会
 inject	注射
@@ -24257,7 +24260,7 @@ intermodal	联合运输
 intermolecular	分子间
 intermountain	山间
 intern	实习生
-internal	内在
+internal	内部的
 internalise	使成为主观
 internalised	使成为主观
 internalization	成为主观
@@ -24342,7 +24345,7 @@ interurban	都市间
 interval	间隔
 intervene	插入
 intervenor	干涉者
-intervention	插入
+intervention	干预
 interventionist	干涉主义者
 intervertebral	椎骨间
 interview	面谈
@@ -25060,7 +25063,7 @@ jewellery	宝石
 jewelry	珠宝
 jewelweed	凤仙花
 jewess	犹太女人
-jewish	犹太人
+jewish	犹太的
 jewishness	犹太人身份
 jewry	犹太人区
 jewson	人名
@@ -25171,7 +25174,7 @@ join	参加
 joiner	细工木匠
 joinery	细木工技术
 joining	接缝
-joint	连接处
+joint	关节
 jointly	共同地
 joist	托梁
 jojoba	加州希蒙得木
@@ -25281,7 +25284,7 @@ judge	法官
 judged	判断正确
 judgement	审判
 judgeship	法官的地位
-judgment	裁判
+judgment	判断
 judgmental	审判
 judi	朱迪
 judicature	司法
@@ -26290,7 +26293,7 @@ lard	猪油
 larder	食物橱
 large	大的
 large-scale	大规模
-largely	大量地
+largely	主要地
 largeness	巨大
 largess	慷慨的赠与/赐与
 largesse	慷慨的赠与
@@ -26395,7 +26398,7 @@ laughingstock	笑柄
 laughter	笑
 laughton	劳顿
 launceston	朗塞斯顿
-launch	下水
+launch	发起
 launcher	发射者
 launching	发射
 launder	流水槽
@@ -26512,7 +26515,7 @@ leader	领导者
 leaderboard	选手积分榜
 leaderless	无领袖
 leadership	领导能力
-leading	领导
+leading	领先的
 leadoff	开始
 leaf	叶
 leafed	有叶
@@ -27037,7 +27040,7 @@ liminal	阈限
 liminality	阈限
 limit	限制
 limitation	限制
-limited	有限制
+limited	有限的
 limiter	限制物
 limiting	限制
 limitless	无限
@@ -27105,7 +27108,7 @@ linguistically	语言学方面
 linguistics	语言学
 liniment	涂敷药
 lining	衬里
-link	环
+link	链接
 link-up	联系
 linkage	联合
 linked	连接
@@ -27311,7 +27314,7 @@ localization	局限
 localize	vi. 使地方化
 localized	小范围
 locally	地方性地
-locate	找出
+locate	定位
 located	处于
 location	位置
 locational	位置上
@@ -28376,7 +28379,7 @@ mann	曼
 manna	吗哪天赐食物
 manned	有人驾驶
 mannequin	服装模特儿
-manner	样子
+manner	方式
 mannered	守规矩
 mannerism	矫揉造作
 mannerist	矫揉造作者
@@ -28689,7 +28692,7 @@ masonry	砖石部分
 masque	假面剧
 masquerade	化装舞会
 masquerader	参加化装舞会者
-mass	块
+mass	大量
 mass-produce	大量生产
 massachusetts	麻萨诸塞州
 massacre	大屠杀
@@ -28704,7 +28707,7 @@ massif	山丘
 massimo	马西莫
 massing	块化
 massingham	人名
-massive	大而重
+massive	巨大的
 massively	大而重
 massiveness	沉重
 massless	无质量
@@ -29060,7 +29063,7 @@ meanly	卑贱地
 meanness	吝啬
 means	方法
 meantime	间隔时间
-meanwhile	其时
+meanwhile	同时
 meany	小气鬼
 mearns	默恩斯
 measles	麻疹
@@ -30119,7 +30122,7 @@ mitten	连指手套
 mittened	mitten的变形
 mitty	人名
 mitzvah	戒律
-mix	混合物
+mix	混合
 mixed	混合
 mixer	混合者
 mixing	混合
@@ -30855,7 +30858,7 @@ multimillionaire	大富豪
 multinational	多国
 multinomial	多项
 multiparty	多党
-multiple	倍数
+multiple	多个的
 multiplex	多样
 multiplication	乘法
 multiplicative	倍增
@@ -30962,7 +30965,7 @@ mushtaq	人名
 mushy	浓粥状
 music	音乐
 musica	人名
-musical	音乐片
+musical	音乐的
 musicale	社交音乐会
 musicality	和谐
 musically	音乐上
@@ -31191,7 +31194,7 @@ narrative	叙述
 narratively	用故事体
 narrator	讲述者
 narratorial	叙述
-narrow	狭窄部分
+narrow	狭窄的
 narrowed	狭窄
 narrowly	狭窄地
 narrowness	狭小
@@ -31344,7 +31347,7 @@ nebular	星云
 nebulosity	星云状态
 nebulous	星云
 nec	日本电气公司
-necessarily	必然地
+necessarily	必然
 necessary	必要
 necessitate	迫使
 necessitous	贫乏
@@ -31425,7 +31428,7 @@ neighbourly	邻人似
 neil	尼尔
 neill	人名
 neilson	尼尔逊
-neither	皆不
+neither	两者都不
 nel	海军电子研究所
 nell	内尔（女子名
 nellie	内莉（女子名
@@ -34474,7 +34477,7 @@ perambulate	巡行
 perambulation	徘徊
 percale	高级密织棉布
 perceivable	可知觉
-perceive	感觉
+perceive	察觉
 perceiver	perceive的变形
 perceiving	感知
 percent	百分比
@@ -35391,7 +35394,7 @@ plankton	浮游生物
 planned	计划了
 planner	计划者
 planners	规划者
-planning	计划的制订
+planning	计划
 plant	植物
 plantagenet	金雀花王朝
 plantain	车前草
@@ -35511,7 +35514,7 @@ plenteous	丰饶
 plentiful	许多
 plentifully	丰富地
 plentitude	充分
-plenty	充分
+plenty	大量
 plenum	充实
 pleonastic	冗言
 plesiosaur	蛇颈龙
@@ -36000,7 +36003,7 @@ possibility	可能性
 possible	可能
 possibly	可能
 possum	负鼠
-post	柱
+post	邮寄
 post-mortem	死后
 postage	邮资
 postal	邮政
@@ -36112,7 +36115,7 @@ pounded	捣碎
 pounder	一磅重的东西
 pounding	重击
 pounds	磅
-pour	流出
+pour	倒
 poussin	小鸡
 pout	撅嘴
 pouty	生气
@@ -36316,7 +36319,7 @@ prefatory	前言
 prefect	长官
 prefectural	县的
 prefecture	地方长官的职位
-prefer	宁可
+prefer	更喜欢
 preferable	更可取
 preferably	更可取地
 preference	偏爱
@@ -36565,7 +36568,7 @@ primary	主要的
 primate	大主教
 primatologist	灵长类动物学家
 primavera	白桃花心木
-prime	最佳部分
+prime	首要的
 primed	待发
 primer	入门书
 primeval	初期
@@ -36895,7 +36898,7 @@ proportionally	按比例地
 proportionate	相称
 proportionately	成比例地
 proposal	提议
-propose	计划
+propose	提议
 proposed	被提议
 proposer	申请人
 proposition	建议
@@ -36923,7 +36926,7 @@ proscriptive	剥夺人权
 prose	散文
 prosecute	告发
 prosecution	执行
-prosecutor	实行者
+prosecutor	检察官
 prosecutorial	公诉人
 proselytise	<主英>=proselytize
 proselytism	改信宗教
@@ -37370,7 +37373,7 @@ purser	事务长
 purslane	马齿苋
 pursuance	追赶
 pursuant	依据
-pursue	追赶
+pursue	追求
 pursuer	追赶者
 pursuit	追踪
 purulent	脓的
@@ -37710,7 +37713,7 @@ raceway	水道
 rachael	蕾切尔
 rachel	雷切尔
 rachmaninov	拉赫曼尼诺夫
-racial	人种
+racial	种族的
 racialism	种族主义
 racialist	种族主义
 racialized	种族化
@@ -37960,7 +37963,7 @@ rapture	兴高采烈
 rapturous	兴高采烈
 rapturously	兴高采烈地
 raquel	拉克尔
-rare	稀罕
+rare	稀有的
 rarebit	欧洲种的兔子
 rarefaction	稀薄化
 rarefied	变成稀薄
@@ -38349,7 +38352,7 @@ recordist	录音师
 recount	详述
 recoup	偿还
 recourse	求援
-recover	重新获得
+recover	恢复
 recoverability	可复性
 recoverable	可回复
 recovery	恢复
@@ -38597,7 +38600,7 @@ regalia	王权
 regality	王位
 regally	像帝王地
 regan	里根
-regard	关心
+regard	认为
 regarding	关于
 regardless	不管
 regards	问候
@@ -38726,7 +38729,7 @@ reissue	再发给
 reiterate	反复地说
 reiteration	重复
 reith	人名
-reject	被拒之人
+reject	拒绝
 rejected	被弃之物
 rejecter	拒绝者
 rejection	拒绝
@@ -38787,7 +38790,7 @@ reliance	信任
 reliant	依赖
 relic	遗物
 relict	未亡人
-relief	减轻
+relief	缓解
 relieve	减轻
 relieved	宽慰
 reliever	解除痛苦的人
@@ -38810,10 +38813,11 @@ relocation	再布置
 reluctance	不情愿
 reluctant	不情愿
 reluctantly	不情愿地
-rely	信赖
+rely	依靠
 rem	眼的迅速跳动
 remain	保持
 remainder	剩余物
+remaining	剩余的
 remains	剩余物
 remake	再作
 remand	遣回
@@ -39153,9 +39157,9 @@ resit	<英> vt.再参加
 resolute	果断的人
 resolutely	坚决地
 resoluteness	坚定地
-resolution	解析
+resolution	解决
 resolvable	可分解
-resolve	决定
+resolve	解决
 resolved	下定决心
 resonance	共鸣
 resonant	共鸣
@@ -40263,9 +40267,9 @@ rupee	卢比(印
 rupert	鲁珀特
 rupture	破裂
 ruptured	破裂
-rural	乡下
+rural	农村的
 ruse	计策
-rush	匆促
+rush	冲
 rushdie	拉什迪
 rushed	匆忙
 rushing	急流
@@ -40775,7 +40779,7 @@ saved	已保存
 saver	节省的器具
 savile	人名
 saville	人名
-saving	存款
+saving	储蓄
 savings	储蓄
 savior	救助者
 saviour	救助者
@@ -41361,7 +41365,7 @@ sectarianism	宗派主义
 section	部分
 sectional	部分
 sectionalism	地方主义
-sector	扇形
+sector	部门
 sectoral	扇形
 secular	修道院外的教士
 secularised	secularise的变形
@@ -41467,7 +41471,7 @@ selassie	人名
 selborne	人名
 selby	人名
 seldom	不常
-select	挑选出来
+select	选择
 selected	挑选出来
 selectee	征召员
 selection	选择
@@ -41643,7 +41647,7 @@ sep	九月
 sepal	萼片
 separability	可分离
 separable	可分离
-separate	独立件
+separate	分开的
 separated	分居
 separately	分开
 separateness	分开
@@ -41767,10 +41771,10 @@ seton	泄液线
 sett	铺路用的石头
 settee	长靠背椅
 setter	从事安装的人
-setting	环境
+setting	设置
 settle	解决
 settled	固定
-settlement	安顿
+settlement	解决
 settler	移民者
 settling	沉淀物
 settlor	财产授予者
@@ -41931,7 +41935,7 @@ sharkskin	鲨鱼皮
 sharma	沙玛
 sharman	人名
 sharon	莎伦
-sharp	半升音调
+sharp	锐利的
 sharpe	夏普指数
 sharpen	使尖锐
 sharpened	尖锐
@@ -42326,7 +42330,7 @@ sic	原文如此
 sichuan	四川(位于中国西南部
 sicilian	西西里岛
 sicily	西西里岛
-sick	病人
+sick	生病的
 sickbay	船上的医务室
 sickbed	病床
 sicken	患病
@@ -42416,7 +42420,7 @@ signer	签名者
 signet	印
 significance	重要性
 significant	重要
-significantly	值得注目地
+significantly	显著地
 signification	含义
 signified	意指
 signifier	信号物
@@ -42842,7 +42846,7 @@ slick	光滑
 slicker	防水衣
 slickly	平滑地
 slickness	光滑
-slide	滑
+slide	滑动
 slideshow	幻灯片
 sliding	滑行
 slight	轻蔑
@@ -43370,7 +43374,7 @@ somerville	萨默维尔[美国马萨诸塞州东部城市]
 something	某事
 sometime	以前
 sometimes	有时
-somewhat	某物
+somewhat	有点
 somewhere	到某处
 somewheres	在某处
 somme	索姆
@@ -43671,7 +43675,7 @@ specie	硬币
 species	物种
 specifiable	可指明
 specific	特定的
-specifically	特定地
+specifically	具体地
 specification	规格
 specificity	特异性
 specified	规定
@@ -44326,7 +44330,7 @@ steadman	人名
 steady	稳定
 steak	牛排
 steakhouse	牛排餐厅
-steal	剽窃
+steal	偷
 stealer	偷取者
 stealing	偷窃
 stealth	秘密行动
@@ -44524,7 +44528,7 @@ stipple	点刻法
 stipulate	规定
 stipulated	& vi. 规定
 stipulation	约束
-stir	骚动
+stir	搅拌
 stir-fry	用旺火煸
 stirling	斯特灵（英国苏格兰中部城市
 stirlingshire	斯特灵郡
@@ -45455,7 +45459,7 @@ supporting	次要
 supportive	支撑
 supportively	支持
 supportiveness	支持力
-suppose	推想
+suppose	假设
 supposed	应该
 supposedly	想象上
 supposing	如果
@@ -45554,7 +45558,7 @@ susceptibility	敏感性
 susceptible	易受影响
 sushi	寿司
 susie	苏西
-suspect	被怀疑者
+suspect	怀疑
 suspected	有嫌疑
 suspend	悬
 suspended	悬浮
@@ -46075,7 +46079,7 @@ tangled	纠缠
 tango	探戈舞
 tangy	有强烈盐味
 tania	芋类
-tank	槽
+tank	坦克
 tankard	大啤酒杯
 tanker	坦克手
 tankful	满箱
@@ -46272,7 +46276,7 @@ teammate	队友
 teamster	联畜运输车驾驶者
 teamwork	协同作业
 teapot	茶壶
-tear	泪滴
+tear	眼泪
 tearaway	野性十足
 teardown	拆卸
 teardrop	泪珠
@@ -47142,7 +47146,7 @@ tintype	铁版照相法
 tinware	洋铁细工
 tiny	很少
 tion	象征式互动
-tip	顶
+tip	提示
 tip-off	透露情报
 tipi	美国印第安人的圆锥形帐篷
 tipperary	蒂珀雷里
@@ -47159,7 +47163,7 @@ tirade	激烈的长篇演说
 tiramisu	提拉米苏
 tirana	地拉那
 tire	轮胎
-tired	疲累
+tired	累的
 tiredly	疲劳地
 tiredness	疲劳
 tireless	不疲倦
@@ -47682,7 +47686,7 @@ transferred	呼叫转移
 transfiguration	变形
 transfigure	使变形
 transfix	刺穿
-transform	使转换
+transform	改变
 transformation	变形
 transformative	有改革能力
 transformer	变压器
@@ -48072,7 +48076,7 @@ truffle	块菌
 truffled	用块菌烹调
 truism	自明之理
 trujillo	特鲁希略
-truly	真实地
+truly	真正地
 truman	杜鲁门
 trump	王牌
 trumper	人名
@@ -48390,7 +48394,7 @@ typhoon	台风
 typhus	斑疹伤寒
 typical	典型
 typicality	典型性
-typically	代表性地
+typically	通常
 typification	典型化
 typify	代表
 typing	打字
@@ -49102,7 +49106,7 @@ unforgiven	未被宽恕
 unforgiving	不宽恕人
 unformed	未成形
 unfortunate	不幸
-unfortunately	恐怕
+unfortunately	不幸地
 unfortunates	不幸的人
 unfounded	没有事实根据
 unfpa	联合国人口活动基金会
@@ -49244,7 +49248,7 @@ unionization	联合
 unionize	vt. 成立工会
 unionized	组织成工会
 unipolar	单极
-unique	独一无二
+unique	独特的
 uniquely	独特地
 unisex	男女皆宜
 unison	调和
@@ -49831,7 +49835,7 @@ uplifting	令人振奋
 upmarket	高级
 upminster	阿普敏斯特
 upon	在之上
-upper	上面
+upper	上面的
 uppercase	大写字母
 upperclassman	高年级学生
 uppercut	上钩拳
@@ -49942,14 +49946,14 @@ usage	用法
 usaid	美国国际开发署
 use	使用
 useable	可用
-used	使用过
+used	用过的
 useful	有用
 usefully	有效地
 usefulness	有用
 useless	无用
 uselessly	无益地
 uselessness	无用
-user	使用者
+user	用户
 user-friendly	用户界面友好
 username	由字母或数字组成的用户名称
 usher	引座员
@@ -50134,7 +50138,7 @@ vapour	汽
 vaquero	牧者
 vargas	瓦尔加斯
 variability	易变
-variable	易变的事物
+variable	可变的
 variably	易变地
 variance	不一致
 variant	变体
@@ -50633,7 +50637,7 @@ visit	拜访
 visitable	可以参观
 visitation	访问
 visiting	参观
-visitor	参观者
+visitor	访客
 visitors	访问者
 visor	面甲
 visored	遮阳板
@@ -50762,7 +50766,7 @@ voltaire	伏尔泰（法国启蒙思想家
 voltmeter	伏特计
 voluble	流利
 volubly	流利地
-volume	册
+volume	体积
 volumetric	测定体积
 voluminous	卷数多
 voluntarily	自愿地
@@ -50882,7 +50886,7 @@ waitrose	维特罗斯
 waitstaff	（统称
 waive	不坚持要求
 waiver	放弃
-wake	叫醒
+wake	醒来
 wakeboard	花式滑水板
 wakefield	韦克菲尔德
 wakeful	觉醒
@@ -51195,7 +51199,7 @@ we	我们
 we'd	we had 我们已
 we've	（尤当 have 为助动词时
 wea	工人教育协会
-weak	不牢固
+weak	弱的
 weaken	削弱
 weakened	虚弱
 weakfish	细肉鱼
@@ -52188,7 +52192,7 @@ wraith	生魂
 wraithlike	wraith的变形
 wrangle	争论
 wrangler	口角者
-wrap	外套
+wrap	包裹
 wraparound	裹身
 wrapped	有包装
 wrapper	包装者
@@ -52611,7 +52615,7 @@ zombie	蛇神
 zomby	僵停
 zon	见"ama"
 zonal	带的
-zone	地带
+zone	区域
 zoned	佩带象征处女的环带
 zoning	分区制
 zonk	& vi. 筋疲力尽
