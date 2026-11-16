@@ -33,6 +33,22 @@ CORR = {
  '跟你':'with you','而不是':'rather than','第三':'third','一是':'first is','都没':'none','你在':'you are at','脸上':'on the face',
  '一把':'a handful','他说':'he says','两次':'two times','一件':'one item','一部':'one work','说过':'have said',
 }
+# 单字/姓氏/多义字系统性纠偏（评审官 REVIEW B2.13 指出：单字多取冷僻义/专名）
+CORR.update({
+ # batch2 单字
+ '法':'law','版':'version','股':'share','几':'several','考':'to test','块':'piece','周':'week','便':'convenient',
+ '猪':'pig','包':'bag','李':'surname Li','型':'type','穿':'to wear','越':'to surpass','部':'part','处':'place',
+ '省':'province','称':'to call','台':'platform','累':'tired','经':'to pass','查':'to check','陈':'surname Chen',
+ '顶':'top','楼':'building','单':'single','咋':'why','满':'full','店':'shop','度':'degree','刘':'surname Liu',
+ '若':'if','文':'writing','表':'watch','管':'to manage','质量':'quality',
+ # batch3 单字
+ '占':'to occupy','杨':'surname Yang','片':'slice','西':'west','龙':'dragon','明':'bright','妈':'mom','蛮':'quite',
+ '镇':'town','清':'clear','咩':'baa','理':'reason','城':'city','罗':'surname Luo','令':'to order','重庆':'Chongqing',
+ # batch4 单字
+ '德':'virtue','操':'to operate','克':'to overcome','局':'bureau','华':'splendid','团':'group','篇':'chapter',
+ '电':'electricity','修':'to repair','沈':'surname Shen','鬼':'ghost','木':'wood','层':'layer','份':'portion',
+ '赵':'surname Zhao','合':'to combine','噶':'ga','派':'faction','帅':'handsome','胡':'beard','天津':'Tianjin',
+})
 wt={}; inb=False
 for ln in open(r'Keyboard/pinyin_simp.dict.yaml',encoding='utf-8'):
     ln=ln.rstrip('\n')
