@@ -121,6 +121,7 @@ const ZH_OVERRIDES = {
   '月': 'month', '门': 'door', '给': 'give', '跑': 'run', '帮助': 'help',
   '读': 'to read', '说': 'to speak', '听': 'to listen', '看': 'to look',
   '先生': 'Mr.', '井': 'well', '革命': 'revolution',
+  '在别处': 'elsewhere', '广告业': 'advertising',
 };
 for (const k in ZH_OVERRIDES) zh2en.set(k, ZH_OVERRIDES[k]);
 const keys = [...zh2en.keys()].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));

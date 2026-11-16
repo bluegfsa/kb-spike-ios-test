@@ -28784,6 +28784,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 在位时代	reign (of a king, emperor etc)
 在先	to come first
 在内	(included) in it
+在别处	elsewhere
 在前	ahead
 在千钧一发之际	at the critical moment
 在华	within China
@@ -42046,6 +42047,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 广博	extensive
 广受好评	widely praised
 广告	to advertise
+广告业	advertising
 广告主	advertiser
 广告位	ad space
 广告商	advertising company
