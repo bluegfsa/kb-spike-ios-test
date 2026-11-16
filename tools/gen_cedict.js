@@ -122,6 +122,10 @@ const ZH_OVERRIDES = {
   '读': 'to read', '说': 'to speak', '听': 'to listen', '看': 'to look',
   '先生': 'Mr.', '井': 'well', '革命': 'revolution',
   '在别处': 'elsewhere', '广告业': 'advertising',
+  // 中→英 batch1 抽检查出的真实错义/缺词
+  '家伙': 'guy', '比': 'than', '被': 'by', '队': 'team', '让': 'let',
+  '点': 'point', '进位': 'carry', '低点': 'low', '一看': 'look',
+  '每一': 'every', '更多': 'more',
 };
 for (const k in ZH_OVERRIDES) zh2en.set(k, ZH_OVERRIDES[k]);
 const keys = [...zh2en.keys()].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));

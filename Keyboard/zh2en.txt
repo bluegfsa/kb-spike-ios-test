@@ -770,6 +770,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 一直	straight (in a straight line)
 一直以来	in the past always
 一相情愿	variant of 一廂情願|一厢情愿[yi1 xiang1 qing2 yuan4]
+一看	look
 一眨眼	in a wink
 一眼	a glance
 一眼望去	as far as the eye can see
@@ -9426,6 +9427,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 低消费	low level of spending
 低温	low temperature
 低潮	low tide
+低点	low
 低烧	a low fever (up to 38°C)
 低热	low-grade fever (37.3–38°C)
 低眉顺眼	docile
@@ -36952,7 +36954,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 家亲	older generation in one's household (often referring to one's parents)
 家人	family member
 家什	utensils
-家伙	household dish, implement or furniture
+家伙	guy
 家传	handed down in a family
 家佣	domestic helper
 家信	letter to or from home or family
@@ -58727,6 +58729,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 更卒	soldier (serving alternate watch)
 更博	(Internet slang) to update one's blog
 更名	to rename
+更多	more
 更夫	night watchman (in former times)
 更始	to make a new start
 更年期	menopause
@@ -65027,6 +65030,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 母驴	jenny
 母鸡	hen
 每	each
+每一	every
 每下愈况	see 每況愈下|每况愈下[mei3 kuang4 yu4 xia4]
 每个	each
 每个人	everybody
@@ -65107,7 +65111,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 毒鸡汤	(coll.) profit-motivated article cynically disguised as feel-good content 雞湯|鸡汤[ji1 tang1] and designed to go viral
 毓	(literary) to produce
 毓婷	Yuting, trade name of an emergency birth control tablet containing the hormonal medication levonorgestrel
-比	Belgium
+比	than
 比一比	to make a comparison
 比上不足，比下有余	neither the best nor the worst
 比下去	to defeat
@@ -72857,7 +72861,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 炸鱼	deep-fried fish
 炸鱼薯条	fish and chips
 炸鸡	fried chicken
-点	to touch briefly
+点	point
 点乘	(math.) dot product (of two vectors)
 点交	to hand over (bought goods etc)
 点亮	to illuminate
@@ -99151,7 +99155,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 袢	used in 袷袢[qia1 pan4]
 袤	length
 袪	sleeve opening
-被	quilt
+被	by
 被上诉人	appellee (side that won in trial court, whose victory is being appealed by losing side)
 被乘数	multiplicand
 被优化掉	to be made redundant
@@ -100870,7 +100874,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 讨还	to ask for sth back
 讨饭	to ask for food
 讨饶	to beg for mercy
-让	to yield
+让	let
 让人羡慕	enviable
 让位	to abdicate
 让利	to give a discount
@@ -106889,6 +106893,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 进一步	to go a step further
 进京	to enter the capital
 进价	opening price
+进位	carry
 进位法	system of writing numbers to a base, such as decimal or binary (math)
 进修	to undertake advanced studies
 进入	to enter
@@ -112754,7 +112759,7 @@ word姐	my big sister (Internet slang version of 我的姐[wo3 de5 jie3])
 阜阳	see 阜陽市|阜阳市[Fu4 yang2 Shi4]
 阜阳市	Fuyang, prefecture-level city in Anhui Province 安徽省[An1 hui1 Sheng3]
 阞	layer
-队	squadron
+队	team
 队伍	troops
 队列	formation (of troops)
 队友	teammate
