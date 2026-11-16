@@ -8,7 +8,7 @@
 #   3) 去词性前缀、去括注、去结尾「的」；
 #   4) 对高频常用词用 OVERRIDES 纠正（ECDICT 个别词首义是次要词性，如 good 首行是名词「善行」）。
 # 用法：python gen_en2zh.py <ecdict.csv> <en2zh.txt> [sample]
-import sys, csv, re
+import sys, csv, re, os
 
 src = sys.argv[1]
 out = sys.argv[2] if len(sys.argv) > 2 else 'en2zh.txt'
@@ -91,6 +91,19 @@ with open(src, newline='', encoding='utf-8') as f:
 
 for w, g in OVERRIDES.items():
     en2zh[w] = g
+
+# 常用词人工校正核心词表（分批）：tools/core_batch1.tsv（word\t主义），覆盖 ECDICT 首义
+_core = os.path.join(os.path.dirname(__file__), 'core_batch1.tsv')
+if os.path.exists(_core):
+    n = 0
+    for ln in open(_core, encoding='utf-8'):
+        ln = ln.rstrip('\n')
+        if '\t' not in ln: continue
+        k, v = ln.split('\t', 1)
+        if v: en2zh[k] = v
+        else: en2zh.pop(k, None)
+        n += 1
+    print('applied core_batch1:', n)
 
 keys = sorted(en2zh)
 body = ''.join(f'{k}\t{en2zh[k]}\n' for k in keys)

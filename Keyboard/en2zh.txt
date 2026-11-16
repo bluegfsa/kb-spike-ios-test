@@ -85,7 +85,7 @@ ablate	切除
 ablation	腐蚀
 ablative	夺格
 ablaze	着火
-able	能干
+able	能够
 ablution	洗澡
 ably	能干地
 abm	反弹道导弹
@@ -281,7 +281,7 @@ accomplished	完成
 accomplishment	成就
 accord	一致
 accordance	一致
-according	相符
+according	根据
 accordingly	相应地
 accordion	手风琴
 accordionist	手风琴师
@@ -2429,7 +2429,7 @@ aromatherapy	用香料按摩
 aromatic	芬芳
 aron	阿伦
 aronson	人名
-around	包围
+around	周围
 arousal	奋发
 arouse	唤醒
 aroused	唤醒
@@ -3762,7 +3762,7 @@ baryon	重子
 basal	基础
 basalt	玄武岩
 basaltic	玄武岩
-base	底部
+base	基础
 baseball	棒球
 baseboard	护壁板
 basel	巴塞尔
@@ -4159,7 +4159,7 @@ behead	斩首
 beheaded	身首异处
 behemoth	庞然大物
 behest	命令
-behind	在后地
+behind	在后面
 behind-the-scenes	幕后
 behold	看到
 beholden	负有义务
@@ -11293,7 +11293,7 @@ customised	依照顾客具体要求而制造
 customize	定制
 customized	自定义
 customs	海关
-cut	切口
+cut	切
 cut-price	打折扣
 cutaneous	皮肤上
 cutaway	剖面
@@ -14549,7 +14549,7 @@ ecologist	生态学者
 ecology	生态学
 econometric	计量经济学
 econometrics	计量经济学
-economic	经济上
+economic	经济的
 economical	节俭
 economically	节约地
 economics	经济学
@@ -18050,7 +18050,7 @@ formatted	格式化
 formby	人名
 forme	印版
 formed	成形
-former	从前
+former	以前的
 formerly	从前
 formic	蚁的
 formica	胶木
@@ -20020,7 +20020,7 @@ greaseproof	不透油
 greaser	加油脂/涂油脂的工人
 greasewood	黑肉叶刺茎藜
 greasy	油腻
-great	大的
+great	伟大的
 greatcoat	厚大衣
 greatly	很
 greatness	大
@@ -20244,7 +20244,7 @@ grovel	趴
 grovelling	趴着
 grover	格鲁佛氏
 groves	格罗夫斯或
-grow	种植
+grow	生长
 grower	栽培者
 growing	成长
 growl	吠声
@@ -21625,7 +21625,7 @@ hifi	高保真
 higgins	希金斯
 higginson	希金森(①姓氏 ②Thomas Wentworth
 higgs	meson[物]希格斯介子
-high	高度
+high	高的
 high-class	高级
 high-flyer	抱负极高的人
 high-pitched	调子高
@@ -23740,7 +23740,7 @@ informal	非正式
 informality	非正式
 informally	非正式地
 informant	提供消息者
-information	消息
+information	信息
 informational	信息
 informative	提供消息
 informatively	提供信息地
@@ -27298,7 +27298,7 @@ lobster	龙虾
 lobsterman	捕龙虾的渔夫
 lobular	有小叶
 lobule	小裂片
-local	地方性
+local	当地的
 locale	现场
 localisation	本土化
 localise	vi. 使地方化
@@ -27591,7 +27591,7 @@ lovett	人名
 lovey	宝贝
 loving	亲爱
 lovingly	钟爱地
-low	低点
+low	低的
 low-key	抑制
 low-paid	工资低
 lowbred	未受过好教育
@@ -28807,7 +28807,7 @@ matt	表面暗淡
 matta	人名
 matte	表面粗糙
 matted	铺席子
-matter	事件
+matter	事情
 matter-of-fact	事实
 matterhorn	马塔角
 matthew	马太
@@ -29162,7 +29162,7 @@ meekness	温顺
 meer	米尔
 meerkat	海岛猫鼬
 meerschaum	海泡石
-meet	会
+meet	见面
 meeting	会议
 meetinghouse	聚会所
 meg	梅格（女子名
@@ -33967,7 +33967,7 @@ parton	部分子
 partook	partake过去式
 partridge	鹧鸪
 parturition	分娩
-party	宴会
+party	聚会
 partyer	党
 partygoer	社交聚会常客
 parvenu	暴发户
@@ -34177,7 +34177,7 @@ pawsey	人名
 pax	圣像牌
 paxman	帕克斯曼
 paxton	帕克斯顿
-pay	薪资
+pay	支付
 payable	可付
 paycheck	付薪水的支票
 payday	发薪日
@@ -35450,7 +35450,7 @@ playbill	戏单
 playbook	剧本
 playboy	花花公子
 playdate	上映期
-player	竞赛者
+player	运动员
 playful	爱打趣
 playfully	开玩笑地
 playfulness	活泼快乐
@@ -36119,7 +36119,7 @@ powder	粉
 powdered	弄成粉末
 powdery	粉的
 powell	鲍威尔
-power	力
+power	力量
 power-sharing	权力分享
 powerboat	机动艇
 powered	有动力装置
@@ -36676,7 +36676,7 @@ proceed	继续进行
 proceeding	进行
 proceedings	诉讼
 proceeds	收益
-process	程序
+process	过程
 processed	处理
 procession	队伍
 processional	列队行进
@@ -36782,7 +36782,7 @@ prohibition	禁令
 prohibitionist	禁酒主义者
 prohibitive	禁止
 prohibitively	禁止
-project	计划
+project	项目
 projected	投影
 projectile	发射体
 projecting	突出
@@ -37836,7 +37836,7 @@ rainout	雨散落物
 rainstorm	雨暴
 rainwater	雨水
 rainy	下雨
-raise	上升
+raise	提高
 raised	凸起
 raiser	提高者
 raisin	葡萄干
@@ -41418,7 +41418,7 @@ seeing	视觉
 seek	寻求
 seeker	搜索者
 seely	可怜
-seem	象是
+seem	似乎
 seeming	表面上
 seemingly	看来似乎
 seemly	适当
@@ -41591,7 +41591,7 @@ sensationalist	爱采用耸人听闻手法的人
 sensationalistic	sensationalist的变形
 sensationalize	使引起轰动
 sensationally	耸人听闻地
-sense	感应
+sense	感觉
 senseless	无感觉
 senselessly	毫无知觉地
 senselessness	无知觉
@@ -42610,7 +42610,7 @@ sit-down	静坐抗议
 sit-in	静坐抗议
 sitar	西他
 sitcom	情景喜剧
-site	位置
+site	地点
 siting	建设地点的决定
 sitka	锡特卡
 sitter	坐着的人
@@ -46923,7 +46923,7 @@ thrombus	血栓
 throne	王座
 throng	群
 throttle	节流阀
-through	穿越
+through	穿过
 throughout	到处
 throughput	生产量
 throughway	过境道路
@@ -52079,7 +52079,7 @@ woozy	头昏眼花
 wop	意大利移民
 worcester	伍斯特
 worcestershire	伍斯特郡[英国英格兰原郡名]
-word	话
+word	单词
 wording	用词
 wordless	沉默
 wordlessly	默默无言地
