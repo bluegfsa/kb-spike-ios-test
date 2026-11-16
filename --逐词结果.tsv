@@ -1,0 +1,241 @@
+dir	query	data	expected	result
+en2zh	you	你	你|您	PASS
+en2zh	hello	你好	你好|喂	PASS
+en2zh	thanks	谢谢	谢谢|感谢	PASS
+en2zh	water	水	水	PASS
+en2zh	book	书	书	PASS
+en2zh	eat	吃	吃	PASS
+en2zh	drink	喝	喝	PASS
+en2zh	sleep	睡觉	睡觉|睡眠	PASS
+en2zh	run	跑	跑	PASS
+en2zh	walk	走	走	PASS
+en2zh	open	打开	打开	PASS
+en2zh	close	关	关|关闭|结束	PASS
+en2zh	cold	冷	冷	PASS
+en2zh	hot	热的	热	PASS
+en2zh	good	好	好	PASS
+en2zh	bad	坏的	坏	PASS
+en2zh	big	大的	大	PASS
+en2zh	small	小的	小	PASS
+en2zh	new	新的	新	PASS
+en2zh	old	老	老|旧|以前	PASS
+en2zh	fast	快速	快|快速	PASS
+en2zh	slow	慢的	慢	PASS
+en2zh	happy	快乐	快乐|高兴	PASS
+en2zh	sad	难过	悲伤|难过	PASS
+en2zh	money	金钱	钱|金钱	PASS
+en2zh	time	时间	时间	PASS
+en2zh	day	天	天	PASS
+en2zh	year	年	年	PASS
+en2zh	month	月	月	PASS
+en2zh	week	星期	周|星期	PASS
+en2zh	school	学校	学校	PASS
+en2zh	teacher	教师	教师|老师	PASS
+en2zh	student	学生	学生	PASS
+en2zh	friend	朋友	朋友	PASS
+en2zh	family	家庭	家庭	PASS
+en2zh	mother	母亲	母亲|妈妈	PASS
+en2zh	father	父亲	父亲|爸爸	PASS
+en2zh	home	家	家	PASS
+en2zh	city	城市	城市	PASS
+en2zh	country	国家	国家	PASS
+en2zh	world	世界	世界	PASS
+en2zh	china	中国	中国	PASS
+en2zh	phone	电话	电话	PASS
+en2zh	computer	电脑	电脑|计算机	PASS
+en2zh	car	汽车	汽车	PASS
+en2zh	house	房子	房子|住宅	PASS
+en2zh	room	房间	房间	PASS
+en2zh	door	门	门	PASS
+en2zh	table	桌子	桌子	PASS
+en2zh	chair	椅子	椅子	PASS
+en2zh	eye	眼睛	眼睛	PASS
+en2zh	hand	手	手	PASS
+en2zh	head	头	头	PASS
+en2zh	heart	心	心|心脏	PASS
+en2zh	love	爱	爱	PASS
+en2zh	name	名字	名字|名称	PASS
+en2zh	work	工作	工作	PASS
+en2zh	play	玩	玩|游戏	PASS
+en2zh	study	学习	学习|研究	PASS
+en2zh	read	读	读|阅读	PASS
+en2zh	write	书写	写|书写	PASS
+en2zh	speak	说	说|说话	PASS
+en2zh	listen	听	听	PASS
+en2zh	watch	观察	看|观察|手表	PASS
+en2zh	help	帮忙	帮助|帮忙	PASS
+en2zh	buy	买	买	PASS
+en2zh	sell	卖	卖	PASS
+en2zh	give	给	给	PASS
+en2zh	take	拿	拿	PASS
+en2zh	want	想要	想要|要	PASS
+en2zh	need	需要	需要	PASS
+en2zh	know	知道	知道|了解	PASS
+en2zh	think	想	想|认为	PASS
+en2zh	see	看见	看|看见	PASS
+en2zh	look	看	看	PASS
+en2zh	come	来	来|过来	PASS
+en2zh	go	去	去|走	PASS
+en2zh	morning	早晨	早晨|早上	PASS
+en2zh	night	夜	夜|晚上	PASS
+en2zh	today	今天	今天	PASS
+en2zh	tomorrow	明天	明天	PASS
+en2zh	yesterday	昨天	昨天	PASS
+en2zh	food	食物	食物	PASS
+en2zh	air	空气	空气	PASS
+en2zh	fire	火	火	PASS
+en2zh	sun	太阳	太阳	PASS
+en2zh	moon	月亮	月亮	PASS
+en2zh	star	星	星	PASS
+en2zh	tree	树	树	PASS
+en2zh	flower	花	花	PASS
+en2zh	dog	狗	狗	PASS
+en2zh	cat	猫	猫	PASS
+en2zh	bird	鸟	鸟	PASS
+en2zh	fish	鱼	鱼	PASS
+en2zh	red	红的	红|红色	PASS
+en2zh	blue	蓝色	蓝|蓝色	PASS
+en2zh	green	绿色	绿|绿色	PASS
+en2zh	black	黑色	黑|黑色	PASS
+en2zh	white	白色	白|白色	PASS
+en2zh	one	一	一|一个	PASS
+en2zh	two	二	二	PASS
+en2zh	three	三	三	PASS
+en2zh	ten	十	十	PASS
+en2zh	hundred	百	百|一百	PASS
+en2zh	thousand	千	千|一千	PASS
+en2zh	yes	是	是	PASS
+en2zh	no	不	不|没有	PASS
+en2zh	please	请	请	PASS
+en2zh	sorry	抱歉	抱歉|对不起|难过	PASS
+en2zh	goodbye	再见	再见	PASS
+en2zh	thank	谢谢	谢谢|感谢	PASS
+en2zh	welcome	欢迎	欢迎	PASS
+en2zh	question	问题	问题	PASS
+en2zh	answer	答案	回答|答案	PASS
+en2zh	apple	苹果	苹果	PASS
+en2zh	banana	香蕉	香蕉	PASS
+en2zh	orange	橙	橙|橙色	PASS
+en2zh	milk	奶	牛奶|奶	PASS
+en2zh	bread	面包	面包	PASS
+en2zh	rice	米	米|米饭	PASS
+en2zh	tea	茶	茶	PASS
+en2zh	coffee	咖啡	咖啡	PASS
+zh2en	你	you	you	PASS
+zh2en	你好	hello	hello	PASS
+zh2en	谢谢	to thank	thank|thanks	PASS
+zh2en	水	water	water	PASS
+zh2en	书	book	book	PASS
+zh2en	吃	to eat	eat	PASS
+zh2en	喝	to drink	drink	PASS
+zh2en	睡觉	sleep	sleep	PASS
+zh2en	跑	run	run	PASS
+zh2en	走	to walk	walk	PASS
+zh2en	打开	to open	open	PASS
+zh2en	关	close	close	PASS
+zh2en	冷	cold	cold	PASS
+zh2en	热	hot	hot	PASS
+zh2en	好	good	good|fine	PASS
+zh2en	坏	bad	bad	PASS
+zh2en	大	big	big|large	PASS
+zh2en	小	small	small|little	PASS
+zh2en	新	new	new	PASS
+zh2en	旧	old	old	PASS
+zh2en	快	fast	fast|quick	PASS
+zh2en	慢	slow	slow	PASS
+zh2en	高兴	happy	happy|glad	PASS
+zh2en	难过	to feel sad	sad|sorry	PASS
+zh2en	钱	money	money	PASS
+zh2en	时间	(concept of) time	time	PASS
+zh2en	天	day	day	PASS
+zh2en	年	year	year	PASS
+zh2en	月	month	month	PASS
+zh2en	星期	week	week	PASS
+zh2en	学校	school	school	PASS
+zh2en	老师	teacher	teacher	PASS
+zh2en	学生	student	student	PASS
+zh2en	朋友	friend	friend	PASS
+zh2en	家庭	family	family	PASS
+zh2en	母亲	mother	mother	PASS
+zh2en	父亲	father	father	PASS
+zh2en	家	home	home|family	PASS
+zh2en	城市	city	city	PASS
+zh2en	国家	country	country	PASS
+zh2en	世界	world	world	PASS
+zh2en	中国	China	China	PASS
+zh2en	电话	telephone	phone|telephone	PASS
+zh2en	电脑	computer	computer	PASS
+zh2en	汽车	car	car	PASS
+zh2en	房子	house	house	PASS
+zh2en	房间	room	room	PASS
+zh2en	门	door	door	PASS
+zh2en	桌子	table	table	PASS
+zh2en	椅子	chair	chair	PASS
+zh2en	眼睛	eye	eye	PASS
+zh2en	手	hand	hand	PASS
+zh2en	头	head	head	PASS
+zh2en	心	heart	heart	PASS
+zh2en	爱	to love	love	PASS
+zh2en	名字	name (of a person or thing)	name	PASS
+zh2en	工作	to work	work|job	PASS
+zh2en	玩	to play	play	PASS
+zh2en	学习	to learn	study|learn	PASS
+zh2en	读	to read	read	PASS
+zh2en	写	to write	write	PASS
+zh2en	说	to speak	speak|say	PASS
+zh2en	听	to listen	listen	PASS
+zh2en	看	to look	look|see|watch	PASS
+zh2en	帮助	help	help	PASS
+zh2en	买	to buy	buy	PASS
+zh2en	卖	to sell	sell	PASS
+zh2en	给	give	give	PASS
+zh2en	拿	to hold	take	FAIL
+zh2en	想要	to want to	want	PASS
+zh2en	需要	to need	need	PASS
+zh2en	知道	to know	know	PASS
+zh2en	想	to think (about)	think	PASS
+zh2en	来	to come	come	PASS
+zh2en	去	to go	go	PASS
+zh2en	早晨	early morning	morning	PASS
+zh2en	夜	night	night	PASS
+zh2en	今天	today	today	PASS
+zh2en	明天	tomorrow	tomorrow	PASS
+zh2en	昨天	yesterday	yesterday	PASS
+zh2en	食物	food	food	PASS
+zh2en	空气	air	air	PASS
+zh2en	火	fire	fire	PASS
+zh2en	太阳	sun	sun	PASS
+zh2en	月亮	the moon	moon	PASS
+zh2en	星	star	star	PASS
+zh2en	树	tree	tree	PASS
+zh2en	花	flower	flower	PASS
+zh2en	狗	dog	dog	PASS
+zh2en	猫	cat (CL:隻|只[zhi1])	cat	PASS
+zh2en	鸟	bird	bird	PASS
+zh2en	鱼	fish (CL:條|条[tiao2],尾[wei3])	fish	PASS
+zh2en	红	red	red	PASS
+zh2en	蓝	blue	blue	PASS
+zh2en	绿	green	green	PASS
+zh2en	黑	black	black	PASS
+zh2en	白	white	white	PASS
+zh2en	一	one	one	PASS
+zh2en	二	two	two	PASS
+zh2en	三	three	three	PASS
+zh2en	十	ten	ten	PASS
+zh2en	百	hundred	hundred	PASS
+zh2en	千	thousand	thousand	PASS
+zh2en	是	to be	yes	FAIL
+zh2en	不	no	no|not	PASS
+zh2en	请	to ask	please	FAIL
+zh2en	抱歉	to be sorry	sorry	PASS
+zh2en	再见	goodbye	goodbye	PASS
+zh2en	欢迎	to welcome	welcome	PASS
+zh2en	问题	question	question|problem	PASS
+zh2en	答案	answer	answer	PASS
+zh2en	苹果	Apple (American tech company)	apple	PASS
+zh2en	香蕉	banana	banana	PASS
+zh2en	牛奶	cow's milk	milk	PASS
+zh2en	面包	bread	bread	PASS
+zh2en	米	uncooked rice	rice	PASS
+zh2en	茶	tea	tea	PASS
+zh2en	咖啡	(loanword) coffee	coffee	PASS

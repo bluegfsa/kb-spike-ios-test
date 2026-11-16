@@ -126,8 +126,24 @@ const ZH_OVERRIDES = {
   '家伙': 'guy', '比': 'than', '被': 'by', '队': 'team', '让': 'let',
   '点': 'point', '进位': 'carry', '低点': 'low', '一看': 'look',
   '每一': 'every', '更多': 'more',
+  // 中→英已知怪义（评审官 B2.7 抽检点名）
+  '时代': 'era', '流行': 'popular', '在之间': 'between', '区段': 'section', '捆绑物': 'bundle',
 };
 for (const k in ZH_OVERRIDES) zh2en.set(k, ZH_OVERRIDES[k]);
+
+// 中→英 常用词人工校正核心词表（分批）：tools/core_zh_batch1.tsv（词\t英文主义）
+const zhCorePath = path.join(__dirname, 'core_zh_batch1.tsv');
+if (fs.existsSync(zhCorePath)) {
+  let n = 0;
+  for (const ln of fs.readFileSync(zhCorePath, 'utf8').split(/\r?\n/)) {
+    const t = ln.indexOf('\t');
+    if (t < 0) continue;
+    const k = ln.slice(0, t), v = ln.slice(t + 1);
+    if (v) zh2en.set(k, v); else zh2en.delete(k);
+    n++;
+  }
+  console.log('applied core_zh_batch1:', n);
+}
 const keys = [...zh2en.keys()].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
 const out = keys.map(k => k + '\t' + zh2en.get(k)).join('\n') + '\n';
 fs.writeFileSync(path.join(outDir, 'zh2en.txt'), out, 'utf8');
