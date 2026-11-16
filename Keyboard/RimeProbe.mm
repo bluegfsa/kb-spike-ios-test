@@ -19,6 +19,22 @@ static BOOL KBCopyResource(NSString *name, NSString *ext, NSString *dstDir) {
     return [fm copyItemAtPath:p toPath:dst error:nil];
 }
 
+/// 仅在目标缺失或大小不同时才复制（避免每次启动重复拷贝 ~6.7MB 数据）。
+static BOOL KBCopyIfNeeded(NSString *name, NSString *ext, NSString *dstDir) {
+    NSString *p = [[NSBundle mainBundle] pathForResource:name ofType:ext];
+    if (!p) { return NO; }
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *dst = [dstDir stringByAppendingPathComponent:[p lastPathComponent]];
+    NSDictionary *srcAttr = [fm attributesOfItemAtPath:p error:nil];
+    NSDictionary *dstAttr = [fm attributesOfItemAtPath:dst error:nil];
+    if (dstAttr && srcAttr &&
+        [[dstAttr fileSize] unsignedLongLongValue] == [[srcAttr fileSize] unsignedLongLongValue]) {
+        return YES; // 已是同一份，跳过拷贝
+    }
+    [fm removeItemAtPath:dst error:nil];
+    return [fm copyItemAtPath:p toPath:dst error:nil];
+}
+
 /// 旧探针（独立初始化 + 打印候选），保留兼容；B2 主用 RimeKb*。
 NSString *RimeProbeType(NSString *sharedDir, NSString *userDir) {
     RimeApi *api = rime_get_api();
@@ -46,6 +62,9 @@ NSString *RimeProbeType(NSString *sharedDir, NSString *userDir) {
 static RimeApi *g_api = NULL;
 static RimeSessionId g_sid = 0;
 
+/// 部署版本号：词库/配置变更时 +1，可强制扩展重部署一次。
+static NSString *const kRimeDeployVersion = @"v1";
+
 BOOL RimeKbInit(NSString *sharedDir, NSString *userDir) {
     if (g_api && g_sid) { return YES; }
     RimeApi *api = rime_get_api();
@@ -53,9 +72,11 @@ BOOL RimeKbInit(NSString *sharedDir, NSString *userDir) {
     NSFileManager *fm = [NSFileManager defaultManager];
     [fm createDirectoryAtPath:sharedDir withIntermediateDirectories:YES attributes:nil error:nil];
     [fm createDirectoryAtPath:userDir withIntermediateDirectories:YES attributes:nil error:nil];
+    // 配置/词库：仅在缺失或大小不同时复制（一次性，不再每次重复拷贝 ~6.7MB）。
     NSArray<NSString *> *yml = @[@"default", @"pinyin_simp.schema", @"pinyin_simp.dict",
                                  @"key_bindings", @"punctuation", @"symbols"];
-    for (NSString *n in yml) { KBCopyResource(n, @"yaml", sharedDir); }
+    for (NSString *n in yml) { KBCopyIfNeeded(n, @"yaml", sharedDir); }
+
     RimeTraits traits; memset(&traits, 0, sizeof(traits));
     traits.data_size = (int)sizeof(RimeTraits);
     traits.shared_data_dir = [sharedDir UTF8String];
@@ -63,9 +84,26 @@ BOOL RimeKbInit(NSString *sharedDir, NSString *userDir) {
     traits.log_dir = ""; traits.app_name = "KBSpike"; traits.min_log_level = 0;
     api->setup(&traits);
     api->initialize(&traits);
-    api->start_maintenance(1);
-    api->join_maintenance_thread();
+
+    // 一次性部署：仅当「版本标记」缺失/不符时才 start_maintenance 编译词典。
+    // 之后每次启动只 setup/initialize + create_session（加载已部署 .bin），不再编译。
+    NSString *marker = [userDir stringByAppendingPathComponent:@".kb_rime_deploy.ok"];
+    NSString *doneVer = [NSString stringWithContentsOfFile:marker encoding:NSUTF8StringEncoding error:nil];
+    BOOL needDeploy = ![doneVer isEqualToString:kRimeDeployVersion];
+    if (needDeploy) {
+        api->start_maintenance(1);
+        api->join_maintenance_thread();
+        [kRimeDeployVersion writeToFile:marker atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
+
     RimeSessionId sid = api->create_session();
+    if (!sid && !needDeploy) {
+        // 标记在但加载失败（如 build 目录丢失）→ 兜底重部署一次。
+        api->start_maintenance(1);
+        api->join_maintenance_thread();
+        [kRimeDeployVersion writeToFile:marker atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        sid = api->create_session();
+    }
     if (!sid) { return NO; }
     api->select_schema(sid, "pinyin_simp");
     g_api = api; g_sid = sid;

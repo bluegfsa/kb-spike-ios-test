@@ -48,3 +48,22 @@
 - 用户/董事长就 #1 选 A 或 B。
 - 选 A：实现宿主部署 + entitlements + 扩展 load-only，出签名包到 TestFlight 验 App Group。
 - 选 B：实现扩展「一次性部署 + 版本标记」，出侧载包回归内存。
+
+## 四、#1 决定：选 B（2026-11-16 董事长拍板）与实现
+
+**决定：不申请完全访问（B）。** 理由：键盘可见用户输入，隐私是命门；「不需要完全访问」是信任与审核优势；
+S4 实测扩展仅 7.8MB ≪ 45MB，不缺内存，没必要为省内存去要完全访问。
+
+实现（已改）：
+- `Keyboard/Info.plist`：`RequestsOpenAccess` 由 `true` 改为 **`false`**（与「纯本地/不申请完全访问」一致）。
+- `Keyboard/RimeProbe.mm`：
+  - 新增 `KBCopyIfNeeded`：配置/词库仅在缺失或大小不同才复制，**不再每次启动重复拷贝 ~6.7MB**。
+  - `RimeKbInit` 改为**一次性部署**：仅当版本标记 `.kb_rime_deploy.ok`（值 `v1`）缺失/不符时才
+    `start_maintenance + join`；之后每次启动只 `setup/initialize + create_session`，不再编译。
+    若标记在但 `create_session` 失败（如 build 丢失）→ 兜底重部署一次。
+- `Keyboard/KeyboardModel.swift`：初始化仍在后台线程（非 UI）；加 **12s 超时兜底**——未就绪则把 needInit 降级为
+  可重试提示（不打断后台部署、不崩）。
+- 不引入 App Group / entitlements（B 方案用不到）。
+
+真机必验（评审官）：内存稳态 ≤45MB；首次部署尖峰不崩、不被 watchdog 杀；二次启动不重复部署、更快。
+

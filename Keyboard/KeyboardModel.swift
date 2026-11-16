@@ -100,12 +100,21 @@ final class KeyboardModel: KeyboardModeling {
         let zh = Bundle.main.url(forResource: "zh2en", withExtension: "txt")
         let en = Bundle.main.url(forResource: "en2zh", withExtension: "txt")
         if let zh, let en { cedict = Cedict(zh2enURL: zh, en2zhURL: en) } else { cedict = nil }
+        // 后台线程初始化（不阻塞键盘 UI）；首次会做一次性部署，之后只加载。
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             let ok = RimeKbInit(sharedDir.path, userDir.path)
             DispatchQueue.main.async {
                 self?.engineReady = ok
                 self?.status = ok ? .ready : .error("引擎初始化失败")
                 self?.notifyChange()
+            }
+        }
+        // 超时兜底：12s 仍未就绪则提示（不打断后台部署，仅提示用户稍候/重开）。
+        DispatchQueue.main.asyncAfter(deadline: .now() + 12) { [weak self] in
+            guard let self else { return }
+            if !self.engineReady, case .needInit = self.status {
+                self.status = .error("初始化较慢，请稍候或重新打开键盘")
+                self.notifyChange()
             }
         }
     }

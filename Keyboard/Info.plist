@@ -20,7 +20,7 @@
             <key>IsASCIICapable</key><true/>
             <key>PrefersRightToLeft</key><false/>
             <key>PrimaryLanguage</key><string>zh-Hans</string>
-            <key>RequestsOpenAccess</key><true/>
+            <key>RequestsOpenAccess</key><false/>
         </dict>
     </dict>
 </dict>
