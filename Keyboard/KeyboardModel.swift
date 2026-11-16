@@ -141,9 +141,11 @@ final class KeyboardModel: KeyboardModeling {
     }
 
     func backspace() {
-        if !buffer.isEmpty { buffer.removeLast() }
+        let hadComposition = !buffer.isEmpty   // 有拼音 composition 才需通知 rime 退格
+        if hadComposition { buffer.removeLast() }
         if mode == .zh2en {
-            if engineReady { candidates = RimeKbInput(0xFF08) }
+            // S3-03：composition 已空时不再向 rime 发退格，避免多删/误触
+            if engineReady && hadComposition { candidates = RimeKbInput(0xFF08) }
             recomputeTranslations()
         } else {
             candidates = []; candidateTranslations = []
