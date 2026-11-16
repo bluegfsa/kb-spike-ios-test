@@ -115,6 +115,17 @@ if os.path.exists(_core2):
         else: en2zh.pop(k, None)
         n += 1
     print('applied core_batch2:', n)
+_core3 = os.path.join(os.path.dirname(__file__), 'core_batch3.tsv')
+if os.path.exists(_core3):
+    n = 0
+    for ln in open(_core3, encoding='utf-8'):
+        ln = ln.rstrip('\n')
+        if '\t' not in ln: continue
+        k, v = ln.split('\t', 1)
+        if v: en2zh[k] = v
+        else: en2zh.pop(k, None)
+        n += 1
+    print('applied core_batch3:', n)
 
 keys = sorted(en2zh)
 body = ''.join(f'{k}\t{en2zh[k]}\n' for k in keys)
