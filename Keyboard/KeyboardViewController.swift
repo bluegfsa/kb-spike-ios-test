@@ -10,12 +10,22 @@ final class KeyboardViewController: UIInputViewController {
         return KeyboardModel(sharedDir: base.appendingPathComponent("rime/shared"), userDir: base.appendingPathComponent("rime/user"))
     }()
     private var heightConstraint: NSLayoutConstraint?
+    private let memHUD = UILabel()
+    private var memTimer: Timer?
+    private var hudOn = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = keyboardView.backgroundColor
         setupKeyboardView()
         setupStatusBanner()
+        setupMemHUD()
+        // 双指轻点键盘：开/关内存读数叠加（仅调试，不干扰单指打字）。
+        let twoFingerTap = UITapGestureRecognizer(target: self, action: #selector(toggleMemHUD))
+        twoFingerTap.numberOfTouchesRequired = 2
+        twoFingerTap.cancelsTouchesInView = false
+        twoFingerTap.delegate = self
+        view.addGestureRecognizer(twoFingerTap)
         model.onChange = { [weak self] in self?.render() }
         render()
     }
@@ -80,6 +90,48 @@ final class KeyboardViewController: UIInputViewController {
             statusBanner.heightAnchor.constraint(equalToConstant: 40),
         ])
         view.bringSubviewToFront(statusBanner)
+    }
+
+    // MARK: - 内存读数叠加（调试，仅真机验收用）
+    private func setupMemHUD() {
+        memHUD.font = .monospacedSystemFont(ofSize: 11, weight: .bold)
+        memHUD.textColor = .white
+        memHUD.backgroundColor = UIColor.systemRed.withAlphaComponent(0.85)
+        memHUD.textAlignment = .center
+        memHUD.layer.cornerRadius = 4
+        memHUD.clipsToBounds = true
+        memHUD.numberOfLines = 1
+        memHUD.isHidden = true
+        memHUD.translatesAutoresizingMaskIntoConstraints = false
+        memHUD.text = ""
+        view.addSubview(memHUD)
+        NSLayoutConstraint.activate([
+            memHUD.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4),
+            memHUD.topAnchor.constraint(equalTo: view.topAnchor, constant: 4),
+            memHUD.heightAnchor.constraint(equalToConstant: 18),
+            memHUD.widthAnchor.constraint(greaterThanOrEqualToConstant: 150),
+        ])
+        view.bringSubviewToFront(memHUD)
+    }
+
+    @objc private func toggleMemHUD() {
+        hudOn.toggle()
+        memHUD.isHidden = !hudOn
+        if hudOn {
+            updateMemHUD()
+            memTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+                self?.updateMemHUD()
+            }
+        } else {
+            memTimer?.invalidate()
+            memTimer = nil
+        }
+    }
+
+    private func updateMemHUD() {
+        let cur = DebugFootprint.sample()
+        memHUD.text = String(format: "内存 %.1fMB / 峰值 %.1fMB", cur, DebugFootprint.peakMB)
+        view.bringSubviewToFront(memHUD)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -175,5 +227,15 @@ final class KeyboardViewController: UIInputViewController {
         if let text = model.selectCandidate(index) {
             textDocumentProxy.insertText(text)
         }
+    }
+
+    deinit { memTimer?.invalidate() }
+}
+
+extension KeyboardViewController: UIGestureRecognizerDelegate {
+    /// 允许双指轻点与其他手势并存（不打断单指打字）。
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
