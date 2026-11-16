@@ -28,7 +28,8 @@ static BOOL KBCopyIfNeeded(NSString *name, NSString *ext, NSString *dstDir) {
     NSDictionary *srcAttr = [fm attributesOfItemAtPath:p error:nil];
     NSDictionary *dstAttr = [fm attributesOfItemAtPath:dst error:nil];
     if (dstAttr && srcAttr &&
-        [[dstAttr fileSize] unsignedLongLongValue] == [[srcAttr fileSize] unsignedLongLongValue]) {
+        [[dstAttr objectForKey:NSFileSize] unsignedLongLongValue] ==
+        [[srcAttr objectForKey:NSFileSize] unsignedLongLongValue]) {
         return YES; // 已是同一份，跳过拷贝
     }
     [fm removeItemAtPath:dst error:nil];
