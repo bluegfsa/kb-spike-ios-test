@@ -169,7 +169,7 @@ final class KeyboardModel: KeyboardModeling {
 
     func selectCandidate(_ index: Int) -> String? {
         guard mode == .zh2en else { return nil }
-        let t = RimeKbSelect(index)
+        let t = RimeKbSelect(Int32(index))
         clearComposition(); notifyChange(); return t
     }
 
