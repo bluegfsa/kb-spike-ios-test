@@ -25,9 +25,10 @@ targets:
           unset SDKROOT
           unset SWIFT_EXEC
           SYSROOT="$(xcrun --sdk macosx --show-sdk-path)"
-          xcrun --sdk macosx swiftc -sdk "$SYSROOT" -o "$DERIVED_FILE_DIR/logic_selftest" \
+          OUT="${TMPDIR:-/tmp}/kbspike_logic_selftest"
+          xcrun --sdk macosx swiftc -sdk "$SYSROOT" -o "$OUT" \
             "$SRCROOT/Keyboard/KeyboardLogic.swift" "$SRCROOT/tools/SelfTest/main.swift"
-          "$DERIVED_FILE_DIR/logic_selftest"
+          "$OUT"
     dependencies:
       - target: KBSpikeKeyboard
         embed: true
