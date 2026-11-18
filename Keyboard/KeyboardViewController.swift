@@ -40,11 +40,21 @@ final class KeyboardViewController: UIInputViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         syncReturnKeyTitle()
-        let height = keyboardView.intrinsicKeyboardHeight(bottomInset: view.safeAreaInsets.bottom)
-        if let constraint = heightConstraint, abs(constraint.constant - height) > 0.5 {
-            constraint.constant = height
+        let intrinsic = keyboardView.intrinsicKeyboardHeight(bottomInset: view.safeAreaInsets.bottom)
+        // #6：优先吃满系统分配高度——父容器（系统键盘容器）高度若比内容高度更合理则铺满，避免顶部露系统白背板。
+        let sysH = view.superview?.bounds.height ?? 0
+        let target = (sysH > intrinsic + 1 && sysH < 600) ? sysH : intrinsic
+        if let constraint = heightConstraint, abs(constraint.constant - target) > 0.5 {
+            constraint.constant = target
             view.layoutIfNeeded()
         }
+        // #6 临时几何打点：真机在同一宿主 App 用 PhoneKit `ios syslog` 抓 [KBH] 行钉圆角归属。
+        NSLog("[KBH] view=%@ super=%@ win=%@ input=%@ safeB=%.1f intrinsic=%.1f target=%.1f",
+              NSCoder.string(for: view.frame),
+              view.superview.map { NSCoder.string(for: $0.bounds) } ?? "nil",
+              view.window.map { NSCoder.string(for: $0.bounds) } ?? "nil",
+              inputView.map { NSCoder.string(for: $0.frame) } ?? "nil",
+              view.safeAreaInsets.bottom, intrinsic, target)
     }
 
     // MARK: - 视图装配
