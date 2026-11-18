@@ -49,7 +49,7 @@ final class KeyboardView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = KBColor.background
+        backgroundColor = .clear // A：透明，磨砂背景由 VC 的 UIVisualEffectView 提供
         setupCandidateBar()
         setupRows()
         setLayoutMode(.letters)
@@ -65,7 +65,7 @@ final class KeyboardView: UIView {
 
     private func setupCandidateBar() {
         candidateBar.translatesAutoresizingMaskIntoConstraints = false
-        candidateBar.backgroundColor = KBColor.background // #2：背景铺满，盖住系统原生圆角
+        candidateBar.backgroundColor = .clear // A：透明，让磨砂背景透出
         addSubview(candidateBar)
         pinyinLabel.font = .systemFont(ofSize: 13)
         pinyinLabel.textColor = KBColor.pinyin

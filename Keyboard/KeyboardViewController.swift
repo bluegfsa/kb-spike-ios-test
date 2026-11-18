@@ -10,6 +10,11 @@ final class KeyboardViewController: UIInputViewController {
         return KeyboardModel(sharedDir: base.appendingPathComponent("rime/shared"), userDir: base.appendingPathComponent("rime/user"))
     }()
     private var heightConstraint: NSLayoutConstraint?
+    /// A（#6/#8）：半透明磨砂背景层，跟随 iOS 观感，铺满整块键盘。
+    private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
+    /// 诊断开关（仅诊断包）：几何日志 + 顶部涂色，用于真机钉死圆角归属。定性后置 false 并删。
+    private let kbhDiagnostic = true
+    private let kbhTopStrip = UIView()
 #if DEBUG
     private let memHUD = UILabel()
     private var memTimer: Timer?
@@ -19,10 +24,14 @@ final class KeyboardViewController: UIInputViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = keyboardView.backgroundColor
-        view.isOpaque = true // #2：键盘背景铺满不透明，避免露系统原生圆角
+        // A（#6/#8）：背景改半透明磨砂跟随 iOS——view/键盘/候选栏透明，底下垫 UIVisualEffectView。
+        view.backgroundColor = .clear
+        view.isOpaque = false
+        keyboardView.backgroundColor = .clear
+        setupBlurBackground()
         setupKeyboardView()
         setupStatusBanner()
+        if kbhDiagnostic { setupKBHDiagnostic() }
 #if DEBUG
         setupMemHUD()
         // 双指轻点键盘：开/关内存读数叠加（仅 debug，正式包不留入口，见 #1）
@@ -49,6 +58,15 @@ final class KeyboardViewController: UIInputViewController {
         if let constraint = heightConstraint, abs(constraint.constant - target) > 0.5 {
             constraint.constant = target
             view.layoutIfNeeded()
+        }
+        // 诊断：几何打点，真机 syslog 抓 [KBH] 行钉死顶盖/底条归属。
+        if kbhDiagnostic {
+            NSLog("[KBH] view=%@ super=%@ win=%@ input=%@ safeB=%.1f intrinsic=%.1f target=%.1f",
+                  NSCoder.string(for: view.frame),
+                  view.superview.map { NSCoder.string(for: $0.bounds) } ?? "nil",
+                  view.window.map { NSCoder.string(for: $0.bounds) } ?? "nil",
+                  inputView.map { NSCoder.string(for: $0.frame) } ?? "nil",
+                  view.safeAreaInsets.bottom, intrinsic, target)
         }
     }
 
@@ -244,8 +262,15 @@ final class KeyboardViewController: UIInputViewController {
     }
 
     private func handleSpace() {
+        if kbhDiagnostic {
+            NSLog("[KBS] space-before mode=%@ buffer='%@'", String(describing: model.mode), model.buffer)
+        }
         let text = model.space()
-        textDocumentProxy.insertText(text.isEmpty ? " " : text) // S2-03：中文态空拼音按空格不再被吞
+        let shown = text.isEmpty ? " " : text
+        textDocumentProxy.insertText(shown) // S2-03：中文态空拼音按空格不再被吞
+        if kbhDiagnostic {
+            NSLog("[KBS] space-after inserted='%@'", shown)
+        }
     }
 
     private func handleReturn() {
@@ -266,6 +291,34 @@ final class KeyboardViewController: UIInputViewController {
         memTimer?.invalidate()
 #endif
         returnKeyTimer?.invalidate()
+    }
+}
+
+extension KeyboardViewController {
+    /// A（#6/#8）：磨砂背景铺满整块键盘（垫在最底层，blur 采样身后 App 内容）。
+    func setupBlurBackground() {
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(blurView, at: 0)
+        NSLayoutConstraint.activate([
+            blurView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            blurView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            blurView.topAnchor.constraint(equalTo: view.topAnchor),
+            blurView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+    }
+
+    /// 诊断：顶部叠 24pt 醒目色条，真机复截判断白带究竟是系统顶盖还是我们 view 内部。
+    func setupKBHDiagnostic() {
+        kbhTopStrip.backgroundColor = UIColor.systemPink
+        kbhTopStrip.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(kbhTopStrip)
+        NSLayoutConstraint.activate([
+            kbhTopStrip.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            kbhTopStrip.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            kbhTopStrip.topAnchor.constraint(equalTo: view.topAnchor),
+            kbhTopStrip.heightAnchor.constraint(equalToConstant: 24),
+        ])
+        view.bringSubviewToFront(kbhTopStrip)
     }
 }
 
