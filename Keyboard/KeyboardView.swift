@@ -180,8 +180,10 @@ final class KeyboardView: UIView {
     private func makeHomeEdgeRow() -> UIStackView {
         let row = makeRow()
         if isChinese {
-            row.addArrangedSubview(makeKey("符", font: 16, kind: .function, accessibility: "符号键盘") { [weak self] in
-                self?.setLayoutMode(.symbols)
+            // #4：中文态多余「符」键改为中文逗号「，」（123 已可进符号）
+            let commaGlyph = KeyboardLogic.punctuationGlyph(fullWidth: punctuationFullWidth, index: 0)
+            row.addArrangedSubview(makeKey(commaGlyph, font: 22, kind: .function, accessibility: "中文逗号") { [weak self] in
+                self?.onKeyText?(commaGlyph)
             })
         } else {
             let shift = makeKey("⇧", font: 18, kind: .function, accessibility: "上档") { [weak self] in
