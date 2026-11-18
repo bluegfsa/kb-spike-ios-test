@@ -1,43 +1,32 @@
 import UIKit
 
-/// 中/英 双行切换键（#1 照微信样式自绘，不抠素材）。
-/// 单键内「中」上「英」下；当前语言加粗加黑、另一语种灰，label 立即反映（#13 同帧刷新）。
+/// 中/英 切换键（#7）：单行「中/英」，当前语言那字加大加粗加黑，另一字常规灰。
 final class ModeToggleButton: UIButton {
-    private let zhLabel = UILabel()
-    private let enLabel = UILabel()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = KBColor.letterKey
         layer.cornerRadius = 6
         clipsToBounds = true
-        zhLabel.text = "中"
-        zhLabel.textAlignment = .center
-        enLabel.text = "英"
-        enLabel.textAlignment = .center
-        [zhLabel, enLabel].forEach { $0.isUserInteractionEnabled = false }
-        let stack = UIStackView(arrangedSubviews: [zhLabel, enLabel])
-        stack.axis = .vertical
-        stack.alignment = .center
-        stack.spacing = -1
-        stack.isUserInteractionEnabled = false
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(stack)
-        NSLayoutConstraint.activate([
-            stack.centerXAnchor.constraint(equalTo: centerXAnchor),
-            stack.centerYAnchor.constraint(equalTo: centerYAnchor),
-        ])
+        titleLabel?.textAlignment = .center
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// 按当前语言重建「中/英」归属文本：默认同行同号，当前语言那字加大加粗加黑。
     func configure(isChinese: Bool) {
-        zhLabel.font = .systemFont(ofSize: 14, weight: isChinese ? .bold : .regular)
-        enLabel.font = .systemFont(ofSize: 10, weight: isChinese ? .regular : .bold)
-        zhLabel.textColor = isChinese ? KBColor.activeLang : KBColor.inactiveLang
-        enLabel.textColor = isChinese ? KBColor.inactiveLang : KBColor.activeLang
+        let base: CGFloat = 13, active: CGFloat = 16
+        let s = NSMutableAttributedString()
+        s.append(NSAttributedString(string: "中", attributes: [
+            .font: UIFont.systemFont(ofSize: isChinese ? active : base, weight: isChinese ? .bold : .regular),
+            .foregroundColor: isChinese ? KBColor.activeLang : KBColor.inactiveLang]))
+        s.append(NSAttributedString(string: "/", attributes: [
+            .font: UIFont.systemFont(ofSize: base), .foregroundColor: KBColor.inactiveLang]))
+        s.append(NSAttributedString(string: "英", attributes: [
+            .font: UIFont.systemFont(ofSize: isChinese ? base : active, weight: isChinese ? .regular : .bold),
+            .foregroundColor: isChinese ? KBColor.inactiveLang : KBColor.activeLang]))
+        setAttributedTitle(s, for: .normal)
     }
 }
 

@@ -166,7 +166,7 @@ final class KeyboardViewController: UIInputViewController {
     /// 读宿主 App 期望的回车键类型，映射键面文字；动作统一为换行符（规格 §D/§G2）。
     private func currentReturnKeyTitle() -> String {
         switch textDocumentProxy.returnKeyType {
-        case .send?: return "发送"
+        case .send?: return "√"
         case .search?: return "搜索"
         case .go?: return "前往"
         case .done?: return "完成"

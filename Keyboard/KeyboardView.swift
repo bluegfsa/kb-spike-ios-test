@@ -6,8 +6,7 @@ enum KeyboardLayoutMode {
     case symbols
 }
 
-/// 纯 UIKit 键盘视图：候选两行（拼音上 / 候选下 / 每候选带译）＋四行键；
-/// 高度按内容＋底部安全区自适应（#2/#3）。交互经闭包回报 VC；配色与按钮见 KeyboardViewStyle.swift。
+/// 纯 UIKit 键盘视图：候选两行＋四行键；高度自适应（#2/#3）；配色/按钮见 KeyboardViewStyle.swift。
 final class KeyboardView: UIView {
     // 尺寸（UI v0.3.3）
     private let candidateBarHeight: CGFloat = 56
@@ -128,15 +127,14 @@ final class KeyboardView: UIView {
         let rows: [UIView]
         switch mode {
         case .letters:
-            rows = [makeLetterRow("qwertyuiop"), makeLetterRow("asdfghjkl"), makeHomeEdgeRow(), makeBottomRow()]
+            rows = [makeLetterRow("qwertyuiop"), makeLetterRow("asdfghjkl", sideInset: 16), makeHomeEdgeRow(), makeBottomRow()]
         case .symbols:
             rows = [makeSymbolRow("1234567890"), makeSymbolRow("-/:;()$&@\""), makeSymbolEdgeRow(), makeBottomRow()]
         }
         rows.forEach { rowsStack.addArrangedSubview($0) }
     }
 
-    /// 强制切到字母键盘（#13：数字态点中英切换后回字母）。
-    func showLetters() { setLayoutMode(.letters) }
+    func showLetters() { setLayoutMode(.letters) } // 强制回字母键盘（#13）
 
     /// 按宿主 App 的 `returnKeyType` 设置回车键标题（发送/搜索/前往/完成/换行…）。
     /// 动作始终为换行符，具体是发送还是换行由宿主决定（规格 §D/§G2）。
@@ -156,8 +154,12 @@ final class KeyboardView: UIView {
         return row
     }
 
-    private func makeLetterRow(_ letters: String) -> UIStackView {
+    private func makeLetterRow(_ letters: String, sideInset: CGFloat = 0) -> UIStackView {
         let row = makeRow()
+        if sideInset > 0 { // #3 苹果式倒三角：本行左右留白、键更紧
+            row.isLayoutMarginsRelativeArrangement = true
+            row.layoutMargins = UIEdgeInsets(top: 0, left: sideInset, bottom: 0, right: sideInset)
+        }
         for ch in letters {
             row.addArrangedSubview(makeKey(displayLetter(ch), font: 22, accessibility: "字母 \(ch)") { [weak self] in
                 self?.handleLetterTap(ch)
@@ -232,7 +234,7 @@ final class KeyboardView: UIView {
                 self?.setLayoutMode(.letters)
             })
         }
-        row.addArrangedSubview(makeKey("空格", font: 15, kind: .function, accessibility: "空格") { [weak self] in
+        row.addArrangedSubview(makeKey(isChinese ? "空格" : "space", font: 15, kind: .function, accessibility: "空格") { [weak self] in
             self?.onSpace?()
         })
         let modeButton = ModeToggleButton(frame: .zero)
@@ -268,7 +270,6 @@ final class KeyboardView: UIView {
         return button
     }
 
-    /// ⌫ 键：单击删 1；长按 0.4s 起连删、间隔 0.12→0.03s（#14）。
     private func makeBackspaceKey() -> ClosureButton {
         let button = makeKey("⌫", font: 18, kind: .function, accessibility: "删除") { }
         button.onTap = nil
@@ -306,7 +307,6 @@ final class KeyboardView: UIView {
         candidateScroll.isHidden = candidates.isEmpty
     }
 
-    /// 单个候选：汉字 19pt（首选加粗＋下划线）＋译文 11pt 灰，间距 4；候选间 16。
     private func makeCandidateItem(text: String, translation: String?, highlight: Bool, index: Int, selectable: Bool) -> UIView {
         let container = UIView()
         let hanzi = UILabel()
