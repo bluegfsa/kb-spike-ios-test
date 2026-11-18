@@ -94,6 +94,8 @@ final class KeyboardModel: KeyboardModeling {
 
     private let cedict: Cedict?
     private var engineReady = false
+    /// 英文态：已提交单词的中文译文（逐词累积，随打字实时刷新，不因空格清空）。
+    private var enSentence: [String] = []
 
     /// 译词表从 bundle 直接 mmap（zh2en.txt / en2zh.txt 随包资源）。
     init(sharedDir: URL, userDir: URL) {
@@ -119,9 +121,49 @@ final class KeyboardModel: KeyboardModeling {
         }
     }
 
-    private func lookupOne(_ term: String, zh2en: Bool) -> String? {
-        guard let cd = cedict else { return nil }
-        return cd.lookup(term, zh2en: zh2en, limit: 1).first
+    /// 译一个词/短语。
+    /// zh2en：先短语表，再整词精确查，最后贪心最长匹配分词兜底（多字词组也能出译文）。
+    /// en2zh：整词精确查，退而前缀查（英文单词）。
+    private func translate(_ term: String, zh2en: Bool) -> String? {
+        guard let cd = cedict, !term.isEmpty else { return nil }
+        if zh2en {
+            if let p = PhraseGlossary.en(term) { return p }
+            if let e = cd.exact(term, zh2en: true) { return e }
+            return segmentZh(term, cd)
+        } else {
+            let w = term.lowercased()
+            if let e = cd.exact(w, zh2en: false) { return e }
+            return cd.lookup(w, zh2en: false, limit: 1).first
+        }
+    }
+
+    /// 贪心最长匹配分词：把 term 从左往右切成若干已知词，各自取英译并用空格拼接。
+    /// 任一字无译则跳过（宁缺毋滥），全无译返回 nil。
+    private func segmentZh(_ term: String, _ cd: Cedict) -> String? {
+        let chars = Array(term)
+        var i = 0
+        var parts: [String] = []
+        while i < chars.count {
+            var j = chars.count
+            var matched = false
+            while j > i {
+                if let g = cd.exact(String(chars[i..<j]), zh2en: true), !g.isEmpty {
+                    parts.append(g); i = j; matched = true; break
+                }
+                j -= 1
+            }
+            if !matched { i += 1 } // 该字无译，跳过继续
+        }
+        return parts.isEmpty ? nil : parts.joined(separator: " ")
+    }
+
+    /// 英文态当前可见译文＝已提交单词译文＋当前正在打的这个词的译文（实时刷新）。
+    private func enTranslation(currentWord: String) -> String? {
+        var words = enSentence
+        if !currentWord.isEmpty, let t = translate(currentWord, zh2en: false), !t.isEmpty {
+            words.append(t)
+        }
+        return words.isEmpty ? nil : words.joined(separator: " ")
     }
 
     func input(letter: Character) {
@@ -135,7 +177,7 @@ final class KeyboardModel: KeyboardModeling {
         } else {
             buffer.append(letter)
             candidates = []; candidateTranslations = []
-            primaryTranslation = lookupOne(buffer.lowercased(), zh2en: false)
+            primaryTranslation = enTranslation(currentWord: buffer)
         }
         notifyChange()
     }
@@ -149,21 +191,26 @@ final class KeyboardModel: KeyboardModeling {
             recomputeTranslations()
         } else {
             candidates = []; candidateTranslations = []
-            primaryTranslation = lookupOne(buffer.lowercased(), zh2en: false)
+            primaryTranslation = enTranslation(currentWord: buffer)
         }
         notifyChange()
     }
 
     private func recomputeTranslations() {
-        candidateTranslations = candidates.map { lookupOne($0, zh2en: true) }
+        candidateTranslations = candidates.map { translate($0, zh2en: true) }
         primaryTranslation = candidateTranslations.first ?? nil
     }
 
     func space() -> String {
-        var text = " "
-        if mode == .zh2en {
-            if let sel = RimeKbSelect(0) { text = sel } else { text = buffer }
+        if mode == .en2zh {
+            // #6：英文态空格＝打一个空格、继续往下打；当前词译文并入句译，不清空已得译文。
+            if let t = translate(buffer, zh2en: false), !t.isEmpty { enSentence.append(t) }
+            buffer = ""; candidates = []; candidateTranslations = []
+            primaryTranslation = enSentence.isEmpty ? nil : enSentence.joined(separator: " ")
+            notifyChange(); return " "
         }
+        var text = buffer
+        if let sel = RimeKbSelect(0) { text = sel }
         clearComposition(); notifyChange(); return text
     }
 
@@ -184,6 +231,6 @@ final class KeyboardModel: KeyboardModeling {
         clearComposition(); notifyChange(); return t
     }
 
-    private func clearComposition() { buffer = ""; candidates = []; candidateTranslations = []; primaryTranslation = nil }
+    private func clearComposition() { buffer = ""; candidates = []; candidateTranslations = []; primaryTranslation = nil; enSentence = [] }
     private func notifyChange() { DispatchQueue.main.async { [weak self] in self?.onChange?() } }
 }

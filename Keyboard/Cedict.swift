@@ -17,6 +17,13 @@ final class Cedict {
         let t = zh2en ? term : term.lowercased()
         return f.prefix(t, limit: limit)
     }
+
+    /// 精确查（键完全等于 term，非前缀）。多字词翻译优先用它命中整词，避免前缀误取。
+    func exact(_ term: String, zh2en: Bool) -> String? {
+        let f = zh2en ? zh2enFile : en2zhFile
+        let t = zh2en ? term : term.lowercased()
+        return f.exact(t)
+    }
 }
 
 /// 单个「键\t释义」前缀排序文件的 mmap 前缀查（复用 S4 §9.5 做法：单 [UInt32] 索引）。
@@ -58,6 +65,21 @@ private final class PrefixFile {
     }
 
     private func key(_ i: Int) -> String { parts(i).key }
+
+    /// 键完全等于 key 的那一行的释义；无则 nil（二分定位到第一个 ≥key 的行再判定）。
+    func exact(_ key: String) -> String? {
+        var lo = 0
+        var hi = starts.count
+        while lo < hi {
+            let mid = (lo + hi) / 2
+            if self.key(mid) < key { lo = mid + 1 } else { hi = mid }
+        }
+        if lo < starts.count {
+            let (k, g) = parts(lo)
+            if k == key { return g }
+        }
+        return nil
+    }
 
     func prefix(_ prefix: String, limit: Int) -> [String] {
         var lo = 0
