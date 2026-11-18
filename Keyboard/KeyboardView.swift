@@ -173,23 +173,15 @@ final class KeyboardView: UIView {
         return row
     }
 
-    /// 第三行（字母态）：中文态「符」符号键（#10 无大写）；英文态可用 ⇧ 切大小写（修 bug）。
+    /// 第三行（字母态）：#2 中/英都放 ⇧ 大小写键（同位置/样式/行为；中文无大小写、对出字无影响）。
     private func makeHomeEdgeRow() -> UIStackView {
         let row = makeRow()
-        if isChinese {
-            // #4：中文态多余「符」键改为中文逗号「，」（123 已可进符号）
-            let commaGlyph = KeyboardLogic.punctuationGlyph(fullWidth: punctuationFullWidth, index: 0)
-            row.addArrangedSubview(makeKey(commaGlyph, font: 22, kind: .function, accessibility: "中文逗号") { [weak self] in
-                self?.onKeyText?(commaGlyph)
-            })
-        } else {
-            let shift = makeKey("⇧", font: 18, kind: .function, accessibility: "上档") { [weak self] in
-                self?.isShiftActive.toggle()
-                self?.setLayoutMode(.letters)
-            }
-            if isShiftActive { shift.backgroundColor = KBColor.letterKey }
-            row.addArrangedSubview(shift)
+        let shift = makeKey("⇧", font: 18, kind: .function, accessibility: "上档") { [weak self] in
+            self?.isShiftActive.toggle()
+            self?.setLayoutMode(.letters)
         }
+        if isShiftActive { shift.backgroundColor = KBColor.letterKey }
+        row.addArrangedSubview(shift)
         for ch in "zxcvbnm" {
             row.addArrangedSubview(makeKey(displayLetter(ch), font: 22, accessibility: "字母 \(ch)") { [weak self] in
                 self?.handleLetterTap(ch)
