@@ -10,10 +10,12 @@ final class KeyboardViewController: UIInputViewController {
         return KeyboardModel(sharedDir: base.appendingPathComponent("rime/shared"), userDir: base.appendingPathComponent("rime/user"))
     }()
     private var heightConstraint: NSLayoutConstraint?
+#if DEBUG
     private let memHUD = UILabel()
     private var memTimer: Timer?
-    private var returnKeyTimer: Timer?
     private var hudOn = false
+#endif
+    private var returnKeyTimer: Timer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,13 +23,15 @@ final class KeyboardViewController: UIInputViewController {
         view.isOpaque = true // #2：键盘背景铺满不透明，避免露系统原生圆角
         setupKeyboardView()
         setupStatusBanner()
+#if DEBUG
         setupMemHUD()
-        // 双指轻点键盘：开/关内存读数叠加（仅调试，不干扰单指打字）。
+        // 双指轻点键盘：开/关内存读数叠加（仅 debug，正式包不留入口，见 #1）
         let twoFingerTap = UITapGestureRecognizer(target: self, action: #selector(toggleMemHUD))
         twoFingerTap.numberOfTouchesRequired = 2
         twoFingerTap.cancelsTouchesInView = false
         twoFingerTap.delegate = self
         view.addGestureRecognizer(twoFingerTap)
+#endif
         model.onChange = { [weak self] in self?.render() }
         render()
     }
@@ -95,6 +99,7 @@ final class KeyboardViewController: UIInputViewController {
         view.bringSubviewToFront(statusBanner)
     }
 
+#if DEBUG
     // MARK: - 内存读数叠加（调试，仅真机验收用）
     private func setupMemHUD() {
         memHUD.font = .monospacedSystemFont(ofSize: 11, weight: .bold)
@@ -136,6 +141,7 @@ final class KeyboardViewController: UIInputViewController {
         memHUD.text = String(format: "内存 %.1fMB / 峰值 %.1fMB", cur, DebugFootprint.peakMB)
         view.bringSubviewToFront(memHUD)
     }
+#endif
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -176,8 +182,8 @@ final class KeyboardViewController: UIInputViewController {
         let isChinese = model.mode == .zh2en
         var candidates = model.candidates
         var translations = model.candidateTranslations
-        // 英文态无候选、只有首选译词：用译文占位显示（保留英译中可见性，不带「中/EN」标签 #7）。
-        if !isChinese, candidates.isEmpty, let translation = model.primaryTranslation {
+        // 英文态无候选、只有首选译词：仅当正在打词（buffer 非空）时显示，词边界不残留（#6）
+        if !isChinese, candidates.isEmpty, !model.buffer.isEmpty, let translation = model.primaryTranslation {
             candidates = [translation]
             translations = [nil]
         }
@@ -251,7 +257,9 @@ final class KeyboardViewController: UIInputViewController {
     }
 
     deinit {
+#if DEBUG
         memTimer?.invalidate()
+#endif
         returnKeyTimer?.invalidate()
     }
 }
