@@ -8,7 +8,7 @@ enum KeyboardLayoutMode {
 
 /// 纯 UIKit 键盘视图：候选两行＋四行键；高度自适应（#2/#3）；配色/按钮见 KeyboardViewStyle.swift。
 final class KeyboardView: UIView {
-    // 尺寸（UI v0.3.3）
+    // 尺寸
     private let candidateBarHeight: CGFloat = 56
     private let keyHeight: CGFloat = 42
     private let keyGap: CGFloat = 6
@@ -28,13 +28,11 @@ final class KeyboardView: UIView {
     var onTogglePunctuation: (() -> Void)?
     var onCandidate: ((Int) -> Void)?
 
-    // 注入状态
     private var isChinese = true
     private var punctuationFullWidth = true
     private var isShiftActive = false
     private var layoutMode: KeyboardLayoutMode = .letters
 
-    // 子视图
     private let candidateBar = UIView()
     private let pinyinLabel = UILabel()
     private let candidateScroll = UIScrollView()
@@ -65,7 +63,6 @@ final class KeyboardView: UIView {
             + CGFloat(rowCount - 1) * keyGap + rowsBottomPad + bottomInset
     }
 
-    // MARK: - 候选区（拼音上 / 候选下）
     private func setupCandidateBar() {
         candidateBar.translatesAutoresizingMaskIntoConstraints = false
         candidateBar.backgroundColor = KBColor.background // #2：背景铺满，盖住系统原生圆角
@@ -120,14 +117,13 @@ final class KeyboardView: UIView {
         ])
     }
 
-    // MARK: - 布局切换
     private func setLayoutMode(_ mode: KeyboardLayoutMode) {
         layoutMode = mode
         rowsStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
         let rows: [UIView]
         switch mode {
         case .letters:
-            rows = [makeLetterRow("qwertyuiop"), makeLetterRow("asdfghjkl", sideInset: 16), makeHomeEdgeRow(), makeBottomRow()]
+            rows = [makeLetterRow("qwertyuiop", sideInset: 3), makeLetterRow("asdfghjkl", sideInset: 30, spacing: 5), makeHomeEdgeRow(), makeBottomRow()]
         case .symbols:
             rows = [makeSymbolRow("1234567890"), makeSymbolRow("-/:;()$&@\""), makeSymbolEdgeRow(), makeBottomRow()]
         }
@@ -136,15 +132,13 @@ final class KeyboardView: UIView {
 
     func showLetters() { setLayoutMode(.letters) } // 强制回字母键盘（#13）
 
-    /// 按宿主 App 的 `returnKeyType` 设置回车键标题（发送/搜索/前往/完成/换行…）。
-    /// 动作始终为换行符，具体是发送还是换行由宿主决定（规格 §D/§G2）。
+    /// 按 returnKeyType 设置回车键标题（发送→√ 等，功能统一换行）。
     func setReturnKeyTitle(_ title: String) {
         guard title != returnKeyTitle else { return }
         returnKeyTitle = title
         returnKeyButton?.setTitle(title, for: .normal)
     }
 
-    // MARK: - 行构建
     private func makeRow() -> UIStackView {
         let row = UIStackView()
         row.axis = .horizontal
@@ -154,12 +148,13 @@ final class KeyboardView: UIView {
         return row
     }
 
-    private func makeLetterRow(_ letters: String, sideInset: CGFloat = 0) -> UIStackView {
+    private func makeLetterRow(_ letters: String, sideInset: CGFloat = 0, spacing: CGFloat? = nil) -> UIStackView {
         let row = makeRow()
         if sideInset > 0 { // #3 苹果式倒三角：本行左右留白、键更紧
             row.isLayoutMarginsRelativeArrangement = true
             row.layoutMargins = UIEdgeInsets(top: 0, left: sideInset, bottom: 0, right: sideInset)
         }
+        if let spacing { row.spacing = spacing }
         for ch in letters {
             row.addArrangedSubview(makeKey(displayLetter(ch), font: 22, accessibility: "字母 \(ch)") { [weak self] in
                 self?.handleLetterTap(ch)
@@ -201,6 +196,14 @@ final class KeyboardView: UIView {
             })
         }
         row.addArrangedSubview(makeBackspaceKey())
+        // #3 加宽两边功能键(1.65)收窄字母区，更接近苹果倒三角
+        row.distribution = .fill
+        let ks = row.arrangedSubviews
+        if ks.count > 2 {
+            for k in ks.dropFirst().dropLast() { k.widthAnchor.constraint(equalTo: ks[1].widthAnchor).isActive = true }
+            ks.first?.widthAnchor.constraint(equalTo: ks[1].widthAnchor, multiplier: 1.65).isActive = true
+            ks.last?.widthAnchor.constraint(equalTo: ks[1].widthAnchor, multiplier: 1.65).isActive = true
+        }
         return row
     }
 
@@ -251,7 +254,6 @@ final class KeyboardView: UIView {
         return row
     }
 
-    // MARK: - 组件工厂
     private func makeKey(_ title: String, font: CGFloat, kind: KeyKind = .letter,
                          accessibility: String, onTap: @escaping () -> Void) -> ClosureButton {
         let button = ClosureButton(frame: .zero)
@@ -282,7 +284,6 @@ final class KeyboardView: UIView {
         return button
     }
 
-    // MARK: - 外部状态注入
     /// 刷新候选/译文/输入串/语言/标点宽度。由 VC 在 model.onChange 后调用（主线程）。
     func update(candidates: [String], translations: [String?], buffer: String, isChinese: Bool, punctuationFullWidth: Bool, selectable: Bool) {
         let modeChanged = (isChinese != self.isChinese)
@@ -352,7 +353,6 @@ final class KeyboardView: UIView {
         return container
     }
 
-    // MARK: - 字母大小写 / 手势 / 定时器
     private func displayLetter(_ ch: Character) -> String {
         KeyboardLogic.letter(ch, isChinese: isChinese, shift: isShiftActive)
     }
