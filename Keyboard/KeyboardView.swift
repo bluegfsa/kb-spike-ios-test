@@ -173,12 +173,17 @@ final class KeyboardView: UIView {
         return row
     }
 
-    /// 第三行（字母态）：#2 中/英都放 ⇧ 大小写键（同位置/样式/行为；中文无大小写、对出字无影响）。
+    /// 第三行（字母态）：#2 中/英都放 ⇧；中文态点⇧=切英文、英文态⇧=切大写。
     private func makeHomeEdgeRow() -> UIStackView {
         let row = makeRow()
         let shift = makeKey("⇧", font: 18, kind: .function, accessibility: "上档") { [weak self] in
-            self?.isShiftActive.toggle()
-            self?.setLayoutMode(.letters)
+            guard let self else { return }
+            if self.isChinese {
+                self.onToggleMode?() // #2(a)：中文态点 ⇧＝切英文（不切大写）
+            } else {
+                self.isShiftActive.toggle()
+                self.setLayoutMode(.letters)
+            }
         }
         if isShiftActive { shift.backgroundColor = KBColor.letterKey }
         row.addArrangedSubview(shift)
