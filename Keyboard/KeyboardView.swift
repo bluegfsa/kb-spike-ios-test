@@ -69,6 +69,7 @@ final class KeyboardView: UIView {
     // MARK: - 候选区（拼音上 / 候选下）
     private func setupCandidateBar() {
         candidateBar.translatesAutoresizingMaskIntoConstraints = false
+        candidateBar.backgroundColor = KBColor.background // #2：背景铺满，盖住系统原生圆角
         addSubview(candidateBar)
         pinyinLabel.font = .systemFont(ofSize: 13)
         pinyinLabel.textColor = KBColor.pinyin
@@ -202,8 +203,9 @@ final class KeyboardView: UIView {
     /// 第三行（数字态）：#11「←」返回字母；#12 五个标点键随全/半角变；⌫。
     private func makeSymbolEdgeRow() -> UIStackView {
         let row = makeRow()
-        row.addArrangedSubview(makeKey("←", font: 20, kind: .function, accessibility: "返回字母键盘") { [weak self] in
-            self?.setLayoutMode(.letters)
+        let toggleTitle = punctuationFullWidth ? "，。" : ",."
+        row.addArrangedSubview(makeKey(toggleTitle, font: 15, kind: .function, accessibility: "标点全半角切换") { [weak self] in
+            self?.onTogglePunctuation?()
         })
         for i in 0..<KeyboardLogic.punctFull.count {
             let glyph = KeyboardLogic.punctuationGlyph(fullWidth: punctuationFullWidth, index: i)
@@ -224,9 +226,8 @@ final class KeyboardView: UIView {
                 self?.setLayoutMode(.symbols)
             })
         } else {
-            let title = punctuationFullWidth ? "，。" : ",."
-            row.addArrangedSubview(makeKey(title, font: 15, kind: .function, accessibility: "标点全半角切换") { [weak self] in
-                self?.onTogglePunctuation?()
+            row.addArrangedSubview(makeKey("←", font: 20, kind: .function, accessibility: "返回字母键盘") { [weak self] in
+                self?.setLayoutMode(.letters)
             })
         }
         row.addArrangedSubview(makeKey("空格", font: 15, kind: .function, accessibility: "空格") { [weak self] in

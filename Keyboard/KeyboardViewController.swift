@@ -18,6 +18,7 @@ final class KeyboardViewController: UIInputViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = keyboardView.backgroundColor
+        view.isOpaque = true // #2：键盘背景铺满不透明，避免露系统原生圆角
         setupKeyboardView()
         setupStatusBanner()
         setupMemHUD()
