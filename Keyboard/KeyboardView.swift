@@ -10,9 +10,9 @@ enum KeyboardLayoutMode {
 final class KeyboardView: UIView {
     // 尺寸
     private let candidateBarHeight: CGFloat = 56
-    private let keyHeight: CGFloat = 46
+    private let keyHeight: CGFloat = 44
     private let keyGap: CGFloat = 6      // 水平键距
-    private let rowGap: CGFloat = 8      // 行间距（竖直，微信同款：4→8）
+    private let rowGap: CGFloat = 12     // 行间距（竖直，微信同款：8→12；keyHeight 44 保持键大，总高仅 +4pt）
     private let keyCorner: CGFloat = 6
     private let rowCount = 4
     private let rowsTopGap: CGFloat = 6
