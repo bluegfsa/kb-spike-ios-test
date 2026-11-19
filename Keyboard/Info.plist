@@ -10,7 +10,7 @@
     <key>CFBundleDisplayName</key><string>双译键盘</string>
     <key>CFBundlePackageType</key><string>XPC!</string>
     <key>CFBundleShortVersionString</key><string>1.18</string>
-    <key>CFBundleVersion</key><string>18</string>
+    <key>CFBundleVersion</key><string>19</string>
     <key>NSExtension</key>
     <dict>
         <key>NSExtensionPointIdentifier</key><string>com.apple.keyboard-service</string>

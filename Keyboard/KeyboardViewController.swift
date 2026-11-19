@@ -12,6 +12,7 @@ final class KeyboardViewController: UIInputViewController {
     private var heightConstraint: NSLayoutConstraint?
     /// #8：半透明磨砂背景层，跟随 iOS 观感（铺满整块键盘，blur 采样身后 App 内容）。
     private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
+    private let kbTopStrip = UIView() // 诊断：顶部醒目色条
 #if DEBUG
     private let memHUD = UILabel()
     private var memTimer: Timer?
@@ -28,6 +29,7 @@ final class KeyboardViewController: UIInputViewController {
         setupBlurBackground()
         setupKeyboardView()
         setupStatusBanner()
+        setupKbTopStrip()
 #if DEBUG
         setupMemHUD()
         // 双指轻点键盘：开/关内存读数叠加（仅 debug，正式包不留入口，见 #1）
@@ -55,6 +57,12 @@ final class KeyboardViewController: UIInputViewController {
             constraint.constant = target
             view.layoutIfNeeded()
         }
+        NSLog("[KBH] view=%@ super=%@ win=%@ input=%@ safeB=%.1f intrinsic=%.1f target=%.1f",
+              NSCoder.string(for: view.frame),
+              view.superview.map { NSCoder.string(for: $0.bounds) } ?? "nil",
+              view.window.map { NSCoder.string(for: $0.bounds) } ?? "nil",
+              inputView.map { NSCoder.string(for: $0.frame) } ?? "nil",
+              view.safeAreaInsets.bottom, intrinsic, target)
     }
 
     // MARK: - 视图装配
@@ -78,7 +86,9 @@ final class KeyboardViewController: UIInputViewController {
         keyboardView.onReturn = { [weak self] in self?.handleReturn() }
         keyboardView.onToggleMode = { [weak self] in
             guard let self else { return }
+            let before = self.model.mode
             self.model.toggleMode()
+            NSLog("[KBT] toggle %@ -> %@", String(describing: before), String(describing: self.model.mode))
             self.keyboardView.showLetters() // #13：任意态切中英后回字母键盘
             self.render()                   // 同步再渲染，label/候选立刻翻转
         }
@@ -226,6 +236,7 @@ final class KeyboardViewController: UIInputViewController {
         }
         if character.isLetter && character.isASCII {
             model.input(letter: character)
+            NSLog("[KBI] letter='%@' mode=%@ buffer='%@' cands=%d", String(character), String(describing: model.mode), model.buffer, model.candidates.count)
             // 中文态：字母进拼音 buffer（不直接上屏，候选栏显示）；英文态：直入文档。
             if model.mode == .en2zh {
                 textDocumentProxy.insertText(String(character))
@@ -251,7 +262,9 @@ final class KeyboardViewController: UIInputViewController {
 
     private func handleSpace() {
         let text = model.space()
-        textDocumentProxy.insertText(text.isEmpty ? " " : text) // S2-03：中文态空拼音按空格不再被吞
+        let shown = text.isEmpty ? " " : text
+        textDocumentProxy.insertText(shown) // S2-03：中文态空拼音按空格不再被吞
+        NSLog("[KBS] space mode=%@ buffer='%@' inserted='%@'", String(describing: model.mode), model.buffer, shown)
     }
 
     private func handleReturn() {
@@ -276,6 +289,20 @@ final class KeyboardViewController: UIInputViewController {
 }
 
 extension KeyboardViewController {
+    /// 诊断：顶部叠 24pt 醒目粉条，真机复截看白带/圆角归属。
+    func setupKbTopStrip() {
+        kbTopStrip.backgroundColor = UIColor.systemPink
+        kbTopStrip.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(kbTopStrip)
+        NSLayoutConstraint.activate([
+            kbTopStrip.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            kbTopStrip.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            kbTopStrip.topAnchor.constraint(equalTo: view.topAnchor),
+            kbTopStrip.heightAnchor.constraint(equalToConstant: 24),
+        ])
+        view.bringSubviewToFront(kbTopStrip)
+    }
+
     /// #8：磨砂背景铺满整块键盘（垫在最底层，blur 采样身后 App 内容）。
     func setupBlurBackground() {
         blurView.translatesAutoresizingMaskIntoConstraints = false
