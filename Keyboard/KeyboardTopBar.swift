@@ -34,7 +34,7 @@ final class KeyboardTopBar: UIView {
     }
 
     private func styleCircle(_ btn: UIButton, symbol: String, label: String) {
-        let cfg = UIImage.SymbolConfiguration(pointSize: 16, weight: .regular)
+        let cfg = UIImage.SymbolConfiguration(pointSize: 13, weight: .regular)
         btn.setImage(UIImage(systemName: symbol, withConfiguration: cfg), for: .normal)
         btn.tintColor = KBColor.pinyin // #3C3C43 / #EBEBF5，非纯黑
         btn.backgroundColor = KBColor.letterKey
@@ -53,7 +53,7 @@ final class KeyboardTopBar: UIView {
         settingsButton.addTarget(self, action: #selector(settingsTapped), for: .touchUpInside) // ⚙ 占位：可点，B 在 1.27
         dismissCircleButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
         // 输入态：裸箭头（无圆/无底/无边框，热区 44）+ 竖直小分隔线
-        let arrowCfg = UIImage.SymbolConfiguration(pointSize: 16, weight: .medium)
+        let arrowCfg = UIImage.SymbolConfiguration(pointSize: 13, weight: .medium)
         dismissArrowButton.setImage(UIImage(systemName: "chevron.down", withConfiguration: arrowCfg), for: .normal)
         dismissArrowButton.tintColor = KBColor.pinyin
         dismissArrowButton.backgroundColor = .clear
@@ -87,6 +87,9 @@ final class KeyboardTopBar: UIView {
             separatorView.widthAnchor.constraint(equalToConstant: 0.5),
             separatorView.heightAnchor.constraint(equalToConstant: 18),
         ])
+        // 收起箭头视觉偏上：两种态的箭头都往下微调 2pt，落到正中
+        dismissCircleButton.imageView?.transform = CGAffineTransform(translationX: 0, y: 2)
+        dismissArrowButton.imageView?.transform = CGAffineTransform(translationX: 0, y: 2)
     }
 
     /// 中间两行：上行拼音串（14pt，过长省略）、下行候选（26pt，横向滚动）。留出输入态右侧箭头块位置。
