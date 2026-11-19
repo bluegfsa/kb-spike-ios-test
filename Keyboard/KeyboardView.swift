@@ -9,9 +9,9 @@ enum KeyboardLayoutMode {
 /// 纯 UIKit 键盘视图：顶部功能条（KeyboardTopBar）＋四行键；高度自适应；配色/按钮见 KeyboardViewStyle.swift。
 final class KeyboardView: UIView {
     // 尺寸
-    private let keyHeight: CGFloat = 44
+    private let keyHeight: CGFloat = 52     // 键高 44→52（⑥ 对齐微信高度 ≈344pt）
     private let keyGap: CGFloat = 6      // 水平键距
-    private let rowGap: CGFloat = 12     // 行间距（竖直，微信同款）
+    private let rowGap: CGFloat = 16     // 行间距（竖直）12→16（⑥ 补齐 344pt）
     private let keyCorner: CGFloat = 6
     private let rowCount = 4
     private let rowsTopGap: CGFloat = 6
