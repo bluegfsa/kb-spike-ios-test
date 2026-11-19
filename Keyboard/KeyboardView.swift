@@ -14,7 +14,7 @@ final class KeyboardView: UIView {
     private let rowGap: CGFloat = 12     // 行间距（竖直）恢复 12（不动行距）
     private let keyCorner: CGFloat = 6
     private let rowCount = 4
-    private let rowsTopGap: CGFloat = 6
+    private let rowsTopGap: CGFloat = 10   // 顶栏→首行间距 6→10（只加 4pt 边距把键区微升到≈266pt，键高/行距不动）
     private let rowsBottomPad: CGFloat = 4
     private enum KeyKind { case letter, function }
 
@@ -327,6 +327,7 @@ final class KeyboardView: UIView {
         deleteTimer?.invalidate()
         let timer = Timer(timeInterval: deleteInterval, repeats: false) { [weak self] _ in
             guard let self else { return }
+            KeyFeedback.shared.play() // 长按连发每 tick 也补按键反馈（删键要有声/震）
             self.onBackspace?()
             self.deleteInterval = KeyboardLogic.nextDeleteInterval(from: self.deleteInterval)
             self.scheduleDeleteTick()
