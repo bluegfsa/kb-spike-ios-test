@@ -123,7 +123,7 @@ final class KeyboardModel: KeyboardModeling {
 
     /// 译一个词/短语。
     /// zh2en：先短语表，再整词精确查，最后贪心最长匹配分词兜底（多字词组也能出译文）。
-    /// en2zh：整词精确查，退而前缀查（英文单词）。
+    /// en2zh：整词精确查（#2：打字过程不做前缀兜底——前缀会取字典首条长释义，导致不同输入命中同一条、译文“卡死”；空格成词时同样走精确查）。
     private func translate(_ term: String, zh2en: Bool) -> String? {
         guard let cd = cedict, !term.isEmpty else { return nil }
         if zh2en {
@@ -131,9 +131,7 @@ final class KeyboardModel: KeyboardModeling {
             if let e = cd.exact(term, zh2en: true) { return e }
             return segmentZh(term, cd)
         } else {
-            let w = term.lowercased()
-            if let e = cd.exact(w, zh2en: false) { return e }
-            return cd.lookup(w, zh2en: false, limit: 1).first
+            return cd.exact(term.lowercased(), zh2en: false)
         }
     }
 
