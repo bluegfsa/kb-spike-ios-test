@@ -37,6 +37,7 @@ final class KeyboardView: UIView {
 
     private let topBar = KeyboardTopBar()
     private let rowsStack = UIStackView()
+    private lazy var settingsPanel = KeyboardSettingsPanel()
     private weak var modeKeyButton: ModeToggleButton?
     private weak var returnKeyButton: ClosureButton?
     /// 回车键标题，随宿主 App 的 returnKeyType 变（#15/规格 §D·§G2），默认换行。
@@ -80,7 +81,23 @@ final class KeyboardView: UIView {
                 responder = r.next
             }
         }
-        topBar.onSettings = { [weak self] in self?.onSettings?() }                          // 左⚙ 设置（面板待 UI 稿）
+        topBar.onSettings = { [weak self] in self?.showSettingsPanel() } // 左⚙ 键盘内设置面板(A)
+    }
+
+    /// 弹键盘内设置面板（占满原键盘区，不跳 App）。
+    private func showSettingsPanel() {
+        settingsPanel.translatesAutoresizingMaskIntoConstraints = false
+        if settingsPanel.superview == nil {
+            addSubview(settingsPanel)
+            NSLayoutConstraint.activate([
+                settingsPanel.leadingAnchor.constraint(equalTo: leadingAnchor),
+                settingsPanel.trailingAnchor.constraint(equalTo: trailingAnchor),
+                settingsPanel.topAnchor.constraint(equalTo: topAnchor),
+                settingsPanel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            ])
+            settingsPanel.onClose = { [weak self] in self?.settingsPanel.removeFromSuperview() }
+        }
+        bringSubviewToFront(settingsPanel)
     }
 
     private func setupRows() {
