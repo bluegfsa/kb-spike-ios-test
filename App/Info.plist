@@ -9,8 +9,8 @@
     <key>CFBundleName</key><string>$(PRODUCT_NAME)</string>
     <key>CFBundleDisplayName</key><string>双译键盘</string>
     <key>CFBundlePackageType</key><string>APPL</string>
-    <key>CFBundleShortVersionString</key><string>1.28</string>
-    <key>CFBundleVersion</key><string>28</string>
+    <key>CFBundleShortVersionString</key><string>1.29</string>
+    <key>CFBundleVersion</key><string>29</string>
     <key>LSRequiresIPhoneOS</key><true/>
     <key>UILaunchScreen</key><dict/>
 </dict>
