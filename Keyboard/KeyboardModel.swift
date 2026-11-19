@@ -209,10 +209,10 @@ final class KeyboardModel: KeyboardModeling {
         }
         var text = buffer
         if let sel = RimeKbSelect(0) { text = sel }
-        clearComposition(); notifyChange(); return text
+        commitAndClear(); return text
     }
 
-    func newline() -> String { clearComposition(); notifyChange(); return "\n" }
+    func newline() -> String { commitAndClear(); return "\n" }
 
     func toggleMode() {
         mode = (mode == .zh2en) ? .en2zh : .zh2en
@@ -226,9 +226,11 @@ final class KeyboardModel: KeyboardModeling {
     func selectCandidate(_ index: Int) -> String? {
         guard mode == .zh2en else { return nil }
         let t = RimeKbSelect(Int32(index))
-        clearComposition(); notifyChange(); return t
+        commitAndClear(); return t
     }
 
+    /// 提交后统一收口：先 RimeKbReset 清引擎内部 composition，再清 Swift 侧缓存，再通知刷新；避免旧串残留叠加。
+    private func commitAndClear() { RimeKbReset(); clearComposition(); notifyChange() }
     private func clearComposition() { buffer = ""; candidates = []; candidateTranslations = []; primaryTranslation = nil; enSentence = [] }
     private func notifyChange() { DispatchQueue.main.async { [weak self] in self?.onChange?() } }
 }
