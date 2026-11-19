@@ -69,7 +69,6 @@ final class ModeToggleButton: UIButton {
         layer.cornerRadius = 6
         clipsToBounds = true
         titleLabel?.textAlignment = .center
-        addTarget(self, action: #selector(feedbackDown), for: .touchDown)
     }
 
     required init?(coder: NSCoder) {
@@ -90,8 +89,6 @@ final class ModeToggleButton: UIButton {
             .foregroundColor: isChinese ? KBColor.inactiveLang : KBColor.activeLang]))
         setAttributedTitle(s, for: .normal)
     }
-
-    @objc private func feedbackDown() { KeyFeedback.shared.play() }
 }
 
 /// 带闭包的按钮（UIButton 不支持 target/action 直接闭包）。#10 按下弹按键预览气泡（仅字母键）。
@@ -104,7 +101,6 @@ final class ClosureButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addTarget(self, action: #selector(handleTap), for: .touchUpInside)
-        addTarget(self, action: #selector(feedbackDown), for: .touchDown)
         addTarget(self, action: #selector(showPreview), for: .touchDown)
         addTarget(self, action: #selector(hidePreview), for: [.touchUpInside, .touchUpOutside, .touchCancel])
     }
@@ -113,8 +109,7 @@ final class ClosureButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc private func handleTap() { onTap?() }
-    @objc private func feedbackDown() { KeyFeedback.shared.play() }
+    @objc private func handleTap() { KeyFeedback.shared.play(); onTap?() }
 
     @objc private func showPreview() {
         guard showsBubble, let title = title(for: .normal), !title.isEmpty else { return }
@@ -150,7 +145,6 @@ final class ShiftKeyButton: UIButton {
             capsBar.heightAnchor.constraint(equalToConstant: 3),
         ])
         addTarget(self, action: #selector(handleTap), for: .touchUpInside)
-        addTarget(self, action: #selector(feedbackDown), for: .touchDown)
         applyIcon()
     }
 
@@ -158,8 +152,7 @@ final class ShiftKeyButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc private func handleTap() { onTap?() }
-    @objc private func feedbackDown() { KeyFeedback.shared.play() }
+    @objc private func handleTap() { KeyFeedback.shared.play(); onTap?() }
 
     /// 箭头：off 空心 shift、激活/锁定均是实心 shift.fill（同款箭头）；横杠只在锁定大写出现。
     private func applyIcon() {
