@@ -34,9 +34,6 @@ final class KeyboardTopBar: UIView {
     }
 
     private func styleCircle(_ btn: UIButton, symbol: String, label: String) {
-        let cfg = UIImage.SymbolConfiguration(pointSize: 13, weight: .regular)
-        btn.setImage(UIImage(systemName: symbol, withConfiguration: cfg), for: .normal)
-        btn.tintColor = KBColor.pinyin // #3C3C43 / #EBEBF5，非纯黑
         btn.backgroundColor = KBColor.letterKey
         btn.layer.cornerRadius = 16
         btn.clipsToBounds = true
@@ -44,6 +41,25 @@ final class KeyboardTopBar: UIView {
         btn.accessibilityLabel = label
         btn.translatesAutoresizingMaskIntoConstraints = false
         addSubview(btn)
+        addCenteredImage(to: btn, symbol: symbol, pointSize: 13, weight: .regular, opticalY: 0)
+    }
+
+    /// 用独立 `UIImageView` 约束几何居中（不再用 `imageView.transform`：UIButton 布局时会重排/覆盖 transform，
+    /// 且圆钮 `clipsToBounds` 会把下移的箭头下半裁掉——这正是之前 +2/+5 怎么挪都不居中的真根因）。
+    /// opticalY 仅做 1~2pt 光学补偿；图标本身是 SF Symbol，几何居中。
+    private func addCenteredImage(to button: UIButton, symbol: String, pointSize: CGFloat, weight: UIImage.SymbolWeight, opticalY: CGFloat) {
+        button.setImage(nil, for: .normal)
+        let cfg = UIImage.SymbolConfiguration(pointSize: pointSize, weight: weight)
+        let iv = UIImageView(image: UIImage(systemName: symbol, withConfiguration: cfg))
+        iv.tintColor = KBColor.pinyin
+        iv.contentMode = .center
+        iv.isUserInteractionEnabled = false
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        button.addSubview(iv)
+        NSLayoutConstraint.activate([
+            iv.centerXAnchor.constraint(equalTo: button.centerXAnchor),
+            iv.centerYAnchor.constraint(equalTo: button.centerYAnchor, constant: opticalY),
+        ])
     }
 
     private func setupControls() {
@@ -53,15 +69,13 @@ final class KeyboardTopBar: UIView {
         settingsButton.addTarget(self, action: #selector(settingsTapped), for: .touchUpInside) // ⚙ 占位：可点，B 在 1.27
         dismissCircleButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
         // 输入态：裸箭头（无圆/无底/无边框，热区 44）+ 竖直小分隔线
-        let arrowCfg = UIImage.SymbolConfiguration(pointSize: 13, weight: .medium)
-        dismissArrowButton.setImage(UIImage(systemName: "chevron.down", withConfiguration: arrowCfg), for: .normal)
-        dismissArrowButton.tintColor = KBColor.pinyin
         dismissArrowButton.backgroundColor = .clear
         dismissArrowButton.isUserInteractionEnabled = true
         dismissArrowButton.accessibilityLabel = "收起键盘"
         dismissArrowButton.translatesAutoresizingMaskIntoConstraints = false
         dismissArrowButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
         addSubview(dismissArrowButton)
+        addCenteredImage(to: dismissArrowButton, symbol: "chevron.down", pointSize: 13, weight: .medium, opticalY: 1)
         separatorView.backgroundColor = UIColor { t in
             t.userInterfaceStyle == .dark
                 ? UIColor(red: 235/255, green: 235/255, blue: 245/255, alpha: 0.30)
@@ -87,9 +101,7 @@ final class KeyboardTopBar: UIView {
             separatorView.widthAnchor.constraint(equalToConstant: 0.5),
             separatorView.heightAnchor.constraint(equalToConstant: 18),
         ])
-        // 收起箭头视觉偏上：两种态的箭头都往下微调 5pt，落到正中
-        dismissCircleButton.imageView?.transform = CGAffineTransform(translationX: 0, y: 5)
-        dismissArrowButton.imageView?.transform = CGAffineTransform(translationX: 0, y: 5)
+        // 箭头居中已由 addCenteredImage 的 centerYAnchor 约束保证（不再用 imageView.transform）。
     }
 
     /// 中间两行：上行拼音串（14pt，过长省略）、下行候选（26pt，横向滚动）。留出输入态右侧箭头块位置。
