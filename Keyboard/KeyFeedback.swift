@@ -16,9 +16,9 @@ final class KeyFeedback {
     func play() {
         let s = SettingsStore.shared()
         switch s.keyHapticLevel { // 0关1弱2中3强
-        case 1: lightGen.impactOccurred(intensity: 0.4)
-        case 2: mediumGen.impactOccurred(intensity: 0.7)
-        case 3: heavyGen.impactOccurred(intensity: 1.0)
+        case 1: lightGen.prepare(); lightGen.impactOccurred(intensity: 0.4)
+        case 2: mediumGen.prepare(); mediumGen.impactOccurred(intensity: 0.7)
+        case 3: heavyGen.prepare(); heavyGen.impactOccurred(intensity: 1.0)
         default: break
         }
         if s.keySoundLevel > 0 { // 声音 B：系统键音，安全不卡；随系统「键盘点按声」与静音键
