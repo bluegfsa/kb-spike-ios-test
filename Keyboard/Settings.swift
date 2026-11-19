@@ -5,8 +5,8 @@ struct Settings: Codable {
     var direction: Direction = .zh2en
     var showGloss: Bool = true
     var version: Int = 1
-    /// 按键声音：0关 1小 2中 3大（默认中）
-    var keySoundLevel: Int = 2
+    /// 按键声音：0关 1开（B：系统键音，默认开）
+    var keySoundLevel: Int = 1
     /// 按键震动：0关 1弱 2中 3强（默认中）
     var keyHapticLevel: Int = 2
 }
