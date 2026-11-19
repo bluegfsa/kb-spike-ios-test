@@ -10,8 +10,8 @@ final class KeyboardViewController: UIInputViewController {
         return KeyboardModel(sharedDir: base.appendingPathComponent("rime/shared"), userDir: base.appendingPathComponent("rime/user"))
     }()
     private var heightConstraint: NSLayoutConstraint?
-    /// #8：半透明磨砂背景层，跟随 iOS 观感（铺满整块键盘，blur 采样身后 App 内容）。
-    private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
+    /// #8（微信输入法同款）：键盘顶部比原生多垫高一段，用我们自己的半透明底把那截白圆角盖住。
+    private let kbTopCover: CGFloat = 26
 #if DEBUG
     private let memHUD = UILabel()
     private var memTimer: Timer?
@@ -21,11 +21,13 @@ final class KeyboardViewController: UIInputViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // #8：背景改半透明磨砂跟随 iOS——view/键盘/候选栏透明，底下垫 UIVisualEffectView 采样身后内容。
-        view.backgroundColor = .clear
+        // #8（微信输入法同款）：自己做「半透明底」不依赖采壁纸（UI v0.8：浅 #F2F3F5 / 深 #1C1C1E，alpha 0.88）；
+        // 键盘/候选栏透明露出底色，配合键盘顶部上探 kbTopCover 盖住系统那条白圆角。
+        view.backgroundColor = UIColor { trait in
+            UIColor(hex: trait.userInterfaceStyle == .dark ? 0x1C1C1E : 0xF2F3F5).withAlphaComponent(0.88)
+        }
         view.isOpaque = false
         keyboardView.backgroundColor = .clear
-        setupBlurBackground()
         setupKeyboardView()
         setupStatusBanner()
 #if DEBUG
@@ -46,11 +48,8 @@ final class KeyboardViewController: UIInputViewController {
         super.viewDidLayoutSubviews()
         syncReturnKeyTitle()
         let intrinsic = keyboardView.intrinsicKeyboardHeight(bottomInset: view.safeAreaInsets.bottom)
-        // #6：系统分配高度若只比内容高度略高（差 ≤80pt，符合顶部露白 ~25pt 的量级），说明是我们视图没吃满，
-        // 才铺满到系统高度；差 >80pt 视为宿主/系统整块容器，不误当键盘高度——防止自反馈把键盘越撑越高。
-        let sysH = view.superview?.bounds.height ?? 0
-        let canFill = sysH > intrinsic + 1 && sysH <= intrinsic + 80
-        let target = canFill ? sysH : intrinsic
+        // #8：内容高度 + 顶部上探 kbTopCover（多出来这段用半透明底盖住系统白圆角）；上限防自反馈撑高。
+        let target = min(intrinsic + kbTopCover, intrinsic + 120)
         if let constraint = heightConstraint, abs(constraint.constant - target) > 0.5 {
             constraint.constant = target
             view.layoutIfNeeded()
@@ -64,7 +63,7 @@ final class KeyboardViewController: UIInputViewController {
         NSLayoutConstraint.activate([
             keyboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             keyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            keyboardView.topAnchor.constraint(equalTo: view.topAnchor),
+            keyboardView.topAnchor.constraint(equalTo: view.topAnchor, constant: kbTopCover),
             keyboardView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
         let height = view.heightAnchor.constraint(equalToConstant: 252)
@@ -272,20 +271,6 @@ final class KeyboardViewController: UIInputViewController {
         memTimer?.invalidate()
 #endif
         returnKeyTimer?.invalidate()
-    }
-}
-
-extension KeyboardViewController {
-    /// #8：磨砂背景铺满整块键盘（垫在最底层，blur 采样身后 App 内容）。
-    func setupBlurBackground() {
-        blurView.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(blurView, at: 0)
-        NSLayoutConstraint.activate([
-            blurView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            blurView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            blurView.topAnchor.constraint(equalTo: view.topAnchor),
-            blurView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        ])
     }
 }
 
