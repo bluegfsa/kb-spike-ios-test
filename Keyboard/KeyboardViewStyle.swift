@@ -1,22 +1,35 @@
 import UIKit
 
-/// 按键预览气泡（#10）：圆角、融进按键，参考 iOS 原生键盘——底边贴着键顶、四角圆角、几乎无投影。
-/// 挂到整块按键区容器（跨行不被别的行盖住）。字母/功能/上档/中英键共用这一份实现，避免各画各的。
+/// 按键预览气泡（#10）：圆角、融进按键，参考 iOS 原生——底边贴键顶无缝隙、圆角 7、键色、只加轻阴影。
+/// 挂到整块按键区容器（跨行不被别的行盖住）。字母/功能/上档/中英键共用这一份实现。
 final class KeyBubble: UIView {
+    private let bg = UIView()
     private let label = UILabel()
 
     init() {
         super.init(frame: .zero)
-        backgroundColor = KBColor.letterKey
-        layer.cornerRadius = 10
-        clipsToBounds = true // 保证圆角（iOS 原生气泡本身几乎无投影，不靠阴影）
+        backgroundColor = .clear
+        // 轻阴影挂在最外层容器（圆角由里层 bg 裁剪保证，两者互不影响）
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.12
+        layer.shadowRadius = 4
+        layer.shadowOffset = CGSize(width: 0, height: 1)
+        bg.backgroundColor = KBColor.letterKey
+        bg.layer.cornerRadius = 7
+        bg.clipsToBounds = true
+        bg.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(bg)
         label.textAlignment = .center
         label.textColor = .label
         label.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(label)
+        bg.addSubview(label)
         NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: centerYAnchor),
+            bg.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bg.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bg.topAnchor.constraint(equalTo: topAnchor),
+            bg.bottomAnchor.constraint(equalTo: bottomAnchor),
+            label.centerXAnchor.constraint(equalTo: bg.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: bg.centerYAnchor),
         ])
         isHidden = true
     }
@@ -25,16 +38,17 @@ final class KeyBubble: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    /// 在 source 键正上方弹出并贴住键顶（融入按键）；text 为内容，baseFontSize 为该键字号（气泡字号=+2）。
+    /// 在 source 键正上方弹出，底边贴住键顶（融入按键）；text 为内容，baseFontSize 为该键字号（气泡字号=+2）。
     func show(text: String, baseFontSize: CGFloat, source: UIView) {
         guard !text.isEmpty, let holder = source.superview?.superview ?? source.superview else { return }
-        let h = source.bounds.height + 24
-        let w = source.bounds.width + 8
+        let h = source.bounds.height + 28
+        let w = source.bounds.width + 16
         label.text = text
         label.font = .systemFont(ofSize: baseFontSize + 2)
         let origin = holder.convert(source.bounds, from: source)
-        // 底边与键顶重叠 1pt，形成「融进按键」的观感（iOS 同款）
-        frame = CGRect(x: origin.midX - w / 2, y: origin.minY - h + 1, width: w, height: h)
+        // 底边正好落在键顶（无缝隙，iOS 同款「融入按键」）
+        frame = CGRect(x: origin.midX - w / 2, y: origin.minY - h, width: w, height: h)
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 7).cgPath
         if superview !== holder {
             removeFromSuperview()
             holder.addSubview(self)
@@ -109,14 +123,14 @@ final class ClosureButton: UIButton {
     @objc private func hidePreview() { bubble.hide() }
 }
 
-/// 上档/大写键（#4）：沿用系统原 ⇧ 图标（SF Symbol），激活变实心；**仅锁定大写**才显示下方横杠。
+/// 上档/大写键（#4）：箭头形状全程不变——off=空心 `shift`，激活=实心 `shift.fill`；
+/// **仅锁定大写**时在箭头下方自绘一根实心短粗横杠（绝不换成 capslock 图标，避免“换了图标”）。
 final class ShiftKeyButton: UIButton {
     enum ShiftState { case off, shift, caps }
     var onTap: (() -> Void)?
-    var shiftState: ShiftState = .off {
-        didSet { setNeedsLayout(); applyIcon() }
-    }
+    var shiftState: ShiftState = .off { didSet { applyIcon() } }
     private let bubble = KeyBubble()
+    private let capsBar = UIView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -124,6 +138,17 @@ final class ShiftKeyButton: UIButton {
         layer.cornerRadius = 6
         clipsToBounds = true
         imageView?.contentMode = .center
+        capsBar.backgroundColor = KBColor.keyText
+        capsBar.layer.cornerRadius = 1.5
+        capsBar.isHidden = true
+        capsBar.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(capsBar)
+        NSLayoutConstraint.activate([
+            capsBar.centerXAnchor.constraint(equalTo: centerXAnchor),
+            capsBar.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
+            capsBar.widthAnchor.constraint(equalToConstant: 12),
+            capsBar.heightAnchor.constraint(equalToConstant: 3),
+        ])
         addTarget(self, action: #selector(handleTap), for: .touchUpInside)
         addTarget(self, action: #selector(showPreview), for: .touchDown)
         addTarget(self, action: #selector(hidePreview), for: [.touchUpInside, .touchUpOutside, .touchCancel])
@@ -138,17 +163,13 @@ final class ShiftKeyButton: UIButton {
     @objc private func showPreview() { bubble.show(text: shiftState == .caps ? "⇪" : "⇧", baseFontSize: 24, source: self) }
     @objc private func hidePreview() { bubble.hide() }
 
-    /// 原图标不变：off=空心⇧；单击激活=/实心⇧；锁定大写=capslock(实心⇧+横杠)。
+    /// 箭头：off 空心 shift、激活/锁定均是实心 shift.fill（同款箭头）；横杠只在锁定大写出现。
     private func applyIcon() {
-        let name: String
-        switch shiftState {
-        case .off: name = "shift"
-        case .shift: name = "shift.fill"
-        case .caps: name = "capslock.fill"
-        }
+        let name = (shiftState == .off) ? "shift" : "shift.fill"
         let cfg = UIImage.SymbolConfiguration(pointSize: 18, weight: .regular)
         setImage(UIImage(systemName: name, withConfiguration: cfg), for: .normal)
         tintColor = KBColor.keyText
+        capsBar.isHidden = (shiftState != .caps)
     }
 }
 
