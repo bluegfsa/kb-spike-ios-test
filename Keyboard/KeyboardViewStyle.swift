@@ -1,20 +1,65 @@
 import UIKit
 
-/// 中/EN 切换键（#7）：单行「中/EN」，当前语种加大加粗加黑，另一语种常规灰。
-final class ModeToggleButton: UIButton {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+/// 按键预览气泡（#10）：宽=键宽+16、高=键高+28、圆角10、字号=键字号+2、带投影、底边距键顶6pt。
+/// 挂到整块按键区容器（跨行不被别的行盖住）。字母/功能/上档/中英键共用这一份实现，避免各画各的。
+final class KeyBubble: UILabel {
+    init() {
+        super.init(frame: .zero)
+        textAlignment = .center
+        textColor = .label
         backgroundColor = KBColor.letterKey
-        layer.cornerRadius = 6
-        clipsToBounds = true
-        titleLabel?.textAlignment = .center
+        layer.cornerRadius = 10
+        layer.masksToBounds = false // 允许投影；背景仍按 cornerRadius 圆角
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.22
+        layer.shadowRadius = 8
+        layer.shadowOffset = CGSize(width: 0, height: 3)
+        isHidden = true
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    /// 按当前语言重建「中/英」归属文本：默认同行同号，当前语言那字加大加粗加黑。
+    /// 在 source 键正上方弹出；text 为显示内容，baseFontSize 为该键字号（气泡字号=+2）。
+    func show(text: String, baseFontSize: CGFloat, source: UIView) {
+        guard !text.isEmpty, let holder = source.superview?.superview ?? source.superview else { return }
+        let h = source.bounds.height + 28
+        let w = source.bounds.width + 16
+        self.text = text
+        self.font = .systemFont(ofSize: baseFontSize + 2)
+        let origin = holder.convert(source.bounds, from: source)
+        frame = CGRect(x: origin.midX - w / 2, y: origin.minY - h - 6, width: w, height: h)
+        if superview !== holder {
+            removeFromSuperview()
+            holder.addSubview(self)
+        }
+        holder.bringSubviewToFront(self)
+        isHidden = false
+    }
+
+    func hide() { isHidden = true }
+}
+
+/// 中/EN 切换键（#7）：单行「中/EN」，当前语种加大加粗加黑，另一语种常规灰。#10 按下也弹气泡。
+final class ModeToggleButton: UIButton {
+    private let bubble = KeyBubble()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = KBColor.letterKey
+        layer.cornerRadius = 6
+        clipsToBounds = true
+        titleLabel?.textAlignment = .center
+        addTarget(self, action: #selector(showPreview), for: .touchDown)
+        addTarget(self, action: #selector(hidePreview), for: [.touchUpInside, .touchUpOutside, .touchCancel])
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    /// 按当前语种重建「中/EN」归属文本：默认同行同号，当前语种那字加大加粗加黑。
     func configure(isChinese: Bool) {
         let base: CGFloat = 12, active: CGFloat = 15
         let s = NSMutableAttributedString()
@@ -28,24 +73,21 @@ final class ModeToggleButton: UIButton {
             .foregroundColor: isChinese ? KBColor.inactiveLang : KBColor.activeLang]))
         setAttributedTitle(s, for: .normal)
     }
+
+    @objc private func showPreview() { bubble.show(text: "中/EN", baseFontSize: 15, source: self) }
+    @objc private func hidePreview() { bubble.hide() }
 }
 
 /// 带闭包的按钮（UIButton 不支持 target/action 直接闭包）。#10 按下时弹按键预览气泡。
 final class ClosureButton: UIButton {
     var onTap: (() -> Void)?
-    private let keyPreview = UILabel()
+    private let bubble = KeyBubble()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         addTarget(self, action: #selector(handleTap), for: .touchUpInside)
         addTarget(self, action: #selector(showPreview), for: .touchDown)
         addTarget(self, action: #selector(hidePreview), for: [.touchUpInside, .touchUpOutside, .touchCancel])
-        keyPreview.isHidden = true
-        keyPreview.textAlignment = .center
-        keyPreview.textColor = .label
-        keyPreview.backgroundColor = KBColor.letterKey
-        keyPreview.layer.cornerRadius = 10
-        keyPreview.layer.masksToBounds = false // 允许投影；背景仍按 cornerRadius 圆角
     }
 
     required init?(coder: NSCoder) {
@@ -55,37 +97,19 @@ final class ClosureButton: UIButton {
     @objc private func handleTap() { onTap?() }
 
     @objc private func showPreview() {
-        // #10 气泡放大：宽=键宽+16、高=键高+28、圆角10、字号+2、加投影；底边距键顶≥6，浮在指尖上方。
-        // 挂到整块按键区容器（跨行不被别的行盖住）。
-        guard let title = title(for: .normal), !title.isEmpty,
-              let holder = superview?.superview ?? superview else { return }
-        let h = bounds.height + 28
-        let w = bounds.width + 16
-        keyPreview.text = title
-        keyPreview.font = .systemFont(ofSize: (titleLabel?.font.pointSize ?? 20) + 2)
-        keyPreview.layer.cornerRadius = 10
-        keyPreview.layer.shadowColor = UIColor.black.cgColor
-        keyPreview.layer.shadowOpacity = 0.22
-        keyPreview.layer.shadowRadius = 8
-        keyPreview.layer.shadowOffset = CGSize(width: 0, height: 3)
-        let origin = holder.convert(bounds, from: self)
-        keyPreview.frame = CGRect(x: origin.midX - w / 2, y: origin.minY - h - 6, width: w, height: h)
-        if keyPreview.superview !== holder {
-            keyPreview.removeFromSuperview()
-            holder.addSubview(keyPreview)
-        }
-        holder.bringSubviewToFront(keyPreview)
-        keyPreview.isHidden = false
+        guard let title = title(for: .normal), !title.isEmpty else { return }
+        bubble.show(text: title, baseFontSize: titleLabel?.font.pointSize ?? 20, source: self)
     }
 
-    @objc private func hidePreview() { keyPreview.isHidden = true }
+    @objc private func hidePreview() { bubble.hide() }
 }
 
-/// 上档/大写键（#4）：空心箭头↔实心箭头；锁定大写时箭头与其下方短粗横杠均为实心。
+/// 上档/大写键（#4）：空心箭头↔实心箭头；锁定大写时箭头与其下方短粗横杠均为实心。#10 按下也弹气泡。
 final class ShiftKeyButton: UIButton {
     enum ShiftState { case off, shift, caps }
     var onTap: (() -> Void)?
     var shiftState: ShiftState = .off { didSet { setNeedsDisplay() } }
+    private let bubble = KeyBubble()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -93,6 +117,8 @@ final class ShiftKeyButton: UIButton {
         layer.cornerRadius = 6
         clipsToBounds = true
         addTarget(self, action: #selector(handleTap), for: .touchUpInside)
+        addTarget(self, action: #selector(showPreview), for: .touchDown)
+        addTarget(self, action: #selector(hidePreview), for: [.touchUpInside, .touchUpOutside, .touchCancel])
     }
 
     required init?(coder: NSCoder) {
@@ -100,6 +126,8 @@ final class ShiftKeyButton: UIButton {
     }
 
     @objc private func handleTap() { onTap?() }
+    @objc private func showPreview() { bubble.show(text: shiftState == .caps ? "⇪" : "⇧", baseFontSize: 24, source: self) }
+    @objc private func hidePreview() { bubble.hide() }
 
     /// 自绘 ⇧：向上箭头＋（锁定大写时）下方短粗横杠；off 空心、shift/caps 实心。
     override func draw(_ rect: CGRect) {
