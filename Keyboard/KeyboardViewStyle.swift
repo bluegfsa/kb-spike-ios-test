@@ -44,7 +44,7 @@ final class KeyBubble: UIView {
         let h = source.bounds.height + 28
         let w = source.bounds.width + 16
         label.text = text
-        label.font = .systemFont(ofSize: baseFontSize + 2)
+        label.font = .systemFont(ofSize: baseFontSize + 4) // UI v1.0：气泡字号 23→27(+4)
         let origin = holder.convert(source.bounds, from: source)
         // 底边正好落在键顶（无缝隙，iOS 同款「融入按键」）
         frame = CGRect(x: origin.midX - w / 2, y: origin.minY - h, width: w, height: h)
@@ -80,15 +80,15 @@ final class ModeToggleButton: UIButton {
 
     /// 按当前语种重建「中/EN」归属文本：默认同行同号，当前语种那字加大加粗加黑。
     func configure(isChinese: Bool) {
-        let base: CGFloat = 12, active: CGFloat = 15
+        let base: CGFloat = 12, active: CGFloat = 17
         let s = NSMutableAttributedString()
         s.append(NSAttributedString(string: "中", attributes: [
-            .font: UIFont.systemFont(ofSize: isChinese ? active : base, weight: isChinese ? .bold : .regular),
+            .font: UIFont.systemFont(ofSize: isChinese ? active : base, weight: .regular),
             .foregroundColor: isChinese ? KBColor.activeLang : KBColor.inactiveLang]))
         s.append(NSAttributedString(string: "/", attributes: [
             .font: UIFont.systemFont(ofSize: base), .foregroundColor: KBColor.inactiveLang]))
         s.append(NSAttributedString(string: "EN", attributes: [
-            .font: UIFont.systemFont(ofSize: isChinese ? base : active, weight: isChinese ? .regular : .bold),
+            .font: UIFont.systemFont(ofSize: isChinese ? base : active, weight: .regular),
             .foregroundColor: isChinese ? KBColor.inactiveLang : KBColor.activeLang]))
         setAttributedTitle(s, for: .normal)
     }
