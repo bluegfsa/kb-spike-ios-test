@@ -31,6 +31,8 @@ final class KeyboardView: UIView {
     private var isChinese = true
     private var punctuationFullWidth = true
     private var isShiftActive = false
+    private var isCapsLocked = false
+    private var lastShiftTap = Date.distantPast
     private var layoutMode: KeyboardLayoutMode = .letters
 
     private let candidateBar = UIView()
@@ -132,7 +134,6 @@ final class KeyboardView: UIView {
 
     func showLetters() { setLayoutMode(.letters) } // 强制回字母键盘（#13）
 
-    /// 按 returnKeyType 设置回车键标题（发送→√ 等，功能统一换行）。
     func setReturnKeyTitle(_ title: String) {
         guard title != returnKeyTitle else { return }
         returnKeyTitle = title
@@ -173,15 +174,24 @@ final class KeyboardView: UIView {
         return row
     }
 
-    /// 第三行（字母态）：#2 中/英都放 ⇧；中文态点⇧=切英文、英文态⇧=切大写。
     private func makeHomeEdgeRow() -> UIStackView {
         let row = makeRow()
-        let shift = makeKey("⇧", font: 18, kind: .function, accessibility: "上档") { [weak self] in
+        let shift = makeKey(isCapsLocked ? "⇪" : "⇧", font: 18, kind: .function, accessibility: "上档") { [weak self] in
             guard let self else { return }
             if self.isChinese {
-                self.onToggleMode?() // #2(a)：中文态点 ⇧＝切英文（不切大写）
+                self.onToggleMode?()      // #9 中文态点 ⇧＝切英文
+                self.isShiftActive = true // #9 并进入大写态（一次性）
+                self.isCapsLocked = false
+                self.setLayoutMode(.letters)
             } else {
-                self.isShiftActive.toggle()
+                // #4 英文态：单击＝一次性大写，0.3s 内双击＝锁大写
+                let now = Date()
+                if now.timeIntervalSince(self.lastShiftTap) < 0.3 {
+                    self.isCapsLocked = true; self.isShiftActive = true
+                } else {
+                    self.isCapsLocked = false; self.isShiftActive.toggle()
+                }
+                self.lastShiftTap = now
                 self.setLayoutMode(.letters)
             }
         }
@@ -193,18 +203,17 @@ final class KeyboardView: UIView {
             })
         }
         row.addArrangedSubview(makeBackspaceKey())
-        // #3 加宽两边功能键(1.65)收窄字母区，更接近苹果倒三角
+        // #1 两边功能键稍加宽(1.3)收窄字母区，仿苹果留白
         row.distribution = .fill
         let ks = row.arrangedSubviews
         if ks.count > 2 {
             for k in ks.dropFirst().dropLast() { k.widthAnchor.constraint(equalTo: ks[1].widthAnchor).isActive = true }
-            ks.first?.widthAnchor.constraint(equalTo: ks[1].widthAnchor, multiplier: 1.65).isActive = true
-            ks.last?.widthAnchor.constraint(equalTo: ks[1].widthAnchor, multiplier: 1.65).isActive = true
+            ks.first?.widthAnchor.constraint(equalTo: ks[1].widthAnchor, multiplier: 1.3).isActive = true
+            ks.last?.widthAnchor.constraint(equalTo: ks[1].widthAnchor, multiplier: 1.3).isActive = true
         }
         return row
     }
 
-    /// 第三行（数字态）：#11「←」返回字母；#12 五个标点键随全/半角变；⌫。
     private func makeSymbolEdgeRow() -> UIStackView {
         let row = makeRow()
         let toggleTitle = punctuationFullWidth ? "，。" : ",."
@@ -221,8 +230,6 @@ final class KeyboardView: UIView {
         return row
     }
 
-    /// 底行：字母态 `123｜空格｜中/英｜回车`；数字态 `，。｜空格｜中/英｜回车`。
-    /// 地球键已按用户要求删除；回车键面随 returnKeyType 变、动作统一换行符。
     private func makeBottomRow() -> UIStackView {
         let row = makeRow()
         if layoutMode == .letters {
@@ -258,14 +265,10 @@ final class KeyboardView: UIView {
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: font)
         button.setTitleColor(KBColor.keyText, for: .normal)
-        button.backgroundColor = (kind == .function) ? KBColor.functionKey : KBColor.letterKey
+        button.backgroundColor = KBColor.letterKey // #11 所有键统一字母键颜色
         button.layer.cornerRadius = keyCorner
         button.clipsToBounds = true
         button.accessibilityLabel = accessibility
-        if kind == .letter {
-            button.layer.borderWidth = 0.5
-            button.layer.borderColor = KBColor.keyBorder.cgColor
-        }
         return button
     }
 
@@ -287,7 +290,7 @@ final class KeyboardView: UIView {
         let punctChanged = (punctuationFullWidth != self.punctuationFullWidth)
         self.isChinese = isChinese
         self.punctuationFullWidth = punctuationFullWidth
-        if isChinese { isShiftActive = false }
+        if isChinese { isShiftActive = false; isCapsLocked = false }
         if modeChanged || punctChanged {
             setLayoutMode(layoutMode)
         } else {
@@ -356,7 +359,7 @@ final class KeyboardView: UIView {
 
     private func handleLetterTap(_ ch: Character) {
         onKeyText?(displayLetter(ch))
-        if !isChinese && isShiftActive {
+        if !isChinese && isShiftActive && !isCapsLocked { // #4 锁大写时不自动复位
             isShiftActive = false
             setLayoutMode(.letters)
         }

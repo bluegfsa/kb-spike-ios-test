@@ -30,13 +30,22 @@ final class ModeToggleButton: UIButton {
     }
 }
 
-/// 带闭包的按钮（UIButton 不支持 target/action 直接闭包）。
+/// 带闭包的按钮（UIButton 不支持 target/action 直接闭包）。#10 按下时弹按键预览气泡。
 final class ClosureButton: UIButton {
     var onTap: (() -> Void)?
+    private let keyPreview = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         addTarget(self, action: #selector(handleTap), for: .touchUpInside)
+        addTarget(self, action: #selector(showPreview), for: .touchDown)
+        addTarget(self, action: #selector(hidePreview), for: [.touchUpInside, .touchUpOutside, .touchCancel])
+        keyPreview.isHidden = true
+        keyPreview.textAlignment = .center
+        keyPreview.textColor = .label
+        keyPreview.backgroundColor = KBColor.letterKey
+        keyPreview.layer.cornerRadius = 8
+        keyPreview.clipsToBounds = true
     }
 
     required init?(coder: NSCoder) {
@@ -44,6 +53,19 @@ final class ClosureButton: UIButton {
     }
 
     @objc private func handleTap() { onTap?() }
+
+    @objc private func showPreview() {
+        guard let title = title(for: .normal), !title.isEmpty, let holder = superview else { return }
+        let h: CGFloat = 40, w = max(36, bounds.width)
+        keyPreview.text = title
+        keyPreview.font = .systemFont(ofSize: 24)
+        keyPreview.frame = CGRect(x: center.x - w / 2, y: frame.minY - h + 4, width: w, height: h)
+        if keyPreview.superview == nil { holder.addSubview(keyPreview) }
+        holder.bringSubviewToFront(keyPreview)
+        keyPreview.isHidden = false
+    }
+
+    @objc private func hidePreview() { keyPreview.isHidden = true }
 }
 
 /// 键盘配色：iOS 系统色，跟随深浅色（UI v0.3.3）。
