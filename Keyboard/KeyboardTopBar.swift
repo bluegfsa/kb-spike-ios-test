@@ -1,8 +1,9 @@
 import UIKit
 
-/// 键盘顶部 44pt 功能条（UI v1.2）：左 ⚙ 设置圆钮 · 中间两行（上行拼音串14 / 下行候选26横滚）· 右 ↓ 收起圆钮。
-/// 取代原「26 空上探 + 56 独立候选栏」的 82pt 空顶；候选点击/拼音显示都在这里，拼音串不丢。
-/// 交互（1.27 反馈）：空态才显示 ⚙/↓ 两钮，一输入/有候选就隐藏两钮、候选占满整条不挡；图标走细体。
+/// 键盘顶部 44pt 功能条（UI v1.5，照微信输入法两态）：
+/// · 空态（无输入/无候选）：左 ⚙ 圆钮32 ＋ 右 ↓ 圆钮32；
+/// · 输入态（有输入/有候选）：候选占满，右侧改「裸向下箭头(无圆)＋左侧竖直小分隔线」，⚙ 隐藏；打字中也能一键收键盘。
+/// 两态顶栏都 44 高、切换不跳；候选点击/拼音显示都在这里，拼音串不丢。
 final class KeyboardTopBar: UIView {
     static let height: CGFloat = 44
 
@@ -10,56 +11,85 @@ final class KeyboardTopBar: UIView {
     var onDismiss: (() -> Void)?
     var onCandidate: ((Int) -> Void)?
 
-    private let settingsButton = UIButton(type: .system)
-    private let dismissButton = UIButton(type: .system)
+    private let settingsButton = UIButton(type: .system)      // 空态：⚙ 圆钮
+    private let dismissCircleButton = UIButton(type: .system) // 空态：↓ 圆钮
+    private let dismissArrowButton = UIButton(type: .system)  // 输入态：裸箭头
+    private let separatorView = UIView()                      // 输入态：竖直小分隔线
     private let pinyinLabel = UILabel()
     private let candidateScroll = UIScrollView()
     private let candidateStack = UIStackView()
+
+    /// 输入态右侧整块宽：候选↔线10 + 线0.5 + 线↔箭头6 + 箭头热区44 + 右边距8 ≈ 68.5。
+    private let inputRightBlock: CGFloat = 68.5
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear // 透明，露系统毛玻璃背板
         setupMiddle()
-        setupButtons()          // 后加 → 在候选层之上，保证可点
+        setupControls()          // 后加 → 在候选层之上，保证可点
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    /// 两个 32×32 圆形按钮：左 ⚙ 设置、右 ↓ 收起键盘。图标细体（同「搜索/发送」字重），空态才显示。
-    private func setupButtons() {
+    private func styleCircle(_ btn: UIButton, symbol: String, label: String) {
         let cfg = UIImage.SymbolConfiguration(pointSize: 16, weight: .regular)
-        let items: [(UIButton, String, String)] = [
-            (settingsButton, "gearshape", "设置"),
-            (dismissButton, "chevron.down", "收起键盘"),
-        ]
-        for (btn, symbol, label) in items {
-            btn.setImage(UIImage(systemName: symbol, withConfiguration: cfg), for: .normal)
-            btn.tintColor = KBColor.keyText
-            btn.backgroundColor = KBColor.letterKey
-            btn.layer.cornerRadius = 16
-            btn.clipsToBounds = true
-            btn.isUserInteractionEnabled = true
-            btn.accessibilityLabel = label
-            btn.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(btn)
+        btn.setImage(UIImage(systemName: symbol, withConfiguration: cfg), for: .normal)
+        btn.tintColor = KBColor.pinyin // #3C3C43 / #EBEBF5，非纯黑
+        btn.backgroundColor = KBColor.letterKey
+        btn.layer.cornerRadius = 16
+        btn.clipsToBounds = true
+        btn.isUserInteractionEnabled = true
+        btn.accessibilityLabel = label
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(btn)
+    }
+
+    private func setupControls() {
+        // 空态两圆钮
+        styleCircle(settingsButton, symbol: "gearshape", label: "设置")
+        styleCircle(dismissCircleButton, symbol: "chevron.down", label: "收起键盘")
+        settingsButton.addTarget(self, action: #selector(settingsTapped), for: .touchUpInside) // ⚙ 占位：可点，B 在 1.27
+        dismissCircleButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
+        // 输入态：裸箭头（无圆/无底/无边框，热区 44）+ 竖直小分隔线
+        let arrowCfg = UIImage.SymbolConfiguration(pointSize: 16, weight: .medium)
+        dismissArrowButton.setImage(UIImage(systemName: "chevron.down", withConfiguration: arrowCfg), for: .normal)
+        dismissArrowButton.tintColor = KBColor.pinyin
+        dismissArrowButton.backgroundColor = .clear
+        dismissArrowButton.isUserInteractionEnabled = true
+        dismissArrowButton.accessibilityLabel = "收起键盘"
+        dismissArrowButton.translatesAutoresizingMaskIntoConstraints = false
+        dismissArrowButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
+        addSubview(dismissArrowButton)
+        separatorView.backgroundColor = UIColor { t in
+            t.userInterfaceStyle == .dark
+                ? UIColor(red: 235/255, green: 235/255, blue: 245/255, alpha: 0.30)
+                : UIColor(red: 60/255, green: 60/255, blue: 67/255, alpha: 0.25)
         }
-        settingsButton.addTarget(self, action: #selector(settingsTapped), for: .touchUpInside)
-        dismissButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(separatorView)
         NSLayoutConstraint.activate([
             settingsButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             settingsButton.centerYAnchor.constraint(equalTo: centerYAnchor),
             settingsButton.widthAnchor.constraint(equalToConstant: 32),
             settingsButton.heightAnchor.constraint(equalToConstant: 32),
-            dismissButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
-            dismissButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            dismissButton.widthAnchor.constraint(equalToConstant: 32),
-            dismissButton.heightAnchor.constraint(equalToConstant: 32),
+            dismissCircleButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            dismissCircleButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            dismissCircleButton.widthAnchor.constraint(equalToConstant: 32),
+            dismissCircleButton.heightAnchor.constraint(equalToConstant: 32),
+            dismissArrowButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            dismissArrowButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            dismissArrowButton.widthAnchor.constraint(equalToConstant: 44),
+            dismissArrowButton.heightAnchor.constraint(equalToConstant: 44),
+            separatorView.trailingAnchor.constraint(equalTo: dismissArrowButton.leadingAnchor, constant: -6),
+            separatorView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            separatorView.widthAnchor.constraint(equalToConstant: 0.5),
+            separatorView.heightAnchor.constraint(equalToConstant: 18),
         ])
     }
 
-    /// 中间两行：上行拼音串（14pt，过长省略）、下行候选（26pt，横向滚动）。整条占满（两钮隐藏时不被挡）。
+    /// 中间两行：上行拼音串（14pt，过长省略）、下行候选（26pt，横向滚动）。留出输入态右侧箭头块位置。
     private func setupMiddle() {
         pinyinLabel.font = .systemFont(ofSize: 12)
         pinyinLabel.textColor = KBColor.pinyin
@@ -79,11 +109,11 @@ final class KeyboardTopBar: UIView {
         candidateScroll.addSubview(candidateStack)
         NSLayoutConstraint.activate([
             pinyinLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            pinyinLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            pinyinLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock),
             pinyinLabel.topAnchor.constraint(equalTo: topAnchor, constant: 2),
             pinyinLabel.heightAnchor.constraint(equalToConstant: 14),
             candidateScroll.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            candidateScroll.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            candidateScroll.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock),
             candidateScroll.topAnchor.constraint(equalTo: pinyinLabel.bottomAnchor),
             candidateScroll.heightAnchor.constraint(equalToConstant: 26),
             candidateStack.leadingAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.leadingAnchor),
@@ -94,12 +124,13 @@ final class KeyboardTopBar: UIView {
         ])
     }
 
-    /// 刷新拼音串/候选。由 KeyboardView 在 model.onChange 后调用（主线程）。
-    /// 空态（无拼音、无候选）才显示两钮；一输入/有候选即隐藏两钮，候选占满整条。
+    /// 刷新拼音串/候选。空态显示圆钮（⚙/↓），输入态显裸箭头＋分隔线、隐 ⚙。
     func update(buffer: String, candidates: [String], translations: [String?], selectable: Bool) {
         let typing = !(buffer.isEmpty && candidates.isEmpty)
         settingsButton.isHidden = typing
-        dismissButton.isHidden = typing
+        dismissCircleButton.isHidden = typing
+        dismissArrowButton.isHidden = !typing
+        separatorView.isHidden = !typing
         pinyinLabel.text = buffer
         pinyinLabel.isHidden = buffer.isEmpty
         candidateStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
