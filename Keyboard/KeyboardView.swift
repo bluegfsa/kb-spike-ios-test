@@ -10,13 +10,13 @@ enum KeyboardLayoutMode {
 final class KeyboardView: UIView {
     // 尺寸
     private let candidateBarHeight: CGFloat = 56
-    private let keyHeight: CGFloat = 42
-    private let keyGap: CGFloat = 6
+    private let keyHeight: CGFloat = 46
+    private let keyGap: CGFloat = 6      // 水平键距
+    private let rowGap: CGFloat = 4      // 行间距（竖直，#3 行距 6→4）
     private let keyCorner: CGFloat = 6
     private let rowCount = 4
     private let rowsTopGap: CGFloat = 6
     private let rowsBottomPad: CGFloat = 4
-
     private enum KeyKind { case letter, function }
 
     // 交互回调（由 VC 注入）
@@ -62,7 +62,7 @@ final class KeyboardView: UIView {
     /// 键盘总高（内容＋底部安全区），供 VC 设高度约束。
     func intrinsicKeyboardHeight(bottomInset: CGFloat) -> CGFloat {
         candidateBarHeight + rowsTopGap + CGFloat(rowCount) * keyHeight
-            + CGFloat(rowCount - 1) * keyGap + rowsBottomPad + bottomInset
+            + CGFloat(rowCount - 1) * rowGap + rowsBottomPad + bottomInset
     }
 
     private func setupCandidateBar() {
@@ -107,7 +107,7 @@ final class KeyboardView: UIView {
 
     private func setupRows() {
         rowsStack.axis = .vertical
-        rowsStack.spacing = keyGap
+        rowsStack.spacing = rowGap
         rowsStack.distribution = .fillEqually
         rowsStack.translatesAutoresizingMaskIntoConstraints = false
         addSubview(rowsStack)
@@ -125,7 +125,7 @@ final class KeyboardView: UIView {
         let rows: [UIView]
         switch mode {
         case .letters:
-            rows = [makeLetterRow("qwertyuiop", sideInset: 3), makeLetterRow("asdfghjkl", sideInset: 30, spacing: 5), makeHomeEdgeRow(), makeBottomRow()]
+            rows = [makeLetterRow("qwertyuiop", sideInset: 3), makeLetterRow("asdfghjkl", sideInset: 20, spacing: 5), makeHomeEdgeRow(), makeBottomRow()]
         case .symbols:
             rows = [makeSymbolRow("1234567890"), makeSymbolRow("-/:;()$&@\""), makeSymbolEdgeRow(), makeBottomRow()]
         }
@@ -157,7 +157,7 @@ final class KeyboardView: UIView {
         }
         if let spacing { row.spacing = spacing }
         for ch in letters {
-            row.addArrangedSubview(makeKey(displayLetter(ch), font: 22, accessibility: "字母 \(ch)") { [weak self] in
+            row.addArrangedSubview(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)") { [weak self] in
                 self?.handleLetterTap(ch)
             })
         }
@@ -198,18 +198,18 @@ final class KeyboardView: UIView {
         if isShiftActive { shift.backgroundColor = KBColor.letterKey }
         row.addArrangedSubview(shift)
         for ch in "zxcvbnm" {
-            row.addArrangedSubview(makeKey(displayLetter(ch), font: 22, accessibility: "字母 \(ch)") { [weak self] in
+            row.addArrangedSubview(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)") { [weak self] in
                 self?.handleLetterTap(ch)
             })
         }
         row.addArrangedSubview(makeBackspaceKey())
-        // #1 两边功能键稍加宽(1.3)收窄字母区，仿苹果留白
+        // #3 两边功能键(⇧/⌫)收窄到 1.15，把宽度让给字母键（仿 iOS 原生留白）
         row.distribution = .fill
         let ks = row.arrangedSubviews
         if ks.count > 2 {
             for k in ks.dropFirst().dropLast() { k.widthAnchor.constraint(equalTo: ks[1].widthAnchor).isActive = true }
-            ks.first?.widthAnchor.constraint(equalTo: ks[1].widthAnchor, multiplier: 1.3).isActive = true
-            ks.last?.widthAnchor.constraint(equalTo: ks[1].widthAnchor, multiplier: 1.3).isActive = true
+            ks.first?.widthAnchor.constraint(equalTo: ks[1].widthAnchor, multiplier: 1.15).isActive = true
+            ks.last?.widthAnchor.constraint(equalTo: ks[1].widthAnchor, multiplier: 1.15).isActive = true
         }
         return row
     }
