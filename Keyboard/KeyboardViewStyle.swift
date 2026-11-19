@@ -8,6 +8,7 @@ final class KeyBubble: UIView {
 
     init() {
         super.init(frame: .zero)
+        isUserInteractionEnabled = false // #BUG-2：气泡只做显示，绝不抢邻键触摸
         backgroundColor = .clear
         // 轻阴影挂在最外层容器（圆角由里层 bg 裁剪保证，两者互不影响）
         layer.shadowColor = UIColor.black.cgColor
