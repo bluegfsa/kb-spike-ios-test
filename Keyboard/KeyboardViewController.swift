@@ -284,3 +284,8 @@ extension KeyboardViewController: UIGestureRecognizerDelegate {
         return true
     }
 }
+
+// MARK: - 系统按键音：playInputClick() 需输入视图实现本协议且 enableInputClicksWhenVisible=true 才出声
+extension KeyboardViewController: UIInputViewAudioFeedback {
+    var enableInputClicksWhenVisible: Bool { true }
+}
