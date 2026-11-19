@@ -1,12 +1,13 @@
 import UIKit
 
-/// 键盘内设置面板（④）：按键声音 4 档（关/小/中/大）＋ 按键震动 4 档（关/弱/中/强）。
-/// 键盘内弹出、不跳 App、占满原键盘区不抖动；改完即存 config.json（重启键盘仍在）。0 档=关，默认「中」。
+/// 键盘内设置面板（④）：按键声音 开/关 ＋ 按键震动 开/关（都为开关制，去掉 3/4 档）。
+/// 键盘内弹出、不跳 App、占满原键盘区不抖动；改完即存 config.json（重启键盘仍在）。
+/// 调「声音」只出声、调「震动」只震动（不发声）。
 final class KeyboardSettingsPanel: UIView {
     var onClose: (() -> Void)?
 
-    private let soundControl = UISegmentedControl(items: ["关", "小", "中", "大"])
-    private let hapticControl = UISegmentedControl(items: ["关", "弱", "中", "强"])
+    private let soundControl = UISegmentedControl(items: ["关", "开"])
+    private let hapticControl = UISegmentedControl(items: ["关", "开"])
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,8 +39,8 @@ final class KeyboardSettingsPanel: UIView {
         hapticLabel.setContentHuggingPriority(.required, for: .horizontal)
 
         let s = SettingsStore.shared()
-        soundControl.selectedSegmentIndex = max(0, min(3, s.keySoundLevel))
-        hapticControl.selectedSegmentIndex = max(0, min(3, s.keyHapticLevel))
+        soundControl.selectedSegmentIndex = s.keySoundLevel > 0 ? 1 : 0
+        hapticControl.selectedSegmentIndex = s.keyHapticLevel > 0 ? 1 : 0
         soundControl.addTarget(self, action: #selector(soundChanged), for: .valueChanged)
         hapticControl.addTarget(self, action: #selector(hapticChanged), for: .valueChanged)
 
@@ -71,12 +72,12 @@ final class KeyboardSettingsPanel: UIView {
 
     @objc private func soundChanged() {
         SettingsStore.update { $0.keySoundLevel = self.soundControl.selectedSegmentIndex }
-        KeyFeedback.shared.play() // 试听当前档
+        KeyFeedback.shared.playSound() // 调声音：只出声（原生键音）
     }
 
     @objc private func hapticChanged() {
         SettingsStore.update { $0.keyHapticLevel = self.hapticControl.selectedSegmentIndex }
-        KeyFeedback.shared.play() // 试触当前档
+        KeyFeedback.shared.playHaptic() // 调震动：只震动、绝不出声
     }
 
     @objc private func closeTapped() { onClose?() }
