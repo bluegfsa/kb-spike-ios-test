@@ -260,8 +260,12 @@ final class KeyboardViewController: UIInputViewController {
     }
 
     private func handleCandidate(_ index: Int) {
+        // BUG-1 兜底：先缓存被点候选文本；selectCandidate 内部已 clearComposition，返回 nil 时直接上屏该文本也不残留
+        let fallback = (index >= 0 && index < model.candidates.count) ? model.candidates[index] : nil
         if let text = model.selectCandidate(index) {
             textDocumentProxy.insertText(text)
+        } else if let f = fallback {
+            textDocumentProxy.insertText(f)
         }
     }
 
