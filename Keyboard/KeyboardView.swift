@@ -6,13 +6,12 @@ enum KeyboardLayoutMode {
     case symbols
 }
 
-/// 纯 UIKit 键盘视图：候选两行＋四行键；高度自适应（#2/#3）；配色/按钮见 KeyboardViewStyle.swift。
+/// 纯 UIKit 键盘视图：顶部功能条（KeyboardTopBar）＋四行键；高度自适应；配色/按钮见 KeyboardViewStyle.swift。
 final class KeyboardView: UIView {
     // 尺寸
-    private let candidateBarHeight: CGFloat = 56
     private let keyHeight: CGFloat = 44
     private let keyGap: CGFloat = 6      // 水平键距
-    private let rowGap: CGFloat = 12     // 行间距（竖直，微信同款：8→12；keyHeight 44 保持键大，总高仅 +4pt）
+    private let rowGap: CGFloat = 12     // 行间距（竖直，微信同款）
     private let keyCorner: CGFloat = 6
     private let rowCount = 4
     private let rowsTopGap: CGFloat = 6
@@ -27,6 +26,7 @@ final class KeyboardView: UIView {
     var onToggleMode: (() -> Void)?
     var onTogglePunctuation: (() -> Void)?
     var onCandidate: ((Int) -> Void)?
+    var onSettings: (() -> Void)?
 
     private var isChinese = true
     private var punctuationFullWidth = true
@@ -35,10 +35,7 @@ final class KeyboardView: UIView {
     private var lastShiftTap = Date.distantPast
     private var layoutMode: KeyboardLayoutMode = .letters
 
-    private let candidateBar = UIView()
-    private let pinyinLabel = UILabel()
-    private let candidateScroll = UIScrollView()
-    private let candidateStack = UIStackView()
+    private let topBar = KeyboardTopBar()
     private let rowsStack = UIStackView()
     private weak var modeKeyButton: ModeToggleButton?
     private weak var returnKeyButton: ClosureButton?
@@ -52,7 +49,7 @@ final class KeyboardView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame); isMultipleTouchEnabled = true // BUG-2 多指同按不丢键
         backgroundColor = KBColor.background
-        setupCandidateBar()
+        setupTopBar()
         setupRows()
         setLayoutMode(.letters)
     }
@@ -61,48 +58,22 @@ final class KeyboardView: UIView {
 
     /// 键盘总高（内容＋底部安全区），供 VC 设高度约束。
     func intrinsicKeyboardHeight(bottomInset: CGFloat) -> CGFloat {
-        candidateBarHeight + rowsTopGap + CGFloat(rowCount) * keyHeight
+        KeyboardTopBar.height + rowsTopGap + CGFloat(rowCount) * keyHeight
             + CGFloat(rowCount - 1) * rowGap + rowsBottomPad + bottomInset
     }
 
-    private func setupCandidateBar() {
-        candidateBar.translatesAutoresizingMaskIntoConstraints = false
-        candidateBar.backgroundColor = .clear // #8：透明，让磨砂背景透出
-        addSubview(candidateBar)
-        pinyinLabel.font = .systemFont(ofSize: 13)
-        pinyinLabel.textColor = KBColor.pinyin
-        pinyinLabel.lineBreakMode = .byTruncatingTail
-        pinyinLabel.translatesAutoresizingMaskIntoConstraints = false
-        candidateBar.addSubview(pinyinLabel)
-        candidateScroll.showsHorizontalScrollIndicator = false
-        candidateScroll.alwaysBounceHorizontal = true; candidateScroll.delaysContentTouches = false; candidateScroll.canCancelContentTouches = false // BUG-1 让候选 tap 不被滚动取消
-        candidateScroll.translatesAutoresizingMaskIntoConstraints = false
-        candidateBar.addSubview(candidateScroll)
-        candidateStack.axis = .horizontal
-        candidateStack.alignment = .center
-        candidateStack.spacing = 16
-        candidateStack.translatesAutoresizingMaskIntoConstraints = false
-        candidateScroll.addSubview(candidateStack)
+    private func setupTopBar() {
+        topBar.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(topBar)
         NSLayoutConstraint.activate([
-            candidateBar.leadingAnchor.constraint(equalTo: leadingAnchor),
-            candidateBar.trailingAnchor.constraint(equalTo: trailingAnchor),
-            candidateBar.topAnchor.constraint(equalTo: topAnchor),
-            candidateBar.heightAnchor.constraint(equalToConstant: candidateBarHeight),
-            pinyinLabel.leadingAnchor.constraint(equalTo: candidateBar.leadingAnchor, constant: 10),
-            pinyinLabel.trailingAnchor.constraint(equalTo: candidateBar.trailingAnchor, constant: -10),
-            pinyinLabel.topAnchor.constraint(equalTo: candidateBar.topAnchor, constant: 3),
-            pinyinLabel.heightAnchor.constraint(equalToConstant: 18),
-            candidateScroll.leadingAnchor.constraint(equalTo: candidateBar.leadingAnchor, constant: 10),
-            candidateScroll.trailingAnchor.constraint(equalTo: candidateBar.trailingAnchor, constant: -10),
-            candidateScroll.topAnchor.constraint(equalTo: pinyinLabel.bottomAnchor, constant: 1),
-            candidateScroll.heightAnchor.constraint(equalToConstant: 32),
-            candidateScroll.bottomAnchor.constraint(equalTo: candidateBar.bottomAnchor, constant: -2),
-            candidateStack.leadingAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.leadingAnchor),
-            candidateStack.trailingAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.trailingAnchor),
-            candidateStack.topAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.topAnchor),
-            candidateStack.bottomAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.bottomAnchor),
-            candidateStack.heightAnchor.constraint(equalTo: candidateScroll.frameLayoutGuide.heightAnchor),
+            topBar.leadingAnchor.constraint(equalTo: leadingAnchor),
+            topBar.trailingAnchor.constraint(equalTo: trailingAnchor),
+            topBar.topAnchor.constraint(equalTo: topAnchor),
+            topBar.heightAnchor.constraint(equalToConstant: KeyboardTopBar.height),
         ])
+        topBar.onCandidate = { [weak self] index in self?.onCandidate?(index) }
+        topBar.onDismiss = { [weak self] in self?.inputViewController?.dismissKeyboard() } // 右↓收起键盘
+        topBar.onSettings = { [weak self] in self?.onSettings?() }                          // 左⚙ 设置（面板待 UI 稿）
     }
 
     private func setupRows() {
@@ -114,7 +85,7 @@ final class KeyboardView: UIView {
         NSLayoutConstraint.activate([
             rowsStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: keyGap),
             rowsStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -keyGap),
-            rowsStack.topAnchor.constraint(equalTo: candidateBar.bottomAnchor, constant: rowsTopGap),
+            rowsStack.topAnchor.constraint(equalTo: topBar.bottomAnchor, constant: rowsTopGap),
             rowsStack.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -rowsBottomPad),
         ])
     }
@@ -296,61 +267,7 @@ final class KeyboardView: UIView {
         } else {
             modeKeyButton?.configure(isChinese: isChinese)
         }
-        pinyinLabel.text = buffer
-        pinyinLabel.isHidden = buffer.isEmpty
-        candidateStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        for (index, text) in candidates.enumerated() {
-            let translation: String? = index < translations.count ? translations[index] : nil
-            candidateStack.addArrangedSubview(
-                makeCandidateItem(text: text, translation: translation, highlight: selectable && index == 0, index: index, selectable: selectable)
-            )
-        }
-        candidateScroll.isHidden = candidates.isEmpty
-    }
-
-    private func makeCandidateItem(text: String, translation: String?, highlight: Bool, index: Int, selectable: Bool) -> UIView {
-        let container = UIView()
-        let hanzi = UILabel()
-        if highlight {
-            let attr = NSMutableAttributedString(string: text)
-            attr.addAttributes([
-                .font: UIFont.systemFont(ofSize: 19, weight: .bold),
-                .underlineStyle: NSUnderlineStyle.single.rawValue,
-                .foregroundColor: KBColor.candidateText,
-            ], range: NSRange(location: 0, length: attr.length))
-            hanzi.attributedText = attr
-        } else {
-            hanzi.text = text
-            hanzi.font = .systemFont(ofSize: 19)
-            hanzi.textColor = KBColor.candidateText
-        }
-        hanzi.setContentHuggingPriority(.required, for: .horizontal)
-        let stack = UIStackView(arrangedSubviews: [hanzi])
-        stack.axis = .horizontal; stack.isUserInteractionEnabled = false // BUG-1 让点击命中容器(带tap手势)而非内部stack
-        stack.alignment = .firstBaseline
-        stack.spacing = 4
-        if let translation, !translation.isEmpty {
-            let label = UILabel()
-            label.text = translation
-            label.font = .systemFont(ofSize: 11)
-            label.textColor = KBColor.translation
-            label.setContentHuggingPriority(.required, for: .horizontal)
-            stack.addArrangedSubview(label)
-        }
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        container.addSubview(stack)
-        NSLayoutConstraint.activate([
-            stack.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            stack.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            stack.topAnchor.constraint(equalTo: container.topAnchor),
-            stack.bottomAnchor.constraint(equalTo: container.bottomAnchor),
-        ])
-        container.isUserInteractionEnabled = selectable
-        container.tag = index
-        if selectable {
-            container.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(candidateTapped(_:))))
-        }
-        return container
+        topBar.update(buffer: buffer, candidates: candidates, translations: translations, selectable: selectable)
     }
 
     private func displayLetter(_ ch: Character) -> String {
@@ -366,7 +283,6 @@ final class KeyboardView: UIView {
     }
 
     @objc private func toggleModeTapped() { onToggleMode?() }
-    @objc private func candidateTapped(_ sender: UITapGestureRecognizer) { onCandidate?(sender.view?.tag ?? 0) }
     @objc private func backspaceTapped() { onBackspace?() }
 
     @objc private func backspaceLongPressed(_ gesture: UILongPressGestureRecognizer) {
