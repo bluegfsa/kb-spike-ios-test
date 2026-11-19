@@ -201,6 +201,7 @@ final class KeyboardViewController: UIInputViewController {
     private func render() {
         keyboardView.setReturnKeyTitle(currentReturnKeyTitle())
         let isChinese = model.mode == .zh2en
+        NSLog("[KBR] mode=%@ isChinese=%d buffer='%@' cands=%d prim=%@", String(describing: model.mode), isChinese ? 1 : 0, model.buffer, model.candidates.count, model.primaryTranslation ?? "nil")
         var candidates = model.candidates
         var translations = model.candidateTranslations
         // 英文态无候选、只有首选译词：仅当正在打词（buffer 非空）时显示，词边界不残留（#6）
@@ -236,7 +237,7 @@ final class KeyboardViewController: UIInputViewController {
         }
         if character.isLetter && character.isASCII {
             model.input(letter: character)
-            NSLog("[KBI] letter='%@' mode=%@ buffer='%@' cands=%d", String(character), String(describing: model.mode), model.buffer, model.candidates.count)
+            NSLog("[KBI] letter='%@' mode=%@ buffer='%@' cands=%d prim=%@", String(character), String(describing: model.mode), model.buffer, model.candidates.count, model.primaryTranslation ?? "nil")
             // 中文态：字母进拼音 buffer（不直接上屏，候选栏显示）；英文态：直入文档。
             if model.mode == .en2zh {
                 textDocumentProxy.insertText(String(character))
