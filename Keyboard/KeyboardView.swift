@@ -50,7 +50,7 @@ final class KeyboardView: UIView {
     private var deleteInterval: TimeInterval = 0.12
 
     override init(frame: CGRect) {
-        super.init(frame: frame)
+        super.init(frame: frame); isMultipleTouchEnabled = true // BUG-2 多指同按不丢键
         backgroundColor = KBColor.background
         setupCandidateBar()
         setupRows()
@@ -75,7 +75,7 @@ final class KeyboardView: UIView {
         pinyinLabel.translatesAutoresizingMaskIntoConstraints = false
         candidateBar.addSubview(pinyinLabel)
         candidateScroll.showsHorizontalScrollIndicator = false
-        candidateScroll.alwaysBounceHorizontal = true
+        candidateScroll.alwaysBounceHorizontal = true; candidateScroll.delaysContentTouches = false; candidateScroll.canCancelContentTouches = false // BUG-1 让候选 tap 不被滚动取消
         candidateScroll.translatesAutoresizingMaskIntoConstraints = false
         candidateBar.addSubview(candidateScroll)
         candidateStack.axis = .horizontal
@@ -106,7 +106,7 @@ final class KeyboardView: UIView {
     }
 
     private func setupRows() {
-        rowsStack.axis = .vertical
+        rowsStack.axis = .vertical; rowsStack.isMultipleTouchEnabled = true
         rowsStack.spacing = rowGap
         rowsStack.distribution = .fillEqually
         rowsStack.translatesAutoresizingMaskIntoConstraints = false
@@ -142,7 +142,7 @@ final class KeyboardView: UIView {
 
     private func makeRow() -> UIStackView {
         let row = UIStackView()
-        row.axis = .horizontal
+        row.axis = .horizontal; row.isMultipleTouchEnabled = true
         row.spacing = keyGap
         row.distribution = .fillEqually
         row.alignment = .fill
@@ -326,7 +326,7 @@ final class KeyboardView: UIView {
         }
         hanzi.setContentHuggingPriority(.required, for: .horizontal)
         let stack = UIStackView(arrangedSubviews: [hanzi])
-        stack.axis = .horizontal
+        stack.axis = .horizontal; stack.isUserInteractionEnabled = false // BUG-1 让点击命中容器(带tap手势)而非内部stack
         stack.alignment = .firstBaseline
         stack.spacing = 4
         if let translation, !translation.isEmpty {
