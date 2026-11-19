@@ -135,7 +135,7 @@ final class KeyboardView: UIView {
         }
         if let spacing { row.spacing = spacing }
         for ch in letters {
-            row.addArrangedSubview(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)") { [weak self] in
+            row.addArrangedSubview(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)", bubble: true) { [weak self] in
                 self?.handleLetterTap(ch)
             })
         }
@@ -176,7 +176,7 @@ final class KeyboardView: UIView {
         }
         row.addArrangedSubview(shift)
         for ch in "zxcvbnm" {
-            row.addArrangedSubview(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)") { [weak self] in
+            row.addArrangedSubview(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)", bubble: true) { [weak self] in
                 self?.handleLetterTap(ch)
             })
         }
@@ -237,9 +237,10 @@ final class KeyboardView: UIView {
     }
 
     private func makeKey(_ title: String, font: CGFloat, kind: KeyKind = .letter,
-                         accessibility: String, onTap: @escaping () -> Void) -> ClosureButton {
+                         accessibility: String, bubble: Bool = false, onTap: @escaping () -> Void) -> ClosureButton {
         let button = ClosureButton(frame: .zero)
         button.onTap = onTap
+        button.showsBubble = bubble
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: font)
         button.setTitleColor(KBColor.keyText, for: .normal)
