@@ -176,15 +176,16 @@ final class KeyboardView: UIView {
 
     private func makeHomeEdgeRow() -> UIStackView {
         let row = makeRow()
-        let shift = makeKey(isCapsLocked ? "⇪" : "⇧", font: 18, kind: .function, accessibility: "上档") { [weak self] in
+        let shift = ShiftKeyButton(frame: .zero) // #4 自绘⇧：空心↔实心，锁定时横杠也实心
+        shift.shiftState = isCapsLocked ? .caps : (isShiftActive ? .shift : .off); shift.accessibilityLabel = "上档"
+        shift.onTap = { [weak self] in
             guard let self else { return }
             if self.isChinese {
                 self.onToggleMode?()      // #9 中文态点 ⇧＝切英文
                 self.isShiftActive = true // #9 并进入大写态（一次性）
                 self.isCapsLocked = false
-                self.setLayoutMode(.letters)
             } else {
-                // #4 英文态：单击＝一次性大写，0.3s 内双击＝锁大写
+                // #4 英文态：单击＝一次性大写，0.3s 内双击＝锁大写；再点解除回空心
                 let now = Date()
                 if now.timeIntervalSince(self.lastShiftTap) < 0.3 {
                     self.isCapsLocked = true; self.isShiftActive = true
@@ -192,10 +193,9 @@ final class KeyboardView: UIView {
                     self.isCapsLocked = false; self.isShiftActive.toggle()
                 }
                 self.lastShiftTap = now
-                self.setLayoutMode(.letters)
             }
+            self.setLayoutMode(.letters)
         }
-        if isShiftActive { shift.backgroundColor = KBColor.letterKey }
         row.addArrangedSubview(shift)
         for ch in "zxcvbnm" {
             row.addArrangedSubview(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)") { [weak self] in
