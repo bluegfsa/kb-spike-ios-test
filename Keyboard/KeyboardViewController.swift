@@ -181,6 +181,8 @@ final class KeyboardViewController: UIInputViewController {
         case .search?: return zh ? "搜索" : "search"
         case .go?: return zh ? "前往" : "go"
         case .done?: return zh ? "完成" : "done"
+        case .next?: return zh ? "下一项" : "next"
+        case .continue?: return zh ? "继续" : "continue"
         default: return zh ? "换行" : "return"
         }
     }
