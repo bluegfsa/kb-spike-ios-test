@@ -87,9 +87,9 @@ final class KeyboardTopBar: UIView {
             separatorView.widthAnchor.constraint(equalToConstant: 0.5),
             separatorView.heightAnchor.constraint(equalToConstant: 18),
         ])
-        // 收起箭头视觉偏上：两种态的箭头都往下微调 2pt，落到正中
-        dismissCircleButton.imageView?.transform = CGAffineTransform(translationX: 0, y: 2)
-        dismissArrowButton.imageView?.transform = CGAffineTransform(translationX: 0, y: 2)
+        // 收起箭头视觉偏上：两种态的箭头都往下微调 5pt，落到正中
+        dismissCircleButton.imageView?.transform = CGAffineTransform(translationX: 0, y: 5)
+        dismissArrowButton.imageView?.transform = CGAffineTransform(translationX: 0, y: 5)
     }
 
     /// 中间两行：上行拼音串（14pt，过长省略）、下行候选（26pt，横向滚动）。留出输入态右侧箭头块位置。
@@ -101,8 +101,9 @@ final class KeyboardTopBar: UIView {
         addSubview(pinyinLabel)
         candidateScroll.showsHorizontalScrollIndicator = false
         candidateScroll.alwaysBounceHorizontal = true
-        candidateScroll.delaysContentTouches = false          // BUG-1：候选 tap 不被滚动延迟/取消
-        candidateScroll.canCancelContentTouches = false
+        candidateScroll.delaysContentTouches = false          // 命中即时
+        candidateScroll.canCancelContentTouches = true        // 允许拖动时取消 tap → 候选可横向滑动（之前设 false 导致滑不动）
+        candidateScroll.isScrollEnabled = true
         candidateScroll.translatesAutoresizingMaskIntoConstraints = false
         addSubview(candidateScroll)
         candidateStack.axis = .horizontal
