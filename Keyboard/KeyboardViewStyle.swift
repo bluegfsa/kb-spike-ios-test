@@ -1,19 +1,23 @@
 import UIKit
 
-/// 按键预览气泡（#10）：宽=键宽+16、高=键高+28、圆角10、字号=键字号+2、带投影、底边距键顶6pt。
+/// 按键预览气泡（#10）：圆角、融进按键，参考 iOS 原生键盘——底边贴着键顶、四角圆角、几乎无投影。
 /// 挂到整块按键区容器（跨行不被别的行盖住）。字母/功能/上档/中英键共用这一份实现，避免各画各的。
-final class KeyBubble: UILabel {
+final class KeyBubble: UIView {
+    private let label = UILabel()
+
     init() {
         super.init(frame: .zero)
-        textAlignment = .center
-        textColor = .label
         backgroundColor = KBColor.letterKey
         layer.cornerRadius = 10
-        layer.masksToBounds = false // 允许投影；背景仍按 cornerRadius 圆角
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.22
-        layer.shadowRadius = 8
-        layer.shadowOffset = CGSize(width: 0, height: 3)
+        clipsToBounds = true // 保证圆角（iOS 原生气泡本身几乎无投影，不靠阴影）
+        label.textAlignment = .center
+        label.textColor = .label
+        label.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(label)
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor),
+        ])
         isHidden = true
     }
 
@@ -21,15 +25,16 @@ final class KeyBubble: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
 
-    /// 在 source 键正上方弹出；text 为显示内容，baseFontSize 为该键字号（气泡字号=+2）。
+    /// 在 source 键正上方弹出并贴住键顶（融入按键）；text 为内容，baseFontSize 为该键字号（气泡字号=+2）。
     func show(text: String, baseFontSize: CGFloat, source: UIView) {
         guard !text.isEmpty, let holder = source.superview?.superview ?? source.superview else { return }
-        let h = source.bounds.height + 28
-        let w = source.bounds.width + 16
-        self.text = text
-        self.font = .systemFont(ofSize: baseFontSize + 2)
+        let h = source.bounds.height + 24
+        let w = source.bounds.width + 8
+        label.text = text
+        label.font = .systemFont(ofSize: baseFontSize + 2)
         let origin = holder.convert(source.bounds, from: source)
-        frame = CGRect(x: origin.midX - w / 2, y: origin.minY - h - 6, width: w, height: h)
+        // 底边与键顶重叠 1pt，形成「融进按键」的观感（iOS 同款）
+        frame = CGRect(x: origin.midX - w / 2, y: origin.minY - h + 1, width: w, height: h)
         if superview !== holder {
             removeFromSuperview()
             holder.addSubview(self)
@@ -104,11 +109,13 @@ final class ClosureButton: UIButton {
     @objc private func hidePreview() { bubble.hide() }
 }
 
-/// 上档/大写键（#4）：空心箭头↔实心箭头；锁定大写时箭头与其下方短粗横杠均为实心。#10 按下也弹气泡。
+/// 上档/大写键（#4）：沿用系统原 ⇧ 图标（SF Symbol），激活变实心；**仅锁定大写**才显示下方横杠。
 final class ShiftKeyButton: UIButton {
     enum ShiftState { case off, shift, caps }
     var onTap: (() -> Void)?
-    var shiftState: ShiftState = .off { didSet { setNeedsDisplay() } }
+    var shiftState: ShiftState = .off {
+        didSet { setNeedsLayout(); applyIcon() }
+    }
     private let bubble = KeyBubble()
 
     override init(frame: CGRect) {
@@ -116,9 +123,11 @@ final class ShiftKeyButton: UIButton {
         backgroundColor = KBColor.letterKey
         layer.cornerRadius = 6
         clipsToBounds = true
+        imageView?.contentMode = .center
         addTarget(self, action: #selector(handleTap), for: .touchUpInside)
         addTarget(self, action: #selector(showPreview), for: .touchDown)
         addTarget(self, action: #selector(hidePreview), for: [.touchUpInside, .touchUpOutside, .touchCancel])
+        applyIcon()
     }
 
     required init?(coder: NSCoder) {
@@ -129,37 +138,17 @@ final class ShiftKeyButton: UIButton {
     @objc private func showPreview() { bubble.show(text: shiftState == .caps ? "⇪" : "⇧", baseFontSize: 24, source: self) }
     @objc private func hidePreview() { bubble.hide() }
 
-    /// 自绘 ⇧：向上箭头＋（锁定大写时）下方短粗横杠；off 空心、shift/caps 实心。
-    override func draw(_ rect: CGRect) {
-        let color = KBColor.keyText.resolvedColor(with: traitCollection)
-        let w = rect.width, h = rect.height
-        let arrowW = min(w * 0.5, 20)
-        let arrowH = min(h * 0.42, 18)
-        let barH = max(2.0, h * 0.055)
-        let gap = max(2.0, h * 0.06)
-        let startY = (h - (arrowH + gap + barH)) / 2
-        let ax = (w - arrowW) / 2
-        // 向上箭头轮廓（屋顶形＋竖直箭杆）
-        let p = UIBezierPath()
-        p.move(to: CGPoint(x: ax + arrowW * 0.5, y: startY))
-        p.addLine(to: CGPoint(x: ax + arrowW, y: startY + arrowH * 0.46))
-        p.addLine(to: CGPoint(x: ax + arrowW * 0.62, y: startY + arrowH * 0.46))
-        p.addLine(to: CGPoint(x: ax + arrowW * 0.62, y: startY + arrowH))
-        p.addLine(to: CGPoint(x: ax + arrowW * 0.38, y: startY + arrowH))
-        p.addLine(to: CGPoint(x: ax + arrowW * 0.38, y: startY + arrowH * 0.46))
-        p.addLine(to: CGPoint(x: ax, y: startY + arrowH * 0.46))
-        p.close()
-        // 下方短粗横杠（锁定大写标识）
-        let barW = arrowW * 0.62
-        let bar = UIBezierPath(roundedRect: CGRect(x: (w - barW) / 2, y: startY + arrowH + gap, width: barW, height: barH), cornerRadius: barH * 0.5)
-        if shiftState == .off {
-            color.setStroke(); p.lineWidth = 1.6; p.stroke()
-            color.setStroke(); bar.lineWidth = 1.2; bar.stroke()
-        } else {
-            color.setFill(); p.fill()
-            if shiftState == .caps { color.setFill(); bar.fill() }
-            else { color.setStroke(); bar.lineWidth = 1.2; bar.stroke() }
+    /// 原图标不变：off=空心⇧；单击激活=/实心⇧；锁定大写=capslock(实心⇧+横杠)。
+    private func applyIcon() {
+        let name: String
+        switch shiftState {
+        case .off: name = "shift"
+        case .shift: name = "shift.fill"
+        case .caps: name = "capslock.fill"
         }
+        let cfg = UIImage.SymbolConfiguration(pointSize: 18, weight: .regular)
+        setImage(UIImage(systemName: name, withConfiguration: cfg), for: .normal)
+        tintColor = KBColor.keyText
     }
 }
 
