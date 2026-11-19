@@ -307,7 +307,7 @@ final class KeyboardView: UIView {
         }
     }
 
-    @objc private func toggleModeTapped() { onToggleMode?() }
+    @objc private func toggleModeTapped() { KeyFeedback.shared.play(); onToggleMode?() }
     @objc private func backspaceTapped() { onBackspace?() }
 
     @objc private func backspaceLongPressed(_ gesture: UILongPressGestureRecognizer) {
