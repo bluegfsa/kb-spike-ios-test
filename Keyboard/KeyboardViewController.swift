@@ -23,9 +23,8 @@ final class KeyboardViewController: UIInputViewController {
         super.viewDidLoad()
         // #8（微信输入法同款）：自己做「半透明底」不依赖采壁纸（UI v0.8：浅 #F2F3F5 / 深 #1C1C1E，alpha 0.88）；
         // 键盘/候选栏透明露出底色，配合键盘顶部上探 kbTopCover 盖住系统那条白圆角。
-        view.backgroundColor = UIColor { trait in
-            UIColor(hex: trait.userInterfaceStyle == .dark ? 0x1C1C1E : 0xF2F3F5).withAlphaComponent(0.88)
-        }
+        // #8（微信同款）：不铺不透明色、不自绘模糊——背景透明，让 iOS 系统键盘自带毛玻璃背板透出。
+        view.backgroundColor = .clear
         view.isOpaque = false
         keyboardView.backgroundColor = .clear
         setupKeyboardView()
