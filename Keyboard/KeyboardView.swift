@@ -72,7 +72,14 @@ final class KeyboardView: UIView {
             topBar.heightAnchor.constraint(equalToConstant: KeyboardTopBar.height),
         ])
         topBar.onCandidate = { [weak self] index in self?.onCandidate?(index) }
-        topBar.onDismiss = { [weak self] in self?.inputViewController?.dismissKeyboard() } // 右↓收起键盘
+        topBar.onDismiss = { [weak self] in
+            // 右↓收起键盘：沿响应链找 UIInputViewController 再 dismiss（直接 inputViewController 未必取得到）
+            var responder: UIResponder? = self
+            while let r = responder {
+                if let vc = r as? UIInputViewController { vc.dismissKeyboard(); return }
+                responder = r.next
+            }
+        }
         topBar.onSettings = { [weak self] in self?.onSettings?() }                          // 左⚙ 设置（面板待 UI 稿）
     }
 
