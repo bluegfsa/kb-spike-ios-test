@@ -10,6 +10,8 @@ final class KeyboardViewController: UIInputViewController {
         return KeyboardModel(sharedDir: base.appendingPathComponent("rime/shared"), userDir: base.appendingPathComponent("rime/user"))
     }()
     private var heightConstraint: NSLayoutConstraint?
+    /// #8：半透明磨砂背景层，跟随 iOS 观感（铺满整块键盘，blur 采样身后 App 内容）。
+    private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
 #if DEBUG
     private let memHUD = UILabel()
     private var memTimer: Timer?
@@ -19,8 +21,11 @@ final class KeyboardViewController: UIInputViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = keyboardView.backgroundColor
-        view.isOpaque = true // #2：键盘背景铺满不透明，避免露系统原生圆角
+        // #8：背景改半透明磨砂跟随 iOS——view/键盘/候选栏透明，底下垫 UIVisualEffectView 采样身后内容。
+        view.backgroundColor = .clear
+        view.isOpaque = false
+        keyboardView.backgroundColor = .clear
+        setupBlurBackground()
         setupKeyboardView()
         setupStatusBanner()
 #if DEBUG
@@ -266,6 +271,20 @@ final class KeyboardViewController: UIInputViewController {
         memTimer?.invalidate()
 #endif
         returnKeyTimer?.invalidate()
+    }
+}
+
+extension KeyboardViewController {
+    /// #8：磨砂背景铺满整块键盘（垫在最底层，blur 采样身后 App 内容）。
+    func setupBlurBackground() {
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(blurView, at: 0)
+        NSLayoutConstraint.activate([
+            blurView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            blurView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            blurView.topAnchor.constraint(equalTo: view.topAnchor),
+            blurView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
 }
 

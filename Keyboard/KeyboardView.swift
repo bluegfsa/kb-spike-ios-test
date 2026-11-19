@@ -65,7 +65,7 @@ final class KeyboardView: UIView {
 
     private func setupCandidateBar() {
         candidateBar.translatesAutoresizingMaskIntoConstraints = false
-        candidateBar.backgroundColor = KBColor.background // #2：背景铺满，盖住系统原生圆角
+        candidateBar.backgroundColor = .clear // #8：透明，让磨砂背景透出
         addSubview(candidateBar)
         pinyinLabel.font = .systemFont(ofSize: 13)
         pinyinLabel.textColor = KBColor.pinyin
