@@ -61,18 +61,14 @@ final class KeyBubble: UIView {
     func hide() { isHidden = true }
 }
 
-/// 中/EN 切换键（#7）：单行「中/EN」，当前语种加大加粗加黑，另一语种常规灰。#10 按下也弹气泡。
+/// 中/EN 切换键（#7）：单行「中/EN」，当前语种放大变黑、另一语种常规灰（均 Regular）。功能键不弹气泡。
 final class ModeToggleButton: UIButton {
-    private let bubble = KeyBubble()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = KBColor.letterKey
         layer.cornerRadius = 6
         clipsToBounds = true
         titleLabel?.textAlignment = .center
-        addTarget(self, action: #selector(showPreview), for: .touchDown)
-        addTarget(self, action: #selector(hidePreview), for: [.touchUpInside, .touchUpOutside, .touchCancel])
     }
 
     required init?(coder: NSCoder) {
@@ -93,14 +89,13 @@ final class ModeToggleButton: UIButton {
             .foregroundColor: isChinese ? KBColor.inactiveLang : KBColor.activeLang]))
         setAttributedTitle(s, for: .normal)
     }
-
-    @objc private func showPreview() { bubble.show(text: "中/EN", baseFontSize: 15, source: self) }
-    @objc private func hidePreview() { bubble.hide() }
 }
 
-/// 带闭包的按钮（UIButton 不支持 target/action 直接闭包）。#10 按下时弹按键预览气泡。
+/// 带闭包的按钮（UIButton 不支持 target/action 直接闭包）。#10 按下弹按键预览气泡（仅字母键）。
 final class ClosureButton: UIButton {
     var onTap: (() -> Void)?
+    /// 仅字母键=true 弹气泡；功能键(123/空格/中EN/发送/⌫/⇧/符号)为 false，不弹。
+    var showsBubble = false
     private let bubble = KeyBubble()
 
     override init(frame: CGRect) {
@@ -117,7 +112,7 @@ final class ClosureButton: UIButton {
     @objc private func handleTap() { onTap?() }
 
     @objc private func showPreview() {
-        guard let title = title(for: .normal), !title.isEmpty else { return }
+        guard showsBubble, let title = title(for: .normal), !title.isEmpty else { return }
         bubble.show(text: title, baseFontSize: titleLabel?.font.pointSize ?? 20, source: self)
     }
 
@@ -130,7 +125,6 @@ final class ShiftKeyButton: UIButton {
     enum ShiftState { case off, shift, caps }
     var onTap: (() -> Void)?
     var shiftState: ShiftState = .off { didSet { applyIcon() } }
-    private let bubble = KeyBubble()
     private let capsBar = UIView()
 
     override init(frame: CGRect) {
@@ -151,8 +145,6 @@ final class ShiftKeyButton: UIButton {
             capsBar.heightAnchor.constraint(equalToConstant: 3),
         ])
         addTarget(self, action: #selector(handleTap), for: .touchUpInside)
-        addTarget(self, action: #selector(showPreview), for: .touchDown)
-        addTarget(self, action: #selector(hidePreview), for: [.touchUpInside, .touchUpOutside, .touchCancel])
         applyIcon()
     }
 
@@ -161,8 +153,6 @@ final class ShiftKeyButton: UIButton {
     }
 
     @objc private func handleTap() { onTap?() }
-    @objc private func showPreview() { bubble.show(text: shiftState == .caps ? "⇪" : "⇧", baseFontSize: 24, source: self) }
-    @objc private func hidePreview() { bubble.hide() }
 
     /// 箭头：off 空心 shift、激活/锁定均是实心 shift.fill（同款箭头）；横杠只在锁定大写出现。
     private func applyIcon() {
