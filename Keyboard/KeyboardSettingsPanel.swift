@@ -5,7 +5,7 @@ import UIKit
 final class KeyboardSettingsPanel: UIView {
     var onClose: (() -> Void)?
 
-    private let soundControl = UISegmentedControl(items: ["关", "开"])
+    private let soundControl = UISegmentedControl(items: ["关", "小", "中", "大"])
     private let hapticControl = UISegmentedControl(items: ["关", "弱", "中", "强"])
 
     override init(frame: CGRect) {
@@ -38,7 +38,7 @@ final class KeyboardSettingsPanel: UIView {
         hapticLabel.setContentHuggingPriority(.required, for: .horizontal)
 
         let s = SettingsStore.shared()
-        soundControl.selectedSegmentIndex = s.keySoundLevel > 0 ? 1 : 0
+        soundControl.selectedSegmentIndex = max(0, min(3, s.keySoundLevel))
         hapticControl.selectedSegmentIndex = max(0, min(3, s.keyHapticLevel))
         soundControl.addTarget(self, action: #selector(soundChanged), for: .valueChanged)
         hapticControl.addTarget(self, action: #selector(hapticChanged), for: .valueChanged)
