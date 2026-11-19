@@ -11,7 +11,7 @@ final class KeyboardViewController: UIInputViewController {
     }()
     private var heightConstraint: NSLayoutConstraint?
     /// #8（微信输入法同款）：键盘顶部比原生多垫高一段，用我们自己的半透明底把那截白圆角盖住。
-    private let kbTopCover: CGFloat = 26
+    private let kbTopCover: CGFloat = 0 // 顶部上探归零：改由前端 44pt 顶栏(候选+两圆钮)在键盘视图内覆盖白圆角，总高≈300
 #if DEBUG
     private let memHUD = UILabel()
     private var memTimer: Timer?
