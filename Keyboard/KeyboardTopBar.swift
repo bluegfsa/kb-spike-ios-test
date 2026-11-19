@@ -2,6 +2,7 @@ import UIKit
 
 /// 键盘顶部 44pt 功能条（UI v1.2）：左 ⚙ 设置圆钮 · 中间两行（上行拼音串14 / 下行候选26横滚）· 右 ↓ 收起圆钮。
 /// 取代原「26 空上探 + 56 独立候选栏」的 82pt 空顶；候选点击/拼音显示都在这里，拼音串不丢。
+/// 交互（1.27 反馈）：空态才显示 ⚙/↓ 两钮，一输入/有候选就隐藏两钮、候选占满整条不挡；图标走细体。
 final class KeyboardTopBar: UIView {
     static let height: CGFloat = 44
 
@@ -18,17 +19,17 @@ final class KeyboardTopBar: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear // 透明，露系统毛玻璃背板
-        setupButtons()
         setupMiddle()
+        setupButtons()          // 后加 → 在候选层之上，保证可点
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    /// 两个 32×32 圆形按钮：左 ⚙ 设置、右 ↓ 收起键盘。
+    /// 两个 32×32 圆形按钮：左 ⚙ 设置、右 ↓ 收起键盘。图标细体（同「搜索/发送」字重），空态才显示。
     private func setupButtons() {
-        let cfg = UIImage.SymbolConfiguration(pointSize: 16, weight: .medium)
+        let cfg = UIImage.SymbolConfiguration(pointSize: 16, weight: .regular)
         let items: [(UIButton, String, String)] = [
             (settingsButton, "gearshape", "设置"),
             (dismissButton, "chevron.down", "收起键盘"),
@@ -39,15 +40,26 @@ final class KeyboardTopBar: UIView {
             btn.backgroundColor = KBColor.letterKey
             btn.layer.cornerRadius = 16
             btn.clipsToBounds = true
+            btn.isUserInteractionEnabled = true
             btn.accessibilityLabel = label
             btn.translatesAutoresizingMaskIntoConstraints = false
             addSubview(btn)
         }
         settingsButton.addTarget(self, action: #selector(settingsTapped), for: .touchUpInside)
         dismissButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
+        NSLayoutConstraint.activate([
+            settingsButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            settingsButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            settingsButton.widthAnchor.constraint(equalToConstant: 32),
+            settingsButton.heightAnchor.constraint(equalToConstant: 32),
+            dismissButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            dismissButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            dismissButton.widthAnchor.constraint(equalToConstant: 32),
+            dismissButton.heightAnchor.constraint(equalToConstant: 32),
+        ])
     }
 
-    /// 中间两行：上行拼音串（14pt，过长省略）、下行候选（26pt，横向滚动）。
+    /// 中间两行：上行拼音串（14pt，过长省略）、下行候选（26pt，横向滚动）。整条占满（两钮隐藏时不被挡）。
     private func setupMiddle() {
         pinyinLabel.font = .systemFont(ofSize: 12)
         pinyinLabel.textColor = KBColor.pinyin
@@ -66,20 +78,12 @@ final class KeyboardTopBar: UIView {
         candidateStack.translatesAutoresizingMaskIntoConstraints = false
         candidateScroll.addSubview(candidateStack)
         NSLayoutConstraint.activate([
-            settingsButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            settingsButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            settingsButton.widthAnchor.constraint(equalToConstant: 32),
-            settingsButton.heightAnchor.constraint(equalToConstant: 32),
-            dismissButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
-            dismissButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            dismissButton.widthAnchor.constraint(equalToConstant: 32),
-            dismissButton.heightAnchor.constraint(equalToConstant: 32),
-            pinyinLabel.leadingAnchor.constraint(equalTo: settingsButton.trailingAnchor, constant: 8),
-            pinyinLabel.trailingAnchor.constraint(equalTo: dismissButton.leadingAnchor, constant: -8),
+            pinyinLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            pinyinLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
             pinyinLabel.topAnchor.constraint(equalTo: topAnchor, constant: 2),
             pinyinLabel.heightAnchor.constraint(equalToConstant: 14),
-            candidateScroll.leadingAnchor.constraint(equalTo: pinyinLabel.leadingAnchor),
-            candidateScroll.trailingAnchor.constraint(equalTo: pinyinLabel.trailingAnchor),
+            candidateScroll.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            candidateScroll.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
             candidateScroll.topAnchor.constraint(equalTo: pinyinLabel.bottomAnchor),
             candidateScroll.heightAnchor.constraint(equalToConstant: 26),
             candidateStack.leadingAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.leadingAnchor),
@@ -91,7 +95,11 @@ final class KeyboardTopBar: UIView {
     }
 
     /// 刷新拼音串/候选。由 KeyboardView 在 model.onChange 后调用（主线程）。
+    /// 空态（无拼音、无候选）才显示两钮；一输入/有候选即隐藏两钮，候选占满整条。
     func update(buffer: String, candidates: [String], translations: [String?], selectable: Bool) {
+        let typing = !(buffer.isEmpty && candidates.isEmpty)
+        settingsButton.isHidden = typing
+        dismissButton.isHidden = typing
         pinyinLabel.text = buffer
         pinyinLabel.isHidden = buffer.isEmpty
         candidateStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
