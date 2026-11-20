@@ -1,13 +1,15 @@
 import UIKit
 
-/// 键盘内设置面板（④）：按键声音 开/关 ＋ 按键震动 开/关（都为开关制，去掉 3/4 档）。
-/// 键盘内弹出、不跳 App、占满原键盘区不抖动；改完即存 config.json（重启键盘仍在）。
-/// 调「声音」只出声、调「震动」只震动（不发声）。
+/// 键盘内设置面板（UI 定稿）：声音/震动均为「拨钮开关」，全图标化、无文字标题、纯黑白灰（不用蓝）。
+/// 点开关＝一次性动效（不循环）：声音＝声波弹一下/斜杠画出；震动＝机身抖一下/斜杠画出；✓ 收起。
+/// 调「声音」只出声、调「震动」只震不出声；改完即存 config.json（重启键盘仍在）。
 final class KeyboardSettingsPanel: UIView {
     var onClose: (() -> Void)?
 
-    private let soundControl = UISegmentedControl(items: ["关", "开"])
-    private let hapticControl = UISegmentedControl(items: ["关", "开"])
+    private let soundIcon = SettingsIconView(kind: .sound)
+    private let hapticIcon = SettingsIconView(kind: .vibration)
+    private let soundToggle = SettingsToggleControl()
+    private let hapticToggle = SettingsToggleControl()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -15,69 +17,102 @@ final class KeyboardSettingsPanel: UIView {
         setup()
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     private func setup() {
-        let title = UILabel()
-        title.text = "键盘设置"
-        title.font = .systemFont(ofSize: 17, weight: .semibold)
-        title.textColor = KBColor.keyText
-        title.textAlignment = .center
-
-        let soundLabel = UILabel()
-        soundLabel.text = "按键声音"
-        soundLabel.font = .systemFont(ofSize: 15)
-        soundLabel.textColor = KBColor.keyText
-        soundLabel.setContentHuggingPriority(.required, for: .horizontal)
-
-        let hapticLabel = UILabel()
-        hapticLabel.text = "按键震动"
-        hapticLabel.font = .systemFont(ofSize: 15)
-        hapticLabel.textColor = KBColor.keyText
-        hapticLabel.setContentHuggingPriority(.required, for: .horizontal)
-
         let s = SettingsStore.shared()
-        soundControl.selectedSegmentIndex = s.keySoundLevel > 0 ? 1 : 0
-        hapticControl.selectedSegmentIndex = s.keyHapticLevel > 0 ? 1 : 0
-        soundControl.addTarget(self, action: #selector(soundChanged), for: .valueChanged)
-        hapticControl.addTarget(self, action: #selector(hapticChanged), for: .valueChanged)
+        soundToggle.isOn = s.keySoundLevel > 0
+        hapticToggle.isOn = s.keyHapticLevel > 0
+        soundIcon.isOn = soundToggle.isOn
+        hapticIcon.isOn = hapticToggle.isOn
+        soundToggle.addTarget(self, action: #selector(soundChanged), for: .valueChanged)
+        hapticToggle.addTarget(self, action: #selector(hapticChanged), for: .valueChanged)
 
-        let done = UIButton(type: .system)
-        done.setTitle("完成", for: .normal)
-        done.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
-        done.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
+        let soundRow = makeRow(iconView: soundIcon, toggle: soundToggle)
+        let hapticRow = makeRow(iconView: hapticIcon, toggle: hapticToggle)
+        let doneWrap = makeDone()
 
-        func row(_ label: UILabel, _ control: UIView) -> UIStackView {
-            let h = UIStackView(arrangedSubviews: [label, control])
-            h.axis = .horizontal
-            h.spacing = 12
-            h.alignment = .center
-            return h
-        }
-
-        let stack = UIStackView(arrangedSubviews: [title, row(soundLabel, soundControl), row(hapticLabel, hapticControl), done])
+        let stack = UIStackView(arrangedSubviews: [soundRow, hapticRow, doneWrap])
         stack.axis = .vertical
-        stack.spacing = 18
+        stack.spacing = 14
         stack.alignment = .fill
         stack.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stack)
         NSLayoutConstraint.activate([
-            stack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            stack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            stack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            stack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             stack.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
     }
 
+    /// 一行：白底圆角卡，左图标、右拨钮。
+    private func makeRow(iconView: SettingsIconView, toggle: SettingsToggleControl) -> UIView {
+        let card = UIView()
+        card.backgroundColor = UIColor { t in
+            t.userInterfaceStyle == .dark ? UIColor(white: 0.14, alpha: 1) : .white
+        }
+        card.layer.cornerRadius = 16
+        card.translatesAutoresizingMaskIntoConstraints = false
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        toggle.translatesAutoresizingMaskIntoConstraints = false
+        card.addSubview(iconView)
+        card.addSubview(toggle)
+        NSLayoutConstraint.activate([
+            card.heightAnchor.constraint(equalToConstant: 78),
+            iconView.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 20),
+            iconView.centerYAnchor.constraint(equalTo: card.centerYAnchor),
+            iconView.widthAnchor.constraint(equalToConstant: 32),
+            iconView.heightAnchor.constraint(equalToConstant: 32),
+            toggle.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -20),
+            toggle.centerYAnchor.constraint(equalTo: card.centerYAnchor),
+        ])
+        return card
+    }
+
+    /// 底部 ✓ 完成按钮（图标化）。
+    private func makeDone() -> UIView {
+        let doneWrap = UIView()
+        doneWrap.translatesAutoresizingMaskIntoConstraints = false
+
+        let doneIcon = SettingsIconView(kind: .check)
+        doneIcon.isOn = true
+
+        let done = UIButton(type: .system)
+        done.backgroundColor = .clear
+        done.accessibilityLabel = "完成"
+        done.translatesAutoresizingMaskIntoConstraints = false
+        done.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
+
+        doneIcon.translatesAutoresizingMaskIntoConstraints = false
+        done.addSubview(doneIcon)
+        doneWrap.addSubview(done)
+
+        NSLayoutConstraint.activate([
+            done.widthAnchor.constraint(equalToConstant: 52),
+            done.heightAnchor.constraint(equalToConstant: 52),
+            done.centerXAnchor.constraint(equalTo: doneWrap.centerXAnchor),
+            done.topAnchor.constraint(equalTo: doneWrap.topAnchor),
+            done.bottomAnchor.constraint(equalTo: doneWrap.bottomAnchor),
+            doneIcon.centerXAnchor.constraint(equalTo: done.centerXAnchor),
+            doneIcon.centerYAnchor.constraint(equalTo: done.centerYAnchor),
+            doneIcon.widthAnchor.constraint(equalToConstant: 34),
+            doneIcon.heightAnchor.constraint(equalToConstant: 34),
+        ])
+        return doneWrap
+    }
+
     @objc private func soundChanged() {
-        SettingsStore.update { $0.keySoundLevel = self.soundControl.selectedSegmentIndex }
-        KeyFeedback.shared.playSound() // 调声音：只出声（原生键音）
+        SettingsStore.update { $0.keySoundLevel = self.soundToggle.isOn ? 1 : 0 }
+        soundIcon.isOn = soundToggle.isOn
+        soundIcon.playToggleAnimation(toOn: soundToggle.isOn)
+        if soundToggle.isOn { KeyFeedback.shared.playSound() } // 调声音：只出声
     }
 
     @objc private func hapticChanged() {
-        SettingsStore.update { $0.keyHapticLevel = self.hapticControl.selectedSegmentIndex }
-        KeyFeedback.shared.playHaptic() // 调震动：只震动、绝不出声
+        SettingsStore.update { $0.keyHapticLevel = self.hapticToggle.isOn ? 1 : 0 }
+        hapticIcon.isOn = hapticToggle.isOn
+        hapticIcon.playToggleAnimation(toOn: hapticToggle.isOn)
+        if hapticToggle.isOn { KeyFeedback.shared.playHaptic() } // 调震动：只震不出声
     }
 
     @objc private func closeTapped() { onClose?() }
