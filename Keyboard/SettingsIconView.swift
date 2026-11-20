@@ -48,7 +48,7 @@ final class SettingsIconView: UIView {
         }
     }
 
-    private func drawSound(_ line: (UIBezierPath) -> Void) {
+    private func drawSound(_ line: ((UIBezierPath) -> Void) -> Void) {
         line { p in
             p.move(to: CGPoint(x: 11, y: 5))
             p.addLine(to: CGPoint(x: 6, y: 9))
@@ -64,7 +64,7 @@ final class SettingsIconView: UIView {
         }
     }
 
-    private func drawVibration(_ line: (UIBezierPath) -> Void) {
+    private func drawVibration(_ line: ((UIBezierPath) -> Void) -> Void) {
         line { p in p.append(UIBezierPath(roundedRect: CGRect(x: 9, y: 3, width: 6, height: 18), cornerRadius: 2)) }
         line { p in p.append(UIBezierPath(ovalIn: CGRect(x: 10.7, y: 16.9, width: 2.6, height: 1.4))) }
         if isOn {
@@ -79,7 +79,7 @@ final class SettingsIconView: UIView {
         }
     }
 
-    private func drawCheck(_ line: (UIBezierPath) -> Void) {
+    private func drawCheck(_ line: ((UIBezierPath) -> Void) -> Void) {
         line { p in p.append(UIBezierPath(ovalIn: CGRect(x: 2.8, y: 2.8, width: 18.4, height: 18.4))) }
         line { p in
             p.move(to: CGPoint(x: 8.2, y: 12.4))
