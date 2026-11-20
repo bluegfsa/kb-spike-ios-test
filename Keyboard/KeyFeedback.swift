@@ -51,4 +51,9 @@ final class KeyFeedback {
         guard SettingsStore.shared().keySoundLevel > 0, id != 0 else { return }
         AudioServicesPlaySystemSound(id)
     }
+
+    /// 【临时诊断】直接播指定系统声音 ID（震动诊断按钮用，正式版移除；私有 ID 仅测试）。
+    func debugPlay(_ id: SystemSoundID) {
+        AudioServicesPlaySystemSound(id)
+    }
 }
