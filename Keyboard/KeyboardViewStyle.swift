@@ -8,6 +8,14 @@ final class KeyBubble: UIView {
 
     private let bg = UIView()
     private let label = UILabel()
+    /// 当前气泡所属键：旧键 touchUp 不得隐藏新键气泡（共享单实例跨键竞态根治）。
+    private weak var owner: UIView?
+    /// 待执行的自动隐藏（可被新一次 show 取消）。
+    private var hideWork: DispatchWorkItem?
+    /// 本次显示时刻，用于计算最短可见。
+    private var shownAt: CFTimeInterval = 0
+    /// 最短可见 ≥120ms：保证快按时至少渲染 1–2 帧；长按按住时不受影响（touchUp 才触发 hide）。
+    private let minVisible: CFTimeInterval = 0.12
 
     init() {
         super.init(frame: .zero)
@@ -45,10 +53,15 @@ final class KeyBubble: UIView {
     /// 在 source 键正上方弹出，底边贴住键顶（融入按键）；text 为内容，baseFontSize 为该键字号（气泡字号=+11）。
     func show(text: String, baseFontSize: CGFloat, source: UIView) {
         guard !text.isEmpty else { return }
+        // 新 show 先取消上一个待隐藏（旧键 touchUp 排的延迟 hide），避免把刚弹的新气泡又盖掉。
+        hideWork?.cancel()
+        hideWork = nil
         // 挂到最顶层祖先视图（键盘根/VC.view），保证气泡在最上层、不被候选栏/行容器遮挡；
         var top: UIView = source
         while let sup = top.superview { top = sup }
         let holder = top
+        // 先完成自身/容器布局再取坐标（避免布局未定导致偶发取到错位/零尺寸）。
+        source.layoutIfNeeded()
         holder.layoutIfNeeded()
         // 矮、窄、字大：高 46pt 固定（首行键顶距键盘顶约 50pt → 顶留 ~4pt，顶排完整在键盘内不被裁）。
         let h: CGFloat = 46
@@ -66,15 +79,37 @@ final class KeyBubble: UIView {
             removeFromSuperview()
             holder.addSubview(self)
         }
+        owner = source // 记录当前所属键
         alpha = 1
         layer.zPosition = 999 // 最高层级，盖过候选栏/顶栏
         frame = CGRect(x: x, y: y, width: w, height: h)
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 8).cgPath
         holder.bringSubviewToFront(self)
         isHidden = false
+        shownAt = CACurrentMediaTime() // 记录显示时刻，供最短可见计算
     }
 
-    func hide() { isHidden = true }
+    /// 仅当当前气泡属于 source 时才隐藏（旧键 touchUp 绝不能隐藏新键气泡）；
+    /// 且保证最短可见（≥minVisible），避免快按时 show→hide 落在同一帧、屏幕还没画就隐藏 → “时不时不显示”。
+    func hide(ifOwner source: UIView) {
+        guard owner === source else { return }
+        let elapsed = CACurrentMediaTime() - shownAt
+        let delay = max(0, minVisible - elapsed)
+        hideWork?.cancel()
+        if delay <= 0 {
+            performHide()
+        } else {
+            let work = DispatchWorkItem { [weak self] in self?.performHide() }
+            hideWork = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: work)
+        }
+    }
+
+    private func performHide() {
+        isHidden = true
+        owner = nil
+        hideWork = nil
+    }
 }
 
 /// 中/EN 切换键（#7）：单行「中/EN」，当前语种放大变黑、另一语种常规灰（均 Regular）。功能键不弹气泡。
@@ -131,7 +166,7 @@ final class ClosureButton: UIButton {
         KeyBubble.shared.show(text: title, baseFontSize: titleLabel?.font.pointSize ?? 20, source: self)
     }
 
-    @objc private func hidePreview() { KeyBubble.shared.hide() }
+    @objc private func hidePreview() { KeyBubble.shared.hide(ifOwner: self) }
 }
 
 /// 上档/大写键（#4）：箭头形状全程不变——off=空心 `shift`，激活=实心 `shift.fill`；
