@@ -41,7 +41,7 @@ final class KeyboardTopBar: UIView {
         btn.accessibilityLabel = label
         btn.translatesAutoresizingMaskIntoConstraints = false
         addSubview(btn)
-        addCenteredImage(to: btn, symbol: symbol, pointSize: 13, weight: .regular, opticalY: 0)
+        addCenteredImage(to: btn, symbol: symbol, pointSize: 13, weight: .regular, opticalY: 2)
     }
 
     /// 用独立 `UIImageView` 约束几何居中（不再用 `imageView.transform`：UIButton 布局时会重排/覆盖 transform，
@@ -75,7 +75,7 @@ final class KeyboardTopBar: UIView {
         dismissArrowButton.translatesAutoresizingMaskIntoConstraints = false
         dismissArrowButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
         addSubview(dismissArrowButton)
-        addCenteredImage(to: dismissArrowButton, symbol: "chevron.down", pointSize: 13, weight: .medium, opticalY: 1)
+        addCenteredImage(to: dismissArrowButton, symbol: "chevron.down", pointSize: 13, weight: .medium, opticalY: 2)
         separatorView.backgroundColor = UIColor { t in
             t.userInterfaceStyle == .dark
                 ? UIColor(red: 235/255, green: 235/255, blue: 245/255, alpha: 0.30)
