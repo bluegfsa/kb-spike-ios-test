@@ -49,7 +49,8 @@ final class KeyboardSettingsPanel: UIView {
     private func makeRow(iconView: SettingsIconView, toggle: SettingsToggleControl) -> UIView {
         let card = UIView()
         card.backgroundColor = UIColor { t in
-            t.userInterfaceStyle == .dark ? UIColor(white: 0.14, alpha: 1) : .white
+            // 浅色白卡；深色取定稿 §四 的键盘键色 #636366（与 #2C2C2E 面板底留色差）
+            t.userInterfaceStyle == .dark ? UIColor(red: 99/255, green: 99/255, blue: 102/255, alpha: 1) : .white
         }
         card.layer.cornerRadius = 16
         card.translatesAutoresizingMaskIntoConstraints = false
