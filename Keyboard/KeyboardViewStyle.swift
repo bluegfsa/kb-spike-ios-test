@@ -49,7 +49,8 @@ final class KeyBubble: UIView {
         var top: UIView = source
         while let sup = top.superview { top = sup }
         let holder = top
-        // 矮、窄、字大：高 46pt 固定（首行键顶距键盘顶 50pt → 顶留 4pt，顶排完整在键盘内不被裁）。
+        holder.layoutIfNeeded()
+        // 矮、窄、字大：高 46pt 固定（首行键顶距键盘顶约 50pt → 顶留 ~4pt，顶排完整在键盘内不被裁）。
         let h: CGFloat = 46
         let w = source.bounds.width + 12
         label.text = text
@@ -60,9 +61,11 @@ final class KeyBubble: UIView {
         let x = min(max(0, origin.midX - w / 2), maxX)
         // y 夹取 ≥0：气泡不超出键盘上边界（顶排只显示一半的根因）。
         let y = max(0, origin.minY - h)
-        // 每次显示都重挂一次并重置状态，修复「首次能显示、再按不显示」。
-        removeFromSuperview()
-        holder.addSubview(self)
+        // 全局单实例：只首次挂到顶层容器，之后只更新位置/状态，不再反复 remove/重挂（避免孤儿/抢层级）。
+        if superview !== holder {
+            removeFromSuperview()
+            holder.addSubview(self)
+        }
         alpha = 1
         layer.zPosition = 999 // 最高层级，盖过候选栏/顶栏
         frame = CGRect(x: x, y: y, width: w, height: h)
