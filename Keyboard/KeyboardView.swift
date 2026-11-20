@@ -308,12 +308,12 @@ final class KeyboardView: UIView {
     }
 
     @objc private func toggleModeTapped() { KeyFeedback.shared.play(); onToggleMode?() }
-    @objc private func backspaceTapped() { KeyFeedback.shared.play(); onBackspace?() } // 删除键也要发声/震动
+    @objc private func backspaceTapped() { KeyFeedback.shared.playDelete(); onBackspace?() } // 删除键独立音+震
 
     @objc private func backspaceLongPressed(_ gesture: UILongPressGestureRecognizer) {
         switch gesture.state {
         case .began:
-            KeyFeedback.shared.play() // 长按删除起手也触发一次反馈
+            KeyFeedback.shared.playDelete() // 长按删除起手：删除键独立音
             deleteInterval = 0.12
             scheduleDeleteTick()
         case .ended, .cancelled, .failed:
@@ -327,7 +327,7 @@ final class KeyboardView: UIView {
         deleteTimer?.invalidate()
         let timer = Timer(timeInterval: deleteInterval, repeats: false) { [weak self] _ in
             guard let self else { return }
-            KeyFeedback.shared.play() // 长按连发每 tick 也补按键反馈（删键要有声/震）
+            KeyFeedback.shared.playDelete() // 长按连发每 tick：删除键独立音
             self.onBackspace?()
             self.deleteInterval = KeyboardLogic.nextDeleteInterval(from: self.deleteInterval)
             self.scheduleDeleteTick()
