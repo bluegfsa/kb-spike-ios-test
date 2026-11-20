@@ -13,7 +13,17 @@ final class KeyboardSettingsPanel: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = KBColor.background
+        backgroundColor = .clear
+        // ① 半透明毛玻璃背景：透出底下键盘，不实心。
+        let blur = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
+        blur.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(blur)
+        NSLayoutConstraint.activate([
+            blur.leadingAnchor.constraint(equalTo: leadingAnchor),
+            blur.trailingAnchor.constraint(equalTo: trailingAnchor),
+            blur.topAnchor.constraint(equalTo: topAnchor),
+            blur.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ])
         setup()
     }
 

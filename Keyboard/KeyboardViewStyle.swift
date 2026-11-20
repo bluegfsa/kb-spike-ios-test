@@ -39,24 +39,26 @@ final class KeyBubble: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    /// 在 source 键正上方弹出，底边贴住键顶（融入按键）；text 为内容，baseFontSize 为该键字号（气泡字号=+2）。
+    /// 在 source 键正上方弹出，底边贴住键顶（融入按键）；text 为内容，baseFontSize 为该键字号（气泡字号=+8）。
     func show(text: String, baseFontSize: CGFloat, source: UIView) {
-        guard !text.isEmpty, let holder = source.superview?.superview ?? source.superview else { return }
-        let h = source.bounds.height + 28
-        let w = source.bounds.width + 16
+        guard !text.isEmpty else { return }
+        // 挂到最顶层祖先视图（键盘根/VC.view），保证气泡在最上层、不被候选栏/行容器遮挡；
+        var top: UIView = source
+        while let sup = top.superview { top = sup }
+        let holder = top
+        let h = source.bounds.height + 30
+        let w = source.bounds.width + 18
         label.text = text
-        label.font = .systemFont(ofSize: baseFontSize + 4) // UI v1.0：气泡字号 23→27(+4)
+        label.font = .systemFont(ofSize: baseFontSize + 8) // 气泡字母加大（比键字号 +8，UI 可再调）
         let origin = holder.convert(source.bounds, from: source)
-        // 底边正好落在键顶（无缝隙，iOS 同款「融入按键」）；x 夹取在容器内，
-        // 边缘键（q/p 等最左最右列）气泡不越出键盘被裁掉——与 iOS 一致向内收。
+        // x 夹取在容器内：边缘键（q/p 等最左最右列）气泡不越出键盘被裁，向内收（iOS 同款）。
         let maxX = max(0, holder.bounds.width - w)
         let x = min(max(0, origin.midX - w / 2), maxX)
+        // 每次显示都重挂一次，修复「首次能显示、再按不显示」的状态残留。
+        removeFromSuperview()
+        holder.addSubview(self)
         frame = CGRect(x: x, y: origin.minY - h, width: w, height: h)
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 7).cgPath
-        if superview !== holder {
-            removeFromSuperview()
-            holder.addSubview(self)
-        }
         holder.bringSubviewToFront(self)
         isHidden = false
     }
