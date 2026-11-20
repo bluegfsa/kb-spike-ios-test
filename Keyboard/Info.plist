@@ -9,8 +9,8 @@
     <key>CFBundleName</key><string>$(PRODUCT_NAME)</string>
     <key>CFBundleDisplayName</key><string>双译键盘</string>
     <key>CFBundlePackageType</key><string>XPC!</string>
-    <key>CFBundleShortVersionString</key><string>1.34</string>
-    <key>CFBundleVersion</key><string>34</string>
+    <key>CFBundleShortVersionString</key><string>1.35</string>
+    <key>CFBundleVersion</key><string>35</string>
     <key>NSExtension</key>
     <dict>
         <key>NSExtensionPointIdentifier</key><string>com.apple.keyboard-service</string>
@@ -20,7 +20,7 @@
             <key>IsASCIICapable</key><true/>
             <key>PrefersRightToLeft</key><false/>
             <key>PrimaryLanguage</key><string>zh-Hans</string>
-            <key>RequestsOpenAccess</key><false/>
+            <key>RequestsOpenAccess</key><true/>
         </dict>
     </dict>
 </dict>
