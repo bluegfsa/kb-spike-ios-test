@@ -10,6 +10,9 @@ final class KeyboardViewController: UIInputViewController {
         return KeyboardModel(sharedDir: base.appendingPathComponent("rime/shared"), userDir: base.appendingPathComponent("rime/user"))
     }()
     private var heightConstraint: NSLayoutConstraint?
+    /// ② 键区与设置页共用的毛玻璃底层：同一层 systemMaterial，键区/面板都透明透它 → 视觉成一整块。
+    /// 平台限制：键盘扩展是独立进程、采不到宿主 App 画面，这层只呈现系统磨砂观感（透不出底下 App）。
+    private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
     /// #8（微信输入法同款）：键盘顶部比原生多垫高一段，用我们自己的半透明底把那截白圆角盖住。
     private let kbTopCover: CGFloat = 0 // 顶部上探归零：改由前端 44pt 顶栏(候选+两圆钮)在键盘视图内覆盖白圆角，总高≈300
 #if DEBUG
@@ -23,10 +26,11 @@ final class KeyboardViewController: UIInputViewController {
         super.viewDidLoad()
         // #8（微信输入法同款）：自己做「半透明底」不依赖采壁纸（UI v0.8：浅 #F2F3F5 / 深 #1C1C1E，alpha 0.88）；
         // 键盘/候选栏透明露出底色，配合键盘顶部上探 kbTopCover 盖住系统那条白圆角。
-        // #8（微信同款）：不铺不透明色、不自绘模糊——背景透明，让 iOS 系统键盘自带毛玻璃背板透出。
+        // ② 背景改「键区与设置页共用一层毛玻璃」：根视图底部铺 systemMaterial，键区/面板都透明透这层 → 一整块。
         view.backgroundColor = .clear
         view.isOpaque = false
         keyboardView.backgroundColor = .clear
+        setupBlurBackground()
         setupKeyboardView()
         setupStatusBanner()
 #if DEBUG
@@ -86,6 +90,18 @@ final class KeyboardViewController: UIInputViewController {
             self.render()
         }
         keyboardView.onCandidate = { [weak self] index in self?.handleCandidate(index) }
+    }
+
+    /// ② 铺一层 systemMaterial 毛玻璃作为键区与设置页的共用背景（都透明透这层 → 一整块）。
+    private func setupBlurBackground() {
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(blurView, at: 0)
+        NSLayoutConstraint.activate([
+            blurView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            blurView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            blurView.topAnchor.constraint(equalTo: view.topAnchor),
+            blurView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
 
     /// needInit/error 时的静态提示条（不申请完全访问 → 不做扩展内跳转，只提示手动开宿主）。
