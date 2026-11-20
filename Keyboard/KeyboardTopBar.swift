@@ -33,7 +33,7 @@ final class KeyboardTopBar: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func styleCircle(_ btn: UIButton, symbol: String, label: String) {
+    private func styleCircle(_ btn: UIButton, symbol: String, pointSize: CGFloat, label: String) {
         btn.backgroundColor = KBColor.letterKey
         btn.layer.cornerRadius = 16
         btn.clipsToBounds = true
@@ -41,7 +41,7 @@ final class KeyboardTopBar: UIView {
         btn.accessibilityLabel = label
         btn.translatesAutoresizingMaskIntoConstraints = false
         addSubview(btn)
-        addCenteredImage(to: btn, symbol: symbol, pointSize: 13, weight: .regular, opticalY: 2)
+        addCenteredImage(to: btn, symbol: symbol, pointSize: pointSize, weight: .regular, opticalY: 0)
     }
 
     /// 用独立 `UIImageView` 约束几何居中（不再用 `imageView.transform`：UIButton 布局时会重排/覆盖 transform，
@@ -64,8 +64,8 @@ final class KeyboardTopBar: UIView {
 
     private func setupControls() {
         // 空态两圆钮
-        styleCircle(settingsButton, symbol: "gearshape", label: "设置")
-        styleCircle(dismissCircleButton, symbol: "chevron.down", label: "收起键盘")
+        styleCircle(settingsButton, symbol: "gearshape", pointSize: 15, label: "设置")
+        styleCircle(dismissCircleButton, symbol: "chevron.down", pointSize: 13, label: "收起键盘")
         settingsButton.addTarget(self, action: #selector(settingsTapped), for: .touchUpInside) // ⚙ 占位：可点，B 在 1.27
         dismissCircleButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
         // 输入态：裸箭头（无圆/无底/无边框，热区 44）+ 竖直小分隔线
@@ -75,7 +75,7 @@ final class KeyboardTopBar: UIView {
         dismissArrowButton.translatesAutoresizingMaskIntoConstraints = false
         dismissArrowButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
         addSubview(dismissArrowButton)
-        addCenteredImage(to: dismissArrowButton, symbol: "chevron.down", pointSize: 13, weight: .medium, opticalY: 2)
+        addCenteredImage(to: dismissArrowButton, symbol: "chevron.down", pointSize: 13, weight: .medium, opticalY: 0)
         separatorView.backgroundColor = UIColor { t in
             t.userInterfaceStyle == .dark
                 ? UIColor(red: 235/255, green: 235/255, blue: 245/255, alpha: 0.30)

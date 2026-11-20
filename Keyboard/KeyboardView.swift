@@ -9,12 +9,12 @@ enum KeyboardLayoutMode {
 /// 纯 UIKit 键盘视图：顶部功能条（KeyboardTopBar）＋四行键；高度自适应；配色/按钮见 KeyboardViewStyle.swift。
 final class KeyboardView: UIView {
     // 尺寸
-    private let keyHeight: CGFloat = 44     // 键高恢复 44（用户只要求微升整体高度，不动按键大小）
+    private let keyHeight: CGFloat = 41     // ④ 键高 44→41（对齐微信/iOS，几乎无差）
     private let keyGap: CGFloat = 6      // 水平键距
-    private let rowGap: CGFloat = 12     // 行间距（竖直）恢复 12（不动行距）
+    private let rowGap: CGFloat = 13     // 行间距 12→13（键块 4×41+3×13=203=微信/iOS）
     private let keyCorner: CGFloat = 6
     private let rowCount = 4
-    private let rowsTopGap: CGFloat = 10   // 顶栏→首行间距 6→10（只加 4pt 边距把键区微升到≈266pt，键高/行距不动）
+    private let rowsTopGap: CGFloat = 6    // 顶栏→首行间距（总高 44+6+203+4+34≈291，对齐微信/iOS）
     private let rowsBottomPad: CGFloat = 4
     private enum KeyKind { case letter, function }
 

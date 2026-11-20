@@ -47,8 +47,11 @@ final class KeyBubble: UIView {
         label.text = text
         label.font = .systemFont(ofSize: baseFontSize + 4) // UI v1.0：气泡字号 23→27(+4)
         let origin = holder.convert(source.bounds, from: source)
-        // 底边正好落在键顶（无缝隙，iOS 同款「融入按键」）
-        frame = CGRect(x: origin.midX - w / 2, y: origin.minY - h, width: w, height: h)
+        // 底边正好落在键顶（无缝隙，iOS 同款「融入按键」）；x 夹取在容器内，
+        // 边缘键（q/p 等最左最右列）气泡不越出键盘被裁掉——与 iOS 一致向内收。
+        let maxX = max(0, holder.bounds.width - w)
+        let x = min(max(0, origin.midX - w / 2), maxX)
+        frame = CGRect(x: x, y: origin.minY - h, width: w, height: h)
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 7).cgPath
         if superview !== holder {
             removeFromSuperview()

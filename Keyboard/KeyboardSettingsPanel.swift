@@ -41,7 +41,7 @@ final class KeyboardSettingsPanel: UIView {
         NSLayoutConstraint.activate([
             stack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             stack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            stack.centerYAnchor.constraint(equalTo: centerYAnchor),
+            stack.topAnchor.constraint(equalTo: topAnchor, constant: 16), // ① 设置页整体下移：首卡上沿距键盘上沿≈16pt
         ])
     }
 
