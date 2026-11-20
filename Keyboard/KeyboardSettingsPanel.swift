@@ -1,5 +1,4 @@
 import UIKit
-import AudioToolbox
 
 /// 键盘内设置面板（UI 定稿）：声音/震动均为「拨钮开关」，全图标化、无文字标题、纯黑白灰（不用蓝）。
 /// 点开关＝一次性动效（不循环）：声音＝声波弹一下/斜杠画出；震动＝机身抖一下/斜杠画出；✓ 收起。
@@ -31,10 +30,9 @@ final class KeyboardSettingsPanel: UIView {
 
         let soundRow = makeRow(iconView: soundIcon, toggle: soundToggle)
         let hapticRow = makeRow(iconView: hapticIcon, toggle: hapticToggle)
-        let diagRow = makeDiagnostic()   // 临时：震动诊断按钮（正式版移除）
         let doneWrap = makeDone()
 
-        let stack = UIStackView(arrangedSubviews: [soundRow, hapticRow, diagRow, doneWrap])
+        let stack = UIStackView(arrangedSubviews: [soundRow, hapticRow, doneWrap])
         stack.axis = .vertical
         stack.spacing = 14
         stack.alignment = .fill
@@ -102,56 +100,6 @@ final class KeyboardSettingsPanel: UIView {
             doneIcon.heightAnchor.constraint(equalToConstant: 34),
         ])
         return doneWrap
-    }
-
-    /// 【临时诊断】一排按钮并列试不同震动路径：长震(Vibrate) / 1519 / 1520 / 1521。
-    /// 仅供定位"哪条能短震"，正式版务必删除（1519-1521 为未公开 ID，仅测试用）。
-    private func makeDiagnostic() -> UIView {
-        let wrap = UIView()
-        wrap.translatesAutoresizingMaskIntoConstraints = false
-        let label = UILabel()
-        label.text = "震动诊断(临时)"
-        label.font = .systemFont(ofSize: 12)
-        label.textColor = .systemGray
-        label.textAlignment = .center
-
-        func mk(_ title: String, _ id: SystemSoundID) -> UIButton {
-            let b = UIButton(type: .system)
-            b.setTitle(title, for: .normal)
-            b.titleLabel?.font = .systemFont(ofSize: 13, weight: .medium)
-            b.setTitleColor(.label, for: .normal)
-            b.layer.borderColor = UIColor.systemGray.cgColor
-            b.layer.borderWidth = 1
-            b.layer.cornerRadius = 8
-            b.translatesAutoresizingMaskIntoConstraints = false
-            b.widthAnchor.constraint(equalToConstant: 62).isActive = true
-            b.heightAnchor.constraint(equalToConstant: 34).isActive = true
-            b.addAction(UIAction { _ in KeyFeedback.shared.debugPlay(id) }, for: .touchUpInside)
-            return b
-        }
-
-        let row = UIStackView(arrangedSubviews: [
-            mk("短震1519", 1519), mk("长震", kSystemSoundID_Vibrate)
-        ])
-        row.axis = .horizontal
-        row.spacing = 8
-        row.alignment = .center
-        row.distribution = .equalSpacing
-
-        let stack = UIStackView(arrangedSubviews: [label, row])
-        stack.axis = .vertical
-        stack.spacing = 6
-        stack.alignment = .center
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        wrap.addSubview(stack)
-        NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: wrap.topAnchor),
-            stack.bottomAnchor.constraint(equalTo: wrap.bottomAnchor),
-            stack.leadingAnchor.constraint(greaterThanOrEqualTo: wrap.leadingAnchor),
-            stack.trailingAnchor.constraint(lessThanOrEqualTo: wrap.trailingAnchor),
-            stack.centerXAnchor.constraint(equalTo: wrap.centerXAnchor),
-        ])
-        return wrap
     }
 
     @objc private func soundChanged() {
