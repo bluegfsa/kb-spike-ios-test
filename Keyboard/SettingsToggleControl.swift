@@ -21,7 +21,7 @@ final class SettingsToggleControl: UIControl {
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    override var intrinsicContentSize: CGSize { CGSize(width: trackW + 12, height: trackH + 12) }
+    override var intrinsicContentSize: CGSize { CGSize(width: trackW + 12, height: max(44, trackH + 12)) } // 触控热区高≥44
 
     private func setup() {
         trackView.translatesAutoresizingMaskIntoConstraints = false
