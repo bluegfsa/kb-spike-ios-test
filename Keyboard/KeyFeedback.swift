@@ -1,17 +1,17 @@
 import UIKit
 import AudioToolbox
 
-/// 按键反馈（1.33 合规自生成音）：
+/// 按键反馈（1.35）：
 /// · 声音：启动时用 `AudioServicesCreateSystemSoundID` 各注册一次普通键音 `1_normal.wav`、删除键音 `2_delete.wav`；
 ///   按键只 `AudioServicesPlaySystemSound(id)`。**严禁 1104 / playInputClick / AVAudioSession / AVAudioPlayer / 每键新建**。
-/// · 震动：`UIImpactFeedbackGenerator(.light)` 轻点短震（开/关）。仍需系统「触感反馈」开启才震。
+/// · 震动：`UISelectionFeedbackGenerator`（轻点短震，不需「完全访问」）。仍需系统「触感反馈」开启、非低电量模式。
 /// 普通键调 `play()`，删除键（含长按连发）调 `playDelete()`（独立、与普通键不同但相似）。
 final class KeyFeedback {
     static let shared = KeyFeedback()
 
     private var normalID: SystemSoundID = 0
     private var deleteID: SystemSoundID = 0
-    private lazy var hapticGen = UIImpactFeedbackGenerator(style: .light)
+    private lazy var selectionGen = UISelectionFeedbackGenerator()
 
     private init() {
         normalID = Self.registerSound("1_normal")
@@ -40,11 +40,11 @@ final class KeyFeedback {
     /// 只发普通键音（面板试听声音用）。
     func playSound() { playSoundID(normalID) }
 
-    /// 只震动（面板试听震动用，绝不出声）：开＝一次轻点短震。
+    /// 只震动（面板试听震动用，绝不出声）：开＝一次轻点短震（UISelection，不需完全访问）。
     func playHaptic() {
         guard SettingsStore.shared().keyHapticLevel > 0 else { return }
-        hapticGen.prepare()
-        hapticGen.impactOccurred()
+        selectionGen.prepare()
+        selectionGen.selectionChanged()
     }
 
     private func playSoundID(_ id: SystemSoundID) {
