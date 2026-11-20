@@ -84,9 +84,11 @@ final class KeyboardView: UIView {
         topBar.onSettings = { [weak self] in self?.showSettingsPanel() } // 左⚙ 键盘内设置面板(A)
     }
 
-    /// 弹键盘内设置面板（占满原键盘区，不跳 App）。
+    /// 弹键盘内设置面板（占满原键盘区，不跳 App）。打开时隐藏键区/顶栏，面板透明→直接复用键盘主背景成一整块。
     private func showSettingsPanel() {
         settingsPanel.translatesAutoresizingMaskIntoConstraints = false
+        topBar.isHidden = true
+        rowsStack.isHidden = true
         if settingsPanel.superview == nil {
             addSubview(settingsPanel)
             NSLayoutConstraint.activate([
@@ -95,7 +97,11 @@ final class KeyboardView: UIView {
                 settingsPanel.topAnchor.constraint(equalTo: topAnchor),
                 settingsPanel.bottomAnchor.constraint(equalTo: bottomAnchor),
             ])
-            settingsPanel.onClose = { [weak self] in self?.settingsPanel.removeFromSuperview() }
+            settingsPanel.onClose = { [weak self] in
+                self?.settingsPanel.removeFromSuperview()
+                self?.topBar.isHidden = false
+                self?.rowsStack.isHidden = false
+            }
         }
         bringSubviewToFront(settingsPanel)
     }

@@ -13,29 +13,8 @@ final class KeyboardSettingsPanel: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        // ① 复用键盘主背景：面板透明，打开时（KeyboardView 隐藏键区/顶栏）直接露出主 blur 背景，成一整块；不再叠第二套 systemMaterial。
         backgroundColor = .clear
-        // ① 半透明毛玻璃背景：.systemMaterial + 覆盖色（浅 白0.55 / 深 #2C2C2E 0.55）；注意键盘扩展采不到宿主 App 画面，只能透键盘底色。
-        let blur = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
-        blur.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(blur)
-        let overlay = UIView()
-        overlay.translatesAutoresizingMaskIntoConstraints = false
-        overlay.backgroundColor = UIColor { t in
-            t.userInterfaceStyle == .dark
-                ? UIColor(red: 44/255, green: 44/255, blue: 46/255, alpha: 0.55)
-                : UIColor(white: 1, alpha: 0.55)
-        }
-        addSubview(overlay)
-        NSLayoutConstraint.activate([
-            blur.leadingAnchor.constraint(equalTo: leadingAnchor),
-            blur.trailingAnchor.constraint(equalTo: trailingAnchor),
-            blur.topAnchor.constraint(equalTo: topAnchor),
-            blur.bottomAnchor.constraint(equalTo: bottomAnchor),
-            overlay.leadingAnchor.constraint(equalTo: leadingAnchor),
-            overlay.trailingAnchor.constraint(equalTo: trailingAnchor),
-            overlay.topAnchor.constraint(equalTo: topAnchor),
-            overlay.bottomAnchor.constraint(equalTo: bottomAnchor),
-        ])
         setup()
     }
 

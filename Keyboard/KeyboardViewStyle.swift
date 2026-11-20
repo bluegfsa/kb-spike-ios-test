@@ -3,6 +3,9 @@ import UIKit
 /// 按键预览气泡（#10）：圆角、融进按键，参考 iOS 原生——底边贴键顶无缝隙、圆角 7、键色、只加轻阴影。
 /// 挂到整块按键区容器（跨行不被别的行盖住）。字母/功能/上档/中英键共用这一份实现。
 final class KeyBubble: UIView {
+    /// 全局单个气泡实例（所有键共用）：避免每个键各挂一个到顶层造成残留/「首按能显示、再按不显示」。
+    static let shared = KeyBubble()
+
     private let bg = UIView()
     private let label = UILabel()
 
@@ -16,7 +19,7 @@ final class KeyBubble: UIView {
         layer.shadowRadius = 4
         layer.shadowOffset = CGSize(width: 0, height: 1)
         bg.backgroundColor = KBColor.letterKey
-        bg.layer.cornerRadius = 9
+        bg.layer.cornerRadius = 8
         bg.clipsToBounds = true
         bg.translatesAutoresizingMaskIntoConstraints = false
         addSubview(bg)
@@ -39,28 +42,31 @@ final class KeyBubble: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    /// 在 source 键正上方弹出，底边贴住键顶（融入按键）；text 为内容，baseFontSize 为该键字号（气泡字号=+8）。
+    /// 在 source 键正上方弹出，底边贴住键顶（融入按键）；text 为内容，baseFontSize 为该键字号（气泡字号=+11）。
     func show(text: String, baseFontSize: CGFloat, source: UIView) {
         guard !text.isEmpty else { return }
         // 挂到最顶层祖先视图（键盘根/VC.view），保证气泡在最上层、不被候选栏/行容器遮挡；
         var top: UIView = source
         while let sup = top.superview { top = sup }
         let holder = top
-        let h = source.bounds.height + 34
-        let w = source.bounds.width + 18
+        // 矮、窄、字大：高 46pt 固定（首行键顶距键盘顶 50pt → 顶留 4pt，顶排完整在键盘内不被裁）。
+        let h: CGFloat = 46
+        let w = source.bounds.width + 12
         label.text = text
-        label.font = .systemFont(ofSize: baseFontSize + 9) // 气泡字母 32pt（键字号 23+9），UI §二十
+        label.font = .systemFont(ofSize: baseFontSize + 11) // 气泡字母加大到 34pt（键字号 23+11）
         let origin = holder.convert(source.bounds, from: source)
         // x 夹取在容器内：边缘键（q/p 等最左最右列）气泡不越出键盘被裁，向内收（iOS 同款）。
         let maxX = max(0, holder.bounds.width - w)
         let x = min(max(0, origin.midX - w / 2), maxX)
+        // y 夹取 ≥0：气泡不超出键盘上边界（顶排只显示一半的根因）。
+        let y = max(0, origin.minY - h)
         // 每次显示都重挂一次并重置状态，修复「首次能显示、再按不显示」。
         removeFromSuperview()
         holder.addSubview(self)
         alpha = 1
         layer.zPosition = 999 // 最高层级，盖过候选栏/顶栏
-        frame = CGRect(x: x, y: origin.minY - h, width: w, height: h)
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 9).cgPath
+        frame = CGRect(x: x, y: y, width: w, height: h)
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 8).cgPath
         holder.bringSubviewToFront(self)
         isHidden = false
     }
@@ -103,7 +109,6 @@ final class ClosureButton: UIButton {
     var onTap: (() -> Void)?
     /// 仅字母键=true 弹气泡；功能键(123/空格/中EN/发送/⌫/⇧/符号)为 false，不弹。
     var showsBubble = false
-    private let bubble = KeyBubble()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -120,10 +125,10 @@ final class ClosureButton: UIButton {
 
     @objc private func showPreview() {
         guard showsBubble, let title = title(for: .normal), !title.isEmpty else { return }
-        bubble.show(text: title, baseFontSize: titleLabel?.font.pointSize ?? 20, source: self)
+        KeyBubble.shared.show(text: title, baseFontSize: titleLabel?.font.pointSize ?? 20, source: self)
     }
 
-    @objc private func hidePreview() { bubble.hide() }
+    @objc private func hidePreview() { KeyBubble.shared.hide() }
 }
 
 /// 上档/大写键（#4）：箭头形状全程不变——off=空心 `shift`，激活=实心 `shift.fill`；
