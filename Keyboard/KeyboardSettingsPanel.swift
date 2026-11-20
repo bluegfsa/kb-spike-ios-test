@@ -14,15 +14,27 @@ final class KeyboardSettingsPanel: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
-        // ① 半透明毛玻璃背景：透出底下键盘，不实心。
-        let blur = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
+        // ① 半透明毛玻璃背景：.systemMaterial + 覆盖色（浅 白0.55 / 深 #2C2C2E 0.55）；注意键盘扩展采不到宿主 App 画面，只能透键盘底色。
+        let blur = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
         blur.translatesAutoresizingMaskIntoConstraints = false
         addSubview(blur)
+        let overlay = UIView()
+        overlay.translatesAutoresizingMaskIntoConstraints = false
+        overlay.backgroundColor = UIColor { t in
+            t.userInterfaceStyle == .dark
+                ? UIColor(red: 44/255, green: 44/255, blue: 46/255, alpha: 0.55)
+                : UIColor(white: 1, alpha: 0.55)
+        }
+        addSubview(overlay)
         NSLayoutConstraint.activate([
             blur.leadingAnchor.constraint(equalTo: leadingAnchor),
             blur.trailingAnchor.constraint(equalTo: trailingAnchor),
             blur.topAnchor.constraint(equalTo: topAnchor),
             blur.bottomAnchor.constraint(equalTo: bottomAnchor),
+            overlay.leadingAnchor.constraint(equalTo: leadingAnchor),
+            overlay.trailingAnchor.constraint(equalTo: trailingAnchor),
+            overlay.topAnchor.constraint(equalTo: topAnchor),
+            overlay.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
         setup()
     }
@@ -59,8 +71,10 @@ final class KeyboardSettingsPanel: UIView {
     private func makeRow(iconView: SettingsIconView, toggle: SettingsToggleControl) -> UIView {
         let card = UIView()
         card.backgroundColor = UIColor { t in
-            // 浅色白卡；深色取定稿 §四 的键盘键色 #636366（与 #2C2C2E 面板底留色差）
-            t.userInterfaceStyle == .dark ? UIColor(red: 99/255, green: 99/255, blue: 102/255, alpha: 1) : .white
+            // UI §二十：卡片 rgba(255,255,255,0.72)（浅）/ #2C2C2E 0.72（深）
+            t.userInterfaceStyle == .dark
+                ? UIColor(red: 44/255, green: 44/255, blue: 46/255, alpha: 0.72)
+                : UIColor(white: 1, alpha: 0.72)
         }
         card.layer.cornerRadius = 16
         card.translatesAutoresizingMaskIntoConstraints = false

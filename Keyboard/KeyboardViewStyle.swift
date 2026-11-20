@@ -16,7 +16,7 @@ final class KeyBubble: UIView {
         layer.shadowRadius = 4
         layer.shadowOffset = CGSize(width: 0, height: 1)
         bg.backgroundColor = KBColor.letterKey
-        bg.layer.cornerRadius = 7
+        bg.layer.cornerRadius = 9
         bg.clipsToBounds = true
         bg.translatesAutoresizingMaskIntoConstraints = false
         addSubview(bg)
@@ -46,19 +46,21 @@ final class KeyBubble: UIView {
         var top: UIView = source
         while let sup = top.superview { top = sup }
         let holder = top
-        let h = source.bounds.height + 30
+        let h = source.bounds.height + 34
         let w = source.bounds.width + 18
         label.text = text
-        label.font = .systemFont(ofSize: baseFontSize + 8) // 气泡字母加大（比键字号 +8，UI 可再调）
+        label.font = .systemFont(ofSize: baseFontSize + 9) // 气泡字母 32pt（键字号 23+9），UI §二十
         let origin = holder.convert(source.bounds, from: source)
         // x 夹取在容器内：边缘键（q/p 等最左最右列）气泡不越出键盘被裁，向内收（iOS 同款）。
         let maxX = max(0, holder.bounds.width - w)
         let x = min(max(0, origin.midX - w / 2), maxX)
-        // 每次显示都重挂一次，修复「首次能显示、再按不显示」的状态残留。
+        // 每次显示都重挂一次并重置状态，修复「首次能显示、再按不显示」。
         removeFromSuperview()
         holder.addSubview(self)
+        alpha = 1
+        layer.zPosition = 999 // 最高层级，盖过候选栏/顶栏
         frame = CGRect(x: x, y: origin.minY - h, width: w, height: h)
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 7).cgPath
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 9).cgPath
         holder.bringSubviewToFront(self)
         isHidden = false
     }
