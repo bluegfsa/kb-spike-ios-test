@@ -71,7 +71,7 @@ final class KeyFeedback {
         guard SettingsStore.shared().keyHapticLevel > 0 else { lastHapticSource = .off; return }
         if let engine = hapticEngine {
             do {
-                let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 0.15)
+                let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 0.1)
                 let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.4)
                 let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0)
                 let pattern = try CHHapticPattern(events: [event], parameters: [])
