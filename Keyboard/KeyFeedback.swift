@@ -11,7 +11,6 @@ final class KeyFeedback {
 
     private var normalID: SystemSoundID = 0
     private var deleteID: SystemSoundID = 0
-    private lazy var selectionGen = UISelectionFeedbackGenerator()
 
     private init() {
         normalID = Self.registerSound("1_normal")
@@ -40,11 +39,11 @@ final class KeyFeedback {
     /// 只发普通键音（面板试听声音用）。
     func playSound() { playSoundID(normalID) }
 
-    /// 只震动（面板试听震动用，绝不出声）：开＝一次轻点短震（UISelection，不需完全访问）。
+    /// 只震动（面板试听震动用，绝不出声）：开＝短触感 1519（Peek 弱爆）。
+    /// 临时诊断：走和 kSystemSoundID_Vibrate 同路径、不需完全访问；1519 为私有 ID，仅测试用（正式版待定）。
     func playHaptic() {
         guard SettingsStore.shared().keyHapticLevel > 0 else { return }
-        selectionGen.prepare()
-        selectionGen.selectionChanged()
+        AudioServicesPlaySystemSound(1519)
     }
 
     private func playSoundID(_ id: SystemSoundID) {

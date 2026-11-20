@@ -131,7 +131,7 @@ final class KeyboardSettingsPanel: UIView {
         }
 
         let row = UIStackView(arrangedSubviews: [
-            mk("长震", kSystemSoundID_Vibrate), mk("A1519", 1519), mk("B1520", 1520), mk("C1521", 1521)
+            mk("短震1519", 1519), mk("长震", kSystemSoundID_Vibrate)
         ])
         row.axis = .horizontal
         row.spacing = 8
