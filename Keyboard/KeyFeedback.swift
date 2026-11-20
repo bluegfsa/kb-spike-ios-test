@@ -16,6 +16,10 @@ final class KeyFeedback {
     private var deleteID: SystemSoundID = 0
     private var hapticEngine: CHHapticEngine?
 
+    /// 上次震动实际走的路径（临时诊断：面板角落显示，正式版删除）。
+    enum HapticSource: String { case core = "CORE", fallback1519 = "FALLBACK1519", off = "OFF", none = "NONE" }
+    private(set) var lastHapticSource: HapticSource = .none
+
     private init() {
         normalID = Self.registerSound("1_normal")
         deleteID = Self.registerSound("2_delete")
@@ -62,23 +66,25 @@ final class KeyFeedback {
     /// 只发普通键音（面板试听声音用）。
     func playSound() { playSoundID(normalID) }
 
-    /// 只震动（面板试听震动用，绝不出声）：开＝CoreHaptics 瞬态(0.3/0.5)；失败兜底 1519（本机能震）。
+    /// 只震动（面板试听震动用，绝不出声）：开＝CoreHaptics 瞬态(0.15/0.4，更轻)；失败兜底 1519（本机能震）。
     func playHaptic() {
-        guard SettingsStore.shared().keyHapticLevel > 0 else { return }
+        guard SettingsStore.shared().keyHapticLevel > 0 else { lastHapticSource = .off; return }
         if let engine = hapticEngine {
             do {
-                let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 0.3)
-                let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.5)
+                let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 0.15)
+                let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.4)
                 let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0)
                 let pattern = try CHHapticPattern(events: [event], parameters: [])
                 let player = try engine.makePlayer(with: pattern)
                 try player.start(atTime: 0)
+                lastHapticSource = .core
                 return
             } catch {
                 // 落到下面的 1519 兜底
             }
         }
         AudioServicesPlaySystemSound(1519) // 兜底：本机验证能震；正式版移除私有 ID
+        lastHapticSource = .fallback1519
     }
 
     private func playSoundID(_ id: SystemSoundID) {

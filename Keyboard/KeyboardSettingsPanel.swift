@@ -10,6 +10,7 @@ final class KeyboardSettingsPanel: UIView {
     private let hapticIcon = SettingsIconView(kind: .vibration)
     private let soundToggle = SettingsToggleControl()
     private let hapticToggle = SettingsToggleControl()
+    private let hapticSourceLabel = UILabel()   // 临时诊断：显示上次震动走的路径（正式版删）
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,9 +31,13 @@ final class KeyboardSettingsPanel: UIView {
 
         let soundRow = makeRow(iconView: soundIcon, toggle: soundToggle)
         let hapticRow = makeRow(iconView: hapticIcon, toggle: hapticToggle)
+        hapticSourceLabel.text = "震动来源(上次按键): " + KeyFeedback.shared.lastHapticSource.rawValue
+        hapticSourceLabel.font = .systemFont(ofSize: 11)
+        hapticSourceLabel.textColor = .systemGray
+        hapticSourceLabel.textAlignment = .center
         let doneWrap = makeDone()
 
-        let stack = UIStackView(arrangedSubviews: [soundRow, hapticRow, doneWrap])
+        let stack = UIStackView(arrangedSubviews: [soundRow, hapticRow, hapticSourceLabel, doneWrap])
         stack.axis = .vertical
         stack.spacing = 14
         stack.alignment = .fill
@@ -114,6 +119,7 @@ final class KeyboardSettingsPanel: UIView {
         hapticIcon.isOn = hapticToggle.isOn
         hapticIcon.playToggleAnimation(toOn: hapticToggle.isOn)
         if hapticToggle.isOn { KeyFeedback.shared.playHaptic() } // 调震动：只震不出声
+        hapticSourceLabel.text = "震动来源(上次按键): " + KeyFeedback.shared.lastHapticSource.rawValue
     }
 
     @objc private func closeTapped() { onClose?() }
