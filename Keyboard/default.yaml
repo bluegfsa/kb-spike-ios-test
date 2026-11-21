@@ -5,7 +5,7 @@ schema_list:
   - schema: pinyin_simp
 
 menu:
-  page_size: 5
+  page_size: 10
 
 punctuator:
   full_shape:
