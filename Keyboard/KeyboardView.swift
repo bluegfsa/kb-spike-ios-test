@@ -36,7 +36,7 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
     private var layoutMode: KeyboardLayoutMode = .letters
 
     private let topBar = KeyboardTopBar()
-    private let rowsStack = KeyGridView()
+    private let rowsStack = UIStackView()
     private let diagLabel = UILabel()            // ⚠️ 临时诊断浮层（测试取证包）
     private weak var diagHitView: UIView?         // 最近一次真实触摸 hitTest 命中视图
     private lazy var settingsPanel = KeyboardSettingsPanel()
@@ -103,12 +103,13 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
         var nearestD = CGFloat.greatestFiniteMagnitude
         var nearestFrame = CGRect.zero
         for k in keys {
-            let f = k.convert(k.bounds, to: self)
-            if f.contains(p) { insideKey = k.title(for: .normal) ?? "?" }
-            let dx = max(max(f.minX - p.x, 0), p.x - f.maxX)
-            let dy = max(max(f.minY - p.y, 0), p.y - f.maxY)
+            let cellF = k.convert(k.bounds, to: self)
+            let vf: CGRect = (k.viewWithTag(9001).map { $0.convert($0.bounds, to: self) }) ?? cellF
+            if vf.contains(p) { insideKey = k.title(for: .normal) ?? "?" }
+            let dx = max(max(vf.minX - p.x, 0), p.x - vf.maxX)
+            let dy = max(max(vf.minY - p.y, 0), p.y - vf.maxY)
             let d = dx * dx + dy * dy
-            if d < nearestD { nearestD = d; nearestT = k.title(for: .normal) ?? "?"; nearestFrame = f }
+            if d < nearestD { nearestD = d; nearestT = k.title(for: .normal) ?? "?"; nearestFrame = vf }
         }
         var over: [String] = []
         for v in subviews where v !== diagLabel {
@@ -189,13 +190,10 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
     }
 
     private func setupRows() {
+        // 方案 A′：rowsStack 铺满整个键区全宽全高；行距/键距/切点格交给 CellRowView 处理。
         rowsStack.axis = .vertical; rowsStack.isMultipleTouchEnabled = true
-        rowsStack.spacing = rowGap
-        rowsStack.distribution = .fillEqually
-        // 整层判键(KeyGridView)铺满整个键区全宽全高：靠 layoutMargins 保住视觉内边距（键宽/键位不变），
-        // 这样行两侧空白（a 左 / l 右，含最外侧到屏幕边）与行间纵向缝都落在判键层内，点哪都归最近键。
-        rowsStack.isLayoutMarginsRelativeArrangement = true
-        rowsStack.layoutMargins = UIEdgeInsets(top: rowsTopGap, left: keyGap, bottom: rowsBottomPad, right: keyGap)
+        rowsStack.spacing = 0
+        rowsStack.distribution = .fill
         rowsStack.translatesAutoresizingMaskIntoConstraints = false
         addSubview(rowsStack)
         NSLayoutConstraint.activate([
@@ -209,14 +207,24 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
     private func setLayoutMode(_ mode: KeyboardLayoutMode) {
         layoutMode = mode
         rowsStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        let rows: [UIView]
+        let rows: [CellRowView]
         switch mode {
         case .letters:
             rows = [makeLetterRow("qwertyuiop", sideInset: 3), makeLetterRow("asdfghjkl", sideInset: 20, spacing: 5), makeHomeEdgeRow(), makeBottomRow()]
         case .symbols:
             rows = [makeSymbolRow("1234567890"), makeSymbolRow("-/:;()$&@\""), makeSymbolEdgeRow(), makeBottomRow()]
         }
-        rows.forEach { rowsStack.addArrangedSubview($0) }
+        // 行高/上下内缩：首行上含 rowsTopGap、末行下含 rowsBottomPad、其余对称 rowGap/2 → 可见键高=41、行距=13、总高不变
+        let midH = keyHeight + rowGap
+        let heights: [CGFloat] = [keyHeight + rowsTopGap + rowGap / 2, midH, midH, keyHeight + rowGap / 2 + rowsBottomPad]
+        let vInsets: [(CGFloat, CGFloat)] = [(rowsTopGap, rowGap / 2), (rowGap / 2, rowGap / 2), (rowGap / 2, rowGap / 2), (rowGap / 2, rowsBottomPad)]
+        for (i, r) in rows.enumerated() {
+            r.translatesAutoresizingMaskIntoConstraints = false
+            r.visualTop = vInsets[i].0
+            r.visualBottom = vInsets[i].1
+            rowsStack.addArrangedSubview(r)
+            r.heightAnchor.constraint(equalToConstant: heights[i]).isActive = true
+        }
     }
 
     func showLetters() { setLayoutMode(.letters) } // 强制回字母键盘（#13）
@@ -227,41 +235,35 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
         returnKeyButton?.setTitle(title, for: .normal)
     }
 
-    private func makeRow() -> UIStackView {
-        let row = UIStackView()
-        row.axis = .horizontal; row.isMultipleTouchEnabled = true
+    private func makeRow() -> CellRowView {
+        let row = CellRowView()
         row.spacing = keyGap
-        row.distribution = .fillEqually
-        row.alignment = .fill
         return row
     }
 
-    private func makeLetterRow(_ letters: String, sideInset: CGFloat = 0, spacing: CGFloat? = nil) -> UIStackView {
+    private func makeLetterRow(_ letters: String, sideInset: CGFloat = 0, spacing: CGFloat? = nil) -> CellRowView {
         let row = makeRow()
-        if sideInset > 0 { // #3 苹果式倒三角：本行左右留白、键更紧
-            row.isLayoutMarginsRelativeArrangement = true
-            row.layoutMargins = UIEdgeInsets(top: 0, left: sideInset, bottom: 0, right: sideInset)
-        }
+        row.sideInset = sideInset // #3 苹果式倒三角：本行左右留白、最外格吸收该边距
         if let spacing { row.spacing = spacing }
         for ch in letters {
-            row.addArrangedSubview(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)", bubble: true) { [weak self] in
+            row.addKey(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)", bubble: true) { [weak self] in
                 self?.handleLetterTap(ch)
             })
         }
         return row
     }
 
-    private func makeSymbolRow(_ symbols: String) -> UIStackView {
+    private func makeSymbolRow(_ symbols: String) -> CellRowView {
         let row = makeRow()
         for ch in symbols {
-            row.addArrangedSubview(makeKey(String(ch), font: 20, kind: .function, accessibility: "符号 \(ch)") { [weak self] in
+            row.addKey(makeKey(String(ch), font: 20, kind: .function, accessibility: "符号 \(ch)") { [weak self] in
                 self?.onKeyText?(String(ch))
             })
         }
         return row
     }
 
-    private func makeHomeEdgeRow() -> UIStackView {
+    private func makeHomeEdgeRow() -> CellRowView {
         let row = makeRow()
         let shift = ShiftKeyButton(frame: .zero) // #4 自绘⇧：空心↔实心，锁定时横杠也实心
         shift.shiftState = isCapsLocked ? .caps : (isShiftActive ? .shift : .off); shift.accessibilityLabel = "上档"
@@ -283,52 +285,44 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
             }
             self.setLayoutMode(.letters)
         }
-        row.addArrangedSubview(shift)
+        row.addKey(shift, weight: 1.15) // #3 ⇧/⌫ 1.15×，把宽度让给字母键
         for ch in "zxcvbnm" {
-            row.addArrangedSubview(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)", bubble: true) { [weak self] in
+            row.addKey(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)", bubble: true) { [weak self] in
                 self?.handleLetterTap(ch)
             })
         }
-        row.addArrangedSubview(makeBackspaceKey())
-        // #3 两边功能键(⇧/⌫)收窄到 1.15，把宽度让给字母键（仿 iOS 原生留白）
-        row.distribution = .fill
-        let ks = row.arrangedSubviews
-        if ks.count > 2 {
-            for k in ks.dropFirst().dropLast() { k.widthAnchor.constraint(equalTo: ks[1].widthAnchor).isActive = true }
-            ks.first?.widthAnchor.constraint(equalTo: ks[1].widthAnchor, multiplier: 1.15).isActive = true
-            ks.last?.widthAnchor.constraint(equalTo: ks[1].widthAnchor, multiplier: 1.15).isActive = true
-        }
+        row.addKey(makeBackspaceKey(), weight: 1.15)
         return row
     }
 
-    private func makeSymbolEdgeRow() -> UIStackView {
+    private func makeSymbolEdgeRow() -> CellRowView {
         let row = makeRow()
         let toggleTitle = punctuationFullWidth ? "，。" : ",."
-        row.addArrangedSubview(makeKey(toggleTitle, font: 15, kind: .function, accessibility: "标点全半角切换") { [weak self] in
+        row.addKey(makeKey(toggleTitle, font: 15, kind: .function, accessibility: "标点全半角切换") { [weak self] in
             self?.onTogglePunctuation?()
         })
         for i in 0..<KeyboardLogic.punctFull.count {
             let glyph = KeyboardLogic.punctuationGlyph(fullWidth: punctuationFullWidth, index: i)
-            row.addArrangedSubview(makeKey(glyph, font: 20, kind: .function, accessibility: "标点 \(glyph)") { [weak self] in
+            row.addKey(makeKey(glyph, font: 20, kind: .function, accessibility: "标点 \(glyph)") { [weak self] in
                 self?.onKeyText?(glyph)
             })
         }
-        row.addArrangedSubview(makeBackspaceKey())
+        row.addKey(makeBackspaceKey())
         return row
     }
 
-    private func makeBottomRow() -> UIStackView {
+    private func makeBottomRow() -> CellRowView {
         let row = makeRow()
         if layoutMode == .letters {
-            row.addArrangedSubview(makeKey("123", font: 15, kind: .function, accessibility: "数字符号键盘") { [weak self] in
+            row.addKey(makeKey("123", font: 15, kind: .function, accessibility: "数字符号键盘") { [weak self] in
                 self?.setLayoutMode(.symbols)
             })
         } else {
-            row.addArrangedSubview(makeKey("←", font: 20, kind: .function, accessibility: "返回字母键盘") { [weak self] in
+            row.addKey(makeKey("←", font: 20, kind: .function, accessibility: "返回字母键盘") { [weak self] in
                 self?.setLayoutMode(.letters)
             })
         }
-        row.addArrangedSubview(makeKey(isChinese ? "空格" : "space", font: 15, kind: .function, accessibility: "空格") { [weak self] in
+        row.addKey(makeKey(isChinese ? "空格" : "space", font: 15, kind: .function, accessibility: "空格") { [weak self] in
             self?.onSpace?()
         })
         let modeButton = ModeToggleButton(frame: .zero)
@@ -336,12 +330,12 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
         modeButton.configure(isChinese: isChinese)
         modeButton.accessibilityLabel = "切换中英文"
         modeKeyButton = modeButton
-        row.addArrangedSubview(modeButton)
+        row.addKey(modeButton)
         let returnKey = makeKey(returnKeyTitle, font: 15, kind: .function, accessibility: "回车") { [weak self] in
             self?.onReturn?()
         }
         returnKeyButton = returnKey
-        row.addArrangedSubview(returnKey)
+        row.addKey(returnKey)
         return row
     }
 

@@ -140,12 +140,6 @@ final class ModeToggleButton: UIButton {
             .foregroundColor: isChinese ? KBColor.inactiveLang : KBColor.activeLang]))
         setAttributedTitle(s, for: .normal)
     }
-
-    /// UIButton 是否开始跟踪用 point(inside:)：放宽到接受「就近判键」派来的越界点（缝隙/边距），否则 touchUpInside 不触发。
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        if bounds.contains(point) { return true }
-        return bounds.insetBy(dx: -48, dy: -32).contains(point)
-    }
 }
 
 /// 带闭包的按钮（UIButton 不支持 target/action 直接闭包）。#10 按下弹按键预览气泡（仅字母键）。
@@ -188,14 +182,6 @@ final class ClosureButton: UIButton {
     }
 
     @objc private func hidePreview() { KeyBubble.shared.hide(ifOwner: self) }
-
-    /// UIButton(UIControl) 判断是否开始跟踪用的是按键自己的 point(inside:)：必须放宽到接受
-    /// 「KeyGridView 就近判键」派过来的越界点（缝隙/行侧边距），否则 .touchDown 不触发 → 缝里不上字。
-    /// 这正是 1.47“只 return 最近键、按钮仍按默认 bounds 拒绝越界点”导致缝里不上字的根因。
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        if bounds.contains(point) { return true }
-        return bounds.insetBy(dx: -48, dy: -32).contains(point)
-    }
 }
 
 /// 横向可点热区可外扩的容器（候选词条用）：左右各扩半缝拼满无缝；
@@ -206,37 +192,6 @@ final class HitExpandView: UIView {
         if bounds.contains(point) { return true }
         guard hitExpandX > 0 else { return false }
         return bounds.insetBy(dx: -hitExpandX, dy: 0).contains(point)
-    }
-}
-
-/// 键区整层按坐标就近判键：落在按键之间缝隙（横/纵）里的触点，命中最近的键，拼满无缝。
-/// 直接返回真实按键视图 → 保留长按删除等手势、气泡、多指；候选条/顶栏不在本层（横滑不受影响）。
-final class KeyGridView: UIStackView {
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        guard self.point(inside: point, with: event) else { return nil }
-        let keys = keyControls()
-        // 1) 正好落在某个键内：交给该键本身（长按删除/气泡/多指都走原逻辑）
-        for k in keys where k.bounds.contains(k.convert(point, from: self)) {
-            return k
-        }
-        // 2) 落在缝隙：取「到键矩形距离最近」的键（横缝纵缝都盖，缝隙落点归最近键）
-        var best: UIButton?
-        var bestD = CGFloat.greatestFiniteMagnitude
-        for k in keys {
-            let local = k.convert(point, from: self)
-            let dx = max(max(k.bounds.minX - local.x, 0), local.x - k.bounds.maxX)
-            let dy = max(max(k.bounds.minY - local.y, 0), local.y - k.bounds.maxY)
-            let d = dx * dx + dy * dy
-            if d < bestD { bestD = d; best = k }
-        }
-        return best ?? super.hitTest(point, with: event)
-    }
-    /// 收集本网格内所有按键（ClosureButton/ShiftKeyButton/ModeToggleButton 均为 UIButton）。
-    private func keyControls() -> [UIButton] {
-        var out: [UIButton] = []
-        func walk(_ v: UIView) { for s in v.subviews { if let b = s as? UIButton { out.append(b) } else { walk(s) } } }
-        walk(self)
-        return out
     }
 }
 
@@ -282,12 +237,6 @@ final class ShiftKeyButton: UIButton {
         setImage(UIImage(systemName: name, withConfiguration: cfg), for: .normal)
         tintColor = KBColor.keyText
         capsBar.isHidden = (shiftState != .caps)
-    }
-
-    /// 同 ClosureButton：放宽 point(inside:) 接受就近判键派来的越界点，否则 touchUpInside 不触发。
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        if bounds.contains(point) { return true }
-        return bounds.insetBy(dx: -48, dy: -32).contains(point)
     }
 }
 
