@@ -21,6 +21,12 @@ static NSString *KBSHA256File(NSString *path) {
     return s;
 }
 
+/// 取文件 SHA-256 前 8 位（用于部署版本号）；文件缺失返回空串。
+static NSString *KBSha8(NSString *path) {
+    NSString *s = KBSHA256File(path);
+    return s.length >= 8 ? [s substringToIndex:8] : s;
+}
+
 /// 从扩展 bundle 取资源文件，复制到可写 shared 目录。
 static BOOL KBCopyResource(NSString *name, NSString *ext, NSString *dstDir) {
     NSString *p = [[NSBundle mainBundle] pathForResource:name ofType:ext];
@@ -107,12 +113,13 @@ BOOL RimeKbInit(NSString *sharedDir, NSString *userDir) {
                                  @"key_bindings", @"punctuation", @"symbols"];
     for (NSString *n in yml) { KBCopyIfNeeded(n, @"yaml", sharedDir); }
 
-    // 部署版本号与「拼音词典内容的 SHA」绑定：词库一改，版本即变，强制重部署。
-    // 不再写死 "v1"——避免同一 userDir 跨装包时 marker 一直是 v1、换库也不重编译。
+    // 部署版本号绑定「词典 + default.yaml + schema」三者的 SHA：任一变更（含 page_size 等
+    // 部署期配置）都会变版本，强制重部署——避免只改 default.yaml（如 page_size）但不重编译而白改。
     NSString *dictPath = [sharedDir stringByAppendingPathComponent:@"pinyin_simp.dict.yaml"];
-    NSString *dictSha = KBSHA256File(dictPath);
-    NSString *dictSha8 = dictSha.length >= 8 ? [dictSha substringToIndex:8] : dictSha;
-    NSString *deployVer = [NSString stringWithFormat:@"v2-%@", dictSha8];
+    NSString *defPath = [sharedDir stringByAppendingPathComponent:@"default.yaml"];
+    NSString *schemaPath = [sharedDir stringByAppendingPathComponent:@"pinyin_simp.schema.yaml"];
+    NSString *deployVer = [NSString stringWithFormat:@"v3-%@-%@-%@",
+                           KBSha8(dictPath), KBSha8(defPath), KBSha8(schemaPath)];
 
     RimeTraits traits; memset(&traits, 0, sizeof(traits));
     traits.data_size = (int)sizeof(RimeTraits);
