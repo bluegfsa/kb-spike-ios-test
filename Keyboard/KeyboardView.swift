@@ -239,15 +239,16 @@ final class KeyboardView: UIView {
                 self?.setLayoutMode(.letters)
             })
         }
-        row.addKey(makeKey(isChinese ? "空格" : "space", font: 15, kind: .function, accessibility: "空格") { [weak self] in
-            self?.onSpace?()
-        })
+        // 1.62：底行「中英切换」与「空格」整块对调 —— 顺序 123 → 中英 → 空格 → 回车，宽度/缝色/可点均不变
         let modeButton = ModeToggleButton(frame: .zero)
         modeButton.addTarget(self, action: #selector(toggleModeTapped), for: .touchUpInside)
         modeButton.configure(isChinese: isChinese)
         modeButton.accessibilityLabel = "切换中英文"
         modeKeyButton = modeButton
         row.addKey(modeButton)
+        row.addKey(makeKey(isChinese ? "空格" : "space", font: 15, kind: .function, accessibility: "空格") { [weak self] in
+            self?.onSpace?()
+        })
         let returnKey = makeKey(returnKeyTitle, font: 15, kind: .function, accessibility: "回车") { [weak self] in
             self?.onReturn?()
         }
