@@ -108,7 +108,7 @@ final class KeyboardView: UIView {
         rowsStack.axis = .vertical; rowsStack.isMultipleTouchEnabled = true
         rowsStack.spacing = 0
         rowsStack.distribution = .fill
-        rowsStack.backgroundColor = C2RowView.separator
+        rowsStack.backgroundColor = KBColor.background // 外圈留白露键盘底色（非深色条）
         rowsStack.translatesAutoresizingMaskIntoConstraints = false
         addSubview(rowsStack)
         NSLayoutConstraint.activate([

@@ -47,8 +47,9 @@ final class C2RowView: UIView {
         let dV = max(0, ((visualTop + visualBottom) - 1.5) / 2)
         for i in 0..<n {
             let v = vis[i]
-            let cellL = i == 0 ? 0 : (vis[i - 1].maxX + v.minX) / 2
-            let cellR = i == n - 1 ? W : (v.maxX + vis[i + 1].minX) / 2
+            // 外壳裁到「首键左沿…末键右沿」：外圈留白（row2 两侧 20pt 等）不铺深色、露键盘底色、不可点（同 iOS/微信内缩）
+            let cellL = i == 0 ? v.minX : (vis[i - 1].maxX + v.minX) / 2
+            let cellR = i == n - 1 ? v.maxX : (v.maxX + vis[i + 1].minX) / 2
             let btn = entries[i].button
             btn.frame = CGRect(x: cellL, y: 0, width: max(0, cellR - cellL), height: H)
             btn.backgroundColor = C2RowView.separator
@@ -67,19 +68,16 @@ final class C2RowView: UIView {
                 card.clipsToBounds = true
                 btn.insertSubview(card, at: 0)
             }
-            // 水平：内部对称放大；边缘键朝屏边外扩到 0.75pt（填满侧边，不留厚深色条）
-            var cardMinX = v.minX - dH
-            var cardMaxX = v.maxX + dH
-            if i == 0 { cardMinX = 0.75 }
-            if i == n - 1 { cardMaxX = W - 0.75 }
+            // 白卡：内部键缝对称放大到≈1.5；边缘键朝外留白那侧不越出键沿（外留白露键盘底、不可点）
+            let cardMinX = i == 0 ? v.minX : v.minX - dH
+            let cardMaxX = i == n - 1 ? v.maxX : v.maxX + dH
             let cardRect = CGRect(x: cardMinX, y: v.minY - dV,
                                   width: max(0, cardMaxX - cardMinX), height: visH + 2 * dV)
             card.frame = CGRect(x: cardRect.minX - cellL, y: cardRect.minY,
                                 width: cardRect.width, height: cardRect.height)
-            // 内容（字母/中英/⇧图标）居中到白卡中心（≈1.49 键心 v.midX），而非外壳格心 → 边缘键字不被带偏
+            // 内容居中到 1.49 键心 v.midX（边缘键字不被外壳/留白带偏）
             let cellCenterX = (cellL + cellR) / 2
-            let cardCenterX = (cardMinX + cardMaxX) / 2
-            let dx = cardCenterX - cellCenterX
+            let dx = v.midX - cellCenterX
             let dy = (v.minY + visH / 2) - H / 2
             let insets = UIEdgeInsets(top: max(0, dy * 2), left: max(0, dx * 2),
                                       bottom: max(0, -dy * 2), right: max(0, -dx * 2))
