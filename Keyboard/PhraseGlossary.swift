@@ -15,6 +15,7 @@ enum PhraseGlossary {
         "你在干什么": "What are you doing", "你在做什么": "What are you doing", "你在干嘛": "What are you doing", "你干什么": "What are you doing",
         "我在干什么": "What am I doing", "我在做什么": "What am I doing", "我在干嘛": "What am I doing", "我在干嘛呢": "What am I doing",
         "我不回家": "I'm not going home", "我在家": "I'm at home", "我在吃饭": "I'm eating", "我在忙": "I'm busy",
+        "他在家": "he is at home", "我是学生": "I am a student", "我们在吃饭": "we are eating",
         "好的": "OK", "谢谢大家": "Thank you all",
         "一路顺风": "Have a good trip", "辛苦了": "Thanks for your hard work", "加油": "Cheer up",
         "无聊": "boring", "什么意思": "What does it mean", "怎么回事": "What happened",

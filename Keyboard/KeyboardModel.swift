@@ -168,11 +168,17 @@ final class KeyboardModel: KeyboardModeling {
             }
             if !matched { i += 1 } // 该字无译，跳过继续
         }
-        // 护栏（BUG-8a）：拼出多段且含代词/系词碎片（I am …）视为硬拼错义 → 宁缺毋滥，返回 nil 不硬拼
+        // 护栏（BUG-8a，已收窄）：仅当多段里出现「疑问残片」(what/where/who/why/how/when/which)
+        // 或原句含疑问标记（什么/哪/谁/为什么/怎么/多少/吗/呢）时判为硬拼错义 → 返回 nil；
+        // 代词/系词（i/you/am/is/are）是合法成分，绝不因它们返回 nil（否则正常句被误杀）。
         if parts.count > 1 {
-            let frag = Set(parts.map { $0.lowercased() })
-            let bad: Set<String> = ["i", "i am", "you", "you are", "he", "she", "it", "we", "they", "am", "is", "are"]
-            if !frag.isDisjoint(with: bad) { return nil }
+            var toks = Set<String>()
+            for p in parts {
+                for w in p.lowercased().split(whereSeparator: { !$0.isLetter }) { toks.insert(String(w)) }
+            }
+            let qfrag: Set<String> = ["what", "where", "who", "why", "how", "when", "which"]
+            let qmarks = ["什么", "哪", "谁", "为什么", "怎么", "多少", "吗", "呢"]
+            if !toks.isDisjoint(with: qfrag) || qmarks.contains(where: { term.contains($0) }) { return nil }
         }
         return parts.isEmpty ? nil : parts.joined(separator: " ")
     }
