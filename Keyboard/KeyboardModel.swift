@@ -154,27 +154,36 @@ final class KeyboardModel: KeyboardModeling {
         return nil
     }
 
-    /// 是非问句 / 进行体模板：
-    ///  - 代词+在+动词(宾语) → "{Pe} is {v-ing} {obj}"（如 他在吃葡萄→he is eating grapes）
-    ///  - 代词+动词(宾语)+(了)吗/呢 → "Did {Pe} {verb}?"（如 你吃饭了吗→Did you eat?）
-    /// 目的：不让含“吗/呢”的常见整句被护栏整句吞掉。
+    /// 问句/进行体/过去式模板：
+    ///  - 代词+在+动词(宾语) → "{Pe} is {v-ing} {obj}"（他在吃葡萄→he is eating grapes）
+    ///  - 代词+动词(宾语)+吗/呢 → "Did {Pe} {verb}?"（你吃饭了吗→Did you eat?）
+    ///  - 代词+动词(宾语)+了（陈述）→ "{Pe} {past}"（我吃饭了→I ate，他去了→he went）
+    /// 仅「吗/呢」结尾才走疑问；「了」结尾按陈述过去式，不套疑问。
     private func templateZhQuestion(_ term: String) -> String? {
+        let prons = ["我们", "你们", "他们", "她们", "我", "你", "您", "他", "她", "它"]
         let pronMap: [String: String] = ["我们": "we", "你们": "you", "他们": "they", "她们": "they",
                                           "我": "I", "你": "you", "您": "you", "他": "he", "她": "she", "它": "it"]
         var core = term
-        for s in ["了吗", "吗", "呢", "了"] where core.hasSuffix(s) { core = String(core.dropLast(s.count)); break }
+        var isQuestion = false
+        for s in ["吗", "呢"] where core.hasSuffix(s) { core = String(core.dropLast(s.count)); isQuestion = true; break }
+        var hadLe = false
+        if core.hasSuffix("了") { core = String(core.dropLast(1)); hadLe = true }
         let progressive: [String: String] = ["吃葡萄": "eating grapes", "吃水果": "eating fruit", "吃饭": "eating",
                                               "喝水": "drinking water", "看书": "reading a book", "看电视": "watching TV",
                                               "做作业": "doing homework", "做饭": "cooking", "写作业": "doing homework", "玩手机": "playing on the phone"]
         let yesno: [String: String] = ["吃饭": "eat", "吃": "eat", "喝水": "drink", "喝": "drink", "去": "go",
                                         "看": "look", "做": "do", "买": "buy", "睡": "sleep", "走": "walk", "来": "come"]
-        for (p, pe) in pronMap where core.hasPrefix(p) {
+        let past: [String: String] = ["吃饭": "ate", "吃": "ate", "喝水": "drank", "喝": "drank", "去": "went",
+                                       "看": "looked", "做": "did", "买": "bought", "睡": "slept", "走": "walked", "来": "came"]
+        for p in prons where core.hasPrefix(p) {
+            let pe = pronMap[p] ?? "it"
             let rest = String(core.dropFirst(p.count))
             if rest.hasPrefix("在") {
                 let vp = String(rest.dropFirst())
                 if let v = progressive[vp] { return "\(pe) is \(v)" }
             }
-            if let v = yesno[rest] { return "Did \(pe) \(v)?" }
+            if isQuestion, let v = yesno[rest] { return "Did \(pe) \(v)?" }
+            if !isQuestion, hadLe, let v = past[rest] { return "\(pe) \(v)" }
         }
         return nil
     }
@@ -220,7 +229,10 @@ final class KeyboardModel: KeyboardModeling {
                 for w in p.lowercased().split(whereSeparator: { !$0.isLetter }) { toks.insert(String(w)) }
             }
             let qfrag: Set<String> = ["what", "where", "who", "why", "how", "when", "which"]
+            let qmarks = ["吗", "呢"]
             if !toks.isDisjoint(with: qfrag) { return nil }
+            // 表外疑问句（含 吗/呢 且没被模板/短语命中）→ 宁返回 nil，不硬拼出错义
+            if qmarks.contains(where: { term.contains($0) }) { return nil }
         }
         return parts.isEmpty ? nil : parts.joined(separator: " ")
     }
