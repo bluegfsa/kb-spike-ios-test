@@ -19,6 +19,11 @@ final class KeyboardViewController: UIInputViewController {
 #endif
     private var returnKeyTimer: Timer?
 
+    /// ⚠️ 临时探针：用 ProbeRootView 作扩展根视图，记录 ROOTⓘ 命中/覆盖矩形（正式包前删除）。
+    override func loadView() {
+        self.view = ProbeRootView()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // #8（微信输入法同款）：自己做「半透明底」不依赖采壁纸（UI v0.8：浅 #F2F3F5 / 深 #1C1C1E，alpha 0.88）；

@@ -1,52 +1,53 @@
 import UIKit
 
-/// ⚠️ 临时屏内诊断（仅测试取证包，定位「点键缝为何不上字」后必须整文件删除；正式包前 enabled=false 并删本文件）。
-/// 点一下键盘，底部浮层显示：
-///  tap(x,y) / hitTest 命中类名 + superview 链 / 命中视图 isUserInteractionEnabled·hidden·alpha·frame /
-///  纯几何(是否在键区、是否在某键内、最近键与距离) / 计数(pressDown 触发数、handleKeyText 处理数) /
-///  点上方直接子视图 z 序(带交互属性) / 最近键可见 frame / 键区 frame。
+/// ⚠️ 临时屏内诊断（仅「缝触摸探针包」，定位根因后整文件删除；正式包前 enabled=false 并删本文件）。
+/// 探针目标：钉死"空白区触摸到底进没进扩展、进到哪一层"。全部走屏内浮层（本机取不到 os_log）：
+///  - 常驻两行：ROOT.screen / KV.screen —— 根视图/键区根在 window 的覆盖矩形（不靠点击也能看）；
+///  - 最近 6 条命中日志：前缀 ROOTⓘ / KVⓘ / KTL✓，同点去重（hitTest 每次移动都调，不去重会刷屏）；
+///  - 一行几何：最近键＋其 visualFrame＋rowsStack/KeyboardView 的 clipsToBounds。
 final class KBDiagnostics {
     static let shared = KBDiagnostics()
     /// 定案出正式包前必须置 false 并删除本文件。
     static let enabled = true
 
-    /// UIControl .touchDown 触发次数（ClosureButton.pressDown 里累加）。
-    private(set) var pressDownCount = 0
-    /// 按键上字链路被处理次数（KeyboardViewController.handleKeyText 里累加）。
-    private(set) var handledCount = 0
-
-    weak var hitView: UIView?
-    var hitClassName = "-"
-    var lastPoint: CGPoint = .zero
     weak var label: UILabel?
 
-    func bumpPressDown() { pressDownCount += 1 }
-    func bumpHandled() { handledCount += 1 }
+    /// 根视图在 window 的覆盖矩形（ProbeRootView.layoutSubviews 更新）。
+    var rootScreen = "-"
+    /// 键区根在 window 的覆盖矩形（KeyboardView.layoutSubviews 更新）。
+    var kvScreen = "-"
+    /// 最近一次 KTL 触摸处的几何摘要（KeyboardView 计算）。
+    private var geometry = "-"
+    /// 最近命中日志，最多 6 条。
+    private var logs: [String] = []
 
-    /// 刷新浮层文本；extra 为几何/遮挡等附加行。
-    func report(extra: [String]) {
+    /// 追加一条命中日志：同点(整行相同)去重，只留最近 6 条。
+    func log(_ line: String) {
+        guard Self.enabled else { return }
+        logs.removeAll { $0 == line } // 同点去重（含非相邻重复）
+        logs.append(line)
+        if logs.count > 6 { logs.removeFirst(logs.count - 6) }
+        refresh()
+    }
+
+    /// 设置最近键几何摘要并刷新。
+    func setGeometry(_ text: String) {
+        geometry = text
+        refresh()
+    }
+
+    /// 刷新浮层文本。
+    func refresh() {
         guard Self.enabled else { return }
         var lines: [String] = []
-        lines.append(String(format: "tap(%.0f,%.0f) hit=%@", lastPoint.x, lastPoint.y, hitClassName))
-        // superview 链
-        var chain: [String] = []
-        var v = hitView
-        while let cur = v {
-            chain.append(String(describing: type(of: cur)))
-            if cur is UIWindow { break }
-            v = cur.superview
-        }
-        lines.append("chain=" + (chain.isEmpty ? "-" : chain.joined(separator: ">")))
-        if let hv = hitView, let win = hv.window {
-            let f = hv.convert(hv.bounds, to: win)
-            lines.append(String(format: "hit.ui=%d hid=%d a=%.2f f=(%.0f,%.0f,%.0f,%.0f)",
-                                hv.isUserInteractionEnabled ? 1 : 0, hv.isHidden ? 1 : 0, hv.alpha,
-                                f.origin.x, f.origin.y, f.size.width, f.size.height))
-        } else {
-            lines.append("hit.ui=? (no view/window)")
-        }
-        lines.append("cnt: down=\(pressDownCount) handled=\(handledCount)")
-        lines.append(contentsOf: extra)
+        lines.append("ROOT.screen=" + rootScreen)
+        lines.append("KV.screen=" + kvScreen)
+        lines.append(contentsOf: logs)
+        lines.append("geo=" + geometry)
         label?.text = lines.joined(separator: "\n")
     }
+
+    // 兼容旧调用点（ClosureButton.pressDown / VC.handleKeyText 仍调用），探针阶段不计数。
+    func bumpPressDown() {}
+    func bumpHandled() {}
 }
