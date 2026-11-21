@@ -128,11 +128,27 @@ final class KeyboardModel: KeyboardModeling {
         guard let cd = cedict, !term.isEmpty else { return nil }
         if zh2en {
             if let p = PhraseGlossary.en(term) { return p }
+            if let t = templateZh(term) { return t }
             if let e = cd.exact(term, zh2en: true) { return e }
             return segmentZh(term, cd)
         } else {
             return cd.exact(term.lowercased(), zh2en: false)
         }
+    }
+
+    /// 高频「代词+在+动作」疑问模板：如 我在干什么→What am I doing，避免被硬拼成 I am what are you doing。
+    private func templateZh(_ term: String) -> String? {
+        let pronMap: [String: String] = ["我": "I", "你": "you", "您": "you", "他": "he", "她": "she", "它": "it",
+                                          "我们": "we", "你们": "you", "他们": "they", "她们": "they"]
+        let beMap: [String: String] = ["我": "am", "你": "are", "您": "are", "他": "is", "她": "is", "它": "is",
+                                        "我们": "are", "你们": "are", "他们": "are", "她们": "are"]
+        let actions = ["干什么", "做什么", "干嘛呢", "干嘛", "干啥", "做啥"]
+        for (p, pe) in pronMap {
+            for a in actions where term == p + "在" + a {
+                return "What \(beMap[p] ?? "is") \(pe) doing"
+            }
+        }
+        return nil
     }
 
     /// 贪心最长匹配分词：把 term 从左往右切成若干已知词，各自取英译并用空格拼接。
@@ -151,6 +167,12 @@ final class KeyboardModel: KeyboardModeling {
                 j -= 1
             }
             if !matched { i += 1 } // 该字无译，跳过继续
+        }
+        // 护栏（BUG-8a）：拼出多段且含代词/系词碎片（I am …）视为硬拼错义 → 宁缺毋滥，返回 nil 不硬拼
+        if parts.count > 1 {
+            let frag = Set(parts.map { $0.lowercased() })
+            let bad: Set<String> = ["i", "i am", "you", "you are", "he", "she", "it", "we", "they", "am", "is", "are"]
+            if !frag.isDisjoint(with: bad) { return nil }
         }
         return parts.isEmpty ? nil : parts.joined(separator: " ")
     }
