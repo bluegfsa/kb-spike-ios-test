@@ -53,10 +53,18 @@ static BOOL KBCopyIfNeeded(NSString *name, NSString *ext, NSString *dstDir) {
 /// 改部署版本时必须清，否则 marker 变了但旧 bin 仍在，增量维护可能不重建。
 static void KBClearRimeBuild(NSString *dir) {
     NSFileManager *fm = [NSFileManager defaultManager];
+    // 1) 旧部署编译产物（build/staging）
     NSArray<NSString *> *subdirs = @[@"build", @"staging"];
     for (NSString *sd in subdirs) {
         NSString *d = [dir stringByAppendingPathComponent:sd];
         [fm removeItemAtPath:d error:nil];
+    }
+    // 2) 学习缓存 userdb（* .userdb / userdb）——避免历史选中把低频词置顶造成假性排序
+    NSArray<NSString *> *items = [fm contentsOfDirectoryAtPath:dir error:nil];
+    for (NSString *it in items) {
+        if ([it hasSuffix:@".userdb"] || [it isEqualToString:@"userdb"]) {
+            [fm removeItemAtPath:[dir stringByAppendingPathComponent:it] error:nil];
+        }
     }
 }
 
