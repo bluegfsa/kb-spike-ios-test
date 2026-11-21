@@ -7,14 +7,15 @@ enum KeyboardLayoutMode {
 }
 
 /// 纯 UIKit 键盘视图：顶部功能条（KeyboardTopBar）＋四行键；高度自适应；配色/按钮见 KeyboardViewStyle.swift。
+/// 【C2 实验·口径A】行用 C2RowView：外壳满格深色相接＋内部圆角白卡（以 1.49 键心对称放大到≈1.5pt 缝），触摸走真实按钮。
 final class KeyboardView: UIView {
     // 尺寸
-    private let keyHeight: CGFloat = 41     // ④ 键高 44→41（对齐微信/iOS，几乎无差）
-    private let keyGap: CGFloat = 6      // 水平键距
-    private let rowGap: CGFloat = 13     // 行间距 12→13（键块 4×41+3×13=203=微信/iOS）
+    private let keyHeight: CGFloat = 41     // ④ 键高 41（对齐微信/iOS）
+    private let keyGap: CGFloat = 6      // 水平键距（1.49 口径：供 C2RowView 计算白卡放大）
+    private let rowGap: CGFloat = 13     // 行间距（1.49 口径）
     private let keyCorner: CGFloat = 6
     private let rowCount = 4
-    private let rowsTopGap: CGFloat = 6    // 顶栏→首行间距（总高 44+6+203+4+34≈291，对齐微信/iOS）
+    private let rowsTopGap: CGFloat = 6
     private let rowsBottomPad: CGFloat = 4
     private enum KeyKind { case letter, function }
 
@@ -36,19 +37,17 @@ final class KeyboardView: UIView {
     private var layoutMode: KeyboardLayoutMode = .letters
 
     private let topBar = KeyboardTopBar()
-    private let rowsStack = KeyGridView()
+    private let rowsStack = UIStackView()
     private lazy var settingsPanel = KeyboardSettingsPanel()
     private weak var modeKeyButton: ModeToggleButton?
     private weak var returnKeyButton: ClosureButton?
-    /// 回车键标题，随宿主 App 的 returnKeyType 变（#15/规格 §D·§G2），默认换行。
     private var returnKeyTitle = "换行"
 
-    // 长按连删（#14）
     private var deleteTimer: Timer?
     private var deleteInterval: TimeInterval = 0.12
 
     override init(frame: CGRect) {
-        super.init(frame: frame); isMultipleTouchEnabled = true // BUG-2 多指同按不丢键
+        super.init(frame: frame); isMultipleTouchEnabled = true
         backgroundColor = KBColor.background
         setupTopBar()
         setupRows()
@@ -57,7 +56,7 @@ final class KeyboardView: UIView {
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    /// 键盘总高（内容＋底部安全区），供 VC 设高度约束。
+    /// 键盘总高（内容＋底部安全区），供 VC 设高度约束（与 1.49 逐项一致，总高不变）。
     func intrinsicKeyboardHeight(bottomInset: CGFloat) -> CGFloat {
         KeyboardTopBar.height + rowsTopGap + CGFloat(rowCount) * keyHeight
             + CGFloat(rowCount - 1) * rowGap + rowsBottomPad + bottomInset
@@ -74,17 +73,15 @@ final class KeyboardView: UIView {
         ])
         topBar.onCandidate = { [weak self] index in self?.onCandidate?(index) }
         topBar.onDismiss = { [weak self] in
-            // 右↓收起键盘：沿响应链找 UIInputViewController 再 dismiss（直接 inputViewController 未必取得到）
             var responder: UIResponder? = self
             while let r = responder {
                 if let vc = r as? UIInputViewController { vc.dismissKeyboard(); return }
                 responder = r.next
             }
         }
-        topBar.onSettings = { [weak self] in self?.showSettingsPanel() } // 左⚙ 键盘内设置面板(A)
+        topBar.onSettings = { [weak self] in self?.showSettingsPanel() }
     }
 
-    /// 弹键盘内设置面板（占满原键盘区，不跳 App）。打开时隐藏键区/顶栏，面板透明→直接复用键盘主背景成一整块。
     private func showSettingsPanel() {
         settingsPanel.translatesAutoresizingMaskIntoConstraints = false
         topBar.isHidden = true
@@ -107,13 +104,11 @@ final class KeyboardView: UIView {
     }
 
     private func setupRows() {
+        // 【C2】行与行 spacing=0、无外边距：整块键区被外壳铺满，零透明真空。
         rowsStack.axis = .vertical; rowsStack.isMultipleTouchEnabled = true
-        rowsStack.spacing = rowGap
-        rowsStack.distribution = .fillEqually
-        // 整层判键(KeyGridView)铺满整个键区全宽全高：靠 layoutMargins 保住视觉内边距（键宽/键位不变），
-        // 这样行两侧空白（a 左 / l 右，含最外侧到屏幕边）与行间纵向缝都落在判键层内，点哪都归最近键。
-        rowsStack.isLayoutMarginsRelativeArrangement = true
-        rowsStack.layoutMargins = UIEdgeInsets(top: rowsTopGap, left: keyGap, bottom: rowsBottomPad, right: keyGap)
+        rowsStack.spacing = 0
+        rowsStack.distribution = .fill
+        rowsStack.backgroundColor = C2RowView.separator
         rowsStack.translatesAutoresizingMaskIntoConstraints = false
         addSubview(rowsStack)
         NSLayoutConstraint.activate([
@@ -127,17 +122,26 @@ final class KeyboardView: UIView {
     private func setLayoutMode(_ mode: KeyboardLayoutMode) {
         layoutMode = mode
         rowsStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        let rows: [UIView]
+        let rows: [C2RowView]
         switch mode {
         case .letters:
-            rows = [makeLetterRow("qwertyuiop", sideInset: 3), makeLetterRow("asdfghjkl", sideInset: 20, spacing: 5), makeHomeEdgeRow(), makeBottomRow()]
+            rows = [makeLetterRow("qwertyuiop", sideInset: 3),
+                    makeLetterRow("asdfghjkl", sideInset: 20, spacing: 5),
+                    makeHomeEdgeRow(),
+                    makeBottomRow()]
         case .symbols:
             rows = [makeSymbolRow("1234567890"), makeSymbolRow("-/:;()$&@\""), makeSymbolEdgeRow(), makeBottomRow()]
         }
-        rows.forEach { rowsStack.addArrangedSubview($0) }
+        // 行高沿用 1.49：首行含 rowsTopGap、末行含 rowsBottomPad、其余对称 rowGap/2 → 总高不变、行基线不变
+        let heights: [CGFloat] = [keyHeight + rowsTopGap + rowGap / 2, keyHeight + rowGap, keyHeight + rowGap, keyHeight + rowGap / 2 + rowsBottomPad]
+        for (i, r) in rows.enumerated() {
+            r.translatesAutoresizingMaskIntoConstraints = false
+            rowsStack.addArrangedSubview(r)
+            r.heightAnchor.constraint(equalToConstant: heights[i]).isActive = true
+        }
     }
 
-    func showLetters() { setLayoutMode(.letters) } // 强制回字母键盘（#13）
+    func showLetters() { setLayoutMode(.letters) }
 
     func setReturnKeyTitle(_ title: String) {
         guard title != returnKeyTitle else { return }
@@ -145,52 +149,45 @@ final class KeyboardView: UIView {
         returnKeyButton?.setTitle(title, for: .normal)
     }
 
-    private func makeRow() -> UIStackView {
-        let row = UIStackView()
-        row.axis = .horizontal; row.isMultipleTouchEnabled = true
+    private func makeRow() -> C2RowView {
+        let row = C2RowView()
         row.spacing = keyGap
-        row.distribution = .fillEqually
-        row.alignment = .fill
         return row
     }
 
-    private func makeLetterRow(_ letters: String, sideInset: CGFloat = 0, spacing: CGFloat? = nil) -> UIStackView {
+    private func makeLetterRow(_ letters: String, sideInset: CGFloat = 0, spacing: CGFloat? = nil) -> C2RowView {
         let row = makeRow()
-        if sideInset > 0 { // #3 苹果式倒三角：本行左右留白、键更紧
-            row.isLayoutMarginsRelativeArrangement = true
-            row.layoutMargins = UIEdgeInsets(top: 0, left: sideInset, bottom: 0, right: sideInset)
-        }
+        row.sideInset = sideInset
         if let spacing { row.spacing = spacing }
         for ch in letters {
-            row.addArrangedSubview(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)", bubble: true) { [weak self] in
+            row.addKey(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)", bubble: true) { [weak self] in
                 self?.handleLetterTap(ch)
             })
         }
         return row
     }
 
-    private func makeSymbolRow(_ symbols: String) -> UIStackView {
+    private func makeSymbolRow(_ symbols: String) -> C2RowView {
         let row = makeRow()
         for ch in symbols {
-            row.addArrangedSubview(makeKey(String(ch), font: 20, kind: .function, accessibility: "符号 \(ch)") { [weak self] in
+            row.addKey(makeKey(String(ch), font: 20, kind: .function, accessibility: "符号 \(ch)") { [weak self] in
                 self?.onKeyText?(String(ch))
             })
         }
         return row
     }
 
-    private func makeHomeEdgeRow() -> UIStackView {
+    private func makeHomeEdgeRow() -> C2RowView {
         let row = makeRow()
-        let shift = ShiftKeyButton(frame: .zero) // #4 自绘⇧：空心↔实心，锁定时横杠也实心
+        let shift = ShiftKeyButton(frame: .zero)
         shift.shiftState = isCapsLocked ? .caps : (isShiftActive ? .shift : .off); shift.accessibilityLabel = "上档"
         shift.onTap = { [weak self] in
             guard let self else { return }
             if self.isChinese {
-                self.onToggleMode?()      // #9 中文态点 ⇧＝切英文
-                self.isShiftActive = true // #9 并进入大写态（一次性）
+                self.onToggleMode?()
+                self.isShiftActive = true
                 self.isCapsLocked = false
             } else {
-                // #4 英文态：单击＝一次性大写，0.3s 内双击＝锁大写；再点解除回空心
                 let now = Date()
                 if now.timeIntervalSince(self.lastShiftTap) < 0.3 {
                     self.isCapsLocked = true; self.isShiftActive = true
@@ -201,52 +198,44 @@ final class KeyboardView: UIView {
             }
             self.setLayoutMode(.letters)
         }
-        row.addArrangedSubview(shift)
+        row.addKey(shift, weight: 1.15)
         for ch in "zxcvbnm" {
-            row.addArrangedSubview(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)", bubble: true) { [weak self] in
+            row.addKey(makeKey(displayLetter(ch), font: 23, accessibility: "字母 \(ch)", bubble: true) { [weak self] in
                 self?.handleLetterTap(ch)
             })
         }
-        row.addArrangedSubview(makeBackspaceKey())
-        // #3 两边功能键(⇧/⌫)收窄到 1.15，把宽度让给字母键（仿 iOS 原生留白）
-        row.distribution = .fill
-        let ks = row.arrangedSubviews
-        if ks.count > 2 {
-            for k in ks.dropFirst().dropLast() { k.widthAnchor.constraint(equalTo: ks[1].widthAnchor).isActive = true }
-            ks.first?.widthAnchor.constraint(equalTo: ks[1].widthAnchor, multiplier: 1.15).isActive = true
-            ks.last?.widthAnchor.constraint(equalTo: ks[1].widthAnchor, multiplier: 1.15).isActive = true
-        }
+        row.addKey(makeBackspaceKey(), weight: 1.15)
         return row
     }
 
-    private func makeSymbolEdgeRow() -> UIStackView {
+    private func makeSymbolEdgeRow() -> C2RowView {
         let row = makeRow()
         let toggleTitle = punctuationFullWidth ? "，。" : ",."
-        row.addArrangedSubview(makeKey(toggleTitle, font: 15, kind: .function, accessibility: "标点全半角切换") { [weak self] in
+        row.addKey(makeKey(toggleTitle, font: 15, kind: .function, accessibility: "标点全半角切换") { [weak self] in
             self?.onTogglePunctuation?()
         })
         for i in 0..<KeyboardLogic.punctFull.count {
             let glyph = KeyboardLogic.punctuationGlyph(fullWidth: punctuationFullWidth, index: i)
-            row.addArrangedSubview(makeKey(glyph, font: 20, kind: .function, accessibility: "标点 \(glyph)") { [weak self] in
+            row.addKey(makeKey(glyph, font: 20, kind: .function, accessibility: "标点 \(glyph)") { [weak self] in
                 self?.onKeyText?(glyph)
             })
         }
-        row.addArrangedSubview(makeBackspaceKey())
+        row.addKey(makeBackspaceKey())
         return row
     }
 
-    private func makeBottomRow() -> UIStackView {
+    private func makeBottomRow() -> C2RowView {
         let row = makeRow()
         if layoutMode == .letters {
-            row.addArrangedSubview(makeKey("123", font: 15, kind: .function, accessibility: "数字符号键盘") { [weak self] in
+            row.addKey(makeKey("123", font: 15, kind: .function, accessibility: "数字符号键盘") { [weak self] in
                 self?.setLayoutMode(.symbols)
             })
         } else {
-            row.addArrangedSubview(makeKey("←", font: 20, kind: .function, accessibility: "返回字母键盘") { [weak self] in
+            row.addKey(makeKey("←", font: 20, kind: .function, accessibility: "返回字母键盘") { [weak self] in
                 self?.setLayoutMode(.letters)
             })
         }
-        row.addArrangedSubview(makeKey(isChinese ? "空格" : "space", font: 15, kind: .function, accessibility: "空格") { [weak self] in
+        row.addKey(makeKey(isChinese ? "空格" : "space", font: 15, kind: .function, accessibility: "空格") { [weak self] in
             self?.onSpace?()
         })
         let modeButton = ModeToggleButton(frame: .zero)
@@ -254,12 +243,12 @@ final class KeyboardView: UIView {
         modeButton.configure(isChinese: isChinese)
         modeButton.accessibilityLabel = "切换中英文"
         modeKeyButton = modeButton
-        row.addArrangedSubview(modeButton)
+        row.addKey(modeButton)
         let returnKey = makeKey(returnKeyTitle, font: 15, kind: .function, accessibility: "回车") { [weak self] in
             self?.onReturn?()
         }
         returnKeyButton = returnKey
-        row.addArrangedSubview(returnKey)
+        row.addKey(returnKey)
         return row
     }
 
@@ -271,7 +260,7 @@ final class KeyboardView: UIView {
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: font)
         button.setTitleColor(KBColor.keyText, for: .normal)
-        button.backgroundColor = KBColor.letterKey // #11 所有键统一字母键颜色
+        button.backgroundColor = KBColor.letterKey
         button.layer.cornerRadius = keyCorner
         button.clipsToBounds = true
         button.accessibilityLabel = accessibility
@@ -281,8 +270,8 @@ final class KeyboardView: UIView {
     private func makeBackspaceKey() -> ClosureButton {
         let button = makeKey("⌫", font: 18, kind: .function, accessibility: "删除") { }
         button.onTap = nil
-        button.pressInserts = false // 删除键走手势（tap/长按），不用按下即上字，避免与手势二次删除
-        button.autoFeedback = false // 用删除键独立音（playDelete），避免自动 play 普通键音
+        button.pressInserts = false
+        button.autoFeedback = false
         let long = UILongPressGestureRecognizer(target: self, action: #selector(backspaceLongPressed(_:)))
         long.minimumPressDuration = 0.4
         let tap = UITapGestureRecognizer(target: self, action: #selector(backspaceTapped))
@@ -292,7 +281,6 @@ final class KeyboardView: UIView {
         return button
     }
 
-    /// 刷新候选/译文/输入串/语言/标点宽度。由 VC 在 model.onChange 后调用（主线程）。
     func update(candidates: [String], translations: [String?], buffer: String, isChinese: Bool, punctuationFullWidth: Bool, selectable: Bool) {
         let modeChanged = (isChinese != self.isChinese)
         let punctChanged = (punctuationFullWidth != self.punctuationFullWidth)
@@ -313,20 +301,19 @@ final class KeyboardView: UIView {
 
     private func handleLetterTap(_ ch: Character) {
         onKeyText?(displayLetter(ch))
-        if !isChinese && isShiftActive && !isCapsLocked { // #4 锁大写时不自动复位
+        if !isChinese && isShiftActive && !isCapsLocked {
             isShiftActive = false
-            // 立即上字后，延到下一次 runloop 再重建键盘：避免在 touchDown 处理中销毁当前按键
             DispatchQueue.main.async { [weak self] in self?.setLayoutMode(.letters) }
         }
     }
 
     @objc private func toggleModeTapped() { KeyFeedback.shared.play(); onToggleMode?() }
-    @objc private func backspaceTapped() { KeyFeedback.shared.playDelete(); onBackspace?() } // 删除键独立音+震
+    @objc private func backspaceTapped() { KeyFeedback.shared.playDelete(); onBackspace?() }
 
     @objc private func backspaceLongPressed(_ gesture: UILongPressGestureRecognizer) {
         switch gesture.state {
         case .began:
-            KeyFeedback.shared.playDelete() // 长按删除起手：删除键独立音
+            KeyFeedback.shared.playDelete()
             deleteInterval = 0.12
             scheduleDeleteTick()
         case .ended, .cancelled, .failed:
@@ -340,7 +327,7 @@ final class KeyboardView: UIView {
         deleteTimer?.invalidate()
         let timer = Timer(timeInterval: deleteInterval, repeats: false) { [weak self] _ in
             guard let self else { return }
-            KeyFeedback.shared.playDelete() // 长按连发每 tick：删除键独立音
+            KeyFeedback.shared.playDelete()
             self.onBackspace?()
             self.deleteInterval = KeyboardLogic.nextDeleteInterval(from: self.deleteInterval)
             self.scheduleDeleteTick()
