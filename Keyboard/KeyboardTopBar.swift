@@ -160,7 +160,8 @@ final class KeyboardTopBar: UIView {
     }
 
     private func makeCandidateItem(text: String, translation: String?, highlight: Bool, index: Int, selectable: Bool) -> UIView {
-        let container = UIView()
+        let container = HitExpandView()
+        container.hitExpandX = candidateStack.spacing / 2 // ② 候选词条热区左右各扩半缝（8pt），靠 scroll pan 取消 tap、不吞横滑
         let hanzi = UILabel()
         if highlight {
             let attr = NSMutableAttributedString(string: text)

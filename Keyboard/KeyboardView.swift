@@ -271,12 +271,15 @@ final class KeyboardView: UIView {
         button.layer.cornerRadius = keyCorner
         button.clipsToBounds = true
         button.accessibilityLabel = accessibility
+        button.hitExpandX = keyGap / 2 // ② 热区左右各扩半缝（3pt），拼满无缝、缝隙归最近键
         return button
     }
 
     private func makeBackspaceKey() -> ClosureButton {
         let button = makeKey("⌫", font: 18, kind: .function, accessibility: "删除") { }
         button.onTap = nil
+        button.pressInserts = false // 删除键走手势（tap/长按），不用按下即上字，避免与手势二次删除
+        button.autoFeedback = false // 用删除键独立音（playDelete），避免自动 play 普通键音
         let long = UILongPressGestureRecognizer(target: self, action: #selector(backspaceLongPressed(_:)))
         long.minimumPressDuration = 0.4
         let tap = UITapGestureRecognizer(target: self, action: #selector(backspaceTapped))
@@ -309,7 +312,8 @@ final class KeyboardView: UIView {
         onKeyText?(displayLetter(ch))
         if !isChinese && isShiftActive && !isCapsLocked { // #4 锁大写时不自动复位
             isShiftActive = false
-            setLayoutMode(.letters)
+            // 立即上字后，延到下一次 runloop 再重建键盘：避免在 touchDown 处理中销毁当前按键
+            DispatchQueue.main.async { [weak self] in self?.setLayoutMode(.letters) }
         }
     }
 

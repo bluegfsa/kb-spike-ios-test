@@ -143,23 +143,39 @@ final class ModeToggleButton: UIButton {
 }
 
 /// 带闭包的按钮（UIButton 不支持 target/action 直接闭包）。#10 按下弹按键预览气泡（仅字母键）。
+/// 交互：**按下即上字**（.touchDown 立即触发 onTap，不等抬手；多指各自立即上屏，不排队）；
+/// 气泡/声音震动等装饰在输入之后执行、绝不挡在上字前；可点热区可左右外扩半缝拼满无缝。
 final class ClosureButton: UIButton {
     var onTap: (() -> Void)?
     /// 仅字母键=true 弹气泡；功能键(123/空格/中EN/发送/⌫/⇧/符号)为 false，不弹。
     var showsBubble = false
+    /// true=按下即触发 onTap（上字）；false=交给外部手势处理（如删除键）
+    var pressInserts = true
+    /// 是否自动播按键音/震动（删除键用独立音，置 false 避免重复）
+    var autoFeedback = true
+    /// 可点热区左右各扩的量（半个键缝），拼满无缝、缝隙落点归最近键
+    var hitExpandX: CGFloat = 0
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addTarget(self, action: #selector(handleTap), for: .touchUpInside)
-        addTarget(self, action: #selector(showPreview), for: .touchDown)
-        addTarget(self, action: #selector(hidePreview), for: [.touchUpInside, .touchUpOutside, .touchCancel])
+        isExclusiveTouch = false // 多指同按不同键时互不排斥
+        addTarget(self, action: #selector(pressDown), for: .touchDown)
+        addTarget(self, action: #selector(releaseUp), for: [.touchUpInside, .touchUpOutside, .touchCancel])
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc private func handleTap() { KeyFeedback.shared.play(); onTap?() }
+    /// 按下即上字：先执行输入（最要紧、立即），再做气泡/声音装饰——装饰绝不挡在上字前面。
+    @objc private func pressDown() {
+        if pressInserts { onTap?() }
+        if showsBubble { showPreview() }
+        if autoFeedback { KeyFeedback.shared.play() }
+    }
+
+    /// 抬手/滑出/取消：只收气泡（上字已在按下时完成，不受抬手时机影响，故快打/两指/滑出不漏字）。
+    @objc private func releaseUp() { hidePreview() }
 
     @objc private func showPreview() {
         guard showsBubble, let title = title(for: .normal), !title.isEmpty else { return }
@@ -167,6 +183,24 @@ final class ClosureButton: UIButton {
     }
 
     @objc private func hidePreview() { KeyBubble.shared.hide(ifOwner: self) }
+
+    /// 横向把可点热区外扩 hitExpandX，覆盖按键之间的缝隙（相邻键在中线相接、缝隙落点归最近键）。
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        if bounds.contains(point) { return true }
+        guard hitExpandX > 0 else { return false }
+        return bounds.insetBy(dx: -hitExpandX, dy: 0).contains(point)
+    }
+}
+
+/// 横向可点热区可外扩的容器（候选词条用）：左右各扩半缝拼满无缝；
+/// 候选条靠 ScrollView 的 pan 取消 tap（delaysContentTouches=false/canCancelContentTouches=true），不吞横向滑动。
+final class HitExpandView: UIView {
+    var hitExpandX: CGFloat = 0
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        if bounds.contains(point) { return true }
+        guard hitExpandX > 0 else { return false }
+        return bounds.insetBy(dx: -hitExpandX, dy: 0).contains(point)
+    }
 }
 
 /// 上档/大写键（#4）：箭头形状全程不变——off=空心 `shift`，激活=实心 `shift.fill`；
