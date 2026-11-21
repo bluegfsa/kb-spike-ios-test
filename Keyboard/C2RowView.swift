@@ -1,7 +1,7 @@
 import UIKit
 
 /// C2 键行：外壳（真实按钮）满格相接、底色＝KBColor.background（键间缝与键盘背景同色）；内部圆角白卡＝键面。
-/// 白卡只在「朝相邻键/相邻行」的方向外扩到缝≈1.5pt；首行不向上扩（保留 rowsTopGap）、末行不向下扩（保留 rowsBottomPad），圆角完整不裁。
+/// 白卡只在「朝相邻键/相邻行」的方向外扩到缝≈1.5pt；末行不向下扩（保留 rowsBottomPad 灰缝），圆角完整不裁。
 /// 外壳按切点格铺满整行（最左/最右顶到行边，行与行相接），触摸走真实按钮，不靠触摸层/判最近键。
 final class C2RowView: UIView {
     struct Entry { let button: UIButton; let weight: CGFloat }
@@ -13,7 +13,7 @@ final class C2RowView: UIView {
     /// 该行 1.49 的可见键上/下边距（首行 6/6.5、中间 6.5/6.5、末行 6.5/4）。
     var visualTop: CGFloat = 6.5
     var visualBottom: CGFloat = 6.5
-    /// 白卡是否朝本行上/下方向外扩（首行 expandsTop=false、末行 expandsBottom=false，保留键盘边距不被白卡吃掉）。
+    /// 白卡是否朝本行上/下方向外扩（末行 expandsBottom=false：保留 rowsBottomPad 底部灰缝、圆角不被裁）。
     var expandsTop = true
     var expandsBottom = true
     private let cardTag = 9_001
@@ -44,11 +44,19 @@ final class C2RowView: UIView {
             vis.append(CGRect(x: x, y: visualTop, width: w, height: visH))
             x += w + spacing
         }
-        // 白卡放大：水平相邻缝→1.5；竖直方向按「朝邻行」单侧外扩（保留 0.75pt 半缝），键盘首/末边距方向不外扩
+        // 白卡放大：水平相邻缝→1.5；竖直方向——中间行沿用 1.61 的对称外扩（像素级不变），
+        // 键盘首/末边距那一侧不外扩（末行不向下扩，保留 rowsBottomPad 灰缝＋完整圆角）
         let dH = max(0, (spacing - 1.5) / 2)
         let halfGap: CGFloat = 0.75
-        let dVUp = expandsTop ? max(0, visualTop - halfGap) : 0
-        let dVDown = expandsBottom ? max(0, visualBottom - halfGap) : 0
+        let dVsym = max(0, ((visualTop + visualBottom) - 1.5) / 2)
+        let dVUp: CGFloat
+        let dVDown: CGFloat
+        if expandsTop && expandsBottom {
+            dVUp = dVsym; dVDown = dVsym
+        } else {
+            dVUp = expandsTop ? max(0, visualTop - halfGap) : 0
+            dVDown = expandsBottom ? max(0, visualBottom - halfGap) : 0
+        }
         for i in 0..<n {
             let v = vis[i]
             // 外壳裁到「首键左沿…末键右沿」：外圈留白（row2 两侧 20pt 等）不铺深色、露键盘底色、不可点（同 iOS/微信内缩）
