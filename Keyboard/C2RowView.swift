@@ -87,16 +87,17 @@ final class C2RowView: UIView {
                                   width: max(0, cardMaxX - cardMinX), height: visH + dVUp + dVDown)
             card.frame = CGRect(x: cardRect.minX - cellL, y: cardRect.minY,
                                 width: cardRect.width, height: cardRect.height)
-            // 内容居中到 1.49 键心 v.midX（边缘键字不被外壳/留白带偏）
+            // 内容中心显式钉到「可见白卡」中心（默认内容中心＝外壳整格中心，平移到白卡中心即可；边缘键不再偏）
             let cellCenterX = (cellL + cellR) / 2
-            let dx = v.midX - cellCenterX
-            let dy = (v.minY + visH / 2) - H / 2
+            let dx = cardRect.midX - cellCenterX
+            let dy = cardRect.midY - H / 2
             let insets = UIEdgeInsets(top: max(0, dy * 2), left: max(0, dx * 2),
                                       bottom: max(0, -dy * 2), right: max(0, -dx * 2))
-            if btn is ClosureButton || btn is ModeToggleButton {
+            if let sb = btn as? ShiftKeyButton {
+                // ⇧ 箭头(imageView) 与 锁定横杠(capsBar) 用同一 (dx,dy)，锁定态共竖轴
+                sb.setContentOffset(dx: dx, dy: dy)
+            } else if btn is ClosureButton || btn is ModeToggleButton {
                 btn.titleEdgeInsets = insets
-            } else if let sb = btn as? ShiftKeyButton {
-                sb.imageEdgeInsets = insets
             }
         }
     }
