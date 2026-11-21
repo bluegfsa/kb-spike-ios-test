@@ -1,6 +1,6 @@
 import UIKit
 
-/// 【C2·口径A】一行按键：外壳（真实按钮）满格无缝相接、底色＝不透明深分隔色；内部圆角白卡＝键面。
+/// 【C2 实验·口径A】一行按键：外壳（真实按钮）满格无缝相接、底色＝不透明深分隔色；内部圆角白卡＝键面。
 /// 白卡以 1.49 可见键中心为基准**对称放大**（相邻白卡≈1.5pt 缝，四角由外壳深色填满＝零透明真空）；
 /// 外壳按切点格铺满整行（最左/最右顶到行边，行与行相接），触摸走真实按钮，不靠 KTL/判最近键。
 /// 边缘键白卡朝屏边外扩填满侧边（避免厚深色侧条），字仍锚 1.49 键心（略偏心，可接受）。
@@ -52,7 +52,7 @@ final class C2RowView: UIView {
             let cellR = i == n - 1 ? v.maxX : (v.maxX + vis[i + 1].minX) / 2
             let btn = entries[i].button
             btn.frame = CGRect(x: cellL, y: 0, width: max(0, cellR - cellL), height: H)
-            btn.backgroundColor = C2RowView.separator
+            btn.backgroundColor = KBColor.background // 键间缝＝键盘背景色（去掉灰色分隔线，和背景一致）
             btn.layer.cornerRadius = 0
             btn.clipsToBounds = true
             btn.isUserInteractionEnabled = true
