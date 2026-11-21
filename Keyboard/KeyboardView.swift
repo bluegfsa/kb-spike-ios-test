@@ -7,7 +7,7 @@ enum KeyboardLayoutMode {
 }
 
 /// 纯 UIKit 键盘视图：顶部功能条（KeyboardTopBar）＋四行键；高度自适应；配色/按钮见 KeyboardViewStyle.swift。
-/// 【C2 实验·口径A】行用 C2RowView：外壳满格深色相接＋内部圆角白卡（以 1.49 键心对称放大到≈1.5pt 缝），触摸走真实按钮。
+/// 【C2·口径A】行用 C2RowView：外壳满格深色相接＋内部圆角白卡（以 1.49 键心对称放大到≈1.5pt 缝），触摸走真实按钮。
 final class KeyboardView: UIView {
     // 尺寸
     private let keyHeight: CGFloat = 41     // ④ 键高 41（对齐微信/iOS）
