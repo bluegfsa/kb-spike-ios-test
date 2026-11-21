@@ -26,7 +26,7 @@ enum AppDocs {
 
             基于上述词库产生的衍生数据同样以 CC BY-SA 4.0 许可提供。
             """,
-            licenseFile: "LICENSE.cc-by-sa-4.0"),
+            licenseFile: "LICENSE.cc-by-sa-4.0.txt"),
         LicenseDoc(
             title: "CC-CEDICT 汉英词典",
             subtitle: "CC BY-SA 4.0",
@@ -37,7 +37,7 @@ enum AppDocs {
             来源：https://www.mdbg.net/chinese/dictionary?page=cc-cedict
             许可：CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/）
             """,
-            licenseFile: "LICENSE.cc-cedict"),
+            licenseFile: "LICENSE.cc-cedict.txt"),
         LicenseDoc(
             title: "ECDICT 词库",
             subtitle: "MIT License",
@@ -49,7 +49,7 @@ enum AppDocs {
             来源：https://github.com/skywind3000/ECDICT
             许可：MIT License（Copyright (c) skywind3000）
             """,
-            licenseFile: "LICENSE.ecdict"),
+            licenseFile: "LICENSE.ecdict.txt"),
         LicenseDoc(
             title: "关于双译键盘",
             subtitle: "版本 \(version)",
@@ -298,8 +298,8 @@ final class LicenseTextViewController: UIViewController {
         view.backgroundColor = .systemBackground
         let tv = UITextView(); tv.isEditable = false; tv.font = .monospacedSystemFont(ofSize: 11, weight: .regular)
         tv.textColor = .secondaryLabel; tv.translatesAutoresizingMaskIntoConstraints = false
-        let ns = fileName as NSString
-        if let url = Bundle.main.url(forResource: ns.deletingPathExtension, withExtension: ns.pathExtension),
+        // fileName 为包内完整文件名（含 .txt），整串作为 resource 名直取，避免拆分多段文件名出错
+        if let url = Bundle.main.url(forResource: fileName, withExtension: nil),
            let s = try? String(contentsOf: url, encoding: .utf8) {
             tv.text = s
         } else {
