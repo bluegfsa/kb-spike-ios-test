@@ -31,7 +31,9 @@ protocol KeyTouchLayerDelegate: AnyObject {
 /// 自身 bounds 覆盖全键区（含缝隙/边距），不再依赖子视图命中链。支持多指与退格长按连删。
 final class KeyTouchLayer: UIControl {
     weak var delegate: KeyTouchLayerDelegate?
-    /// 键命中清单（KeyboardView 在布局/重建键盘时刷新）。
+    /// 统一坐标系宿主（KeyboardView）。触点与 visualFrame 都以它的坐标计算，避免与键 frame 差一个顶栏偏移。
+    weak var host: UIView?
+    /// 键命中清单（KeyboardView 在布局/重建键盘时刷新）。visualFrame 为 host(KeyboardView) 坐标。
     var hits: [KeyHit] = []
 
     private var activeHits: [UITouch: KeyHit] = [:]
@@ -57,7 +59,9 @@ final class KeyTouchLayer: UIControl {
         super.touchesBegan(touches, with: event)
         KBDiagnostics.shared.bumpKTL()
         for t in touches {
-            let p = t.location(in: self)
+            let lp = t.location(in: self)
+            // 触点统一转到 host(KeyboardView) 坐标，再与同样为 KeyboardView 坐标的 visualFrame 比较。
+            let p = host.map { self.convert(lp, to: $0) } ?? lp
             guard let hit = hitTestNearest(p) else { continue }
             activeHits[t] = hit
             KBDiagnostics.shared.setNearest(hit.button?.title(for: .normal) ?? (hit.text ?? "?"))

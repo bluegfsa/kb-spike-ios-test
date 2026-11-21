@@ -95,6 +95,7 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
         touchLayer.isMultipleTouchEnabled = true
         touchLayer.backgroundColor = .clear
         touchLayer.delegate = self
+        touchLayer.host = self // 统一坐标系：触点与 visualFrame 都用 KeyboardView 坐标
         addSubview(touchLayer)
     }
 
@@ -119,9 +120,10 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
 
     /// 依据原按键重建 KTL 的命中清单（中英/符号切换重排后，每次 layoutSubviews 刷新）。
     private func refreshHits() {
+        rowsStack.layoutIfNeeded() // 确保行/键 frame 已按当前约束定稿，再取 visualFrame
         var list: [KeyHit] = []
         for b in allKeyButtons() {
-            let vf = b.convert(b.bounds, to: touchLayer)
+            let vf = b.convert(b.bounds, to: self) // KeyboardView 坐标（与触点统一）
             let title = b.title(for: .normal) ?? ""
             let kind: KeyKind
             if b is ShiftKeyButton { kind = .shift }
