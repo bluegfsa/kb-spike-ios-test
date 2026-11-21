@@ -233,7 +233,7 @@ final class ShiftKeyButton: UIButton {
     var shiftState: ShiftState = .off { didSet { applyIcon() } }
     private let capsBar = UIView()
     private var capsCenterX: NSLayoutConstraint!
-    private var capsBottom: NSLayoutConstraint!
+    private var capsCenterY: NSLayoutConstraint!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -247,10 +247,10 @@ final class ShiftKeyButton: UIButton {
         capsBar.translatesAutoresizingMaskIntoConstraints = false
         addSubview(capsBar)
         capsCenterX = capsBar.centerXAnchor.constraint(equalTo: centerXAnchor)
-        capsBottom = capsBar.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+        capsCenterY = capsBar.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 11)
         NSLayoutConstraint.activate([
             capsCenterX,
-            capsBottom,
+            capsCenterY,
             capsBar.widthAnchor.constraint(equalToConstant: 12),
             capsBar.heightAnchor.constraint(equalToConstant: 3),
         ])
@@ -265,9 +265,10 @@ final class ShiftKeyButton: UIButton {
     @objc private func handleTap() { KeyFeedback.shared.play(); onTap?() }
 
     /// 把「箭头(imageView) + 锁定横杠(capsBar)」用同一 (dx,dy) 移到可见白卡中心；capsBar 走约束平移，锁定态共竖轴。
+    /// 1.64：横杠中心 Y = 箭头中心 + 11pt（1.49 实测间距，与按钮高度解耦）。
     func setContentOffset(dx: CGFloat, dy: CGFloat) {
         capsCenterX?.constant = dx
-        capsBottom?.constant = -8 + dy
+        capsCenterY?.constant = 11 + dy
         imageEdgeInsets = UIEdgeInsets(top: max(0, dy * 2), left: max(0, dx * 2),
                                        bottom: max(0, -dy * 2), right: max(0, -dx * 2))
     }

@@ -10,6 +10,11 @@ final class C2RowView: UIView {
     var spacing: CGFloat = 6
     /// 该行 1.49 的左右外侧留白（row1=3、row2=20、其余=0）。
     var sideInset: CGFloat = 0
+    /// 第三排专用：字母键宽对齐第一排单键宽，余宽平分给两侧 ⇧/⌫（整行满铺到 sideInset）。
+    var matchFirstRowKeyWidth = false
+    private let firstRowSpacing: CGFloat = 6
+    private let firstRowSideInset: CGFloat = 3
+    private let firstRowKeyCount = 10
     /// 该行 1.49 的可见键上/下边距（首行 6/6.5、中间 6.5/6.5、末行 6.5/4）。
     var visualTop: CGFloat = 6.5
     var visualBottom: CGFloat = 6.5
@@ -37,10 +42,18 @@ final class C2RowView: UIView {
         let avail = W - 2 * sideInset - CGFloat(n - 1) * spacing
         // 1) 1.49 可见键 frame（原公式；竖直方向按显式上/下边距，键高恒 41）
         let visH = max(0, H - visualTop - visualBottom)
+        // 各键宽度：常规按 weight；第三排把字母键宽钉到第一排单键宽，余宽平分给两侧 ⇧/⌫
+        let widths: [CGFloat]
+        if matchFirstRowKeyWidth && n >= 3 {
+            let w1 = max(0, (W - 2 * firstRowSideInset - CGFloat(firstRowKeyCount - 1) * firstRowSpacing) / CGFloat(firstRowKeyCount))
+            let edge = max(0, (W - 2 * sideInset - CGFloat(n - 1) * spacing - CGFloat(n - 2) * w1) / 2)
+            widths = [edge] + Array(repeating: w1, count: n - 2) + [edge]
+        } else {
+            widths = entries.map { max(0, avail * $0.weight / totalW) }
+        }
         var vis: [CGRect] = []
         var x = sideInset
-        for e in entries {
-            let w = max(0, avail * e.weight / totalW)
+        for w in widths {
             vis.append(CGRect(x: x, y: visualTop, width: w, height: visH))
             x += w + spacing
         }
@@ -96,7 +109,10 @@ final class C2RowView: UIView {
             if let sb = btn as? ShiftKeyButton {
                 // ⇧ 箭头(imageView) 与 锁定横杠(capsBar) 用同一 (dx,dy)，锁定态共竖轴
                 sb.setContentOffset(dx: dx, dy: dy)
-            } else if btn is ClosureButton || btn is ModeToggleButton {
+            } else if let cb = btn as? ClosureButton {
+                // 有 image 的键（⌫ 已换成 SF symbol）必须走 image 路径，titleEdgeInsets 挪不动 image
+                if cb.imageView?.image != nil { cb.imageEdgeInsets = insets } else { cb.titleEdgeInsets = insets }
+            } else if btn is ModeToggleButton {
                 btn.titleEdgeInsets = insets
             }
         }

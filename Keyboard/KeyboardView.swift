@@ -185,6 +185,9 @@ final class KeyboardView: UIView {
 
     private func makeHomeEdgeRow() -> C2RowView {
         let row = makeRow()
+        // 1.64：第三排左右内边距＝第一排 3pt；字母键宽＝第一排单键宽，余宽平分给 ⇧/⌫（满铺）
+        row.sideInset = 3
+        row.matchFirstRowKeyWidth = true
         let shift = ShiftKeyButton(frame: .zero)
         shift.shiftState = isCapsLocked ? .caps : (isShiftActive ? .shift : .off); shift.accessibilityLabel = "上档"
         shift.onTap = { [weak self] in
@@ -275,7 +278,12 @@ final class KeyboardView: UIView {
     }
 
     private func makeBackspaceKey() -> ClosureButton {
-        let button = makeKey("⌫", font: 18, kind: .function, accessibility: "删除") { }
+        let button = makeKey("", font: 18, kind: .function, accessibility: "删除") { }
+        // 1.64：⌫ 改 SF symbol delete.left（pointSize 18，同 ⇧ 箭头），走 image 路径居中到白卡中心
+        button.setImage(UIImage(systemName: "delete.left",
+                                withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .regular)),
+                        for: .normal)
+        button.tintColor = KBColor.keyText
         button.onTap = nil
         button.pressInserts = false
         button.autoFeedback = false
