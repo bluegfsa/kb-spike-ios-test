@@ -1,7 +1,5 @@
-ECDICT — 英汉词典数据库
-================================
-
-本项目 en2zh.txt（英→中短译表）由 ECDICT 数据生成，仅取常用词并抽取主译短义。
+ECDICT — 英汉词典数据库（en2zh.txt 数据源）
+============================================
 
 - 项目：ECDICT (Free English to Chinese Dictionary Database)
 - 作者：skywind3000
@@ -9,7 +7,28 @@ ECDICT — 英汉词典数据库
 - 许可：MIT License
 - 版权：Copyright (c) skywind3000
 
-MIT License 允许在保留版权与许可声明的前提下自由使用、复制、修改、合并、发布、分发、再授权及销售。
-完整 MIT 文本见 https://github.com/skywind3000/ECDICT/blob/master/LICENSE
+------------------------------------------------------------
+MIT License 全文
+------------------------------------------------------------
 
-生成脚本：tools/gen_en2zh.py
+MIT License
+
+Copyright (c) 2017 skywind3000
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
