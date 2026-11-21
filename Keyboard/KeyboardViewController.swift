@@ -41,12 +41,6 @@ final class KeyboardViewController: UIInputViewController {
         render()
     }
 
-    /// 键盘每次出现都重置引擎 composition，避免上一次未提交拼音残留成候选（如 tazai 显示上次输入）。
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if let m = model as? KeyboardModel { m.resetSession() }
-    }
-
     /// #2/#3：高度按内容＋底部安全区自适应（不写死 291），露白/挡输入框问题由此解决。
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -159,6 +153,8 @@ final class KeyboardViewController: UIInputViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         syncReturnKeyTitle()
+        // 键盘每次出现都重置引擎 composition，避免上一次未提交拼音残留成候选（如 tazai 显示上次输入）
+        if let m = model as? KeyboardModel { m.resetSession() }
         // S2-02：同一 App 内切换输入框不会触发 viewWillAppear，用轻量轮询同步回车键面。
         returnKeyTimer?.invalidate()
         returnKeyTimer = Timer.scheduledTimer(withTimeInterval: 0.4, repeats: true) { [weak self] _ in
