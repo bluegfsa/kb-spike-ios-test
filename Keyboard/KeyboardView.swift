@@ -48,7 +48,7 @@ final class KeyboardView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame); isMultipleTouchEnabled = true
-        backgroundColor = KBColor.background
+        backgroundColor = .clear // 整块键盘透明，露系统键盘背景（键白卡仍在）
         setupTopBar()
         setupRows()
         setLayoutMode(.letters)
@@ -108,7 +108,7 @@ final class KeyboardView: UIView {
         rowsStack.axis = .vertical; rowsStack.isMultipleTouchEnabled = true
         rowsStack.spacing = 0
         rowsStack.distribution = .fill
-        rowsStack.backgroundColor = KBColor.background // 外圈留白露键盘底色（非深色条）
+        rowsStack.backgroundColor = .clear // 外圈留白露系统键盘底（与上下空白同一块，无深浅方块）
         rowsStack.translatesAutoresizingMaskIntoConstraints = false
         addSubview(rowsStack)
         NSLayoutConstraint.activate([

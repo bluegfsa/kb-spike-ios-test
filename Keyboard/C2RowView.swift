@@ -1,6 +1,6 @@
 import UIKit
 
-/// C2 键行：外壳（真实按钮）满格相接、底色＝KBColor.background（键间缝与键盘背景同色）；内部圆角白卡＝键面。
+/// C2 键行：外壳（真实按钮）满格相接、底色＝透明（键间缝露出与键盘上下同一系统背景）；内部圆角白卡＝键面。
 /// 白卡只在「朝相邻键/相邻行」的方向外扩到缝≈1.5pt；末行不向下扩（保留 rowsBottomPad 灰缝），圆角完整不裁。
 /// 外壳按切点格铺满整行（最左/最右顶到行边，行与行相接），触摸走真实按钮，不靠触摸层/判最近键。
 final class C2RowView: UIView {
@@ -64,7 +64,7 @@ final class C2RowView: UIView {
             let cellR = i == n - 1 ? v.maxX : (v.maxX + vis[i + 1].minX) / 2
             let btn = entries[i].button
             btn.frame = CGRect(x: cellL, y: 0, width: max(0, cellR - cellL), height: H)
-            btn.backgroundColor = KBColor.background // 键间缝＝键盘背景色（去掉灰色分隔线，和背景一致）
+            btn.backgroundColor = .clear // 键间缝＝透明，露出与键盘上下空白同一块系统背景（不再有 209 浅灰方块）
             btn.layer.cornerRadius = 0
             btn.clipsToBounds = true
             btn.isUserInteractionEnabled = true
