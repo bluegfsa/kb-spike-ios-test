@@ -1,0 +1,2 @@
+# 文本统一 LF 行尾：防本地 autocrlf/文本模式把词典等写成 CRLF 漂移（评审官 2026-11-21）
+*.txt text eol=lf
