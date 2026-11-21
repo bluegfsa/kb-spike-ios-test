@@ -134,8 +134,12 @@ final class KeyboardView: UIView {
         }
         // 行高沿用 1.49：首行含 rowsTopGap、末行含 rowsBottomPad、其余对称 rowGap/2 → 总高不变、行基线不变
         let heights: [CGFloat] = [keyHeight + rowsTopGap + rowGap / 2, keyHeight + rowGap, keyHeight + rowGap, keyHeight + rowGap / 2 + rowsBottomPad]
+        // 每行可见键的显式上/下边距（首行 6/6.5、中间 6.5/6.5、末行 6.5/4），键高恒 41，行基线严格对 1.49
+        let vInsets: [(CGFloat, CGFloat)] = [(rowsTopGap, rowGap / 2), (rowGap / 2, rowGap / 2), (rowGap / 2, rowGap / 2), (rowGap / 2, rowsBottomPad)]
         for (i, r) in rows.enumerated() {
             r.translatesAutoresizingMaskIntoConstraints = false
+            r.visualTop = vInsets[i].0
+            r.visualBottom = vInsets[i].1
             rowsStack.addArrangedSubview(r)
             r.heightAnchor.constraint(equalToConstant: heights[i]).isActive = true
         }
