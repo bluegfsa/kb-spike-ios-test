@@ -51,6 +51,29 @@ enum AppDocs {
             """,
             licenseFile: "LICENSE.ecdict.txt"),
         LicenseDoc(
+            title: "拼音词典 · jieba 词频",
+            subtitle: "MIT · © 2013 Sun Junyi",
+            body: """
+            本键盘的拼音候选词频由 jieba 中文分词词频数据（https://github.com/fxsjy/jieba）构建，按 MIT 许可使用。
+
+            处理说明：格式转换为「词-音节-词频」、同词合并去重、按词频排序；除上述外未修改原始数据。
+            """,
+            licenseFile: "LICENSE.jieba.txt"),
+        LicenseDoc(
+            title: "拼音数据 · pinyin-data",
+            subtitle: "MIT · © 2016 mozillazg",
+            body: """
+            汉字拼音读音数据来自 pinyin-data（https://github.com/mozillazg/pinyin-data），按 MIT 许可使用。
+            """,
+            licenseFile: "LICENSE.pinyin-data.txt"),
+        LicenseDoc(
+            title: "拼音数据 · phrase-pinyin-data",
+            subtitle: "MIT · © 2017 mozillazg",
+            body: """
+            词语拼音数据来自 phrase-pinyin-data（https://github.com/mozillazg/phrase-pinyin-data），按 MIT 许可使用。
+            """,
+            licenseFile: "LICENSE.phrase-pinyin-data.txt"),
+        LicenseDoc(
             title: "关于双译键盘",
             subtitle: "版本 \(version)",
             body: """
