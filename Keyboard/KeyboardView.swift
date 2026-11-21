@@ -16,7 +16,7 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
     private let rowCount = 4
     private let rowsTopGap: CGFloat = 6    // 顶栏→首行间距（总高 44+6+203+4+34≈291，对齐微信/iOS）
     private let rowsBottomPad: CGFloat = 4
-    private enum KeyKind { case letter, function }
+    private enum KeyStyle { case letter, function }
 
     // 交互回调（由 VC 注入）
     var onKeyText: ((String) -> Void)?
@@ -359,7 +359,7 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
         return row
     }
 
-    private func makeKey(_ title: String, font: CGFloat, kind: KeyKind = .letter,
+    private func makeKey(_ title: String, font: CGFloat, kind: KeyStyle = .letter,
                          accessibility: String, bubble: Bool = false, onTap: @escaping () -> Void) -> ClosureButton {
         let button = ClosureButton(frame: .zero)
         button.onTap = onTap
