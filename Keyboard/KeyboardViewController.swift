@@ -196,6 +196,10 @@ final class KeyboardViewController: UIInputViewController {
             candidates = [translation]
             translations = [nil]
         }
+        // BUG-7 兜底：中文态 buffer 已空则强制清候选，杜绝残留（与 model.backspace 双保险）
+        if isChinese && model.buffer.isEmpty {
+            candidates = []; translations = []
+        }
         keyboardView.update(
             candidates: candidates,
             translations: translations,

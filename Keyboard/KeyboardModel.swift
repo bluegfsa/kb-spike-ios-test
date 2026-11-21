@@ -186,7 +186,13 @@ final class KeyboardModel: KeyboardModeling {
         if mode == .zh2en {
             // S3-03：composition 已空时不再向 rime 发退格，避免多删/误触
             if engineReady && hadComposition { candidates = RimeKbInput(0xFF08) }
-            recomputeTranslations()
+            if buffer.isEmpty {
+                // BUG-7：删到空 → 重置引擎 composition 并清空候选，杜绝"候选删不干净/卡住"
+                if engineReady { RimeKbReset() }
+                candidates = []; candidateTranslations = []; primaryTranslation = nil
+            } else {
+                recomputeTranslations()
+            }
         } else {
             candidates = []; candidateTranslations = []
             primaryTranslation = enTranslation(currentWord: buffer)
