@@ -218,6 +218,7 @@ final class KeyboardViewController: UIInputViewController {
 
     // MARK: - 交互
     private func handleKeyText(_ text: String) {
+        KBDiagnostics.shared.bumpHandled() // ⚠️ 临时诊断（测试包）
         guard text.count == 1, let character = text.first else {
             textDocumentProxy.insertText(text)
             return

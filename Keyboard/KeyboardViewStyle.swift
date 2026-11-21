@@ -173,6 +173,7 @@ final class ClosureButton: UIButton {
 
     /// 按下即上字：先执行输入（最要紧、立即），再做气泡/声音装饰——装饰绝不挡在上字前面。
     @objc private func pressDown() {
+        KBDiagnostics.shared.bumpPressDown() // ⚠️ 临时诊断（测试包）
         if pressInserts { onTap?() }
         if showsBubble { showPreview() }
         if autoFeedback { KeyFeedback.shared.play() }

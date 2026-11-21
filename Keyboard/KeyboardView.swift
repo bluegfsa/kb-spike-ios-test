@@ -7,7 +7,7 @@ enum KeyboardLayoutMode {
 }
 
 /// 纯 UIKit 键盘视图：顶部功能条（KeyboardTopBar）＋四行键；高度自适应；配色/按钮见 KeyboardViewStyle.swift。
-final class KeyboardView: UIView {
+final class KeyboardView: UIView, UIGestureRecognizerDelegate {
     // 尺寸
     private let keyHeight: CGFloat = 41     // ④ 键高 44→41（对齐微信/iOS，几乎无差）
     private let keyGap: CGFloat = 6      // 水平键距
@@ -37,6 +37,8 @@ final class KeyboardView: UIView {
 
     private let topBar = KeyboardTopBar()
     private let rowsStack = KeyGridView()
+    private let diagLabel = UILabel()            // ⚠️ 临时诊断浮层（测试取证包）
+    private weak var diagHitView: UIView?         // 最近一次真实触摸 hitTest 命中视图
     private lazy var settingsPanel = KeyboardSettingsPanel()
     private weak var modeKeyButton: ModeToggleButton?
     private weak var returnKeyButton: ClosureButton?
@@ -52,10 +54,90 @@ final class KeyboardView: UIView {
         backgroundColor = KBColor.background
         setupTopBar()
         setupRows()
+        setupDiagnostics()
         setLayoutMode(.letters)
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    // MARK: - ⚠️ 临时屏内诊断（测试取证包；定案出正式包前整段+浮层+本文件删除）
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let v = super.hitTest(point, with: event)
+        if KBDiagnostics.enabled, event != nil {
+            diagHitView = v
+            KBDiagnostics.shared.hitView = v
+            KBDiagnostics.shared.hitClassName = v.map { String(describing: type(of: $0)) } ?? "nil"
+            KBDiagnostics.shared.lastPoint = point
+        }
+        return v
+    }
+
+    private func setupDiagnostics() {
+        guard KBDiagnostics.enabled else { return }
+        diagLabel.font = .monospacedSystemFont(ofSize: 8, weight: .regular)
+        diagLabel.textColor = .white
+        diagLabel.backgroundColor = UIColor.black.withAlphaComponent(0.72)
+        diagLabel.numberOfLines = 9
+        diagLabel.isUserInteractionEnabled = false // 不挡触摸
+        diagLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(diagLabel)
+        NSLayoutConstraint.activate([
+            diagLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            diagLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            diagLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            diagLabel.heightAnchor.constraint(equalToConstant: 104),
+        ])
+        KBDiagnostics.shared.label = diagLabel
+        let tap = UITapGestureRecognizer(target: self, action: #selector(diagTap(_:)))
+        tap.cancelsTouchesInView = false
+        tap.delegate = self
+        addGestureRecognizer(tap)
+    }
+
+    @objc private func diagTap(_ g: UITapGestureRecognizer) {
+        let p = g.location(in: self)
+        let keys = allKeyButtons()
+        let inGrid = rowsStack.convert(rowsStack.bounds, to: self).contains(p)
+        var insideKey = "-"
+        var nearestT = "-"
+        var nearestD = CGFloat.greatestFiniteMagnitude
+        var nearestFrame = CGRect.zero
+        for k in keys {
+            let f = k.convert(k.bounds, to: self)
+            if f.contains(p) { insideKey = k.title(for: .normal) ?? "?" }
+            let dx = max(max(f.minX - p.x, 0), p.x - f.maxX)
+            let dy = max(max(f.minY - p.y, 0), p.y - f.maxY)
+            let d = dx * dx + dy * dy
+            if d < nearestD { nearestD = d; nearestT = k.title(for: .normal) ?? "?"; nearestFrame = f }
+        }
+        var over: [String] = []
+        for v in subviews where v !== diagLabel {
+            let f = v.convert(v.bounds, to: self)
+            if f.contains(p) {
+                over.append(String(format: "%@(ui=%d,hid=%d,a=%.2f)", String(describing: type(of: v)),
+                                   v.isUserInteractionEnabled ? 1 : 0, v.isHidden ? 1 : 0, v.alpha))
+            }
+        }
+        let gridF = rowsStack.frame
+        let extra = [
+            String(format: "geo: inGrid=%d inKey=%@ nearest=%@ d=%.0f", inGrid ? 1 : 0, insideKey, nearestT, sqrt(nearestD)),
+            "nearF=(\(Int(nearestFrame.minX)),\(Int(nearestFrame.minY)),\(Int(nearestFrame.width)),\(Int(nearestFrame.height)))",
+            "gridF=(\(Int(gridF.minX)),\(Int(gridF.minY)),\(Int(gridF.width)),\(Int(gridF.height)))",
+            "over=[" + over.joined(separator: ",") + "]",
+        ]
+        KBDiagnostics.shared.report(extra: extra)
+    }
+
+    /// 递归收集所有按键（UIButton）。
+    private func allKeyButtons() -> [UIButton] {
+        var out: [UIButton] = []
+        func walk(_ v: UIView) { for s in v.subviews { if let b = s as? UIButton { out.append(b) } else { walk(s) } } }
+        walk(self)
+        return out
+    }
+
+    func gestureRecognizer(_ g: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith other: UIGestureRecognizer) -> Bool { true }
 
     /// 键盘总高（内容＋底部安全区），供 VC 设高度约束。
     func intrinsicKeyboardHeight(bottomInset: CGFloat) -> CGFloat {
