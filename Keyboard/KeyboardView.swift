@@ -74,7 +74,8 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
     override func layoutSubviews() {
         super.layoutSubviews()
         if KBDiagnostics.enabled, let win = window {
-            let r = convert(bounds, to: win)
+            // ⚠️ 屏幕坐标（非 window 坐标），与手指/机器的屏幕点同系，避免独立 window 原点偏移误判。
+            let r = convert(bounds, to: win.screen.coordinateSpace)
             KBDiagnostics.shared.kvScreen = String(
                 format: "(%.0f,%.0f,%.0f,%.0f)", r.minX, r.minY, r.width, r.height)
             KBDiagnostics.shared.refresh()

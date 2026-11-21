@@ -16,6 +16,8 @@ final class KBDiagnostics {
     var rootScreen = "-"
     /// 键区根在 window 的覆盖矩形（KeyboardView.layoutSubviews 更新）。
     var kvScreen = "-"
+    /// 宿主 window 原点（键盘在独立 window，有原点偏移；用于交叉核对屏幕坐标）。
+    var winOrigin = "-"
     /// 最近一次 KTL 触摸处的几何摘要（KeyboardView 计算）。
     private var geometry = "-"
     /// 最近命中日志，最多 6 条。
@@ -40,8 +42,9 @@ final class KBDiagnostics {
     func refresh() {
         guard Self.enabled else { return }
         var lines: [String] = []
-        lines.append("ROOT.screen=" + rootScreen)
-        lines.append("KV.screen=" + kvScreen)
+        lines.append("ROOT.screen(sc)=" + rootScreen)
+        lines.append("KV.screen(sc)=" + kvScreen)
+        lines.append("win.origin=" + winOrigin)
         lines.append(contentsOf: logs)
         lines.append("geo=" + geometry)
         label?.text = lines.joined(separator: "\n")

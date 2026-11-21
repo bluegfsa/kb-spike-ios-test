@@ -19,9 +19,12 @@ final class ProbeRootView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         guard KBDiagnostics.enabled, let win = window else { return }
-        let r = convert(bounds, to: win)
+        // ⚠️ 用屏幕坐标（不是 window 坐标）：键盘在独立 window 有原点偏移，必须与手指/机器的屏幕点同系。
+        let r = convert(bounds, to: win.screen.coordinateSpace)
         KBDiagnostics.shared.rootScreen = String(
             format: "(%.0f,%.0f,%.0f,%.0f)", r.minX, r.minY, r.width, r.height)
+        let wo = win.frame.origin
+        KBDiagnostics.shared.winOrigin = String(format: "(%.0f,%.0f)", wo.x, wo.y)
         KBDiagnostics.shared.refresh()
     }
 }
