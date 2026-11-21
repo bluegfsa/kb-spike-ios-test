@@ -20,8 +20,7 @@ final class KeyboardViewController: UIInputViewController {
     private var returnKeyTimer: Timer?
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        // #8（微信输入法同款）：自己做「半透明底」不依赖采壁纸（UI v0.8：浅 #F2F3F5 / 深 #1C1C1E，alpha 0.88）；
+        super.viewDidLoad()        // #8（微信输入法同款）：自己做「半透明底」不依赖采壁纸（UI v0.8：浅 #F2F3F5 / 深 #1C1C1E，alpha 0.88）；
         // 键盘/候选栏透明露出底色，配合键盘顶部上探 kbTopCover 盖住系统那条白圆角。
         // #8（微信同款）：不铺不透明色、不自绘模糊——背景全透明，让 iOS 系统键盘自带的原生毛玻璃背板透出。
         view.backgroundColor = .clear
@@ -40,6 +39,12 @@ final class KeyboardViewController: UIInputViewController {
 #endif
         model.onChange = { [weak self] in self?.render() }
         render()
+    }
+
+    /// 键盘每次出现都重置引擎 composition，避免上一次未提交拼音残留成候选（如 tazai 显示上次输入）。
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let m = model as? KeyboardModel { m.resetSession() }
     }
 
     /// #2/#3：高度按内容＋底部安全区自适应（不写死 291），露白/挡输入框问题由此解决。

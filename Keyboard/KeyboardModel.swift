@@ -129,11 +129,54 @@ final class KeyboardModel: KeyboardModeling {
         if zh2en {
             if let p = PhraseGlossary.en(term) { return p }
             if let t = templateZh(term) { return t }
+            if let q = templateZhQuestion(term) { return q }
             if let e = cd.exact(term, zh2en: true) { return e }
             return segmentZh(term, cd)
         } else {
-            return cd.exact(term.lowercased(), zh2en: false)
+            // en2zh：清洗 ECDICT 长释义（去掉词性/时态变形/多义堆叠，取首条干净中文义）
+            return Self.cleanEnGloss(cd.exact(term.lowercased(), zh2en: false))
         }
+    }
+
+    /// 清洗英文→中文释义：跳过时态/变形注记行、去词性前缀、取首个分句，仅保留含汉字的干净义项。
+    private static func cleanEnGloss(_ raw: String?) -> String? {
+        guard let raw, !raw.isEmpty else { return nil }
+        let bad = ["过去式", "过去分词", "复数", "现在分词", "第三人称单数", "比较级", "最高级"]
+        for lineSub in raw.split(whereSeparator: { $0 == "\n" || $0 == ";" }) {
+            var t = String(lineSub).trimmingCharacters(in: .whitespaces)
+            if t.isEmpty || t.hasPrefix("[") { continue }
+            if bad.contains(where: { t.contains($0) }) { continue }
+            if let r = t.range(of: "^[A-Za-z]+\\.\\s*", options: .regularExpression) { t.removeSubrange(r) }
+            if let cut = t.firstIndex(where: { "，,；;。.…".contains($0) }) { t = String(t[..<cut]) }
+            t = t.trimmingCharacters(in: .whitespaces)
+            if !t.isEmpty, t.range(of: "\\p{Han}", options: .regularExpression) != nil { return t }
+        }
+        return nil
+    }
+
+    /// 是非问句 / 进行体模板：
+    ///  - 代词+在+动词(宾语) → "{Pe} is {v-ing} {obj}"（如 他在吃葡萄→he is eating grapes）
+    ///  - 代词+动词(宾语)+(了)吗/呢 → "Did {Pe} {verb}?"（如 你吃饭了吗→Did you eat?）
+    /// 目的：不让含“吗/呢”的常见整句被护栏整句吞掉。
+    private func templateZhQuestion(_ term: String) -> String? {
+        let pronMap: [String: String] = ["我们": "we", "你们": "you", "他们": "they", "她们": "they",
+                                          "我": "I", "你": "you", "您": "you", "他": "he", "她": "she", "它": "it"]
+        var core = term
+        for s in ["了吗", "吗", "呢", "了"] where core.hasSuffix(s) { core = String(core.dropLast(s.count)); break }
+        let progressive: [String: String] = ["吃葡萄": "eating grapes", "吃水果": "eating fruit", "吃饭": "eating",
+                                              "喝水": "drinking water", "看书": "reading a book", "看电视": "watching TV",
+                                              "做作业": "doing homework", "做饭": "cooking", "写作业": "doing homework", "玩手机": "playing on the phone"]
+        let yesno: [String: String] = ["吃饭": "eat", "吃": "eat", "喝水": "drink", "喝": "drink", "去": "go",
+                                        "看": "look", "做": "do", "买": "buy", "睡": "sleep", "走": "walk", "来": "come"]
+        for (p, pe) in pronMap where core.hasPrefix(p) {
+            let rest = String(core.dropFirst(p.count))
+            if rest.hasPrefix("在") {
+                let vp = String(rest.dropFirst())
+                if let v = progressive[vp] { return "\(pe) is \(v)" }
+            }
+            if let v = yesno[rest] { return "Did \(pe) \(v)?" }
+        }
+        return nil
     }
 
     /// 高频「代词+在+动作」疑问模板：如 我在干什么→What am I doing，避免被硬拼成 I am what are you doing。
@@ -177,8 +220,7 @@ final class KeyboardModel: KeyboardModeling {
                 for w in p.lowercased().split(whereSeparator: { !$0.isLetter }) { toks.insert(String(w)) }
             }
             let qfrag: Set<String> = ["what", "where", "who", "why", "how", "when", "which"]
-            let qmarks = ["什么", "哪", "谁", "为什么", "怎么", "多少", "吗", "呢"]
-            if !toks.isDisjoint(with: qfrag) || qmarks.contains(where: { term.contains($0) }) { return nil }
+            if !toks.isDisjoint(with: qfrag) { return nil }
         }
         return parts.isEmpty ? nil : parts.joined(separator: " ")
     }
@@ -265,6 +307,8 @@ final class KeyboardModel: KeyboardModeling {
 
     /// 提交后统一收口：先 RimeKbReset 清引擎内部 composition，再清 Swift 侧缓存，再通知刷新；避免旧串残留叠加。
     private func commitAndClear() { RimeKbReset(); clearComposition(); notifyChange() }
+    /// 键盘重新出现时调用：重置引擎 composition 并清缓存，杜绝跨会话候选残留（BUG：tazai 显示上次输入）。
+    func resetSession() { RimeKbReset(); clearComposition(); notifyChange() }
     private func clearComposition() { buffer = ""; candidates = []; candidateTranslations = []; primaryTranslation = nil; enSentence = [] }
     private func notifyChange() { DispatchQueue.main.async { [weak self] in self?.onChange?() } }
 }
