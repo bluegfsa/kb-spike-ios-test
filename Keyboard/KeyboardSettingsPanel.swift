@@ -31,10 +31,9 @@ final class KeyboardSettingsPanel: UIView {
 
         let soundRow = makeRow(iconView: soundIcon, toggle: soundToggle)
         let hapticRow = makeRow(iconView: hapticIcon, toggle: hapticToggle)
-        let aboutRow = makeAboutRow()
         let doneWrap = makeDone()
 
-        let stack = UIStackView(arrangedSubviews: [soundRow, hapticRow, aboutRow, doneWrap])
+        let stack = UIStackView(arrangedSubviews: [soundRow, hapticRow, doneWrap])
         stack.axis = .vertical
         stack.spacing = 14
         stack.alignment = .fill
@@ -72,38 +71,6 @@ final class KeyboardSettingsPanel: UIView {
             toggle.centerYAnchor.constraint(equalTo: card.centerYAnchor),
         ])
         return card
-    }
-
-    /// 「关于 · 开源许可与数据来源」入口卡（纯黑白灰、可点）。
-    private func makeAboutRow() -> UIView {
-        let card = UIButton(type: .system)
-        card.backgroundColor = UIColor { t in
-            t.userInterfaceStyle == .dark
-                ? UIColor(red: 44/255, green: 44/255, blue: 46/255, alpha: 0.72)
-                : UIColor(white: 1, alpha: 0.72)
-        }
-        card.layer.cornerRadius = 16
-        card.translatesAutoresizingMaskIntoConstraints = false
-        card.setTitle("关于 · 开源许可与数据来源", for: .normal)
-        card.setTitleColor(.label, for: .normal)
-        card.titleLabel?.font = .systemFont(ofSize: 13)
-        card.accessibilityLabel = "关于与开源许可"
-        card.addTarget(self, action: #selector(aboutTapped), for: .touchUpInside)
-        card.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        return card
-    }
-
-    @objc private func aboutTapped() {
-        let about = AboutLicensesView()
-        about.translatesAutoresizingMaskIntoConstraints = false
-        about.onClose = { [weak about] in about?.removeFromSuperview() }
-        addSubview(about)
-        NSLayoutConstraint.activate([
-            about.leadingAnchor.constraint(equalTo: leadingAnchor),
-            about.trailingAnchor.constraint(equalTo: trailingAnchor),
-            about.topAnchor.constraint(equalTo: topAnchor),
-            about.bottomAnchor.constraint(equalTo: bottomAnchor),
-        ])
     }
 
     /// 底部 ✓ 完成按钮（图标化）。
