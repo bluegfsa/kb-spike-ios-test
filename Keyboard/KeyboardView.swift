@@ -140,6 +140,8 @@ final class KeyboardView: UIView {
             r.translatesAutoresizingMaskIntoConstraints = false
             r.visualTop = vInsets[i].0
             r.visualBottom = vInsets[i].1
+            // 末行白卡不向下外扩，保留 rowsBottomPad 底部灰缝、圆角不被裁（1.62 修底行超界）
+            r.expandsBottom = (i < rows.count - 1)
             rowsStack.addArrangedSubview(r)
             r.heightAnchor.constraint(equalToConstant: heights[i]).isActive = true
         }

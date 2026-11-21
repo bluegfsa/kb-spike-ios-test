@@ -1,9 +1,8 @@
 import UIKit
 
-/// 【C2 实验·口径A】一行按键：外壳（真实按钮）满格无缝相接、底色＝不透明深分隔色；内部圆角白卡＝键面。
-/// 白卡以 1.49 可见键中心为基准**对称放大**（相邻白卡≈1.5pt 缝，四角由外壳深色填满＝零透明真空）；
-/// 外壳按切点格铺满整行（最左/最右顶到行边，行与行相接），触摸走真实按钮，不靠 KTL/判最近键。
-/// 边缘键白卡朝屏边外扩填满侧边（避免厚深色侧条），字仍锚 1.49 键心（略偏心，可接受）。
+/// C2 键行：外壳（真实按钮）满格相接、底色＝KBColor.background（键间缝与键盘背景同色）；内部圆角白卡＝键面。
+/// 白卡只在「朝相邻键/相邻行」的方向外扩到缝≈1.5pt；首行不向上扩（保留 rowsTopGap）、末行不向下扩（保留 rowsBottomPad），圆角完整不裁。
+/// 外壳按切点格铺满整行（最左/最右顶到行边，行与行相接），触摸走真实按钮，不靠触摸层/判最近键。
 final class C2RowView: UIView {
     struct Entry { let button: UIButton; let weight: CGFloat }
     private(set) var entries: [Entry] = []
@@ -14,6 +13,9 @@ final class C2RowView: UIView {
     /// 该行 1.49 的可见键上/下边距（首行 6/6.5、中间 6.5/6.5、末行 6.5/4）。
     var visualTop: CGFloat = 6.5
     var visualBottom: CGFloat = 6.5
+    /// 白卡是否朝本行上/下方向外扩（首行 expandsTop=false、末行 expandsBottom=false，保留键盘边距不被白卡吃掉）。
+    var expandsTop = true
+    var expandsBottom = true
     private let cardTag = 9_001
 
     /// 外壳（分隔）色：浅 #8A8A90 / 深 #48484A，随深浅色。
@@ -42,9 +44,11 @@ final class C2RowView: UIView {
             vis.append(CGRect(x: x, y: visualTop, width: w, height: visH))
             x += w + spacing
         }
-        // 白卡放大：水平相邻缝→1.5；竖直相邻缝（=visualBottom上+visualTop下≈13）→1.5
+        // 白卡放大：水平相邻缝→1.5；竖直方向按「朝邻行」单侧外扩（保留 0.75pt 半缝），键盘首/末边距方向不外扩
         let dH = max(0, (spacing - 1.5) / 2)
-        let dV = max(0, ((visualTop + visualBottom) - 1.5) / 2)
+        let halfGap: CGFloat = 0.75
+        let dVUp = expandsTop ? max(0, visualTop - halfGap) : 0
+        let dVDown = expandsBottom ? max(0, visualBottom - halfGap) : 0
         for i in 0..<n {
             let v = vis[i]
             // 外壳裁到「首键左沿…末键右沿」：外圈留白（row2 两侧 20pt 等）不铺深色、露键盘底色、不可点（同 iOS/微信内缩）
@@ -71,8 +75,8 @@ final class C2RowView: UIView {
             // 白卡：内部键缝对称放大到≈1.5；边缘键朝外留白那侧不越出键沿（外留白露键盘底、不可点）
             let cardMinX = i == 0 ? v.minX : v.minX - dH
             let cardMaxX = i == n - 1 ? v.maxX : v.maxX + dH
-            let cardRect = CGRect(x: cardMinX, y: v.minY - dV,
-                                  width: max(0, cardMaxX - cardMinX), height: visH + 2 * dV)
+            let cardRect = CGRect(x: cardMinX, y: v.minY - dVUp,
+                                  width: max(0, cardMaxX - cardMinX), height: visH + dVUp + dVDown)
             card.frame = CGRect(x: cardRect.minX - cellL, y: cardRect.minY,
                                 width: cardRect.width, height: cardRect.height)
             // 内容居中到 1.49 键心 v.midX（边缘键字不被外壳/留白带偏）
