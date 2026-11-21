@@ -74,13 +74,13 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        guard KBDiagnostics.enabled else { return }
-        // 方案 B 关键修复：每次布局都把 KTL 铺满"顶栏底下整块键区"，并提到最前（只在同父兄弟间重排）。
+        // 方案 B 关键：每次布局都把 KTL 铺满键区（顶栏底下）＋提到最前——**不依赖诊断开关，正式包同样生效**。
         let top = topBar.frame.maxY
         touchLayer.frame = CGRect(x: 0, y: top, width: bounds.width, height: max(0, bounds.height - top))
         refreshHits()
         bringSubviewToFront(touchLayer)
         bringSubviewToFront(diagLabel)
+        guard KBDiagnostics.enabled else { return }
         let supOK = (touchLayer.superview === self)
         let idx = subviews.firstIndex(of: touchLayer) ?? -1
         KBDiagnostics.shared.setKTLInfo(String(
@@ -472,6 +472,9 @@ extension KeyboardView: KeyTouchLayerDelegate {
                 KeyFeedback.shared.play()
                 cb.onTap?()
             }
+        } else {
+            // 兜底：以后新增的非 ClosureButton 自定义键，按默认 target/action 触发，避免变死键。
+            b.sendActions(for: .touchUpInside)
         }
     }
 
