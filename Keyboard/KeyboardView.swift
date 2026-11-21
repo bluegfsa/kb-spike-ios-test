@@ -110,13 +110,17 @@ final class KeyboardView: UIView {
         rowsStack.axis = .vertical; rowsStack.isMultipleTouchEnabled = true
         rowsStack.spacing = rowGap
         rowsStack.distribution = .fillEqually
+        // 整层判键(KeyGridView)铺满整个键区全宽全高：靠 layoutMargins 保住视觉内边距（键宽/键位不变），
+        // 这样行两侧空白（a 左 / l 右，含最外侧到屏幕边）与行间纵向缝都落在判键层内，点哪都归最近键。
+        rowsStack.isLayoutMarginsRelativeArrangement = true
+        rowsStack.layoutMargins = UIEdgeInsets(top: rowsTopGap, left: keyGap, bottom: rowsBottomPad, right: keyGap)
         rowsStack.translatesAutoresizingMaskIntoConstraints = false
         addSubview(rowsStack)
         NSLayoutConstraint.activate([
-            rowsStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: keyGap),
-            rowsStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -keyGap),
-            rowsStack.topAnchor.constraint(equalTo: topBar.bottomAnchor, constant: rowsTopGap),
-            rowsStack.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -rowsBottomPad),
+            rowsStack.leadingAnchor.constraint(equalTo: leadingAnchor),
+            rowsStack.trailingAnchor.constraint(equalTo: trailingAnchor),
+            rowsStack.topAnchor.constraint(equalTo: topBar.bottomAnchor),
+            rowsStack.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
         ])
     }
 
