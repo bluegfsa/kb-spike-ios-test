@@ -57,10 +57,15 @@ final class CellRowView: UIView {
                 btn.insertSubview(bg, at: 0)
             }
             bg.frame = CGRect(x: v.minX - cellL, y: v.minY, width: v.width, height: v.height)
-            // 字母居中到“可见键块”（a/l 等边缘不对称时也准）
-            if btn is ClosureButton {
-                let delta = v.midX - (cellL + cellR) / 2
-                btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: max(0, delta * 2), bottom: 0, right: max(0, -delta * 2))
+            // 把内容（字母/中英/⇧图标）重新居中到“可见键块”，并把 ⇧ 锁定横杠锚回键块底（A′ 按钮＝整格）
+            let dx = v.midX - (cellL + cellR) / 2
+            let dy = v.midY - H / 2
+            let insets = UIEdgeInsets(top: max(0, dy * 2), left: max(0, dx * 2), bottom: max(0, -dy * 2), right: max(0, -dx * 2))
+            if btn is ClosureButton || btn is ModeToggleButton {
+                btn.titleEdgeInsets = insets
+            } else if let sb = btn as? ShiftKeyButton {
+                sb.applyCellInsets(visualBottom: visualBottom)
+                sb.imageEdgeInsets = insets
             }
         }
     }

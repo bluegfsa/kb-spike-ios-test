@@ -50,25 +50,22 @@ final class KeyBubble: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    /// 在 source 键正上方弹出，底边贴住键顶（融入按键）；text 为内容，baseFontSize 为该键字号（气泡字号=+11）。
-    func show(text: String, baseFontSize: CGFloat, source: UIView) {
+    /// 在「可见键块」正上方弹出，底边贴住键块顶；text 为内容，baseFontSize 为该键字号（气泡字号=+11）。
+    /// A′ 下按钮＝整格，故按传入的 visibleRect（按键坐标系里的可见键块）算气泡宽/位置，不能用按钮 bounds。
+    func show(text: String, baseFontSize: CGFloat, source: UIView, visibleRect: CGRect) {
         guard !text.isEmpty else { return }
-        // 新 show 先取消上一个待隐藏（旧键 touchUp 排的延迟 hide），避免把刚弹的新气泡又盖掉。
         hideWork?.cancel()
         hideWork = nil
-        // 挂到最顶层祖先视图（键盘根/VC.view），保证气泡在最上层、不被候选栏/行容器遮挡；
         var top: UIView = source
         while let sup = top.superview { top = sup }
         let holder = top
-        // 先完成自身/容器布局再取坐标（避免布局未定导致偶发取到错位/零尺寸）。
         source.layoutIfNeeded()
         holder.layoutIfNeeded()
-        // 矮、窄、字大：高 46pt 固定（首行键顶距键盘顶约 50pt → 顶留 ~4pt，顶排完整在键盘内不被裁）。
         let h: CGFloat = 46
-        let w = source.bounds.width + 12
+        let w = visibleRect.width + 12
         label.text = text
-        label.font = .systemFont(ofSize: baseFontSize + 11) // 气泡字母加大到 34pt（键字号 23+11）
-        let origin = holder.convert(source.bounds, from: source)
+        label.font = .systemFont(ofSize: baseFontSize + 11)
+        let origin = holder.convert(visibleRect, from: source)
         // x 夹取在容器内：边缘键（q/p 等最左最右列）气泡不越出键盘被裁，向内收（iOS 同款）。
         let maxX = max(0, holder.bounds.width - w)
         let x = min(max(0, origin.midX - w / 2), maxX)
@@ -178,7 +175,8 @@ final class ClosureButton: UIButton {
 
     @objc private func showPreview() {
         guard showsBubble, let title = title(for: .normal), !title.isEmpty else { return }
-        KeyBubble.shared.show(text: title, baseFontSize: titleLabel?.font.pointSize ?? 20, source: self)
+        let vis = self.viewWithTag(9001)?.frame ?? bounds // A′：用可见键块而不是整格
+        KeyBubble.shared.show(text: title, baseFontSize: titleLabel?.font.pointSize ?? 20, source: self, visibleRect: vis)
     }
 
     @objc private func hidePreview() { KeyBubble.shared.hide(ifOwner: self) }
@@ -202,6 +200,7 @@ final class ShiftKeyButton: UIButton {
     var onTap: (() -> Void)?
     var shiftState: ShiftState = .off { didSet { applyIcon() } }
     private let capsBar = UIView()
+    private var capsBottom: NSLayoutConstraint?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -214,9 +213,11 @@ final class ShiftKeyButton: UIButton {
         capsBar.isHidden = true
         capsBar.translatesAutoresizingMaskIntoConstraints = false
         addSubview(capsBar)
+        let cb = capsBar.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+        capsBottom = cb
         NSLayoutConstraint.activate([
             capsBar.centerXAnchor.constraint(equalTo: centerXAnchor),
-            capsBar.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
+            cb,
             capsBar.widthAnchor.constraint(equalToConstant: 12),
             capsBar.heightAnchor.constraint(equalToConstant: 3),
         ])
@@ -226,6 +227,11 @@ final class ShiftKeyButton: UIButton {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    /// A′：把锁定横杠锚回“可见键块”底部（键块底 -8），避免按钮外扩成格后横杠掉进缝里。
+    func applyCellInsets(visualBottom: CGFloat) {
+        capsBottom?.constant = -(visualBottom + 8)
     }
 
     @objc private func handleTap() { KeyFeedback.shared.play(); onTap?() }
