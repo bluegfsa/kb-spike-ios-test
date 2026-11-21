@@ -61,81 +61,91 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    // MARK: - ⚠️ 临时屏内诊断（测试取证包；定案出正式包前整段+浮层+本文件删除）
+    // MARK: - ⚠️ 临时诊断 + 方案 B 触摸层接线（正式包前删除诊断与 KTL 相关）
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let v = super.hitTest(point, with: event)
         if KBDiagnostics.enabled, event != nil {
+            KBDiagnostics.shared.bumpKV()
             let cls = v.map { String(describing: type(of: $0)) } ?? "nil"
-            KBDiagnostics.shared.log(String(format: "KVⓘ(%.0f,%.0f)→%@", point.x, point.y, cls))
+            KBDiagnostics.shared.setKVHit(String(format: "(%.0f,%.0f)→%@", point.x, point.y, cls))
         }
         return v
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        if KBDiagnostics.enabled, let win = window {
-            // ⚠️ 屏幕坐标（非 window 坐标），与手指/机器的屏幕点同系，避免独立 window 原点偏移误判。
-            let r = convert(bounds, to: win.screen.coordinateSpace)
-            KBDiagnostics.shared.kvScreen = String(
-                format: "(%.0f,%.0f,%.0f,%.0f)", r.minX, r.minY, r.width, r.height)
-            KBDiagnostics.shared.refresh()
-        }
+        guard KBDiagnostics.enabled else { return }
+        // 方案 B 关键修复：每次布局都把 KTL 铺满"顶栏底下整块键区"，并提到最前（只在同父兄弟间重排）。
+        let top = topBar.frame.maxY
+        touchLayer.frame = CGRect(x: 0, y: top, width: bounds.width, height: max(0, bounds.height - top))
+        refreshHits()
+        bringSubviewToFront(touchLayer)
+        bringSubviewToFront(diagLabel)
+        let supOK = (touchLayer.superview === self)
+        let idx = subviews.firstIndex(of: touchLayer) ?? -1
+        KBDiagnostics.shared.setKTLInfo(String(
+            format: "(%.0f,%.0f,%.0f,%.0f) sup=%@#%d",
+            touchLayer.frame.minX, touchLayer.frame.minY, touchLayer.frame.width, touchLayer.frame.height,
+            supOK ? "KeyboardView" : "OTHER", idx))
+        KBDiagnostics.shared.setZOrder(subviewZOrder())
     }
 
-    /// 探针：把透明 KeyTouchLayer 铺满整块键区（topBar 底 → 安全区底），加为 rowsStack 之上的最上层。
+    /// 方案 B：把透明 KTL 铺满键区、作为唯一触摸目标（加为 rowsStack 之上；诊断浮层再压最上层）。
     private func setupKeyTouchLayer() {
-        touchLayer.translatesAutoresizingMaskIntoConstraints = false
         touchLayer.isMultipleTouchEnabled = true
         touchLayer.backgroundColor = .clear
+        touchLayer.delegate = self
         addSubview(touchLayer)
-        NSLayoutConstraint.activate([
-            touchLayer.leadingAnchor.constraint(equalTo: leadingAnchor),
-            touchLayer.trailingAnchor.constraint(equalTo: trailingAnchor),
-            touchLayer.topAnchor.constraint(equalTo: topBar.bottomAnchor),
-            touchLayer.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-        ])
-        touchLayer.onBegan = { [weak self] p in self?.probeKTLTouch(p) }
     }
 
     private func setupDiagnostics() {
         guard KBDiagnostics.enabled else { return }
-        diagLabel.font = .monospacedSystemFont(ofSize: 9, weight: .regular)
+        diagLabel.font = .monospacedSystemFont(ofSize: 8, weight: .regular)
         diagLabel.textColor = .white
-        diagLabel.backgroundColor = UIColor.black.withAlphaComponent(0.78)
+        diagLabel.backgroundColor = UIColor.black.withAlphaComponent(0.82)
         diagLabel.numberOfLines = 0
-        diagLabel.isUserInteractionEnabled = false // 不挡触摸（非交互视图 hitTest 返回 nil，触摸落到下面的 KTL）
+        diagLabel.isUserInteractionEnabled = false
         diagLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(diagLabel)
         NSLayoutConstraint.activate([
             diagLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             diagLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             diagLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-            diagLabel.heightAnchor.constraint(equalToConstant: 132),
+            diagLabel.heightAnchor.constraint(equalToConstant: 54),
         ])
         KBDiagnostics.shared.label = diagLabel
         KBDiagnostics.shared.refresh()
     }
 
-    /// KTL 触摸处计算最近键几何（仅供参考，不上字）。
-    private func probeKTLTouch(_ p: CGPoint) {
-        let pk = touchLayer.convert(p, to: self)
-        var nearestT = "-"
-        var nearestFrame = CGRect.zero
-        var bestD = CGFloat.greatestFiniteMagnitude
-        for k in allKeyButtons() {
-            let f = k.convert(k.bounds, to: self)
-            let dx = max(max(f.minX - pk.x, 0), pk.x - f.maxX)
-            let dy = max(max(f.minY - pk.y, 0), pk.y - f.maxY)
-            let d = dx * dx + dy * dy
-            if d < bestD { bestD = d; nearestT = k.title(for: .normal) ?? "?"; nearestFrame = f }
+    /// 依据原按键重建 KTL 的命中清单（中英/符号切换重排后，每次 layoutSubviews 刷新）。
+    private func refreshHits() {
+        var list: [KeyHit] = []
+        for b in allKeyButtons() {
+            let vf = b.convert(b.bounds, to: touchLayer)
+            let title = b.title(for: .normal) ?? ""
+            let kind: KeyKind
+            if b is ShiftKeyButton { kind = .shift }
+            else if b is ModeToggleButton { kind = .mode }
+            else if title == "⌫" { kind = .backspace }
+            else if title == "空格" || title == "space" { kind = .space }
+            else if b === returnKeyButton { kind = .ret }
+            else if let cb = b as? ClosureButton, cb.showsBubble { kind = .letter }
+            else { kind = .function }
+            list.append(KeyHit(kind: kind, text: (kind == .letter ? title : nil), visualFrame: vf, button: b))
+            b.isUserInteractionEnabled = false // 只显示，触摸全由 KTL 接管（§3.1）
         }
-        KBDiagnostics.shared.setGeometry(String(
-            format: "nearest=%@ vf=(%.0f,%.0f,%.0f,%.0f) d=%.0f rowsClip=%d kvClip=%d",
-            nearestT, nearestFrame.minX, nearestFrame.minY, nearestFrame.width, nearestFrame.height,
-            sqrt(bestD), rowsStack.clipsToBounds ? 1 : 0, clipsToBounds ? 1 : 0))
+        touchLayer.hits = list
     }
 
-    /// 递归收集键区(rowsStack)内所有按键（UIButton），用于探针最近键几何。
+    /// KeyboardView 直接子视图 z 序快照（类名/frame/ui）。
+    private func subviewZOrder() -> String {
+        subviews.map { v in
+            String(format: "%@(%.0f,%.0f,%.0f,%.0f,ui%d)", String(describing: type(of: v)),
+                   v.frame.minX, v.frame.minY, v.frame.width, v.frame.height, v.isUserInteractionEnabled ? 1 : 0)
+        }.joined(separator: " ")
+    }
+
+    /// 递归收集键区(rowsStack)内所有按键（UIButton）。
     private func allKeyButtons() -> [UIButton] {
         var out: [UIButton] = []
         func walk(_ v: UIView) { for s in v.subviews { if let b = s as? UIButton { out.append(b) } else { walk(s) } } }
@@ -440,3 +450,39 @@ final class KeyboardView: UIView, UIGestureRecognizerDelegate {
         deleteTimer = nil
     }
 }
+
+// MARK: - 方案 B：KeyTouchLayer 触摸派发（按最近键执行原按键动作）
+extension KeyboardView: KeyTouchLayerDelegate {
+    /// 按下即派发：字母/符号上字、退格删一次并起连删、空格/回车/⇧/中英调原 handler；气泡/震动在此触发。
+    func keyTouchLayer(_ l: KeyTouchLayer, didPressAt point: CGPoint, hit: KeyHit) {
+        guard let b = hit.button else { return }
+        if let sb = b as? ShiftKeyButton {
+            KeyFeedback.shared.play()
+            DispatchQueue.main.async { sb.onTap?() } // 会重建键盘，延到下一 runloop，避免在触摸回调中销毁视图
+        } else if b is ModeToggleButton {
+            KeyFeedback.shared.play()
+            DispatchQueue.main.async { [weak self] in self?.onToggleMode?() }
+        } else if let cb = b as? ClosureButton {
+            if hit.kind == .backspace {
+                KeyFeedback.shared.playDelete(); onBackspace?()
+            } else {
+                if cb.showsBubble, let title = cb.title(for: .normal), !title.isEmpty {
+                    KeyBubble.shared.show(text: title, baseFontSize: cb.titleLabel?.font.pointSize ?? 20, source: cb)
+                }
+                KeyFeedback.shared.play()
+                cb.onTap?()
+            }
+        }
+    }
+
+    /// 抬手/取消：收气泡，停止连删由 KTL 负责。
+    func keyTouchLayer(_ l: KeyTouchLayer, didRelease hit: KeyHit) {
+        if let cb = hit.button as? ClosureButton, cb.showsBubble { KeyBubble.shared.hide(ifOwner: cb) }
+    }
+
+    /// 退格长按连删 tick。
+    func keyTouchLayer(_ l: KeyTouchLayer, didRepeat hit: KeyHit) {
+        if hit.kind == .backspace { KeyFeedback.shared.playDelete(); onBackspace?() }
+    }
+}
+

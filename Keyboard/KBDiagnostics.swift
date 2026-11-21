@@ -1,56 +1,41 @@
 import UIKit
 
-/// ⚠️ 临时屏内诊断（仅「缝触摸探针包」，定位根因后整文件删除；正式包前 enabled=false 并删本文件）。
-/// 探针目标：钉死"空白区触摸到底进没进扩展、进到哪一层"。全部走屏内浮层（本机取不到 os_log）：
-///  - 常驻两行：ROOT.screen / KV.screen —— 根视图/键区根在 window 的覆盖矩形（不靠点击也能看）；
-///  - 最近 6 条命中日志：前缀 ROOTⓘ / KVⓘ / KTL✓，同点去重（hitTest 每次移动都调，不去重会刷屏）；
-///  - 一行几何：最近键＋其 visualFrame＋rowsStack/KeyboardView 的 clipsToBounds。
+/// ⚠️ 临时屏内诊断（真 B 测试包；定案出正式包前整文件删除）。
+/// 三行：
+///  1) KTL=(frame) sup=KeyboardView#idx tap/R/K near=… —— KTL 是否铺满键区、是否 KeyboardView 直接子视图、各层触摸计数；
+///  2) KVhit=(x,y)→类名 —— 最近一次 KeyboardView.hitTest 返回谁（看缝被谁吃）；
+///  3) z=… —— KeyboardView 直接子视图 z 序（类名/frame/ui），揪盖在缝上的兄弟视图。
 final class KBDiagnostics {
     static let shared = KBDiagnostics()
     /// 定案出正式包前必须置 false 并删除本文件。
     static let enabled = true
 
     weak var label: UILabel?
+    private var ktlInfo = "-"
+    private var kvHitInfo = "-"
+    private var zorder = "-"
+    private var tapCnt = 0
+    private var rootCnt = 0
+    private var kvCnt = 0
+    private var nearest = "-"
 
-    /// 根视图在 window 的覆盖矩形（ProbeRootView.layoutSubviews 更新）。
-    var rootScreen = "-"
-    /// 键区根在 window 的覆盖矩形（KeyboardView.layoutSubviews 更新）。
-    var kvScreen = "-"
-    /// 宿主 window 原点（键盘在独立 window，有原点偏移；用于交叉核对屏幕坐标）。
-    var winOrigin = "-"
-    /// 最近一次 KTL 触摸处的几何摘要（KeyboardView 计算）。
-    private var geometry = "-"
-    /// 最近命中日志，最多 6 条。
-    private var logs: [String] = []
+    func bumpKTL() { tapCnt += 1; refresh() }
+    func bumpRoot() { rootCnt += 1; refresh() }
+    func bumpKV() { kvCnt += 1; refresh() }
+    func setNearest(_ s: String) { nearest = s; refresh() }
+    func setKTLInfo(_ s: String) { ktlInfo = s; refresh() }
+    func setKVHit(_ s: String) { kvHitInfo = s; refresh() }
+    func setZOrder(_ s: String) { zorder = s; refresh() }
 
-    /// 追加一条命中日志：同点(整行相同)去重，只留最近 6 条。
-    func log(_ line: String) {
-        guard Self.enabled else { return }
-        logs.removeAll { $0 == line } // 同点去重（含非相邻重复）
-        logs.append(line)
-        if logs.count > 6 { logs.removeFirst(logs.count - 6) }
-        refresh()
-    }
-
-    /// 设置最近键几何摘要并刷新。
-    func setGeometry(_ text: String) {
-        geometry = text
-        refresh()
-    }
-
-    /// 刷新浮层文本。
     func refresh() {
         guard Self.enabled else { return }
-        var lines: [String] = []
-        lines.append("ROOT.screen(sc)=" + rootScreen)
-        lines.append("KV.screen(sc)=" + kvScreen)
-        lines.append("win.origin=" + winOrigin)
-        lines.append(contentsOf: logs)
-        lines.append("geo=" + geometry)
-        label?.text = lines.joined(separator: "\n")
+        let l1 = "KTL=\(ktlInfo) tap=\(tapCnt) R=\(rootCnt) K=\(kvCnt) near=\(nearest)"
+        let l2 = "KVhit=\(kvHitInfo)"
+        let l3 = "z=\(zorder)"
+        label?.text = l1 + "\n" + l2 + "\n" + l3
     }
 
-    // 兼容旧调用点（ClosureButton.pressDown / VC.handleKeyText 仍调用），探针阶段不计数。
+    // 兼容旧调用点（ClosureButton.pressDown / VC.handleKeyText 仍调用），不计数。
     func bumpPressDown() {}
     func bumpHandled() {}
 }
