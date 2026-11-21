@@ -208,5 +208,9 @@ final class KeyboardTopBar: UIView {
 
     @objc private func settingsTapped() { onSettings?() }
     @objc private func dismissTapped() { onDismiss?() }
-    @objc private func candidateTapped(_ sender: UITapGestureRecognizer) { onCandidate?(sender.view?.tag ?? 0) }
+    // REQ-9：点候选上屏时同步按键音+震动，与普通按键同一套反馈（跟随系统/键盘内声音·震动开关，关则无）。
+    @objc private func candidateTapped(_ sender: UITapGestureRecognizer) {
+        KeyFeedback.shared.play()
+        onCandidate?(sender.view?.tag ?? 0)
+    }
 }
