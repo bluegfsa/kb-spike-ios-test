@@ -12,6 +12,7 @@ enum PhraseGlossary {
         "多少钱": "How much", "怎么样": "How about", "为什么": "Why", "是不是": "Is it",
         "可以吗": "Is it okay", "怎么办": "What to do", "什么时候": "When", "什么地方": "Where",
         "干什么": "What are you doing", "在干什么": "What are you doing", "请问": "Excuse me",
+        "你在干什么": "What are you doing", "你在做什么": "What are you doing", "你在干嘛": "What are you doing", "你干什么": "What are you doing",
         "好的": "OK", "谢谢大家": "Thank you all",
         "一路顺风": "Have a good trip", "辛苦了": "Thanks for your hard work", "加油": "Cheer up",
         "无聊": "boring", "什么意思": "What does it mean", "怎么回事": "What happened",

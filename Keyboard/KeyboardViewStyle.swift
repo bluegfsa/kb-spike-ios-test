@@ -153,8 +153,6 @@ final class ClosureButton: UIButton {
     var pressInserts = true
     /// 是否自动播按键音/震动（删除键用独立音，置 false 避免重复）
     var autoFeedback = true
-    /// 可点热区左右各扩的量（半个键缝），拼满无缝、缝隙落点归最近键
-    var hitExpandX: CGFloat = 0
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -183,13 +181,6 @@ final class ClosureButton: UIButton {
     }
 
     @objc private func hidePreview() { KeyBubble.shared.hide(ifOwner: self) }
-
-    /// 横向把可点热区外扩 hitExpandX，覆盖按键之间的缝隙（相邻键在中线相接、缝隙落点归最近键）。
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        if bounds.contains(point) { return true }
-        guard hitExpandX > 0 else { return false }
-        return bounds.insetBy(dx: -hitExpandX, dy: 0).contains(point)
-    }
 }
 
 /// 横向可点热区可外扩的容器（候选词条用）：左右各扩半缝拼满无缝；
@@ -200,6 +191,37 @@ final class HitExpandView: UIView {
         if bounds.contains(point) { return true }
         guard hitExpandX > 0 else { return false }
         return bounds.insetBy(dx: -hitExpandX, dy: 0).contains(point)
+    }
+}
+
+/// 键区整层按坐标就近判键：落在按键之间缝隙（横/纵）里的触点，命中最近的键，拼满无缝。
+/// 直接返回真实按键视图 → 保留长按删除等手势、气泡、多指；候选条/顶栏不在本层（横滑不受影响）。
+final class KeyGridView: UIStackView {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        guard self.point(inside: point, with: event) else { return nil }
+        let keys = keyControls()
+        // 1) 正好落在某个键内：交给该键本身（长按删除/气泡/多指都走原逻辑）
+        for k in keys where k.bounds.contains(k.convert(point, from: self)) {
+            return k
+        }
+        // 2) 落在缝隙：取「到键矩形距离最近」的键（横缝纵缝都盖，缝隙落点归最近键）
+        var best: UIButton?
+        var bestD = CGFloat.greatestFiniteMagnitude
+        for k in keys {
+            let local = k.convert(point, from: self)
+            let dx = max(max(k.bounds.minX - local.x, 0), local.x - k.bounds.maxX)
+            let dy = max(max(k.bounds.minY - local.y, 0), local.y - k.bounds.maxY)
+            let d = dx * dx + dy * dy
+            if d < bestD { bestD = d; best = k }
+        }
+        return best ?? super.hitTest(point, with: event)
+    }
+    /// 收集本网格内所有按键（ClosureButton/ShiftKeyButton/ModeToggleButton 均为 UIButton）。
+    private func keyControls() -> [UIButton] {
+        var out: [UIButton] = []
+        func walk(_ v: UIView) { for s in v.subviews { if let b = s as? UIButton { out.append(b) } else { walk(s) } } }
+        walk(self)
+        return out
     }
 }
 

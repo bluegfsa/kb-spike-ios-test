@@ -36,7 +36,7 @@ final class KeyboardView: UIView {
     private var layoutMode: KeyboardLayoutMode = .letters
 
     private let topBar = KeyboardTopBar()
-    private let rowsStack = UIStackView()
+    private let rowsStack = KeyGridView()
     private lazy var settingsPanel = KeyboardSettingsPanel()
     private weak var modeKeyButton: ModeToggleButton?
     private weak var returnKeyButton: ClosureButton?
@@ -271,7 +271,6 @@ final class KeyboardView: UIView {
         button.layer.cornerRadius = keyCorner
         button.clipsToBounds = true
         button.accessibilityLabel = accessibility
-        button.hitExpandX = keyGap / 2 // ② 热区左右各扩半缝（3pt），拼满无缝、缝隙归最近键
         return button
     }
 
