@@ -20,7 +20,6 @@ final class KeyboardTopBar: UIView {
     private let candidateStack = UIStackView()
     private var pinyinTrailing: NSLayoutConstraint!
     private var candidateTrailing: NSLayoutConstraint!
-    private var panStartOffset: CGFloat = 0
 
     /// 输入态右侧整块宽：候选↔线10 + 线0.5 + 线↔箭头6 + 箭头热区44 + 右边距8 ≈ 68.5。
     private let inputRightBlock: CGFloat = 68.5
@@ -107,46 +106,54 @@ final class KeyboardTopBar: UIView {
         // 箭头居中已由 addCenteredImage 的 centerYAnchor 约束保证（不再用 imageView.transform）。
     }
 
-    /// 中间两行：上行拼音串（14pt，过长省略）、下行候选（26pt，横向滚动）。留出输入态右侧箭头块位置。
+    /// 中间：整条候选栏是一条**原生横向 UIScrollView**（覆盖整个 44pt 高＝拼音行＋候选行＋字间空隙＋空白），
+    /// 用它自带的位移/惯性减速（decelerationRate），不再自写 1:1 pan —— 解决「涩、无惯性」＋「空隙滑不动」。
     private func setupMiddle() {
-        pinyinLabel.font = .systemFont(ofSize: 12)
-        pinyinLabel.textColor = KBColor.pinyin
-        pinyinLabel.lineBreakMode = .byTruncatingTail
-        pinyinLabel.translatesAutoresizingMaskIntoConstraints = false
-        pinyinLabel.isUserInteractionEnabled = false // ④ 整条候选栏统一起手滑动，拼音行不再单独吃手势
-        addSubview(pinyinLabel)
+        // 原生横向滚动条：整条 bar 高度，含拼音行/字间空隙/空白，任意落点起手都能滑，松手有惯性。
         candidateScroll.showsHorizontalScrollIndicator = false
+        candidateScroll.showsVerticalScrollIndicator = false
         candidateScroll.alwaysBounceHorizontal = true
         candidateScroll.delaysContentTouches = false          // 命中即时
-        candidateScroll.canCancelContentTouches = true        // 允许拖动时取消 tap → 候选可横向滑动（之前设 false 导致滑不动）
-        candidateScroll.isScrollEnabled = false         // ④ 改由整条 bar 的统一 pan 驱动滚动，避免与 scroll 自带 pan 抢手势
-        // ④ 整条候选栏（拼音行 / 候选行 / 空白）任意位置起手都能横滑：手势挂在本 TopBar 容器
-        let barPan = UIPanGestureRecognizer(target: self, action: #selector(barPanned(_:)))
-        barPan.cancelsTouchesInView = false             // 只滚动、不吞候选点击
-        addGestureRecognizer(barPan)
+        candidateScroll.canCancelContentTouches = true        // 拖动时取消 tap → 可横滑且不误选
+        candidateScroll.isScrollEnabled = true
+        candidateScroll.decelerationRate = .normal            // 松手按 velocity 自然减速（微信式轻盈惯性）
+        candidateScroll.clipsToBounds = true
         candidateScroll.translatesAutoresizingMaskIntoConstraints = false
         addSubview(candidateScroll)
+
         candidateStack.axis = .horizontal
         candidateStack.alignment = .center
         candidateStack.spacing = 16
         candidateStack.translatesAutoresizingMaskIntoConstraints = false
         candidateScroll.addSubview(candidateStack)
+
+        // 拼音串叠在滚动条之上、但不吃手势（isUserInteractionEnabled=false → 触点落到下面 scroll，照样能滑）。
+        pinyinLabel.font = .systemFont(ofSize: 12)
+        pinyinLabel.textColor = KBColor.pinyin
+        pinyinLabel.lineBreakMode = .byTruncatingTail
+        pinyinLabel.isUserInteractionEnabled = false
+        pinyinLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(pinyinLabel)
+
         pinyinTrailing = pinyinLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock)
         candidateTrailing = candidateScroll.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock)
         NSLayoutConstraint.activate([
+            // scroll 覆盖整个 44pt 顶栏：拼音行、候选行、字间空隙都归它，任意处起手都能滑
+            candidateScroll.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            candidateTrailing,
+            candidateScroll.topAnchor.constraint(equalTo: topAnchor),
+            candidateScroll.bottomAnchor.constraint(equalTo: bottomAnchor),
+            // 内容区高度 = 可视高度；候选行贴底 26pt，上面 14pt 留给拼音（拼音是 overlay，不随滚动移动）
+            candidateScroll.contentLayoutGuide.heightAnchor.constraint(equalTo: candidateScroll.frameLayoutGuide.heightAnchor),
+            candidateStack.leadingAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.leadingAnchor),
+            candidateStack.trailingAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.trailingAnchor),
+            candidateStack.bottomAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.bottomAnchor),
+            candidateStack.heightAnchor.constraint(equalToConstant: 26),
+            // 拼音 overlay（在 scroll 之上，但不吃手势）
             pinyinLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             pinyinTrailing,
             pinyinLabel.topAnchor.constraint(equalTo: topAnchor, constant: 2),
             pinyinLabel.heightAnchor.constraint(equalToConstant: 14),
-            candidateScroll.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            candidateTrailing,
-            candidateScroll.topAnchor.constraint(equalTo: pinyinLabel.bottomAnchor),
-            candidateScroll.heightAnchor.constraint(equalToConstant: 26),
-            candidateStack.leadingAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.leadingAnchor),
-            candidateStack.trailingAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.trailingAnchor),
-            candidateStack.topAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.topAnchor),
-            candidateStack.bottomAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.bottomAnchor),
-            candidateStack.heightAnchor.constraint(equalTo: candidateScroll.frameLayoutGuide.heightAnchor),
         ])
     }
 
@@ -178,24 +185,9 @@ final class KeyboardTopBar: UIView {
         candidateScroll.isHidden = candidates.isEmpty
     }
 
-    /// ④ 整条候选栏拖动 → 横向滚动候选（拼音行 / 候选行 / 空白任意起手都能滑，不只汉字格）。
-    @objc private func barPanned(_ g: UIPanGestureRecognizer) {
-        let tx = g.translation(in: self).x
-        switch g.state {
-        case .began:
-            panStartOffset = candidateScroll.contentOffset.x
-        case .changed, .ended, .cancelled, .failed:
-            let maxX = max(0, candidateScroll.contentSize.width - candidateScroll.bounds.width)
-            let x = min(max(0, panStartOffset - tx), maxX)
-            candidateScroll.setContentOffset(CGPoint(x: x, y: 0), animated: false)
-        default:
-            break
-        }
-    }
-
     private func makeCandidateItem(text: String, translation: String?, highlight: Bool, index: Int, selectable: Bool) -> UIView {
         let container = HitExpandView()
-        container.hitExpandX = candidateStack.spacing / 2 // ② 候选词条热区左右各扩半缝（8pt），靠 scroll pan 取消 tap、不吞横滑
+        container.hitExpandX = 0 // ② 不再横向扩热区：字间空隙归整条 scroll，任意落点都能拖动（空隙不再是死区）
         let hanzi = UILabel()
         if highlight {
             let attr = NSMutableAttributedString(string: text)
