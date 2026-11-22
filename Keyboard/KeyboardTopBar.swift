@@ -243,21 +243,15 @@ final class KeyboardTopBar: UIView {
     @objc private func settingsTapped() { onSettings?() }
     @objc private func dismissTapped() { onDismiss?() }
     // REQ-9 + REQ-§9.8：整列可点。每个候选的横向整列（含其文字上方的拼音区/空白区）按落点 x 归到对应候选，
-    // 忽略 y；更外侧的空白按横向距离归最近候选（不丢点击）；横滑由 require(toFail: pan) 保证不误选。
+    // 忽略 y（纵向覆盖候选条全高）；命中区间为该列 x 范围 ±半间距（缝隙归相邻列）；列外/无候选不选，防误触。
+    // location(in: candidateStack) 取的是内容坐标，已含 contentOffset；横滑由 require(toFail: pan) 保证不误选。
     @objc private func candidateAreaTapped(_ sender: UITapGestureRecognizer) {
         guard candidatesSelectable, !candidateStack.arrangedSubviews.isEmpty else { return }
         let p = sender.location(in: candidateStack)
         let half = candidateStack.spacing / 2
-        // ① 落在某候选横向整列范围内（含该候选上方拼音/空白）→ 选它
         for v in candidateStack.arrangedSubviews where p.x >= v.frame.minX - half && p.x <= v.frame.maxX + half {
             KeyFeedback.shared.play(); onCandidate?(v.tag); return
         }
-        // ② 更外侧空白：按横向距离归最近的候选（整列可点兜底）
-        var best: UIView?; var bestD = CGFloat.greatestFiniteMagnitude
-        for v in candidateStack.arrangedSubviews {
-            let d = abs(p.x - v.frame.midX)
-            if d < bestD { bestD = d; best = v }
-        }
-        if let cell = best { KeyFeedback.shared.play(); onCandidate?(cell.tag) }
+        // 列外（最后一个候选以右的空白等）：不选
     }
 }
