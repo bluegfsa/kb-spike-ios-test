@@ -113,7 +113,7 @@ final class OnboardingViewController: UIViewController {
         num.heightAnchor.constraint(equalToConstant: 30).isActive = true
         let t = UIStackView(); t.axis = .vertical; t.spacing = 3
         t.addArrangedSubview(label(title, size: 15))
-        t.addArrangedSubview(label(sub, size: 13, color: .secondaryLabel))
+        if !sub.isEmpty { t.addArrangedSubview(label(sub, size: 13, color: .secondaryLabel)) }
         row.addArrangedSubview(num); row.addArrangedSubview(t)
         return row
     }
@@ -139,15 +139,16 @@ final class OnboardingViewController: UIViewController {
             stack.addArrangedSubview(centeredStartButton())
             stack.addArrangedSubview(UIView())
         } else if step == 1 {
-            // 屏2＝文字步骤（用户定：不要动画）
+            // 屏2＝文字步骤（按 PRD §10 红框删除项精简：只留 ‹上一步/标题/步骤①②主行/新灰卡/打开设置/2·3）
+            stack.addArrangedSubview(textButton(L10n.t("‹ 上一步", "‹ Back"), target: self, action: #selector(prevStep)))
             stack.addArrangedSubview(label(L10n.t("添加「语桥输入法」", "Add \"WordBridge\""), size: 28, weight: .bold))
-            stack.addArrangedSubview(label(L10n.t("3 步，约 1 分钟。加好后点「下一步」。", "3 steps, about 1 minute. Tap Next when done."), size: 15, color: .secondaryLabel))
-            stack.addArrangedSubview(stepRow(1, L10n.t("打开「设置」→「通用」→「键盘」→「键盘」", "Open Settings → General → Keyboard → Keyboards"), L10n.t("在「键盘」页进入键盘列表", "Open the keyboards list in the Keyboard page")))
-            stack.addArrangedSubview(stepRow(2, L10n.t("点「添加新键盘」→ 选「语桥输入法」", "Tap Add New Keyboard → choose WordBridge"), L10n.t("中文/英文都勾选，点右上角「完成」", "Select it, then Done")))
-            stack.addArrangedSubview(stepRow(3, L10n.t("回到本 App，点下面「下一步」", "Come back and tap Next below"), L10n.t("已添加可跳过这屏", "Skip this if already added")))
+            stack.addArrangedSubview(stepRow(1, L10n.t("打开「设置」→「通用」→「键盘」→「键盘」", "Open Settings → General → Keyboard → Keyboards"), ""))
+            stack.addArrangedSubview(stepRow(2, L10n.t("点「添加新键盘」→ 选「语桥输入法」", "Tap Add New Keyboard → choose WordBridge"), ""))
             stack.addArrangedSubview(hint(L10n.t("无需「完全访问」：键盘纯本地运行、不联网。添加后在任意输入框页面长按小地球键即可切到「语桥输入法」。", "No \"Full Access\" needed: the keyboard runs fully on-device and offline. After adding, long-press the globe key in any text field to switch to WordBridge.")))
             stack.addArrangedSubview(primaryButton(L10n.t("打开设置", "Open Settings"), target: self, action: #selector(openSettings)))
-            stack.addArrangedSubview(textButton(L10n.t("已添加，下一步 →", "Added, Next →"), target: self, action: #selector(nextStep)))
+            let page = label("2 / 3", size: 12, color: .secondaryLabel)
+            page.textAlignment = .center
+            stack.addArrangedSubview(page)
         } else {
             stack.addArrangedSubview(label(L10n.t("已就绪", "Ready"), size: 28, weight: .bold))
             stack.addArrangedSubview(label(L10n.t("现在可在任意输入框点系统键盘的地球键 🌐 切换到「语桥输入法」。", "Tap the 🌐 key on the system keyboard in any text field to switch to WordBridge."), size: 15, color: .secondaryLabel))
@@ -161,6 +162,9 @@ final class OnboardingViewController: UIViewController {
     }
     @objc private func nextStep() {
         step += 1; render()   // 屏1 → 屏2 文字步骤 → 屏3 就绪
+    }
+    @objc private func prevStep() {
+        if step > 0 { step -= 1; render() }
     }
     @objc private func finish() {
         UserDefaults.standard.set(true, forKey: AppDocs.onboardingKey)
