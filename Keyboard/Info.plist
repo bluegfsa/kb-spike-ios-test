@@ -7,7 +7,7 @@
     <key>CFBundleIdentifier</key><string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
     <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
     <key>CFBundleName</key><string>$(PRODUCT_NAME)</string>
-    <key>CFBundleDisplayName</key><string>语桥输入法</string>
+    <key>CFBundleDisplayName</key><string>WordBridge</string>
     <key>CFBundlePackageType</key><string>XPC!</string>
     <key>CFBundleShortVersionString</key><string>1.89</string>
     <key>CFBundleVersion</key><string>91</string>
