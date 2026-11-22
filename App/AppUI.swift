@@ -184,7 +184,7 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
             cfg.secondaryText = L10n.t("重新查看添加键盘步骤", "Replay the keyboard setup tutorial")
         } else {
             cfg.text = L10n.t("联系我们", "Contact Us")
-            cfg.secondaryText = AppDocs.supportEmail
+            cfg.secondaryText = L10n.t("海外 Gmail · 国内 163", "Overseas Gmail · China 163")
         }
         cell.contentConfiguration = cfg
         cell.accessoryType = .disclosureIndicator
@@ -201,11 +201,31 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
             vc.onFinish = { [weak vc] in vc?.dismiss(animated: true) }
             present(vc, animated: true)
         } else {
-            // 联系我们：发邮件给开发者（用户反馈）
-            let subject = L10n.t("双译键盘 反馈", "Shuangyi Keyboard Feedback")
-            let urlStr = "mailto:\(AppDocs.supportEmail)?subject=\(subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"
-            if let url = URL(string: urlStr) { UIApplication.shared.open(url) }
+            contactSheet()   // 联系我们：弹两个邮箱（海外 Gmail 在前 / 国内 163）
         }
+    }
+
+    /// 联系我们：让用户选海外(Gmail)或国内(163)，各自 mailto。
+    private func contactSheet() {
+        let subject = L10n.t("双译键盘 反馈", "Shuangyi Keyboard Feedback")
+        let enc = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        let sheet = UIAlertController(title: L10n.t("联系我们", "Contact Us"), message: nil, preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: L10n.t("海外用户 · Gmail", "Overseas · Gmail"), style: .default) { [weak self] _ in
+            self?.openMail(AppDocs.supportEmailOverseas, subject: enc)
+        })
+        sheet.addAction(UIAlertAction(title: L10n.t("国内用户 · 163", "China · 163"), style: .default) { [weak self] _ in
+            self?.openMail(AppDocs.supportEmailCN, subject: enc)
+        })
+        sheet.addAction(UIAlertAction(title: L10n.t("取消", "Cancel"), style: .cancel))
+        if let pop = sheet.popoverPresentationController {
+            pop.sourceView = view
+            pop.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 1, height: 1)
+        }
+        present(sheet, animated: true)
+    }
+
+    private func openMail(_ address: String, subject: String) {
+        if let url = URL(string: "mailto:\(address)?subject=\(subject)") { UIApplication.shared.open(url) }
     }
 }
 
