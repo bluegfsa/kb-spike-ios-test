@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     runs-on: macos-26
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - name: Install XcodeGen
@@ -17,30 +17,47 @@ jobs:
         run: |
           xcodegen generate
           ls -la Keyboard
-      - name: Build unsigned (app + keyboard extension)
+      - name: Build zh (ReleaseZh)
         run: |
           set -o pipefail
-          xcodebuild -project KBSpike.xcodeproj -scheme KBSpike -sdk iphoneos -configuration Release -derivedDataPath build CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build | tail -100
-      - name: Verify .appex + dict bundled
+          xcodebuild -project KBSpike.xcodeproj -scheme KBSpike-zh -configuration ReleaseZh \
+            -sdk iphoneos -derivedDataPath build_zh \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            build | tail -50
+      - name: Build en (ReleaseEn)
         run: |
-          APP=$(find build -name "KBSpike.app" -type d | head -1)
-          echo "APP=$APP"
-          find build -name "*.appex" -type d -print
-          ls -la "$APP/PlugIns" || true
-          echo "--- dict in extension bundle ---"
-          find build -iname "dict.txt" -print
-          test -n "$(find build -name '*.appex' -type d -print -quit)" && echo "S1_OK: appex found" || (echo "S1_FAIL: no appex"; exit 1)
-      - name: Package unsigned .ipa (Payload zip, for Sideloadly)
+          set -o pipefail
+          xcodebuild -project KBSpike.xcodeproj -scheme KBSpike-en -configuration ReleaseEn \
+            -sdk iphoneos -derivedDataPath build_en \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            build | tail -50
+      - name: Verify + package ipas
         run: |
-          cd "$(dirname "$(find build -name 'KBSpike.app' -type d | head -1)")"
-          rm -rf Payload && mkdir -p Payload
-          cp -R KBSpike.app Payload/
-          zip -rq KBSpike-unsigned.ipa Payload
-          ls -la KBSpike-unsigned.ipa
-          unzip -l KBSpike-unsigned.ipa | grep -E "appex|Info.plist" | head
-      - name: Upload unsigned ipa artifact
+          set -e
+          for cfg in zh en; do
+            APP=$(find build_$cfg -name "KBSpike.app" -type d | head -1)
+            echo "[$cfg] APP=$APP"
+            test -n "$APP"
+            D=$(dirname "$APP")
+            rm -rf "$D/Payload"; mkdir -p "$D/Payload"; cp -R "$APP" "$D/Payload/"
+            ( cd "$D" && zip -rq "KBSpike-C2-1.91-$cfg.ipa" Payload )
+            echo "--- [$cfg] ipa ---"; ls -la "$D/KBSpike-C2-1.91-$cfg.ipa"
+            echo "[$cfg] app CFBundleIdentifier:"; /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP/Info.plist"
+            echo "[$cfg] app CFBundleDisplayName:"; /usr/libexec/PlistBuddy -c "Print :CFBundleDisplayName" "$APP/Info.plist"
+            APX=$(find "$APP/PlugIns" -name "*.appex" -type d | head -1)
+            echo "[$cfg] appex=$APX"
+            echo "[$cfg] appex CFBundleIdentifier:"; /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APX/Info.plist"
+            echo "[$cfg] appex CFBundleDisplayName:"; /usr/libexec/PlistBuddy -c "Print :CFBundleDisplayName" "$APX/Info.plist"
+          done
+      - name: Upload zh ipa
         uses: actions/upload-artifact@v4
         with:
-          name: KBSpike-unsigned-ipa
-          path: build/Build/Products/Release-iphoneos/KBSpike-unsigned.ipa
+          name: KBSpike-C2-1.91-zh
+          path: build_zh/Build/Products/ReleaseZh-iphoneos/KBSpike-C2-1.91-zh.ipa
+          if-no-files-found: error
+      - name: Upload en ipa
+        uses: actions/upload-artifact@v4
+        with:
+          name: KBSpike-C2-1.91-en
+          path: build_en/Build/Products/ReleaseEn-iphoneos/KBSpike-C2-1.91-en.ipa
           if-no-files-found: error
