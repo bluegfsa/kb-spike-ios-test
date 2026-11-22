@@ -9,8 +9,8 @@
     <key>CFBundleName</key><string>$(PRODUCT_NAME)</string>
     <key>CFBundleDisplayName</key><string>语桥输入法</string>
     <key>CFBundlePackageType</key><string>XPC!</string>
-    <key>CFBundleShortVersionString</key><string>1.91</string>
-    <key>CFBundleVersion</key><string>93</string>
+    <key>CFBundleShortVersionString</key><string>1.92</string>
+    <key>CFBundleVersion</key><string>94</string>
     <key>NSExtension</key>
     <dict>
         <key>NSExtensionPointIdentifier</key><string>com.apple.keyboard-service</string>
