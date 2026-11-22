@@ -1,7 +1,7 @@
 import UIKit
 
 /// 添加键盘教程 · 纯动画屏（零文字说明，仅图标控件）。
-/// 5 幕模拟 iOS 设置路径：设置→通用→键盘→添加新键盘→点「双译键盘」开关拨开打勾。
+/// 5 幕模拟 iOS 设置路径：设置→通用→键盘→添加新键盘→点「语桥输入法」开关拨开打勾。
 /// **播一轮停末帧（不自动循环）**；可「↺ 重播」从头放、「✕ 跳过」退出；减弱动态时退化静态分镜淡入。
 /// 仅用系统 UIKit/CA 实现，无第三方依赖。
 final class TutorialViewController: UIViewController {
@@ -28,7 +28,7 @@ final class TutorialViewController: UIViewController {
               rows: [L10n.t("英文（美国）", "English (US)"), L10n.t("表情符号", "Emoji"), L10n.t("添加新键盘", "Add New Keyboard")],
               highlight: 2, toggle: false),
         Scene(title: L10n.t("‹ 添加新键盘", "‹ Add New Keyboard"),
-              rows: [L10n.t("双译键盘", "Shuangyi Keyboard"), L10n.t("拼音 — 全键盘", "Pinyin — QWERTY"), L10n.t("双拼", "Shuangpin")],
+              rows: [L10n.t("语桥输入法", "WordBridge"), L10n.t("拼音 — 全键盘", "Pinyin — QWERTY"), L10n.t("双拼", "Shuangpin")],
               highlight: 0, toggle: true),
     ]
 
