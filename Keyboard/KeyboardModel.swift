@@ -94,14 +94,17 @@ final class KeyboardModel: KeyboardModeling {
 
     private let cedict: Cedict?
     private var engineReady = false
-    /// 英文态：已提交单词的中文译文（逐词累积，随打字实时刷新，不因空格清空）。
-    private var enSentence: [String] = []
 
     /// 译词表从 bundle 直接 mmap（zh2en.txt / en2zh.txt 随包资源）。
     init(sharedDir: URL, userDir: URL) {
         let zh = Bundle.main.url(forResource: "zh2en", withExtension: "txt")
         let en = Bundle.main.url(forResource: "en2zh", withExtension: "txt")
         if let zh, let en { cedict = Cedict(zh2enURL: zh, en2zhURL: en) } else { cedict = nil }
+        // ③ 语种记忆：恢复上次中/英输入态（收起再打开沿用），默认中文。
+        if let raw = UserDefaults.standard.string(forKey: "kb.lastMode"), let d = Direction(rawValue: raw) {
+            mode = d
+            punctuationFullWidth = (d == .zh2en)
+        }
         // 后台线程初始化（不阻塞键盘 UI）；首次会做一次性部署，之后只加载。
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             let ok = RimeKbInit(sharedDir.path, userDir.path)
@@ -237,14 +240,7 @@ final class KeyboardModel: KeyboardModeling {
         return parts.isEmpty ? nil : parts.joined(separator: " ")
     }
 
-    /// 英文态当前可见译文＝已提交单词译文＋当前正在打的这个词的译文（实时刷新）。
-    private func enTranslation(currentWord: String) -> String? {
-        var words = enSentence
-        if !currentWord.isEmpty, let t = translate(currentWord, zh2en: false), !t.isEmpty {
-            words.append(t)
-        }
-        return words.isEmpty ? nil : words.joined(separator: " ")
-    }
+    // ② 英文整句翻译已删除：原 enTranslation / enSentence 逐词拼接逻辑移除（不再生成整句中文译文）。
 
     func input(letter: Character) {
         if mode == .zh2en {
@@ -255,9 +251,10 @@ final class KeyboardModel: KeyboardModeling {
                 recomputeTranslations()
             }
         } else {
+            // 英文态：只实时显示「当前这个词」的中文（①不累加、删即清；整句连续翻译已删）
             buffer.append(letter)
             candidates = []; candidateTranslations = []
-            primaryTranslation = enTranslation(currentWord: buffer)
+            primaryTranslation = translate(buffer, zh2en: false)
         }
         notifyChange()
     }
@@ -277,7 +274,7 @@ final class KeyboardModel: KeyboardModeling {
             }
         } else {
             candidates = []; candidateTranslations = []
-            primaryTranslation = enTranslation(currentWord: buffer)
+            primaryTranslation = translate(buffer, zh2en: false)   // 只显当前词、不累加
         }
         notifyChange()
     }
@@ -289,10 +286,8 @@ final class KeyboardModel: KeyboardModeling {
 
     func space() -> String {
         if mode == .en2zh {
-            // #6：英文态空格＝打一个空格、继续往下打；当前词译文并入句译，不清空已得译文。
-            if let t = translate(buffer, zh2en: false), !t.isEmpty { enSentence.append(t) }
-            buffer = ""; candidates = []; candidateTranslations = []
-            primaryTranslation = enSentence.isEmpty ? nil : enSentence.joined(separator: " ")
+            // 英文态空格＝普通空格（②：已删除整句中文译文，不再逐词累积）
+            buffer = ""; candidates = []; candidateTranslations = []; primaryTranslation = nil
             notifyChange(); return " "
         }
         var text = buffer
@@ -305,6 +300,7 @@ final class KeyboardModel: KeyboardModeling {
     func toggleMode() {
         mode = (mode == .zh2en) ? .en2zh : .zh2en
         punctuationFullWidth = (mode == .zh2en)
+        UserDefaults.standard.set(mode.rawValue, forKey: "kb.lastMode") // ③ 记住语种
         RimeKbReset()
         clearComposition(); notifyChange()
     }
@@ -321,6 +317,6 @@ final class KeyboardModel: KeyboardModeling {
     private func commitAndClear() { RimeKbReset(); clearComposition(); notifyChange() }
     /// 键盘重新出现时调用：重置引擎 composition 并清缓存，杜绝跨会话候选残留（BUG：tazai 显示上次输入）。
     func resetSession() { RimeKbReset(); clearComposition(); notifyChange() }
-    private func clearComposition() { buffer = ""; candidates = []; candidateTranslations = []; primaryTranslation = nil; enSentence = [] }
+    private func clearComposition() { buffer = ""; candidates = []; candidateTranslations = []; primaryTranslation = nil }
     private func notifyChange() { DispatchQueue.main.async { [weak self] in self?.onChange?() } }
 }
