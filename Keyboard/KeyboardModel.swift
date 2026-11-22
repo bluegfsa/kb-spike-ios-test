@@ -101,7 +101,7 @@ final class KeyboardModel: KeyboardModeling {
         let en = Bundle.main.url(forResource: "en2zh", withExtension: "txt")
         if let zh, let en { cedict = Cedict(zh2enURL: zh, en2zhURL: en) } else { cedict = nil }
         // ③ 语种记忆：恢复上次中/英输入态（收起再打开沿用），默认中文。
-        if let raw = UserDefaults.standard.string(forKey: "kb.lastMode"), let d = Direction(rawValue: raw) {
+        if let raw = UserDefaults.standard.string(forKey: "kb.keyboard.lastInputMode"), let d = Direction(rawValue: raw) {
             mode = d
             punctuationFullWidth = (d == .zh2en)
         }
@@ -300,7 +300,7 @@ final class KeyboardModel: KeyboardModeling {
     func toggleMode() {
         mode = (mode == .zh2en) ? .en2zh : .zh2en
         punctuationFullWidth = (mode == .zh2en)
-        UserDefaults.standard.set(mode.rawValue, forKey: "kb.lastMode") // ③ 记住语种
+        UserDefaults.standard.set(mode.rawValue, forKey: "kb.keyboard.lastInputMode") // ③ 记住语种
         RimeKbReset()
         clearComposition(); notifyChange()
     }
