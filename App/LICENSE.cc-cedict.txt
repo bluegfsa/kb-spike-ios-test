@@ -1,7 +1,7 @@
 CC-CEDICT — 汉英词典数据
 ================================
 
-本项目 zh2en.txt（中→英短译表）由 CC-CEDICT 数据生成。
+本项目 zh2en.txt（中→英短译表）由 CC-CEDICT 数据生成，并合并青简 official glossary（qingjian-team/qingjian-dicts，CC BY-SA 4.0）补充；基于本数据的衍生数据整体按 CC BY-SA 4.0 提供。
 
 - 项目：CC-CEDICT (Chinese-English Dictionary)
 - 来源：https://www.mdbg.net/chinese/dictionary?page=cc-cedict
