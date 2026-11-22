@@ -84,7 +84,13 @@ enum AppDocs {
             title: "Rime 基础配置 · prelude",
             subtitle: "LGPL-3.0 · Rime",
             body: """
-            Rime 基础配置 rime-prelude（default/key_bindings/punctuation/symbols 等，https://github.com/rime/rime-prelude）按 GNU Lesser General Public License v3.0 使用。
+            Rime 基础配置 rime-prelude（default/key_bindings/punctuation/symbols 等，https://github.com/rime/rime-prelude）按 GNU Lesser General Public License v3.0 使用，许可全文随应用附于本页「查看许可全文」。
+
+            署名：rime-prelude / Rime 项目（https://github.com/rime）。
+
+            修改说明：本应用对 default.yaml 等配置作了裁剪与精简（去除未使用的输入方案与部分快捷键绑定），标点与符号映射数据本身未改动。
+
+            可替换说明：上述配置文件以独立数据文件形式随应用打包，用户可自行查看、修改，或用同格式文件替换。
             """,
             licenseFile: "LICENSE.prelude.txt"),
         LicenseDoc(
