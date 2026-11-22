@@ -36,6 +36,8 @@ final class OnboardingViewController: UIViewController {
     private let scroll = UIScrollView()
     private let stack = UIStackView()
     private var step = 0
+    /// 回看入口可直接从「屏2 文字步骤」开始（默认 0=从欢迎页）。
+    var startStep = 0
     /// 以「回看引导」方式弹出时的关闭回调（nil＝首启流程，完成后进文档列表）。
     var onFinish: (() -> Void)?
 
@@ -58,6 +60,7 @@ final class OnboardingViewController: UIViewController {
             stack.widthAnchor.constraint(equalTo: scroll.widthAnchor),
             stack.bottomAnchor.constraint(equalTo: scroll.bottomAnchor, constant: -20),
         ])
+        step = startStep
         render()
         addDocButton()
     }
@@ -136,14 +139,15 @@ final class OnboardingViewController: UIViewController {
             stack.addArrangedSubview(centeredStartButton())
             stack.addArrangedSubview(UIView())
         } else if step == 1 {
-            stack.addArrangedSubview(label("添加「语桥输入法」", size: 28, weight: .bold))
-            stack.addArrangedSubview(label("3 步，约 1 分钟。加好后回到这里点「下一步」。", size: 15, color: .secondaryLabel))
-            stack.addArrangedSubview(stepRow(1, "打开「设置」→ 通用 → 键盘", "在键盘页里点「键盘」进入键盘列表"))
-            stack.addArrangedSubview(stepRow(2, "点「添加新键盘」→ 选「语桥输入法」", "中文/英文都勾选，点右上角「完成」"))
-            stack.addArrangedSubview(stepRow(3, "回到本 App，点下面的「下一步」", "已添加可跳过这屏"))
-            stack.addArrangedSubview(hint("提示：添加后在任意输入框点系统键盘的地球键 🌐 即可切到「语桥输入法」。无需完全访问也能用。"))
-            stack.addArrangedSubview(primaryButton("打开设置", target: self, action: #selector(openSettings)))
-            stack.addArrangedSubview(textButton("已添加，下一步 →", target: self, action: #selector(nextStep)))
+            // 屏2＝文字步骤（用户定：不要动画）
+            stack.addArrangedSubview(label(L10n.t("添加「语桥输入法」", "Add \"WordBridge\""), size: 28, weight: .bold))
+            stack.addArrangedSubview(label(L10n.t("3 步，约 1 分钟。加好后点「下一步」。", "3 steps, about 1 minute. Tap Next when done."), size: 15, color: .secondaryLabel))
+            stack.addArrangedSubview(stepRow(1, L10n.t("打开「设置」→「通用」→「键盘」→「键盘」", "Open Settings → General → Keyboard → Keyboards"), L10n.t("在「键盘」页进入键盘列表", "Open the keyboards list in the Keyboard page")))
+            stack.addArrangedSubview(stepRow(2, L10n.t("点「添加新键盘」→ 选「语桥输入法」", "Tap Add New Keyboard → choose WordBridge"), L10n.t("中文/英文都勾选，点右上角「完成」", "Select it, then Done")))
+            stack.addArrangedSubview(stepRow(3, L10n.t("回到本 App，点下面「下一步」", "Come back and tap Next below"), L10n.t("已添加可跳过这屏", "Skip this if already added")))
+            stack.addArrangedSubview(hint(L10n.t("无需「完全访问」：键盘纯本地运行、不联网。添加后在任意输入框页面长按小地球键即可切到「语桥输入法」。", "No \"Full Access\" needed: the keyboard runs fully on-device and offline. After adding, long-press the globe key in any text field to switch to WordBridge.")))
+            stack.addArrangedSubview(primaryButton(L10n.t("打开设置", "Open Settings"), target: self, action: #selector(openSettings)))
+            stack.addArrangedSubview(textButton(L10n.t("已添加，下一步 →", "Added, Next →"), target: self, action: #selector(nextStep)))
         } else {
             stack.addArrangedSubview(label(L10n.t("已就绪", "Ready"), size: 28, weight: .bold))
             stack.addArrangedSubview(label(L10n.t("现在可在任意输入框点系统键盘的地球键 🌐 切换到「语桥输入法」。", "Tap the 🌐 key on the system keyboard in any text field to switch to WordBridge."), size: 15, color: .secondaryLabel))
@@ -156,19 +160,7 @@ final class OnboardingViewController: UIViewController {
         if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) }
     }
     @objc private func nextStep() {
-        if step == 0 { presentTutorial(); return }   // 首启：欢迎 → 动画教程 → 完成
-        step += 1; render()
-    }
-
-    /// 首启流程进入纯动画教程屏；结束（跳过/播完）后置完成态。
-    private func presentTutorial() {
-        let vc = TutorialViewController()
-        vc.modalPresentationStyle = .fullScreen
-        vc.onFinish = { [weak self] in
-            guard let self else { return }
-            self.dismiss(animated: true) { self.step = 2; self.render() }
-        }
-        present(vc, animated: true)
+        step += 1; render()   // 屏1 → 屏2 文字步骤 → 屏3 就绪
     }
     @objc private func finish() {
         UserDefaults.standard.set(true, forKey: AppDocs.onboardingKey)
@@ -236,8 +228,9 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
         if indexPath.section == 0 {
             navigationController?.pushViewController(DocDetailViewController(doc: docs[indexPath.row]), animated: true)
         } else if indexPath.row == 0 {
-            // 回看入口：直接进纯动画教程屏，不回欢迎页、不改 onboardingDone
-            let vc = TutorialViewController()
+            // 回看入口：直接从「屏2 文字步骤」开始（不回欢迎页、不改 onboardingDone）
+            let vc = OnboardingViewController()
+            vc.startStep = 1
             vc.modalPresentationStyle = .fullScreen
             vc.onFinish = { [weak vc] in vc?.dismiss(animated: true) }
             present(vc, animated: true)
