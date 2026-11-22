@@ -1,9 +1,9 @@
 import UIKit
 
-/// 键盘顶部 44pt 功能条（UI v1.5，照微信输入法两态）：
-/// · 空态（无输入/无候选）：左 ⚙ 圆钮32 ＋ 右 ↓ 圆钮32；
-/// · 输入态（有输入/有候选）：候选占满，右侧改「裸向下箭头(无圆)＋左侧竖直小分隔线」，⚙ 隐藏；打字中也能一键收键盘。
-/// 两态顶栏都 44 高、切换不跳；候选点击/拼音显示都在这里，拼音串不丢。
+/// 键盘顶部 44pt 功能条（第5版·单行横滑）：
+/// · 空态：左 ⚙ 圆钮 ＋ 右 ↓ 圆钮；
+/// · 输入态：上行拼音串；下行候选用**横向 UICollectionView 单行**（cell 只放 UILabel，不用 UIButton），
+///   滚动/点选都交给 collection 原生仲裁，天生不抢首触；松手由 decelerationRate 惯性减速。
 final class KeyboardTopBar: UIView {
     static let height: CGFloat = 44
 
@@ -11,35 +11,56 @@ final class KeyboardTopBar: UIView {
     var onDismiss: (() -> Void)?
     var onCandidate: ((Int) -> Void)?
 
-    private let settingsButton = UIButton(type: .system)      // 空态：⚙ 圆钮
-    private let dismissCircleButton = UIButton(type: .system) // 空态：↓ 圆钮
-    private let dismissArrowButton = UIButton(type: .system)  // 输入态：裸箭头
-    private let separatorView = UIView()                      // 输入态：竖直小分隔线
+    private let settingsButton = UIButton(type: .system)
+    private let dismissCircleButton = UIButton(type: .system)
+    private let dismissArrowButton = UIButton(type: .system)
+    private let separatorView = UIView()
     private let pinyinLabel = UILabel()
-    private let candidateScroll = UIScrollView()
-    private let candidateStack = UIStackView()
-    private var pinyinTrailing: NSLayoutConstraint!
-    private var candidateTrailing: NSLayoutConstraint!
-    // 第5版：整条 bar 统一 pan 驱动滚动 + velocity 惯性减速
-    private var barPan: UIPanGestureRecognizer!
-    private var panStartOffset: CGFloat = 0
-    private var decelLink: CADisplayLink?
-    private var decelVelocity: CGFloat = 0
 
-    /// 输入态右侧整块宽：候选↔线10 + 线0.5 + 线↔箭头6 + 箭头热区44 + 右边距8 ≈ 68.5。
+    private lazy var flowLayout: UICollectionViewFlowLayout = {
+        let l = UICollectionViewFlowLayout()
+        l.scrollDirection = .horizontal
+        l.minimumLineSpacing = 16
+        l.minimumInteritemSpacing = 16
+        l.sectionInset = UIEdgeInsets(top: 1, left: 0, bottom: 1, right: 8)
+        return l
+    }()
+    private lazy var candidateCollection: UICollectionView = {
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        cv.backgroundColor = .clear
+        cv.showsHorizontalScrollIndicator = false
+        cv.showsVerticalScrollIndicator = false
+        cv.alwaysBounceHorizontal = true
+        cv.delaysContentTouches = false          // 首触立即进入滚动判定，不等 tap 失败
+        cv.canCancelContentTouches = true        // 拖动时取消点选 → 横滑不误选
+        cv.decelerationRate = .normal            // 松手按 velocity 自然减速（微信式惯性）
+        cv.panGestureRecognizer.delaysTouchesBegan = false // 首触即接管
+        cv.dataSource = self
+        cv.delegate = self
+        cv.register(CandidateCell.self, forCellWithReuseIdentifier: "Cand")
+        cv.translatesAutoresizingMaskIntoConstraints = false
+        return cv
+    }()
+
+    private var items: [(text: String, translation: String?)] = []
+    private var highlightFirst = true
+    private var selectableNow = true
+    private var pinyinTrailing: NSLayoutConstraint!
+    private var collectionTrailing: NSLayoutConstraint!
+
+    /// 输入态右侧整块宽（箭头热区等）。
     private let inputRightBlock: CGFloat = 68.5
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .clear // 透明，露系统毛玻璃背板
+        backgroundColor = .clear
         setupMiddle()
-        setupControls()          // 后加 → 在候选层之上，保证可点
+        setupControls()
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
+    // MARK: - 圆钮 / 箭头
     private func styleCircle(_ btn: UIButton, symbol: String, pointSize: CGFloat, label: String) {
         btn.backgroundColor = KBColor.letterKey
         btn.layer.cornerRadius = 16
@@ -51,9 +72,6 @@ final class KeyboardTopBar: UIView {
         addCenteredImage(to: btn, symbol: symbol, pointSize: pointSize, weight: .regular, opticalY: 0)
     }
 
-    /// 用独立 `UIImageView` 约束几何居中（不再用 `imageView.transform`：UIButton 布局时会重排/覆盖 transform，
-    /// 且圆钮 `clipsToBounds` 会把下移的箭头下半裁掉——这正是之前 +2/+5 怎么挪都不居中的真根因）。
-    /// opticalY 仅做 1~2pt 光学补偿；图标本身是 SF Symbol，几何居中。
     private func addCenteredImage(to button: UIButton, symbol: String, pointSize: CGFloat, weight: UIImage.SymbolWeight, opticalY: CGFloat) {
         button.setImage(nil, for: .normal)
         let cfg = UIImage.SymbolConfiguration(pointSize: pointSize, weight: weight)
@@ -70,12 +88,10 @@ final class KeyboardTopBar: UIView {
     }
 
     private func setupControls() {
-        // 空态两圆钮
         styleCircle(settingsButton, symbol: "gearshape", pointSize: 15, label: "设置")
         styleCircle(dismissCircleButton, symbol: "chevron.down", pointSize: 13, label: "收起键盘")
-        settingsButton.addTarget(self, action: #selector(settingsTapped), for: .touchUpInside) // ⚙ 占位：可点，B 在 1.27
+        settingsButton.addTarget(self, action: #selector(settingsTapped), for: .touchUpInside)
         dismissCircleButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
-        // 输入态：裸箭头（无圆/无底/无边框，热区 44）+ 竖直小分隔线
         dismissArrowButton.backgroundColor = .clear
         dismissArrowButton.isUserInteractionEnabled = true
         dismissArrowButton.accessibilityLabel = "收起键盘"
@@ -108,75 +124,40 @@ final class KeyboardTopBar: UIView {
             separatorView.widthAnchor.constraint(equalToConstant: 0.5),
             separatorView.heightAnchor.constraint(equalToConstant: 18),
         ])
-        // 箭头居中已由 addCenteredImage 的 centerYAnchor 约束保证（不再用 imageView.transform）。
     }
 
-    /// 中间：整条候选栏是一条**原生横向 UIScrollView**（覆盖整个 44pt 高＝拼音行＋候选行＋字间空隙＋空白），
-    /// 用它自带的位移/惯性减速（decelerationRate），不再自写 1:1 pan —— 解决「涩、无惯性」＋「空隙滑不动」。
+    // MARK: - 中间：拼音串 + 候选单行 collection
     private func setupMiddle() {
-        // 原生横向滚动条：整条 bar 高度，含拼音行/字间空隙/空白，任意落点起手都能滑，松手有惯性。
-        candidateScroll.showsHorizontalScrollIndicator = false
-        candidateScroll.showsVerticalScrollIndicator = false
-        candidateScroll.alwaysBounceHorizontal = true
-        candidateScroll.delaysContentTouches = false          // 命中即时
-        candidateScroll.canCancelContentTouches = true        // 拖动时取消 tap → 可横滑且不误选
-        candidateScroll.isScrollEnabled = false               // 第5版：改用整条 bar 的统一 pan 驱动（绕开 scroll 自带 pan 的首触/延迟）
-        candidateScroll.clipsToBounds = true
-        candidateScroll.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(candidateScroll)
-
-        // 整条候选栏（拼音行/候选行/字间空隙/空白）任意起手都能横滑：pan 挂在本 TopBar 容器
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(barPanned(_:)))
-        pan.cancelsTouchesInView = true     // 拖动时取消候选 tap，防拖拽误选
-        pan.delaysTouchesBegan = false       // 不等 tap 失败，第一下就接管
-        pan.maximumNumberOfTouches = 1
-        addGestureRecognizer(pan)
-        barPan = pan
-
-        candidateStack.axis = .horizontal
-        candidateStack.alignment = .center
-        candidateStack.spacing = 16
-        candidateStack.translatesAutoresizingMaskIntoConstraints = false
-        candidateScroll.addSubview(candidateStack)
-
-        // 拼音串叠在滚动条之上、但不吃手势（isUserInteractionEnabled=false → 触点落到下面 scroll，照样能滑）。
         pinyinLabel.font = .systemFont(ofSize: 12)
         pinyinLabel.textColor = KBColor.pinyin
         pinyinLabel.lineBreakMode = .byTruncatingTail
-        pinyinLabel.isUserInteractionEnabled = false
+        pinyinLabel.isUserInteractionEnabled = false // 不吃手势，触点到下面 collection
         pinyinLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(pinyinLabel)
 
+        addSubview(candidateCollection)
+
         pinyinTrailing = pinyinLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock)
-        candidateTrailing = candidateScroll.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock)
+        collectionTrailing = candidateCollection.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock)
         NSLayoutConstraint.activate([
-            // scroll 覆盖整个 44pt 顶栏：拼音行、候选行、字间空隙都归它，任意处起手都能滑
-            candidateScroll.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            candidateTrailing,
-            candidateScroll.topAnchor.constraint(equalTo: topAnchor),
-            candidateScroll.bottomAnchor.constraint(equalTo: bottomAnchor),
-            // 内容区高度 = 可视高度；候选行贴底 26pt，上面 14pt 留给拼音（拼音是 overlay，不随滚动移动）
-            candidateScroll.contentLayoutGuide.heightAnchor.constraint(equalTo: candidateScroll.frameLayoutGuide.heightAnchor),
-            candidateStack.leadingAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.leadingAnchor),
-            candidateStack.trailingAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.trailingAnchor),
-            candidateStack.bottomAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.bottomAnchor),
-            candidateStack.heightAnchor.constraint(equalToConstant: 26),
-            // 拼音 overlay（在 scroll 之上，但不吃手势）
             pinyinLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             pinyinTrailing,
             pinyinLabel.topAnchor.constraint(equalTo: topAnchor, constant: 2),
             pinyinLabel.heightAnchor.constraint(equalToConstant: 14),
+            candidateCollection.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            collectionTrailing,
+            candidateCollection.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            candidateCollection.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2),
         ])
     }
 
-    /// 刷新拼音串/候选。空态显示圆钮（⚙/↓），输入态显裸箭头＋分隔线、隐 ⚙。
+    /// 刷新拼音串/候选。空态显圆钮；输入态显裸箭头＋分隔线、隐 ⚙。
     func update(buffer: String, candidates: [String], translations: [String?], selectable: Bool) {
         let typing = !(buffer.isEmpty && candidates.isEmpty)
         let hasCandidates = !candidates.isEmpty
         settingsButton.isHidden = typing
         dismissCircleButton.isHidden = typing
-        // ⑤ 候选条「有内容」即隐藏收起键盘按钮（含分隔线）：中文候选 / 英文译词 / 英文当前词都算内容。
-        //    旧逻辑只看 candidates 是否为空，英文态 candidates 为空但 buffer、译文在显示 → 被误判"无候选"。
+        // ⑤ 候选条「有内容」即隐藏收起键盘按钮（中英两态）；旧逻辑只看 candidates 为空会漏判英文态。
         let hasBarContent = hasCandidates || !buffer.isEmpty
             || translations.contains(where: { !($0 ?? "").isEmpty })
         let showDismiss = typing && !hasBarContent
@@ -184,73 +165,71 @@ final class KeyboardTopBar: UIView {
         separatorView.isHidden = !showDismiss
         let trailingInset: CGFloat = hasCandidates ? -8 : -inputRightBlock
         pinyinTrailing.constant = trailingInset
-        candidateTrailing.constant = trailingInset
+        collectionTrailing.constant = trailingInset
+
         pinyinLabel.text = buffer
         pinyinLabel.isHidden = buffer.isEmpty
-        candidateStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        for (index, text) in candidates.enumerated() {
-            let translation: String? = index < translations.count ? translations[index] : nil
-            candidateStack.addArrangedSubview(
-                makeCandidateItem(text: text, translation: translation, highlight: selectable && index == 0, index: index, selectable: selectable)
-            )
-        }
-        candidateScroll.isHidden = candidates.isEmpty
-        candidateScroll.layoutIfNeeded()   // 立刻算好 contentSize，保证首滑就能拖动（不依赖下一帧）
-    }
 
-    // MARK: - 第5版：整条 bar 拖拽 → 候选横滚（velocity 惯性减速）
-    @objc private func barPanned(_ g: UIPanGestureRecognizer) {
-        switch g.state {
-        case .began:
-            stopDecel()
-            panStartOffset = candidateScroll.contentOffset.x
-        case .changed:
-            setOffset(panStartOffset - g.translation(in: self).x)
-        case .ended, .cancelled, .failed:
-            startDecel(velocity: -g.velocity(in: self).x)   // 手指向右速度为正 → 内容向左滚
-        default:
-            break
+        items = candidates.enumerated().map { (i, t) in
+            (t, i < translations.count ? translations[i] : nil)
+        }
+        highlightFirst = selectable
+        selectableNow = selectable
+        candidateCollection.isHidden = candidates.isEmpty
+        candidateCollection.reloadData()
+        candidateCollection.collectionViewLayout.invalidateLayout()
+        candidateCollection.layoutIfNeeded()
+        // 首帧 contentSize 可能为 0 → 下一帧再校正一次，保证首滑就有可滚范围
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.candidateCollection.layoutIfNeeded()
+            self.candidateCollection.collectionViewLayout.invalidateLayout()
         }
     }
 
-    private func maxOffsetX() -> CGFloat {
-        max(0, candidateScroll.contentSize.width - candidateScroll.bounds.width)
+    private func itemWidth(text: String, translation: String?) -> CGFloat {
+        let tw = (text as NSString).size(withAttributes: [.font: UIFont.systemFont(ofSize: 19)]).width
+        var total = tw
+        if let tr = translation, !tr.isEmpty {
+            let trw = (tr as NSString).size(withAttributes: [.font: UIFont.systemFont(ofSize: 11)]).width
+            total += 4 + trw
+        }
+        return max(10, total)
     }
 
-    private func setOffset(_ x: CGFloat) {
-        let cx = min(max(0, x), maxOffsetX())
-        candidateScroll.setContentOffset(CGPoint(x: cx, y: 0), animated: false)
+    @objc private func settingsTapped() { onSettings?() }
+    @objc private func dismissTapped() { onDismiss?() }
+}
+
+// MARK: - 候选 cell（只放 UILabel，不用 UIButton → 不抢首触）
+private final class CandidateCell: UICollectionViewCell {
+    static let reuseID = "Cand"
+    private let hanzi = UILabel()
+    private let trans = UILabel()
+    private let stack = UIStackView()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        hanzi.setContentHuggingPriority(.required, for: .horizontal)
+        trans.font = .systemFont(ofSize: 11)
+        trans.textColor = KBColor.translation
+        trans.setContentHuggingPriority(.required, for: .horizontal)
+        stack.axis = .horizontal
+        stack.alignment = .firstBaseline
+        stack.spacing = 4
+        stack.isUserInteractionEnabled = false
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(stack)
+        NSLayoutConstraint.activate([
+            stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            stack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+        ])
     }
 
-    private func startDecel(velocity: CGFloat) {
-        guard abs(velocity) > 40 else { return }   // 轻扫阈值，太小不惯性
-        decelVelocity = velocity
-        let link = CADisplayLink(target: self, selector: #selector(stepDecel(_:)))
-        link.add(to: .main, forMode: .common)
-        decelLink = link
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    @objc private func stepDecel(_ link: CADisplayLink) {
-        let dt = CGFloat(max(link.targetTimestamp - link.timestamp, 1.0 / 120.0))
-        decelVelocity *= pow(0.998, dt * 1000)      // ≈ UIScrollView .normal 的减速手感
-        var x = candidateScroll.contentOffset.x + decelVelocity * dt
-        let maxX = maxOffsetX()
-        if x <= 0 { x = 0; stopDecel() }
-        else if x >= maxX { x = maxX; stopDecel() }
-        candidateScroll.setContentOffset(CGPoint(x: min(max(0, x), maxX), y: 0), animated: false)
-        if abs(decelVelocity) < 20 { stopDecel() }
-    }
-
-    private func stopDecel() {
-        decelLink?.invalidate()
-        decelLink = nil
-        decelVelocity = 0
-    }
-
-    private func makeCandidateItem(text: String, translation: String?, highlight: Bool, index: Int, selectable: Bool) -> UIView {
-        let container = HitExpandView()
-        container.hitExpandX = 0 // ② 不再横向扩热区：字间空隙归整条 scroll，任意落点都能拖动（空隙不再是死区）
-        let hanzi = UILabel()
+    func configure(text: String, translation: String?, highlight: Bool) {
         if highlight {
             let attr = NSMutableAttributedString(string: text)
             attr.addAttributes([
@@ -260,49 +239,43 @@ final class KeyboardTopBar: UIView {
             ], range: NSRange(location: 0, length: attr.length))
             hanzi.attributedText = attr
         } else {
+            hanzi.attributedText = nil
             hanzi.text = text
             hanzi.font = .systemFont(ofSize: 19)
             hanzi.textColor = KBColor.candidateText
         }
-        hanzi.setContentHuggingPriority(.required, for: .horizontal)
-        let stack = UIStackView(arrangedSubviews: [hanzi])
-        stack.axis = .horizontal
-        stack.isUserInteractionEnabled = false // BUG-1：点击命中容器(带tap手势)而非内部 stack
-        stack.alignment = .firstBaseline
-        stack.spacing = 4
-        if let translation, !translation.isEmpty {
-            let label = UILabel()
-            label.text = translation
-            label.font = .systemFont(ofSize: 11)
-            label.textColor = KBColor.translation
-            label.setContentHuggingPriority(.required, for: .horizontal)
-            stack.addArrangedSubview(label)
+        trans.isHidden = (translation ?? "").isEmpty
+        trans.text = translation
+        if stack.arrangedSubviews.count < 2 {
+            stack.addArrangedSubview(hanzi)
+            stack.addArrangedSubview(trans)
         }
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        container.addSubview(stack)
-        NSLayoutConstraint.activate([
-            stack.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            stack.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            stack.topAnchor.constraint(equalTo: container.topAnchor),
-            stack.bottomAnchor.constraint(equalTo: container.bottomAnchor),
-        ])
-        container.isUserInteractionEnabled = selectable
-        container.tag = index
-        if selectable {
-            let tap = UITapGestureRecognizer(target: self, action: #selector(candidateTapped(_:)))
-            if let pan = barPan { tap.require(toFail: pan) }   // 拖拽优先，点选只在未拖动时生效
-            container.addGestureRecognizer(tap)
-        }
-        return container
+    }
+}
+
+// MARK: - collection 数据源/代理
+extension KeyboardTopBar: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        items.count
     }
 
-    deinit { stopDecel() }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CandidateCell.reuseID, for: indexPath) as! CandidateCell
+        let item = items[indexPath.item]
+        cell.configure(text: item.text, translation: item.translation, highlight: highlightFirst && indexPath.item == 0)
+        return cell
+    }
 
-    @objc private func settingsTapped() { onSettings?() }
-    @objc private func dismissTapped() { onDismiss?() }
-    // REQ-9：点候选上屏时同步按键音+震动，与普通按键同一套反馈（跟随系统/键盘内声音·震动开关，关则无）。
-    @objc private func candidateTapped(_ sender: UITapGestureRecognizer) {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let item = items[indexPath.item]
+        return CGSize(width: itemWidth(text: item.text, translation: item.translation), height: 26)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: false)
+        guard selectableNow else { return }
         KeyFeedback.shared.play()
-        onCandidate?(sender.view?.tag ?? 0)
+        onCandidate?(indexPath.item)
     }
 }
