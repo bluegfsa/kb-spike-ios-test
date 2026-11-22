@@ -21,6 +21,37 @@ enum AppDocs {
 
     static var docs: [LicenseDoc] { L10n.isEnglish ? docsEN : docsZH }
 
+    /// App 内「隐私政策」页（本地双语正文，不依赖外部网页）。
+    static var privacyDoc: LicenseDoc { L10n.isEnglish ? privacyEN : privacyZH }
+
+    private static let privacyZH = LicenseDoc(
+        title: "隐私政策", subtitle: "最后更新：2026-11-22",
+        body: """
+        双译键盘不收集任何个人数据。
+
+        · 不联网：键盘扩展与 App 均无网络请求，输入内容只在本机处理、不上传。
+        · 不请求「完全访问」：无需完全访问权限即可使用。
+        · 不读取、不记录你的输入内容，不向第三方共享任何信息。
+        · 词库随 App 离线打包。
+
+        联系我们：13872235793lzy@gmail.com（海外） / 13872235793@163.com（国内）
+        """,
+        licenseFile: nil)
+
+    private static let privacyEN = LicenseDoc(
+        title: "Privacy Policy", subtitle: "Last updated: 2026-11-22",
+        body: """
+        Shuangyi Keyboard collects no personal data.
+
+        · No network: neither the keyboard extension nor the app makes network requests; input is processed only on this device and never uploaded.
+        · No "Full Access": the keyboard works without Full Access.
+        · Your typing is not read or logged, and nothing is shared with third parties.
+        · Dictionaries ship offline with the app.
+
+        Contact: 13872235793lzy@gmail.com (overseas) / 13872235793@163.com (China)
+        """,
+        licenseFile: nil)
+
     // MARK: - 中文
     private static let docsZH: [LicenseDoc] = [
         LicenseDoc(
