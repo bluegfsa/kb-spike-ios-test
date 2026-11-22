@@ -6,6 +6,7 @@ ECDICT — 英汉词典数据库（en2zh.txt 数据源）
 - 来源：https://github.com/skywind3000/ECDICT
 - 许可：MIT License
 - 版权：Copyright (c) skywind3000
+- 补充来源：en2zh.txt 并合并青简 official glossary（qingjian-team/qingjian-dicts，CC BY-SA 4.0）；衍生数据整体按 CC BY-SA 4.0 提供。
 
 ------------------------------------------------------------
 MIT License 全文
