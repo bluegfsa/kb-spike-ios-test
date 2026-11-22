@@ -1,112 +1,5 @@
 import UIKit
 
-// MARK: - 文档模型
-struct LicenseDoc {
-    let title: String
-    let subtitle: String
-    let body: String
-    let licenseFile: String?   // 包内许可全文（nil=仅正文）
-}
-
-enum AppDocs {
-    static let onboardingKey = "kb.onboardingDone"
-    static var version: String {
-        (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? ""
-    }
-    static let docs: [LicenseDoc] = [
-        LicenseDoc(
-            title: "中英对照词库 · 青简 Qingjian",
-            subtitle: "CC BY-SA 4.0",
-            body: """
-            本应用的简体中文—英文对照词库部分内容来自「青简 Qingjian」的中英释义表（https://github.com/qingjian-team/qingjian-dicts），由原作者以 CC BY-SA 4.0 许可发布（https://creativecommons.org/licenses/by-sa/4.0/）。
-
-            本应用对该词库作了格式转换、检索索引改造，并对同词多义条目做了合并与排序；除上述改动外未修改词条内容。
-
-            该词库部分内容由机器学习模型自动生成。
-
-            基于上述词库产生的衍生数据同样以 CC BY-SA 4.0 许可提供。
-            """,
-            licenseFile: "LICENSE.cc-by-sa-4.0.txt"),
-        LicenseDoc(
-            title: "CC-CEDICT 汉英词典",
-            subtitle: "CC BY-SA 4.0",
-            body: """
-            中→英短译表（zh2en.txt）由 CC-CEDICT 数据生成。
-
-            项目：CC-CEDICT (Chinese-English Dictionary)
-            来源：https://www.mdbg.net/chinese/dictionary?page=cc-cedict
-            许可：CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/）
-            """,
-            licenseFile: "LICENSE.cc-cedict.txt"),
-        LicenseDoc(
-            title: "ECDICT 词库",
-            subtitle: "MIT License",
-            body: """
-            英→中短译表（en2zh.txt）由 ECDICT 数据生成，仅取常用词并抽取主译短义。
-
-            项目：ECDICT (Free English to Chinese Dictionary Database)
-            作者：skywind3000
-            来源：https://github.com/skywind3000/ECDICT
-            许可：MIT License（Copyright (c) skywind3000）
-            """,
-            licenseFile: "LICENSE.ecdict.txt"),
-        LicenseDoc(
-            title: "拼音词典 · jieba 词频",
-            subtitle: "MIT · © 2013 Sun Junyi",
-            body: """
-            本键盘的拼音候选词频由 jieba 中文分词词频数据（https://github.com/fxsjy/jieba）构建，按 MIT 许可使用。
-
-            处理说明：格式转换为「词-音节-词频」、同词合并去重、按词频排序；除上述外未修改原始数据。
-            """,
-            licenseFile: "LICENSE.jieba.txt"),
-        LicenseDoc(
-            title: "拼音数据 · pinyin-data",
-            subtitle: "MIT · © 2016 mozillazg",
-            body: """
-            汉字拼音读音数据来自 pinyin-data（https://github.com/mozillazg/pinyin-data），按 MIT 许可使用。
-            """,
-            licenseFile: "LICENSE.pinyin-data.txt"),
-        LicenseDoc(
-            title: "拼音数据 · phrase-pinyin-data",
-            subtitle: "MIT · © 2017 mozillazg",
-            body: """
-            词语拼音数据来自 phrase-pinyin-data（https://github.com/mozillazg/phrase-pinyin-data），按 MIT 许可使用。
-            """,
-            licenseFile: "LICENSE.phrase-pinyin-data.txt"),
-        LicenseDoc(
-            title: "拼音方案 · pinyin-simp",
-            subtitle: "Apache License 2.0 · Rime",
-            body: """
-            拼音输入方案 pinyin-simp（https://github.com/rime/rime-pinyin-simp）来自 Rime 官方，按 Apache License 2.0 使用。
-            """,
-            licenseFile: "LICENSE.pinyin-simp.txt"),
-        LicenseDoc(
-            title: "Rime 基础配置 · prelude",
-            subtitle: "LGPL-3.0 · Rime",
-            body: """
-            Rime 基础配置 rime-prelude（default/key_bindings/punctuation/symbols 等，https://github.com/rime/rime-prelude）按 GNU Lesser General Public License v3.0 使用，许可全文随应用附于本页「查看许可全文」。
-
-            署名：rime-prelude / Rime 项目（https://github.com/rime）。
-
-            修改说明：本应用对 default.yaml 等配置作了裁剪与精简（去除未使用的输入方案与部分快捷键绑定），标点与符号映射数据本身未改动。
-
-            可替换说明：上述配置文件以独立数据文件形式随应用打包，用户可自行查看、修改，或用同格式文件替换。
-            """,
-            licenseFile: "LICENSE.prelude.txt"),
-        LicenseDoc(
-            title: "关于双译键盘",
-            subtitle: "版本 \(version)",
-            body: """
-            双译键盘：边打字边看中英词/短语对照的输入法辅助。
-
-            词库全部离线、不联网；输入内容只在本机处理。
-
-            词库数据以 CC BY-SA 4.0 公开发布：https://github.com/bluegfsa/kb-lexicon
-            """,
-            licenseFile: nil
-        ),
-    ]
-}
 
 // MARK: - 小工具
 private func label(_ text: String, size: CGFloat, weight: UIFont.Weight = .regular, color: UIColor = .label) -> UILabel {
@@ -199,11 +92,11 @@ final class OnboardingViewController: UIViewController {
     private func render() {
         clear()
         if step == 0 {
-            stack.addArrangedSubview(label("双译键盘", size: 28, weight: .bold))
-            stack.addArrangedSubview(label("边打字边看中英词/短语对照，纯本地、不联网。", size: 15, color: .secondaryLabel))
-            stack.addArrangedSubview(hint("词库与输入内容都只存在你的手机上，键盘不上传任何内容。"))
-            stack.addArrangedSubview(primaryButton("开始设置", target: self, action: #selector(nextStep)))
-            stack.addArrangedSubview(textButton("跳过，直接进入 →", target: self, action: #selector(finish)))
+            stack.addArrangedSubview(label(L10n.t("双译键盘", "Shuangyi Keyboard"), size: 28, weight: .bold))
+            stack.addArrangedSubview(label(L10n.t("边打字边看中英词/短语对照，纯本地、不联网。", "See Chinese–English word/phrase pairs while you type. Fully offline."), size: 15, color: .secondaryLabel))
+            stack.addArrangedSubview(hint(L10n.t("词库与输入内容都只存在你的手机上，键盘不上传任何内容。", "Dictionaries and your typing stay on this phone; the keyboard uploads nothing.")))
+            stack.addArrangedSubview(primaryButton(L10n.t("开始设置", "Get Started"), target: self, action: #selector(nextStep)))
+            stack.addArrangedSubview(textButton(L10n.t("跳过，直接进入 →", "Skip →"), target: self, action: #selector(finish)))
         } else if step == 1 {
             stack.addArrangedSubview(label("添加「双译键盘」", size: 28, weight: .bold))
             stack.addArrangedSubview(label("3 步，约 1 分钟。加好后回到这里点「下一步」。", size: 15, color: .secondaryLabel))
@@ -214,17 +107,31 @@ final class OnboardingViewController: UIViewController {
             stack.addArrangedSubview(primaryButton("打开设置", target: self, action: #selector(openSettings)))
             stack.addArrangedSubview(textButton("已添加，下一步 →", target: self, action: #selector(nextStep)))
         } else {
-            stack.addArrangedSubview(label("已就绪", size: 28, weight: .bold))
-            stack.addArrangedSubview(label("现在可在任意输入框点系统键盘的地球键 🌐 切换到「双译键盘」。", size: 15, color: .secondaryLabel))
-            stack.addArrangedSubview(hint("下面可查看开源许可与关于信息。"))
-            stack.addArrangedSubview(primaryButton("进入", target: self, action: #selector(finish)))
+            stack.addArrangedSubview(label(L10n.t("已就绪", "Ready"), size: 28, weight: .bold))
+            stack.addArrangedSubview(label(L10n.t("现在可在任意输入框点系统键盘的地球键 🌐 切换到「双译键盘」。", "Tap the 🌐 key on the system keyboard in any text field to switch to Shuangyi Keyboard."), size: 15, color: .secondaryLabel))
+            stack.addArrangedSubview(hint(L10n.t("下面可查看开源许可与关于信息。", "Open-source licenses and about info are below.")))
+            stack.addArrangedSubview(primaryButton(L10n.t("进入", "Enter"), target: self, action: #selector(finish)))
         }
     }
 
     @objc private func openSettings() {
         if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) }
     }
-    @objc private func nextStep() { step += 1; render() }
+    @objc private func nextStep() {
+        if step == 0 { presentTutorial(); return }   // 首启：欢迎 → 动画教程 → 完成
+        step += 1; render()
+    }
+
+    /// 首启流程进入纯动画教程屏；结束（跳过/播完）后置完成态。
+    private func presentTutorial() {
+        let vc = TutorialViewController()
+        vc.modalPresentationStyle = .fullScreen
+        vc.onFinish = { [weak self] in
+            guard let self else { return }
+            self.dismiss(animated: true) { self.step = 2; self.render() }
+        }
+        present(vc, animated: true)
+    }
     @objc private func finish() {
         UserDefaults.standard.set(true, forKey: AppDocs.onboardingKey)
         if let onFinish { onFinish(); return }
@@ -244,7 +151,7 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGroupedBackground
-        title = "双译键盘"
+        title = L10n.t("双译键盘", "Shuangyi Keyboard")
         navigationController?.setNavigationBarHidden(false, animated: false)
         table.dataSource = self; table.delegate = self
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -260,10 +167,10 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
 
     func numberOfSections(in tableView: UITableView) -> Int { 2 }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? docs.count : 1
+        section == 0 ? docs.count : 2
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        section == 0 ? "关于与开源许可" : "应用"
+        section == 0 ? L10n.t("关于与开源许可", "About & Licenses") : L10n.t("应用", "App")
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
@@ -272,9 +179,12 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
             let d = docs[indexPath.row]
             cfg.text = d.title
             cfg.secondaryText = d.subtitle
+        } else if indexPath.row == 0 {
+            cfg.text = L10n.t("使用引导", "How to Use")
+            cfg.secondaryText = L10n.t("重新查看添加键盘步骤", "Replay the keyboard setup tutorial")
         } else {
-            cfg.text = "使用引导"
-            cfg.secondaryText = "重新查看添加键盘步骤"
+            cfg.text = L10n.t("联系我们", "Contact Us")
+            cfg.secondaryText = AppDocs.supportEmail
         }
         cell.contentConfiguration = cfg
         cell.accessoryType = .disclosureIndicator
@@ -284,11 +194,17 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
             navigationController?.pushViewController(DocDetailViewController(doc: docs[indexPath.row]), animated: true)
-        } else {
-            let vc = OnboardingViewController()
+        } else if indexPath.row == 0 {
+            // 回看入口：直接进纯动画教程屏，不回欢迎页、不改 onboardingDone
+            let vc = TutorialViewController()
             vc.modalPresentationStyle = .fullScreen
             vc.onFinish = { [weak vc] in vc?.dismiss(animated: true) }
             present(vc, animated: true)
+        } else {
+            // 联系我们：发邮件给开发者（用户反馈）
+            let subject = L10n.t("双译键盘 反馈", "Shuangyi Keyboard Feedback")
+            let urlStr = "mailto:\(AppDocs.supportEmail)?subject=\(subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"
+            if let url = URL(string: urlStr) { UIApplication.shared.open(url) }
         }
     }
 }
