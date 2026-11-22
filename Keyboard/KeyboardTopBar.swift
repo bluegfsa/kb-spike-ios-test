@@ -20,6 +20,11 @@ final class KeyboardTopBar: UIView {
     private let candidateStack = UIStackView()
     private var pinyinTrailing: NSLayoutConstraint!
     private var candidateTrailing: NSLayoutConstraint!
+    // 第5版：整条 bar 统一 pan 驱动滚动 + velocity 惯性减速
+    private var barPan: UIPanGestureRecognizer!
+    private var panStartOffset: CGFloat = 0
+    private var decelLink: CADisplayLink?
+    private var decelVelocity: CGFloat = 0
 
     /// 输入态右侧整块宽：候选↔线10 + 线0.5 + 线↔箭头6 + 箭头热区44 + 右边距8 ≈ 68.5。
     private let inputRightBlock: CGFloat = 68.5
@@ -115,11 +120,18 @@ final class KeyboardTopBar: UIView {
         candidateScroll.alwaysBounceHorizontal = true
         candidateScroll.delaysContentTouches = false          // 命中即时
         candidateScroll.canCancelContentTouches = true        // 拖动时取消 tap → 可横滑且不误选
-        candidateScroll.isScrollEnabled = true
-        candidateScroll.decelerationRate = .normal            // 松手按 velocity 自然减速（微信式轻盈惯性）
+        candidateScroll.isScrollEnabled = false               // 第5版：改用整条 bar 的统一 pan 驱动（绕开 scroll 自带 pan 的首触/延迟）
         candidateScroll.clipsToBounds = true
         candidateScroll.translatesAutoresizingMaskIntoConstraints = false
         addSubview(candidateScroll)
+
+        // 整条候选栏（拼音行/候选行/字间空隙/空白）任意起手都能横滑：pan 挂在本 TopBar 容器
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(barPanned(_:)))
+        pan.cancelsTouchesInView = true     // 拖动时取消候选 tap，防拖拽误选
+        pan.delaysTouchesBegan = false       // 不等 tap 失败，第一下就接管
+        pan.maximumNumberOfTouches = 1
+        addGestureRecognizer(pan)
+        barPan = pan
 
         candidateStack.axis = .horizontal
         candidateStack.alignment = .center
@@ -183,6 +195,56 @@ final class KeyboardTopBar: UIView {
             )
         }
         candidateScroll.isHidden = candidates.isEmpty
+        candidateScroll.layoutIfNeeded()   // 立刻算好 contentSize，保证首滑就能拖动（不依赖下一帧）
+    }
+
+    // MARK: - 第5版：整条 bar 拖拽 → 候选横滚（velocity 惯性减速）
+    @objc private func barPanned(_ g: UIPanGestureRecognizer) {
+        switch g.state {
+        case .began:
+            stopDecel()
+            panStartOffset = candidateScroll.contentOffset.x
+        case .changed:
+            setOffset(panStartOffset - g.translation(in: self).x)
+        case .ended, .cancelled, .failed:
+            startDecel(velocity: -g.velocity(in: self).x)   // 手指向右速度为正 → 内容向左滚
+        default:
+            break
+        }
+    }
+
+    private func maxOffsetX() -> CGFloat {
+        max(0, candidateScroll.contentSize.width - candidateScroll.bounds.width)
+    }
+
+    private func setOffset(_ x: CGFloat) {
+        let cx = min(max(0, x), maxOffsetX())
+        candidateScroll.setContentOffset(CGPoint(x: cx, y: 0), animated: false)
+    }
+
+    private func startDecel(velocity: CGFloat) {
+        guard abs(velocity) > 40 else { return }   // 轻扫阈值，太小不惯性
+        decelVelocity = velocity
+        let link = CADisplayLink(target: self, selector: #selector(stepDecel(_:)))
+        link.add(to: .main, forMode: .common)
+        decelLink = link
+    }
+
+    @objc private func stepDecel(_ link: CADisplayLink) {
+        let dt = CGFloat(max(link.targetTimestamp - link.timestamp, 1.0 / 120.0))
+        decelVelocity *= pow(0.998, dt * 1000)      // ≈ UIScrollView .normal 的减速手感
+        var x = candidateScroll.contentOffset.x + decelVelocity * dt
+        let maxX = maxOffsetX()
+        if x <= 0 { x = 0; stopDecel() }
+        else if x >= maxX { x = maxX; stopDecel() }
+        candidateScroll.setContentOffset(CGPoint(x: min(max(0, x), maxX), y: 0), animated: false)
+        if abs(decelVelocity) < 20 { stopDecel() }
+    }
+
+    private func stopDecel() {
+        decelLink?.invalidate()
+        decelLink = nil
+        decelVelocity = 0
     }
 
     private func makeCandidateItem(text: String, translation: String?, highlight: Bool, index: Int, selectable: Bool) -> UIView {
@@ -227,10 +289,14 @@ final class KeyboardTopBar: UIView {
         container.isUserInteractionEnabled = selectable
         container.tag = index
         if selectable {
-            container.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(candidateTapped(_:))))
+            let tap = UITapGestureRecognizer(target: self, action: #selector(candidateTapped(_:)))
+            if let pan = barPan { tap.require(toFail: pan) }   // 拖拽优先，点选只在未拖动时生效
+            container.addGestureRecognizer(tap)
         }
         return container
     }
+
+    deinit { stopDecel() }
 
     @objc private func settingsTapped() { onSettings?() }
     @objc private func dismissTapped() { onDismiss?() }
