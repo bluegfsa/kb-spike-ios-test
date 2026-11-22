@@ -59,6 +59,44 @@ final class OnboardingViewController: UIViewController {
             stack.bottomAnchor.constraint(equalTo: scroll.bottomAnchor, constant: -20),
         ])
         render()
+        addDocButton()
+    }
+
+    /// 右上角文档图标按钮（点开文档/开源许可）。
+    private func addDocButton() {
+        let btn = UIButton(type: .system)
+        btn.setImage(UIImage(systemName: "doc.text"), for: .normal)
+        btn.tintColor = .label
+        btn.accessibilityLabel = L10n.t("文档与开源许可", "Docs & Licenses")
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.addTarget(self, action: #selector(openDocs), for: .touchUpInside)
+        view.addSubview(btn)
+        NSLayoutConstraint.activate([
+            btn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            btn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            btn.widthAnchor.constraint(equalToConstant: 44),
+            btn.heightAnchor.constraint(equalToConstant: 44),
+        ])
+    }
+
+    @objc private func openDocs() {
+        let vc = DocsListViewController()
+        if let nav = navigationController { nav.pushViewController(vc, animated: true) }
+        else { present(UINavigationController(rootViewController: vc), animated: true) }
+    }
+
+    /// 居中的「开始添加」按钮（纯文字、无箭头，固定宽 200）。
+    private func centeredStartButton() -> UIView {
+        let holder = UIView()
+        let b = primaryButton(L10n.t("开始添加", "Start"), target: self, action: #selector(nextStep))
+        holder.addSubview(b)
+        NSLayoutConstraint.activate([
+            b.centerXAnchor.constraint(equalTo: holder.centerXAnchor),
+            b.topAnchor.constraint(equalTo: holder.topAnchor),
+            b.bottomAnchor.constraint(equalTo: holder.bottomAnchor),
+            b.widthAnchor.constraint(equalToConstant: 200),
+        ])
+        return holder
     }
 
     private func clear() { stack.arrangedSubviews.forEach { $0.removeFromSuperview() } }
@@ -92,23 +130,23 @@ final class OnboardingViewController: UIViewController {
     private func render() {
         clear()
         if step == 0 {
-            stack.addArrangedSubview(label(L10n.t("双译键盘", "Shuangyi Keyboard"), size: 28, weight: .bold))
-            stack.addArrangedSubview(label(L10n.t("边打字边看中英词/短语对照，纯本地、不联网。", "See Chinese–English word/phrase pairs while you type. Fully offline."), size: 15, color: .secondaryLabel))
-            stack.addArrangedSubview(hint(L10n.t("词库与输入内容都只存在你的手机上，键盘不上传任何内容。", "Dictionaries and your typing stay on this phone; the keyboard uploads nothing.")))
-            stack.addArrangedSubview(primaryButton(L10n.t("开始设置", "Get Started"), target: self, action: #selector(nextStep)))
-            stack.addArrangedSubview(textButton(L10n.t("跳过，直接进入 →", "Skip →"), target: self, action: #selector(finish)))
+            // 屏1（按用户红框简化）：删标题/说明/跳过/页码；副标题保留，居中的「开始添加」纯文字无箭头
+            stack.addArrangedSubview(UIView())
+            stack.addArrangedSubview(label(L10n.t("中文打字，边打边看到英文释义。", "Type in Chinese and see English meanings as you go."), size: 15, color: .secondaryLabel))
+            stack.addArrangedSubview(centeredStartButton())
+            stack.addArrangedSubview(UIView())
         } else if step == 1 {
-            stack.addArrangedSubview(label("添加「双译键盘」", size: 28, weight: .bold))
+            stack.addArrangedSubview(label("添加「语桥输入法」", size: 28, weight: .bold))
             stack.addArrangedSubview(label("3 步，约 1 分钟。加好后回到这里点「下一步」。", size: 15, color: .secondaryLabel))
             stack.addArrangedSubview(stepRow(1, "打开「设置」→ 通用 → 键盘", "在键盘页里点「键盘」进入键盘列表"))
-            stack.addArrangedSubview(stepRow(2, "点「添加新键盘」→ 选「双译键盘」", "中文/英文都勾选，点右上角「完成」"))
+            stack.addArrangedSubview(stepRow(2, "点「添加新键盘」→ 选「语桥输入法」", "中文/英文都勾选，点右上角「完成」"))
             stack.addArrangedSubview(stepRow(3, "回到本 App，点下面的「下一步」", "已添加可跳过这屏"))
-            stack.addArrangedSubview(hint("提示：添加后在任意输入框点系统键盘的地球键 🌐 即可切到「双译键盘」。无需完全访问也能用。"))
+            stack.addArrangedSubview(hint("提示：添加后在任意输入框点系统键盘的地球键 🌐 即可切到「语桥输入法」。无需完全访问也能用。"))
             stack.addArrangedSubview(primaryButton("打开设置", target: self, action: #selector(openSettings)))
             stack.addArrangedSubview(textButton("已添加，下一步 →", target: self, action: #selector(nextStep)))
         } else {
             stack.addArrangedSubview(label(L10n.t("已就绪", "Ready"), size: 28, weight: .bold))
-            stack.addArrangedSubview(label(L10n.t("现在可在任意输入框点系统键盘的地球键 🌐 切换到「双译键盘」。", "Tap the 🌐 key on the system keyboard in any text field to switch to Shuangyi Keyboard."), size: 15, color: .secondaryLabel))
+            stack.addArrangedSubview(label(L10n.t("现在可在任意输入框点系统键盘的地球键 🌐 切换到「语桥输入法」。", "Tap the 🌐 key on the system keyboard in any text field to switch to WordBridge."), size: 15, color: .secondaryLabel))
             stack.addArrangedSubview(hint(L10n.t("下面可查看开源许可与关于信息。", "Open-source licenses and about info are below.")))
             stack.addArrangedSubview(primaryButton(L10n.t("进入", "Enter"), target: self, action: #selector(finish)))
         }
@@ -151,7 +189,7 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGroupedBackground
-        title = L10n.t("双译键盘", "Shuangyi Keyboard")
+        title = L10n.t("语桥输入法", "WordBridge")
         navigationController?.setNavigationBarHidden(false, animated: false)
         table.dataSource = self; table.delegate = self
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -212,7 +250,7 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
 
     /// 联系我们：让用户选海外(Gmail)或国内(163)，各自 mailto。
     private func contactSheet() {
-        let subject = L10n.t("双译键盘 反馈", "Shuangyi Keyboard Feedback")
+        let subject = L10n.t("语桥输入法 反馈", "WordBridge Feedback")
         let enc = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         let sheet = UIAlertController(title: L10n.t("联系我们", "Contact Us"), message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: L10n.t("海外用户 · Gmail", "Overseas · Gmail"), style: .default) { [weak self] _ in
