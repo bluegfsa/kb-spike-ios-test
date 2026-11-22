@@ -20,6 +20,8 @@ final class KeyboardTopBar: UIView {
     private let candidateStack = UIStackView()
     private var pinyinTrailing: NSLayoutConstraint!
     private var candidateTrailing: NSLayoutConstraint!
+    /// 当前候选是否可点选（update 时同步）。
+    private var candidatesSelectable = false
 
     /// 输入态右侧整块宽：候选↔线10 + 线0.5 + 线↔箭头6 + 箭头热区44 + 右边距8 ≈ 68.5。
     private let inputRightBlock: CGFloat = 68.5
@@ -120,6 +122,13 @@ final class KeyboardTopBar: UIView {
         candidateScroll.clipsToBounds = true
         candidateScroll.translatesAutoresizingMaskIntoConstraints = false
         addSubview(candidateScroll)
+        // REQ-§9.8：整格可点——点「拼音行 / 英文译文 / 汉字」任一处都上屏该候选。
+        // 统一加在整条 scroll 上：候选行按落点 x 归到最近候选格；顶部拼音串（不属于单个候选）点按选第一个。
+        // 关键：require(toFail: pan) —— 轻点才选中，横向拖动优先被 scroll pan 吃掉，绝不误选（满足「点按等 pan 失败」）。
+        let candidateTap = UITapGestureRecognizer(target: self, action: #selector(candidateAreaTapped(_:)))
+        candidateTap.cancelsTouchesInView = false
+        candidateTap.require(toFail: candidateScroll.panGestureRecognizer)
+        candidateScroll.addGestureRecognizer(candidateTap)
 
         candidateStack.axis = .horizontal
         candidateStack.alignment = .center
@@ -161,6 +170,7 @@ final class KeyboardTopBar: UIView {
     func update(buffer: String, candidates: [String], translations: [String?], selectable: Bool) {
         let typing = !(buffer.isEmpty && candidates.isEmpty)
         let hasCandidates = !candidates.isEmpty
+        candidatesSelectable = selectable
         settingsButton.isHidden = typing
         dismissCircleButton.isHidden = typing
         // ⑤ 候选条「有内容」即隐藏收起键盘按钮（含分隔线）：中文候选 / 英文译词 / 英文当前词都算内容。
@@ -224,19 +234,27 @@ final class KeyboardTopBar: UIView {
             stack.topAnchor.constraint(equalTo: container.topAnchor),
             stack.bottomAnchor.constraint(equalTo: container.bottomAnchor),
         ])
-        container.isUserInteractionEnabled = selectable
+        // 整格点击改由 candidateScroll 的统一 tap 处理（拼音行/英文/汉字任意处），故容器不单独吃手势。
+        container.isUserInteractionEnabled = false
         container.tag = index
-        if selectable {
-            container.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(candidateTapped(_:))))
-        }
         return container
     }
 
     @objc private func settingsTapped() { onSettings?() }
     @objc private func dismissTapped() { onDismiss?() }
-    // REQ-9：点候选上屏时同步按键音+震动，与普通按键同一套反馈（跟随系统/键盘内声音·震动开关，关则无）。
-    @objc private func candidateTapped(_ sender: UITapGestureRecognizer) {
-        KeyFeedback.shared.play()
-        onCandidate?(sender.view?.tag ?? 0)
+    // REQ-9 + REQ-§9.8：整格点击上屏。候选行按落点 x 归到最近候选格（单格内英文/汉字任一处都算）；
+    // 顶部整条拼音串（不属于单格）点按＝选第一个候选；点内容两侧空白不选；横滑由 require(toFail: pan) 保证不误选。
+    @objc private func candidateAreaTapped(_ sender: UITapGestureRecognizer) {
+        guard candidatesSelectable, let first = candidateStack.arrangedSubviews.first else { return }
+        let p = sender.location(in: candidateStack)
+        // 落点在候选行之上（绑定顶部拼音串）→ 选第一个候选
+        if p.y < 0 {
+            KeyFeedback.shared.play(); onCandidate?(first.tag); return
+        }
+        let half = candidateStack.spacing / 2
+        for v in candidateStack.arrangedSubviews where p.x >= v.frame.minX - half && p.x <= v.frame.maxX + half {
+            KeyFeedback.shared.play(); onCandidate?(v.tag); return
+        }
+        // 点候选行两侧空白：不选
     }
 }
