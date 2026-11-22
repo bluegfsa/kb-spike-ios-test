@@ -27,7 +27,7 @@ enum AppDocs {
     private static let privacyZH = LicenseDoc(
         title: "隐私政策", subtitle: "最后更新：2026-11-22",
         body: """
-        双译键盘不收集任何个人数据。
+        语桥输入法不收集任何个人数据。
 
         · 不联网：键盘扩展与 App 均无网络请求，输入内容只在本机处理、不上传。
         · 不请求「完全访问」：无需完全访问权限即可使用。
@@ -41,7 +41,7 @@ enum AppDocs {
     private static let privacyEN = LicenseDoc(
         title: "Privacy Policy", subtitle: "Last updated: 2026-11-22",
         body: """
-        Shuangyi Keyboard collects no personal data.
+        WordBridge collects no personal data.
 
         · No network: neither the keyboard extension nor the app makes network requests; input is processed only on this device and never uploaded.
         · No "Full Access": the keyboard works without Full Access.
@@ -121,9 +121,9 @@ enum AppDocs {
             """,
             licenseFile: "LICENSE.prelude.txt"),
         LicenseDoc(
-            title: "关于双译键盘", subtitle: "版本 \(version)",
+            title: "关于语桥输入法", subtitle: "版本 \(version)",
             body: """
-            双译键盘：边打字边看中英词/短语对照的输入法辅助。
+            语桥输入法：边打字边看中英词/短语对照的输入法辅助。
 
             词库全部离线、不联网；输入内容只在本机处理。
 
@@ -200,9 +200,9 @@ enum AppDocs {
             """,
             licenseFile: "LICENSE.prelude.txt"),
         LicenseDoc(
-            title: "About Shuangyi Keyboard", subtitle: "Version \(version)",
+            title: "About WordBridge", subtitle: "Version \(version)",
             body: """
-            Shuangyi Keyboard: an input-method assistant that shows Chinese–English word/phrase pairs as you type.
+            WordBridge: an input-method assistant that shows Chinese–English word/phrase pairs as you type.
 
             All dictionaries are offline; nothing is uploaded. Your input is processed only on this device.
 
