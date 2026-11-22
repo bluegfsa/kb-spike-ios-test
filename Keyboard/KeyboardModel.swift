@@ -158,7 +158,7 @@ final class KeyboardModel: KeyboardModeling {
     }
 
     /// 问句/进行体/过去式模板：
-    ///  - 代词+在+动词(宾语) → "{Pe} is {v-ing} {obj}"（他在吃葡萄→he is eating grapes）
+    ///  - 代词+在+动词(宾语) → "{Pe} {be} {v-ing} {obj}"（他在吃葡萄→he is eating grapes；我在看电视→I am watching TV，be 随人称变位）
     ///  - 代词+动词(宾语)+吗/呢 → "Did {Pe} {verb}?"（你吃饭了吗→Did you eat?）
     ///  - 代词+动词(宾语)+了（陈述）→ "{Pe} {past}"（我吃饭了→I ate，他去了→he went）
     /// 仅「吗/呢」结尾才走疑问；「了」结尾按陈述过去式，不套疑问。
@@ -166,6 +166,9 @@ final class KeyboardModel: KeyboardModeling {
         let prons = ["我们", "你们", "他们", "她们", "我", "你", "您", "他", "她", "它"]
         let pronMap: [String: String] = ["我们": "we", "你们": "you", "他们": "they", "她们": "they",
                                           "我": "I", "你": "you", "您": "you", "他": "he", "她": "she", "它": "it"]
+        // be 动词随人称变位（BUG-17：此前写死 is，导致 我→I is）：我 am / 你·你们·您·我们·他们·她们 are / 他她它 is
+        let beMap: [String: String] = ["我": "am", "你": "are", "您": "are", "他": "is", "她": "is", "它": "is",
+                                        "我们": "are", "你们": "are", "他们": "are", "她们": "are"]
         var core = term
         var isQuestion = false
         for s in ["吗", "呢"] where core.hasSuffix(s) { core = String(core.dropLast(s.count)); isQuestion = true; break }
@@ -183,7 +186,7 @@ final class KeyboardModel: KeyboardModeling {
             let rest = String(core.dropFirst(p.count))
             if rest.hasPrefix("在") {
                 let vp = String(rest.dropFirst())
-                if let v = progressive[vp] { return "\(pe) is \(v)" }
+                if let v = progressive[vp] { return "\(pe) \(beMap[p] ?? "is") \(v)" }
             }
             if isQuestion, let v = yesno[rest] { return "Did \(pe) \(v)?" }
             if !isQuestion, hadLe, let v = past[rest] { return "\(pe) \(v)" }
