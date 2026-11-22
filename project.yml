@@ -3,6 +3,11 @@ options:
   bundleIdPrefix: com.smallblocks
   deploymentTarget:
     iOS: "15.0"
+configs:
+  Debug: debug
+  Release: release
+  ReleaseZh: release
+  ReleaseEn: release
 settings:
   base:
     CODE_SIGNING_ALLOWED: "NO"
@@ -14,9 +19,18 @@ targets:
     sources: [App]
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.smallblocks.kbspike
+        PRODUCT_BUNDLE_IDENTIFIER: com.smallblocks.yuqiao
         INFOPLIST_FILE: App/Info.plist
         GENERATE_INFOPLIST_FILE: "NO"
+      configs:
+        ReleaseZh:
+          PRODUCT_BUNDLE_IDENTIFIER: com.smallblocks.yuqiao
+          INFOPLIST_FILE: Config/App-Info-zh.plist
+          CODE_SIGN_ENTITLEMENTS: Config/App-zh.entitlements
+        ReleaseEn:
+          PRODUCT_BUNDLE_IDENTIFIER: com.smallblocks.wordbridge
+          INFOPLIST_FILE: Config/App-Info-en.plist
+          CODE_SIGN_ENTITLEMENTS: Config/App-en.entitlements
     preBuildScripts:
       - name: LogicSelfTest
         basedOnDependencyAnalysis: false
@@ -38,7 +52,7 @@ targets:
     sources: [Keyboard]
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.smallblocks.kbspike.keyboard
+        PRODUCT_BUNDLE_IDENTIFIER: com.smallblocks.yuqiao.keyboard
         INFOPLIST_FILE: Keyboard/Info.plist
         GENERATE_INFOPLIST_FILE: "NO"
         SWIFT_OBJC_BRIDGING_HEADER: Keyboard/KBSpikeKeyboard-Bridging-Header.h
@@ -52,3 +66,29 @@ targets:
           - -lrime-ios-arm64
           - -lc++
           - -lz
+      configs:
+        ReleaseZh:
+          PRODUCT_BUNDLE_IDENTIFIER: com.smallblocks.yuqiao.keyboard
+          INFOPLIST_FILE: Config/Keyboard-Info-zh.plist
+          CODE_SIGN_ENTITLEMENTS: Config/Keyboard-zh.entitlements
+        ReleaseEn:
+          PRODUCT_BUNDLE_IDENTIFIER: com.smallblocks.wordbridge.keyboard
+          INFOPLIST_FILE: Config/Keyboard-Info-en.plist
+          CODE_SIGN_ENTITLEMENTS: Config/Keyboard-en.entitlements
+schemes:
+  KBSpike-zh:
+    build:
+      targets:
+        KBSpike: all
+    run:
+      config: ReleaseZh
+    archive:
+      config: ReleaseZh
+  KBSpike-en:
+    build:
+      targets:
+        KBSpike: all
+    run:
+      config: ReleaseEn
+    archive:
+      config: ReleaseEn
