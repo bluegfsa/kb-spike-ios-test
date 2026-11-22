@@ -18,6 +18,9 @@ final class KeyboardTopBar: UIView {
     private let pinyinLabel = UILabel()
     private let candidateScroll = UIScrollView()
     private let candidateStack = UIStackView()
+    private var pinyinTrailing: NSLayoutConstraint!
+    private var candidateTrailing: NSLayoutConstraint!
+    private var panStartOffset: CGFloat = 0
 
     /// 输入态右侧整块宽：候选↔线10 + 线0.5 + 线↔箭头6 + 箭头热区44 + 右边距8 ≈ 68.5。
     private let inputRightBlock: CGFloat = 68.5
@@ -110,6 +113,9 @@ final class KeyboardTopBar: UIView {
         pinyinLabel.textColor = KBColor.pinyin
         pinyinLabel.lineBreakMode = .byTruncatingTail
         pinyinLabel.translatesAutoresizingMaskIntoConstraints = false
+        pinyinLabel.isUserInteractionEnabled = true
+        // ④ 拼音行也能横滑：把拖动映射到 candidateScroll 的横向偏移
+        pinyinLabel.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(pinyinPanned(_:))))
         addSubview(pinyinLabel)
         candidateScroll.showsHorizontalScrollIndicator = false
         candidateScroll.alwaysBounceHorizontal = true
@@ -123,13 +129,15 @@ final class KeyboardTopBar: UIView {
         candidateStack.spacing = 16
         candidateStack.translatesAutoresizingMaskIntoConstraints = false
         candidateScroll.addSubview(candidateStack)
+        pinyinTrailing = pinyinLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock)
+        candidateTrailing = candidateScroll.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock)
         NSLayoutConstraint.activate([
             pinyinLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            pinyinLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock),
+            pinyinTrailing,
             pinyinLabel.topAnchor.constraint(equalTo: topAnchor, constant: 2),
             pinyinLabel.heightAnchor.constraint(equalToConstant: 14),
             candidateScroll.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            candidateScroll.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock),
+            candidateTrailing,
             candidateScroll.topAnchor.constraint(equalTo: pinyinLabel.bottomAnchor),
             candidateScroll.heightAnchor.constraint(equalToConstant: 26),
             candidateStack.leadingAnchor.constraint(equalTo: candidateScroll.contentLayoutGuide.leadingAnchor),
@@ -143,10 +151,16 @@ final class KeyboardTopBar: UIView {
     /// 刷新拼音串/候选。空态显示圆钮（⚙/↓），输入态显裸箭头＋分隔线、隐 ⚙。
     func update(buffer: String, candidates: [String], translations: [String?], selectable: Bool) {
         let typing = !(buffer.isEmpty && candidates.isEmpty)
+        let hasCandidates = !candidates.isEmpty
         settingsButton.isHidden = typing
         dismissCircleButton.isHidden = typing
-        dismissArrowButton.isHidden = !typing
-        separatorView.isHidden = !typing
+        // ⑤ 有候选时隐藏右侧收起键盘按钮（含分隔线，候选占满整宽）；输入但无候选仍显示收起箭头
+        let showDismiss = typing && !hasCandidates
+        dismissArrowButton.isHidden = !showDismiss
+        separatorView.isHidden = !showDismiss
+        let trailingInset: CGFloat = hasCandidates ? -8 : -inputRightBlock
+        pinyinTrailing.constant = trailingInset
+        candidateTrailing.constant = trailingInset
         pinyinLabel.text = buffer
         pinyinLabel.isHidden = buffer.isEmpty
         candidateStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
@@ -157,6 +171,21 @@ final class KeyboardTopBar: UIView {
             )
         }
         candidateScroll.isHidden = candidates.isEmpty
+    }
+
+    /// ④ 拼音行拖动 → 横向滚动候选（整条候选栏都能滑，不只汉字行）。
+    @objc private func pinyinPanned(_ g: UIPanGestureRecognizer) {
+        let tx = g.translation(in: self).x
+        switch g.state {
+        case .began:
+            panStartOffset = candidateScroll.contentOffset.x
+        case .changed, .ended, .cancelled, .failed:
+            let maxX = max(0, candidateScroll.contentSize.width - candidateScroll.bounds.width)
+            let x = min(max(0, panStartOffset - tx), maxX)
+            candidateScroll.setContentOffset(CGPoint(x: x, y: 0), animated: false)
+        default:
+            break
+        }
     }
 
     private func makeCandidateItem(text: String, translation: String?, highlight: Bool, index: Int, selectable: Bool) -> UIView {
