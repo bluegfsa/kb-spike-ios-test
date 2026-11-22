@@ -74,6 +74,20 @@ enum AppDocs {
             """,
             licenseFile: "LICENSE.phrase-pinyin-data.txt"),
         LicenseDoc(
+            title: "拼音方案 · pinyin-simp",
+            subtitle: "Apache License 2.0 · Rime",
+            body: """
+            拼音输入方案 pinyin-simp（https://github.com/rime/rime-pinyin-simp）来自 Rime 官方，按 Apache License 2.0 使用。
+            """,
+            licenseFile: "LICENSE.pinyin-simp.txt"),
+        LicenseDoc(
+            title: "Rime 基础配置 · prelude",
+            subtitle: "LGPL-3.0 · Rime",
+            body: """
+            Rime 基础配置 rime-prelude（default/key_bindings/punctuation/symbols 等，https://github.com/rime/rime-prelude）按 GNU Lesser General Public License v3.0 使用。
+            """,
+            licenseFile: "LICENSE.prelude.txt"),
+        LicenseDoc(
             title: "关于双译键盘",
             subtitle: "版本 \(version)",
             body: """
