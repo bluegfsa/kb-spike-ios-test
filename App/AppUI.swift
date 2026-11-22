@@ -167,7 +167,7 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
 
     func numberOfSections(in tableView: UITableView) -> Int { 2 }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? docs.count : 2
+        section == 0 ? docs.count : 3
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         section == 0 ? L10n.t("关于与开源许可", "About & Licenses") : L10n.t("应用", "App")
@@ -182,9 +182,12 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
         } else if indexPath.row == 0 {
             cfg.text = L10n.t("使用引导", "How to Use")
             cfg.secondaryText = L10n.t("重新查看添加键盘步骤", "Replay the keyboard setup tutorial")
-        } else {
+        } else if indexPath.row == 1 {
             cfg.text = L10n.t("联系我们", "Contact Us")
             cfg.secondaryText = L10n.t("海外 Gmail · 国内 163", "Overseas Gmail · China 163")
+        } else {
+            cfg.text = L10n.t("隐私政策", "Privacy Policy")
+            cfg.secondaryText = L10n.t("不收集任何个人数据", "Collects no personal data")
         }
         cell.contentConfiguration = cfg
         cell.accessoryType = .disclosureIndicator
@@ -200,8 +203,10 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
             vc.modalPresentationStyle = .fullScreen
             vc.onFinish = { [weak vc] in vc?.dismiss(animated: true) }
             present(vc, animated: true)
-        } else {
+        } else if indexPath.row == 1 {
             contactSheet()   // 联系我们：弹两个邮箱（海外 Gmail 在前 / 国内 163）
+        } else {
+            navigationController?.pushViewController(DocDetailViewController(doc: AppDocs.privacyDoc), animated: true)
         }
     }
 
