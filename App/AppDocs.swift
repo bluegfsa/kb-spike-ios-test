@@ -70,7 +70,7 @@ enum AppDocs {
         LicenseDoc(
             title: "CC-CEDICT 汉英词典", subtitle: "CC BY-SA 4.0",
             body: """
-            中→英短译表（zh2en.txt）由 CC-CEDICT 数据生成。
+            中→英短译表（zh2en.txt）由 CC-CEDICT 数据生成，并合并青简 official glossary（CC BY-SA 4.0）补充。
 
             项目：CC-CEDICT (Chinese-English Dictionary)
             来源：https://www.mdbg.net/chinese/dictionary?page=cc-cedict
@@ -80,7 +80,7 @@ enum AppDocs {
         LicenseDoc(
             title: "ECDICT 词库", subtitle: "MIT License",
             body: """
-            英→中短译表（en2zh.txt）由 ECDICT 数据生成，仅取常用词并抽取主译短义。
+            英→中短译表（en2zh.txt）由 ECDICT 数据生成，并合并青简 official glossary（CC BY-SA 4.0）补充，仅取常用词并抽取主译短义。
 
             项目：ECDICT (Free English to Chinese Dictionary Database)
             作者：skywind3000
@@ -151,7 +151,7 @@ enum AppDocs {
         LicenseDoc(
             title: "CC-CEDICT Dictionary", subtitle: "CC BY-SA 4.0",
             body: """
-            The Chinese→English short-translation table (zh2en.txt) is generated from CC-CEDICT.
+            The Chinese→English short-translation table (zh2en.txt) is generated from CC-CEDICT, and supplemented by merging the Qingjian official glossary (CC BY-SA 4.0).
 
             Project: CC-CEDICT (Chinese-English Dictionary)
             Source: https://www.mdbg.net/chinese/dictionary?page=cc-cedict
@@ -161,7 +161,7 @@ enum AppDocs {
         LicenseDoc(
             title: "ECDICT Lexicon", subtitle: "MIT License",
             body: """
-            The English→Chinese short-translation table (en2zh.txt) is generated from ECDICT, using common words and their primary short sense.
+            The English→Chinese short-translation table (en2zh.txt) is generated from ECDICT, supplemented by merging the Qingjian official glossary (CC BY-SA 4.0), using common words and their primary short sense.
 
             Project: ECDICT (Free English to Chinese Dictionary Database)
             Author: skywind3000
