@@ -11,8 +11,9 @@ struct LicenseDoc {
 /// 文档数据（宿主页面中英双语；按系统语言取对应一组，非中文系统回退英文）。
 enum AppDocs {
     static let onboardingKey = "kb.onboardingDone"
-    /// 开发者联系邮箱（联系我们 / 隐私政策）。
-    static let supportEmail = "13872235793@163.com"
+    /// 开发者联系邮箱：海外主用 Gmail、国内备用 163。
+    static let supportEmailOverseas = "13872235793lzy@gmail.com"
+    static let supportEmailCN = "13872235793@163.com"
 
     static var version: String {
         (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? ""
