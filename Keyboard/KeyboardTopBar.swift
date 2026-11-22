@@ -113,15 +113,17 @@ final class KeyboardTopBar: UIView {
         pinyinLabel.textColor = KBColor.pinyin
         pinyinLabel.lineBreakMode = .byTruncatingTail
         pinyinLabel.translatesAutoresizingMaskIntoConstraints = false
-        pinyinLabel.isUserInteractionEnabled = true
-        // ④ 拼音行也能横滑：把拖动映射到 candidateScroll 的横向偏移
-        pinyinLabel.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(pinyinPanned(_:))))
+        pinyinLabel.isUserInteractionEnabled = false // ④ 整条候选栏统一起手滑动，拼音行不再单独吃手势
         addSubview(pinyinLabel)
         candidateScroll.showsHorizontalScrollIndicator = false
         candidateScroll.alwaysBounceHorizontal = true
         candidateScroll.delaysContentTouches = false          // 命中即时
         candidateScroll.canCancelContentTouches = true        // 允许拖动时取消 tap → 候选可横向滑动（之前设 false 导致滑不动）
-        candidateScroll.isScrollEnabled = true
+        candidateScroll.isScrollEnabled = false         // ④ 改由整条 bar 的统一 pan 驱动滚动，避免与 scroll 自带 pan 抢手势
+        // ④ 整条候选栏（拼音行 / 候选行 / 空白）任意位置起手都能横滑：手势挂在本 TopBar 容器
+        let barPan = UIPanGestureRecognizer(target: self, action: #selector(barPanned(_:)))
+        barPan.cancelsTouchesInView = false             // 只滚动、不吞候选点击
+        addGestureRecognizer(barPan)
         candidateScroll.translatesAutoresizingMaskIntoConstraints = false
         addSubview(candidateScroll)
         candidateStack.axis = .horizontal
@@ -154,8 +156,11 @@ final class KeyboardTopBar: UIView {
         let hasCandidates = !candidates.isEmpty
         settingsButton.isHidden = typing
         dismissCircleButton.isHidden = typing
-        // ⑤ 有候选时隐藏右侧收起键盘按钮（含分隔线，候选占满整宽）；输入但无候选仍显示收起箭头
-        let showDismiss = typing && !hasCandidates
+        // ⑤ 候选条「有内容」即隐藏收起键盘按钮（含分隔线）：中文候选 / 英文译词 / 英文当前词都算内容。
+        //    旧逻辑只看 candidates 是否为空，英文态 candidates 为空但 buffer、译文在显示 → 被误判"无候选"。
+        let hasBarContent = hasCandidates || !buffer.isEmpty
+            || translations.contains(where: { !($0 ?? "").isEmpty })
+        let showDismiss = typing && !hasBarContent
         dismissArrowButton.isHidden = !showDismiss
         separatorView.isHidden = !showDismiss
         let trailingInset: CGFloat = hasCandidates ? -8 : -inputRightBlock
@@ -173,8 +178,8 @@ final class KeyboardTopBar: UIView {
         candidateScroll.isHidden = candidates.isEmpty
     }
 
-    /// ④ 拼音行拖动 → 横向滚动候选（整条候选栏都能滑，不只汉字行）。
-    @objc private func pinyinPanned(_ g: UIPanGestureRecognizer) {
+    /// ④ 整条候选栏拖动 → 横向滚动候选（拼音行 / 候选行 / 空白任意起手都能滑，不只汉字格）。
+    @objc private func barPanned(_ g: UIPanGestureRecognizer) {
         let tx = g.translation(in: self).x
         switch g.state {
         case .began:
