@@ -127,6 +127,8 @@ enum AppDocs {
 
             词库全部离线、不联网；输入内容只在本机处理。
 
+            词库来源：CC-CEDICT / ECDICT + 青简 official（CC BY-SA 4.0）。
+
             词库数据以 CC BY-SA 4.0 公开发布：https://github.com/bluegfsa/kb-lexicon
             """,
             licenseFile: nil),
@@ -205,6 +207,8 @@ enum AppDocs {
             WordBridge: an input-method assistant that shows Chinese–English word/phrase pairs as you type.
 
             All dictionaries are offline; nothing is uploaded. Your input is processed only on this device.
+
+            Lexicon sources: CC-CEDICT / ECDICT + Qingjian official (CC BY-SA 4.0).
 
             Lexicon data is published under CC BY-SA 4.0: https://github.com/bluegfsa/kb-lexicon
             """,
