@@ -170,7 +170,7 @@ NSArray<NSString *> *RimeKbInput(int keyCode) {
     NSMutableArray<NSString *> *a = [NSMutableArray array];
     RIME_STRUCT(RimeContext, ctx);
     if (g_api->get_context(g_sid, &ctx) && ctx.menu.num_candidates > 0) {
-        int n = ctx.menu.num_candidates < 10 ? ctx.menu.num_candidates : 10;
+        int n = ctx.menu.num_candidates < 30 ? ctx.menu.num_candidates : 30;
         for (int i = 0; i < n; i++) {
             const char *tx = ctx.menu.candidates[i].text;
             if (tx) {
