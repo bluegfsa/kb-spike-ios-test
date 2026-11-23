@@ -23,5 +23,6 @@
             <key>RequestsOpenAccess</key><false/>
         </dict>
     </dict>
+    <key>ForceLanguage</key><string>zh</string>
 </dict>
 </plist>
