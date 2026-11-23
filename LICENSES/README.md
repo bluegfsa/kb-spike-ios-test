@@ -1,4 +1,4 @@
-# LICENSES — 语桥输入法 / WordBridge 第三方许可（随包）
+# LICENSES — 词桥输入法 / Vocabridge 第三方许可（随包）
 
 本目录收录 App（含键盘扩展 `KBSpikeKeyboard`，静态链接 librime 及其依赖）所分发的第三方库**官方许可全文**与署名索引。
 
