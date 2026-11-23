@@ -122,12 +122,8 @@ final class KeyboardTopBar: UIView {
         candidateScroll.clipsToBounds = true
         candidateScroll.translatesAutoresizingMaskIntoConstraints = false
         addSubview(candidateScroll)
-        // REQ-§9.8：整列可点。候选行（英文/汉字）点按→按 x 归到对应候选；
-        // 顶部拼音/空白另加独立透明点击层覆盖（见下），保证「候选文字上方空白」也能选中。
-        // 不使用 require(toFail: pan)（真机反馈轻点易被 pan 吃掉导致没反应）：改用 canCancelContentTouches 在拖动时取消 tap。
-        let candidateTap = UITapGestureRecognizer(target: self, action: #selector(candidateAreaTapped(_:)))
-        candidateTap.cancelsTouchesInView = false
-        candidateScroll.addGestureRecognizer(candidateTap)
+        // REQ-§9.8：候选行（英文/汉字）由每个候选 cell 自己的 tap 负责（见 makeCandidateItem，1.82 已验证可用）；
+        // 顶部拼音/空白由下面的独立透明层负责。不再在 scroll 上挂统一 tap（真机反馈不稳）。
 
         candidateStack.axis = .horizontal
         candidateStack.alignment = .center
@@ -246,17 +242,19 @@ final class KeyboardTopBar: UIView {
             stack.topAnchor.constraint(equalTo: container.topAnchor),
             stack.bottomAnchor.constraint(equalTo: container.bottomAnchor),
         ])
-        // 整格点击改由 candidateScroll 的统一 tap 处理（拼音行/英文/汉字任意处），故容器不单独吃手势。
-        container.isUserInteractionEnabled = false
+        // 候选行（汉字/英文）点选：每个 cell 自带 tap（1.82 已验证可用）；内层 stack 不拦手势。
+        container.isUserInteractionEnabled = selectable
         container.tag = index
+        if selectable {
+            container.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(candidateCellTapped(_:))))
+        }
         return container
     }
 
     @objc private func settingsTapped() { onSettings?() }
     @objc private func dismissTapped() { onDismiss?() }
-    // REQ-9 + REQ-§9.8：整列可点。每个候选的横向整列（含其文字上方的拼音区/空白区）按落点 x 归到对应候选，
-    // 忽略 y（纵向覆盖候选条全高）；命中区间为该列 x 范围 ±半间距（缝隙归相邻列）；列外/无候选不选，防误触。
-    // location(in: candidateStack) 取的是内容坐标，已含 contentOffset；横滑由 require(toFail: pan) 保证不误选。
+    // REQ-§9.8：顶部拼音/空白层点击 → 按落点 x 归到对应候选列（列外/无候选不选）。
+    // location(in: candidateStack) 取的是内容坐标，已含 contentOffset；横滑由 scroll 的 canCancelContentTouches 保证不误选。
     @objc private func candidateAreaTapped(_ sender: UITapGestureRecognizer) {
         guard candidatesSelectable, !candidateStack.arrangedSubviews.isEmpty else { return }
         let p = sender.location(in: candidateStack)
@@ -265,5 +263,11 @@ final class KeyboardTopBar: UIView {
             KeyFeedback.shared.play(); onCandidate?(v.tag); return
         }
         // 列外（最后一个候选以右的空白等）：不选
+    }
+
+    /// 候选 cell 自身点选（汉字/英文行）：直接按 cell 的 tag 上屏。
+    @objc private func candidateCellTapped(_ sender: UITapGestureRecognizer) {
+        KeyFeedback.shared.play()
+        onCandidate?(sender.view?.tag ?? 0)
     }
 }
