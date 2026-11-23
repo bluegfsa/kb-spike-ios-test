@@ -16,7 +16,11 @@ targets:
   KBSpike:
     type: application
     platform: iOS
-    sources: [App]
+    sources:
+      - App
+      - path: LICENSES
+        type: folder
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.smallblocks.yuqiao
