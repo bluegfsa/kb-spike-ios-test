@@ -1,5 +1,5 @@
 code	expected	rule	category	tier
-en	嗯	top3,min=100000	语气词别名(原只有ng)	hard
+en	嗯	top1,min=100000	语气词别名(嗯须第一)	hard
 zai	在	top1,min=100000	在/再同码	hard
 wo	我	top1	常用代词	hard
 chi	吃	top1	chi桶干净	hard
@@ -8,408 +8,371 @@ de	的	top1	高频单字	hard
 le	了	top1	高频单字	hard
 hang	行	top1	多音字	hard
 chong	重	top1	多音字	hard
-en en	嗯嗯	min=300000	叠词(治enen→鄂嫩)	hard
+en en	嗯嗯	top1,min=300000	叠词(嗯嗯须第一,治enen→鄂嫩)	hard
 en en	恩恩	min=60000	叠词次选	hard
 o o	哦哦	min=120000	叠词	hard
 ha ha	哈哈	min=200000	叠词(原1864过低)	hard
 he he	呵呵	min=60000	叠词	hard
 hei hei	嘿嘿	min=150000	叠词	hard
-bai bai	拜拜	min=120000	叠词(原37过低)	hard
+bai bai	拜拜	top2	叠词(拜拜进前列但不越白白)	hard
 me me	么么	min=60000	叠词	hard
 me me da	么么哒	min=80000	叠词	hard
 hao de	好的	min=200000	短语	hard
 shi a	是啊	min=150000	短语	hard
 xie xie	谢谢	min=120000	叠词	hard
 bu ke qi	不客气	min=60000	短语	hard
-mei shi	没事	min=80000	短语	hard
+mei shi	没事	top2	短语(没事进前列但不越美食)	hard
 ke yi	可以	min=100000	短语	hard
-shou dao	收到	min=80000	短语	hard
+shou dao	收到	top2	短语(收到进前列但不越受到)	hard
 wo zai	我在	min=800000	短语兜底(在/再)	hard
 wo zai kan dian shi	我在看电视	min=800000	整句兜底	hard
 ping guo	苹果	contain	既有词(仅需在)	hard
-ji	给	top3	单字弱断言	hard
-heng	行	top1	单字强断言	hard
-tu	图	top3	单字弱断言	hard
-xu	需	top3	单字弱断言	hard
-suo	所	top1	单字强断言	hard
-qi	其	top3	单字弱断言	hard
-zha	查	top3	单字弱断言	hard
-li	里	top1	单字强断言	hard
-guo	过	top1	单字强断言	hard
-he	和	top1	单字强断言	hard
-que	却	top1	单字强断言	hard
-chang	长	top1	单字强断言	hard
-di	的	top3	单字弱断言	hard
-yu	与	top3	单字弱断言	hard
-cuo	错	top3	单字弱断言	hard
-jin	进	top3	单字弱断言	hard
-tan	谈	top3	单字弱断言	hard
-wu	无	top3	单字弱断言	hard
-tou	头	top1	单字强断言	hard
-zhu	住	top3	单字弱断言	hard
-fu	副	top3	单字弱断言	hard
-chao	朝	top1	单字强断言	hard
-zhao	着	top1	单字强断言	hard
-xiao	小	top3	单字弱断言	hard
-dao	到	top3	单字弱断言	hard
-shu	属	top3	单字弱断言	hard
-jian	见	top3	单字弱断言	hard
-peng	捧	top3	单字弱断言	hard
-yan	言	top3	单字弱断言	hard
-dai	大	top1	单字强断言	hard
-qing	请	top3	单字弱断言	hard
-chen	称	top1	单字强断言	hard
-shua	刷	top3	单字弱断言	hard
-tai	太	top3	单字弱断言	hard
+mei shi	美食	top1	邻位(美食须top1,没事不越)	hard
+shou dao	受到	top1	邻位(受到须top1,收到不越)	hard
+bai bai	白白	top1	邻位(白白须top1,拜拜不越)	hard
 bi	比	top1	单字强断言	hard
-san	三	top1	单字强断言	hard
-quan	全	top3	单字弱断言	hard
-juan	涓	top3	单字弱断言	hard
-zhi	之	top3	单字弱断言	hard
-xi	西	top3	单字弱断言	hard
-mian	面	top1	单字强断言	hard
-ao	奥	top3	单字弱断言	hard
-xian	见	top3	单字弱断言	hard
-jing	经	top3	单字弱断言	hard
-yao	要	top1	单字强断言	hard
 zi	自	top3	单字弱断言	hard
-wan	万	top3	单字弱断言	hard
-niao	鸟	top3	单字弱断言	hard
-huo	和	top1	单字强断言	hard
-long	龙	top3	单字弱断言	hard
-ze	则	top1	单字强断言	hard
-gong	共	top3	单字弱断言	hard
-an	按	top3	单字弱断言	hard
-chan	产	top3	单字弱断言	hard
-duan	段	top1	单字强断言	hard
-lian	连	top3	单字弱断言	hard
-xun	讯	top3	单字弱断言	hard
-gei	给	top1	单字强断言	hard
-ti	提	top3	单字弱断言	hard
-zan	咱	top1	单字强断言	hard
-yi	一	top3	单字弱断言	hard
-deng	等	top1	单字强断言	hard
-me	么	top3	单字弱断言	hard
-feng	风	top3	单字弱断言	hard
-zao	早	top1	单字强断言	hard
-teng	疼	top3	单字弱断言	hard
-cuan	窜	top3	单字弱断言	hard
-kuang	矿	top3	单字弱断言	hard
-zhan	占	top3	单字弱断言	hard
-ling	另	top3	单字弱断言	hard
-ying	应	top1	单字强断言	hard
-fen	分	top1	单字强断言	hard
-er	而	top1	单字强断言	hard
-hong	红	top1	单字强断言	hard
-jia	家	top1	单字强断言	hard
-yuan	元	top3	单字弱断言	hard
-dian	点	top3	单字弱断言	hard
-can	参	top3	单字弱断言	hard
-pu	铺	top3	单字弱断言	hard
-zhou	州	top3	单字弱断言	hard
-zhen	真	top3	单字弱断言	hard
-jiang	将	top1	单字强断言	hard
-cong	从	top1	单字强断言	hard
-qian	前	top1	单字强断言	hard
-tun	吞	top3	单字弱断言	hard
-zhuang	装	top3	单字弱断言	hard
-lei	类	top1	单字强断言	hard
-chuan	穿	top3	单字弱断言	hard
-sheng	省	top3	单字弱断言	hard
-chu	出	top1	单字强断言	hard
-biao	表	top1	单字强断言	hard
-zhe	这	top3	单字弱断言	hard
-dan	但	top1	单字强断言	hard
-ren	人	top1	单字强断言	hard
-pin	品	top3	单字弱断言	hard
-du	都	top1	单字强断言	hard
-jun	军	top3	单字弱断言	hard
-cha	茶	top3	单字弱断言	hard
-e	鄂	top3	单字弱断言	hard
-xue	学	top3	单字弱断言	hard
-liao	了	top1	单字强断言	hard
-gan	干	top3	单字弱断言	hard
-ju	据	top3	单字弱断言	hard
-kun	坤	top3	单字弱断言	hard
-hao	好	top3	单字弱断言	hard
-cheng	成	top3	单字弱断言	hard
-bo	波	top3	单字弱断言	hard
-you	有	top3	单字弱断言	hard
-hua	话	top3	单字弱断言	hard
-guan	官	top3	单字弱断言	hard
-xiu	修	top3	单字弱断言	hard
-wen	问	top1	单字强断言	hard
-mo	没	top3	单字弱断言	hard
-huan	还	top1	单字强断言	hard
-luo	落	top3	单字弱断言	hard
-tong	同	top1	单字强断言	hard
-min	民	top1	单字强断言	hard
-gao	高	top1	单字强断言	hard
-dui	对	top1	单字强断言	hard
-shan	山	top1	单字强断言	hard
-xuan	选	top1	单字强断言	hard
-cai	才	top1	单字强断言	hard
-ya	呀	top3	单字弱断言	hard
-fa	法	top3	单字弱断言	hard
-mi	米	top1	单字强断言	hard
-mei	没	top3	单字弱断言	hard
-han	汉	top3	单字弱断言	hard
-mang	忙	top1	单字强断言	hard
-tuan	团	top3	单字弱断言	hard
-ke	可	top1	单字强断言	hard
-nong	弄	top1	单字强断言	hard
-luan	乱	top1	单字强断言	hard
-she	设	top1	单字强断言	hard
-jie	接	top3	单字弱断言	hard
-yin	因	top1	单字强断言	hard
-pei	陪	top3	单字弱断言	hard
-shen	身	top3	单字弱断言	hard
-jue	觉	top3	单字弱断言	hard
-huang	黄	top3	单字弱断言	hard
-liu	流	top3	单字弱断言	hard
-fei	非	top3	单字弱断言	hard
-hu	和	top1	单字强断言	hard
-ting	听	top1	单字强断言	hard
-shao	少	top1	单字强断言	hard
-su	素	top3	单字弱断言	hard
-ai	爱	top1	单字强断言	hard
-tian	天	top1	单字强断言	hard
-la	拉	top3	单字弱断言	hard
 hui	会	top1	单字强断言	hard
-qie	且	top1	单字强断言	hard
-wa	瓦	top3	单字弱断言	hard
-qin	亲	top1	单字强断言	hard
-qu	去	top1	单字强断言	hard
-qiang	将	top1	单字强断言	hard
-kuai	会	top1	单字强断言	hard
-lu	路	top1	单字强断言	hard
-run	润	top3	单字弱断言	hard
-yang	杨	top1	单字强断言	hard
-tiao	条	top3	单字弱断言	hard
-shuo	说	top1	单字强断言	hard
-zhuo	着	top1	单字强断言	hard
-wang	王	top3	单字弱断言	hard
-cou	凑	top3	单字弱断言	hard
-xie	些	top3	单字弱断言	hard
-cui	催	top3	单字弱断言	hard
-ban	办	top3	单字弱断言	hard
-sui	虽	top3	单字弱断言	hard
-dang	当	top3	单字弱断言	hard
-bang	浜	top3	单字弱断言	hard
-pang	房	top3	单字弱断言	hard
-chai	差	top1	单字强断言	hard
-zhang	长	top3	单字弱断言	hard
-ge	个	top3	单字弱断言	hard
-bian	便	top1	单字强断言	hard
-pen	喷	top3	单字弱断言	hard
-gang	刚	top3	单字弱断言	hard
-ye	也	top1	单字强断言	hard
-si	死	top3	单字弱断言	hard
-zui	最	top1	单字强断言	hard
-rui	睿	top3	单字弱断言	hard
-mou	某	top1	单字强断言	hard
-lv	率	top3	单字弱断言	hard
-rang	让	top1	单字强断言	hard
-zheng	正	top1	单字强断言	hard
-piao	票	top3	单字弱断言	hard
-tuo	脱	top3	单字弱断言	hard
-shuang	双	top1	单字强断言	hard
-jiao	叫	top3	单字弱断言	hard
-kong	空	top3	单字弱断言	hard
-ping	平	top3	单字弱断言	hard
-xin	新	top3	单字弱断言	hard
-liang	两	top1	单字强断言	hard
-na	那	top1	单字强断言	hard
-nuo	诺	top3	单字弱断言	hard
-se	色	top3	单字弱断言	hard
-qiao	瞧	top3	单字弱断言	hard
-ou	藕	top3	单字弱断言	hard
-yun	云	top3	单字弱断言	hard
-fang	放	top3	单字弱断言	hard
-zhong	中	top1	单字强断言	hard
-dou	都	top1	单字强断言	hard
-zuo	做	top3	单字弱断言	hard
-gui	归	top3	单字弱断言	hard
-zong	总	top1	单字强断言	hard
-keng	坑	top3	单字弱断言	hard
-ruan	软	top1	单字强断言	hard
-pi	皮	top3	单字弱断言	hard
-sang	丧	top3	单字弱断言	hard
-qiu	求	top3	单字弱断言	hard
-sha	杀	top1	单字强断言	hard
-yue	月	top1	单字强断言	hard
-bai	白	top3	单字弱断言	hard
-tie	铁	top3	单字弱断言	hard
-gua	挂	top1	单字强断言	hard
-duo	多	top1	单字强断言	hard
-ku	哭	top3	单字弱断言	hard
-zu	足	top3	单字弱断言	hard
-ga	夹	top1	单字强断言	hard
-po	破	top3	单字弱断言	hard
-sun	孙	top1	单字强断言	hard
-tao	逃	top3	单字弱断言	hard
-yong	用	top1	单字强断言	hard
-nao	闹	top3	单字弱断言	hard
-chuo	戳	top3	单字弱断言	hard
-kuo	阔	top3	单字弱断言	hard
-ka	卡	top3	单字弱断言	hard
-diao	掉	top3	单字弱断言	hard
-zei	贼	top1	单字强断言	hard
-gu	家	top1	单字强断言	hard
-ma	吗	top3	单字弱断言	hard
-gou	句	top3	单字弱断言	hard
-sao	扫	top3	单字弱断言	hard
-tui	退	top3	单字弱断言	hard
-lou	楼	top3	单字弱断言	hard
-bing	并	top1	单字强断言	hard
-lie	列	top3	单字弱断言	hard
-ce	侧	top3	单字弱断言	hard
-lin	林	top1	单字强断言	hard
-xia	下	top1	单字强断言	hard
-shou	手	top3	单字弱断言	hard
-kui	亏	top3	单字弱断言	hard
-zhua	抓	top1	单字强断言	hard
-qun	群	top1	单字强断言	hard
-xing	省	top3	单字弱断言	hard
-ning	宁	top3	单字弱断言	hard
-mao	毛	top3	单字弱断言	hard
-gun	滚	top3	单字弱断言	hard
-ba	把	top1	单字强断言	hard
-dun	吨	top3	单字弱断言	hard
-kan	看	top1	单字强断言	hard
-kou	口	top1	单字强断言	hard
-guai	怪	top1	单字强断言	hard
-zhun	准	top1	单字强断言	hard
-wei	为	top1	单字强断言	hard
-zang	藏	top1	单字强断言	hard
-che	车	top1	单字强断言	hard
-cu	卒	top3	单字弱断言	hard
-qiong	穷	top1	单字强断言	hard
-tang	唐	top3	单字弱断言	hard
-lao	老	top1	单字强断言	hard
-jiu	就	top1	单字强断言	hard
-nei	内	top1	单字强断言	hard
-chuang	床	top3	单字弱断言	hard
-qia	卡	top1	单字强断言	hard
-rong	容	top3	单字弱断言	hard
-da	大	top1	单字强断言	hard
-cang	藏	top1	单字强断言	hard
-gai	该	top1	单字强断言	hard
-ci	此	top3	单字弱断言	hard
-ming	名	top3	单字弱断言	hard
-xiang	向	top3	单字弱断言	hard
-ding	定	top3	单字弱断言	hard
-sa	撒	top3	单字弱断言	hard
-bu	不	top1	单字强断言	hard
-meng	梦	top3	单字弱断言	hard
-nai	乃	top1	单字强断言	hard
-zhai	寨	top1	单字强断言	hard
-geng	更	top1	单字强断言	hard
-zeng	曾	top1	单字强断言	hard
-fan	反	top3	单字弱断言	hard
-ru	如	top3	单字弱断言	hard
-nu	怒	top1	单字强断言	hard
-ni	你	top1	单字强断言	hard
-guang	光	top3	单字弱断言	hard
-cao	草	top3	单字弱断言	hard
-die	爹	top3	单字弱断言	hard
-ben	本	top1	单字强断言	hard
-chou	抽	top3	单字弱断言	hard
-hun	婚	top3	单字弱断言	hard
-ken	肯	top1	单字强断言	hard
-nian	年	top1	单字强断言	hard
-nie	捏	top3	单字弱断言	hard
-rou	肉	top3	单字弱断言	hard
-nin	您	top1	单字强断言	hard
-man	满	top1	单字强断言	hard
-hou	后	top1	单字强断言	hard
-mie	灭	top1	单字强断言	hard
-kang	抗	top3	单字弱断言	hard
-bei	被	top1	单字强断言	hard
-ruo	若	top1	单字强断言	hard
-hai	还	top1	单字强断言	hard
-kua	跨	top3	单字弱断言	hard
-bie	别	top1	单字强断言	hard
-bao	报	top3	单字弱断言	hard
-zou	走	top1	单字强断言	hard
-ran	然	top1	单字强断言	hard
-diu	丢	top1	单字强断言	hard
-song	送	top3	单字弱断言	hard
-shang	上	top1	单字强断言	hard
-zhuan	转	top3	单字弱断言	hard
-niu	牛	top1	单字强断言	hard
-pai	派	top1	单字强断言	hard
-zhui	追	top1	单字强断言	hard
-ta	他	top3	单字弱断言	hard
-miao	庙	top3	单字弱断言	hard
-men	们	top3	单字弱断言	hard
-kai	开	top1	单字强断言	hard
-lan	蓝	top3	单字弱断言	hard
-lang	廊	top3	单字弱断言	hard
-pa	派	top3	单字弱断言	hard
-chui	吹	top3	单字弱断言	hard
-chun	春	top3	单字弱断言	hard
-shuai	率	top1	单字强断言	hard
-dong	东	top3	单字弱断言	hard
-shai	色	top1	单字强断言	hard
-xiong	兄	top3	单字弱断言	hard
-mai	买	top3	单字弱断言	hard
+gao	高	top1	单字强断言	hard
 mu	墓	top3	单字弱断言	hard
-kuan	宽	top1	单字强断言	hard
-leng	冷	top1	单字强断言	hard
-en	恩	top1	单字强断言	hard
-lun	论	top3	单字弱断言	hard
-weng	翁	top3	单字弱断言	hard
-pao	跑	top1	单字强断言	hard
-zun	尊	top3	单字弱断言	hard
-lve	略	top1	单字强断言	hard
-pian	便	top1	单字强断言	hard
-gen	跟	top1	单字强断言	hard
-zhuai	转	top1	单字强断言	hard
+huang	黄	top3	单字弱断言	hard
 sou	艘	top3	单字弱断言	hard
-lai	来	top1	单字强断言	hard
-hen	很	top1	单字强断言	hard
-pan	盘	top3	单字弱断言	hard
-lia	俩	top1	单字强断言	hard
-yo	哟	top3	单字弱断言	hard
-za	咱	top3	单字弱断言	hard
-zuan	钻	top1	单字强断言	hard
-ri	日	top1	单字强断言	hard
-reng	仍	top1	单字强断言	hard
-wai	外	top1	单字强断言	hard
-shui	说	top1	单字强断言	hard
-kao	靠	top3	单字弱断言	hard
-suan	算	top3	单字弱断言	hard
-re	若	top3	单字弱断言	hard
-niang	娘	top1	单字强断言	hard
-seng	僧	top1	单字强断言	hard
-te	特	top1	单字强断言	hard
-ha	哈	top3	单字弱断言	hard
-rao	绕	top3	单字弱断言	hard
-ne	呢	top3	单字弱断言	hard
-a	啊	top1	单字强断言	hard
-ceng	曾	top1	单字强断言	hard
-cun	村	top3	单字弱断言	hard
-nan	南	top3	单字弱断言	hard
-nv	女	top1	单字强断言	hard
-nuan	暖	top1	单字强断言	hard
-hei	黑	top1	单字强断言	hard
-cen	涔	top3	单字弱断言	hard
+ni	你	top1	单字强断言	hard
+nie	捏	top3	单字弱断言	hard
+yu	与	top3	单字弱断言	hard
+lou	楼	top3	单字弱断言	hard
+xue	学	top3	单字弱断言	hard
+zui	最	top1	单字强断言	hard
+he	和	top1	单字强断言	hard
+tu	图	top3	单字弱断言	hard
+xin	新	top3	单字弱断言	hard
+zheng	正	top1	单字强断言	hard
+ru	如	top3	单字弱断言	hard
+liu	流	top3	单字弱断言	hard
+hai	还	top1	单字强断言	hard
+shan	山	top1	单字强断言	hard
+chao	朝	top1	单字强断言	hard
+qian	前	top1	单字强断言	hard
+xie	些	top3	单字弱断言	hard
+shu	属	top3	单字弱断言	hard
+pao	跑	top1	单字强断言	hard
+shen	身	top3	单字弱断言	hard
+wan	万	top3	单字弱断言	hard
+yang	杨	top1	单字强断言	hard
+zhou	州	top3	单字弱断言	hard
+tong	同	top1	单字强断言	hard
+yun	云	top3	单字弱断言	hard
+lin	林	top1	单字强断言	hard
+bao	报	top3	单字弱断言	hard
 nang	囊	top3	单字弱断言	hard
+dang	当	top3	单字弱断言	hard
+jie	接	top3	单字弱断言	hard
+xia	下	top1	单字强断言	hard
+kun	坤	top3	单字弱断言	hard
+jin	进	top3	单字弱断言	hard
+luan	乱	top1	单字强断言	hard
+xiu	修	top3	单字弱断言	hard
+kuo	阔	top3	单字弱断言	hard
+gua	挂	top1	单字强断言	hard
+qin	亲	top1	单字强断言	hard
+ying	应	top1	单字强断言	hard
+jun	军	top3	单字弱断言	hard
+qi	其	top3	单字弱断言	hard
+gui	归	top3	单字弱断言	hard
+man	满	top1	单字强断言	hard
+qing	请	top3	单字弱断言	hard
+feng	风	top3	单字弱断言	hard
+gan	干	top3	单字弱断言	hard
+fan	反	top3	单字弱断言	hard
+you	有	top3	单字弱断言	hard
+mian	面	top1	单字强断言	hard
+fu	副	top3	单字弱断言	hard
+zhong	中	top1	单字强断言	hard
+xiao	小	top3	单字弱断言	hard
+qie	且	top1	单字强断言	hard
+xu	需	top3	单字弱断言	hard
+gai	该	top1	单字强断言	hard
 ca	擦	top1	单字强断言	hard
+li	里	top1	单字强断言	hard
+yan	言	top3	单字弱断言	hard
+ti	提	top3	单字弱断言	hard
+cui	催	top3	单字弱断言	hard
+po	破	top3	单字弱断言	hard
+kuang	矿	top3	单字弱断言	hard
+shuang	双	top1	单字强断言	hard
+she	设	top1	单字强断言	hard
+zhe	这	top3	单字弱断言	hard
+jiang	将	top1	单字强断言	hard
+jing	经	top3	单字弱断言	hard
+ruo	若	top1	单字强断言	hard
+zhu	住	top3	单字弱断言	hard
+mao	毛	top3	单字弱断言	hard
+kong	空	top3	单字弱断言	hard
+ju	据	top3	单字弱断言	hard
+qu	去	top1	单字强断言	hard
+cuo	错	top3	单字弱断言	hard
+lie	列	top3	单字弱断言	hard
+wu	无	top3	单字弱断言	hard
+bian	便	top1	单字强断言	hard
+shang	上	top1	单字强断言	hard
+lang	廊	top3	单字弱断言	hard
+ban	办	top3	单字弱断言	hard
+fang	放	top3	单字弱断言	hard
+sheng	省	top3	单字弱断言	hard
+bu	不	top1	单字强断言	hard
+shao	少	top1	单字强断言	hard
+jue	觉	top3	单字弱断言	hard
+dou	都	top1	单字强断言	hard
+men	们	top3	单字弱断言	hard
+tan	谈	top3	单字弱断言	hard
+sang	丧	top3	单字弱断言	hard
+song	送	top3	单字弱断言	hard
+han	汉	top3	单字弱断言	hard
+yue	月	top1	单字强断言	hard
+lian	连	top3	单字弱断言	hard
+xuan	选	top1	单字强断言	hard
+yi	一	top3	单字弱断言	hard
+ai	爱	top1	单字强断言	hard
+zhui	追	top1	单字强断言	hard
+dan	但	top1	单字强断言	hard
+lao	老	top1	单字强断言	hard
+ya	呀	top3	单字弱断言	hard
+chui	吹	top3	单字弱断言	hard
+yin	因	top1	单字强断言	hard
+ran	然	top1	单字强断言	hard
+hong	红	top1	单字强断言	hard
+mei	没	top3	单字弱断言	hard
+cheng	成	top3	单字弱断言	hard
+wen	问	top1	单字强断言	hard
+meng	梦	top3	单字弱断言	hard
+qiao	瞧	top3	单字弱断言	hard
+zuan	钻	top1	单字强断言	hard
+weng	翁	top3	单字弱断言	hard
 nen	嫩	top1	单字强断言	hard
-huai	坏	top3	单字弱断言	hard
-fou	否	top3	单字弱断言	hard
-o	哦	top1	单字强断言	hard
-sai	塞	top3	单字弱断言	hard
-shei	谁	top1	单字强断言	hard
-shun	顺	top1	单字强断言	hard
-zen	怎	top1	单字强断言	hard
-zhei	这	top1	单字强断言	hard
-fo	佛	top1	单字强断言	hard
+ren	人	top1	单字强断言	hard
+tuo	脱	top3	单字弱断言	hard
+guo	过	top1	单字强断言	hard
+ken	肯	top1	单字强断言	hard
+jian	见	top3	单字弱断言	hard
+cai	才	top1	单字强断言	hard
+pin	品	top3	单字弱断言	hard
+zhang	长	top3	单字弱断言	hard
+gong	共	top3	单字弱断言	hard
+zhuan	转	top3	单字弱断言	hard
+chuan	穿	top3	单字弱断言	hard
+lv	率	top3	单字弱断言	hard
+hua	话	top3	单字弱断言	hard
+hei	黑	top1	单字强断言	hard
+yuan	元	top3	单字弱断言	hard
+si	死	top3	单字弱断言	hard
+jia	家	top1	单字强断言	hard
+gang	刚	top3	单字弱断言	hard
+zhi	之	top3	单字弱断言	hard
+an	按	top3	单字弱断言	hard
+jiao	叫	top3	单字弱断言	hard
+qiu	求	top3	单字弱断言	hard
+yao	要	top1	单字强断言	hard
+lu	路	top1	单字强断言	hard
+pu	铺	top3	单字弱断言	hard
+kai	开	top1	单字强断言	hard
+hun	婚	top3	单字弱断言	hard
+zan	咱	top1	单字强断言	hard
+cuan	窜	top3	单字弱断言	hard
+ci	此	top3	单字弱断言	hard
+zhun	准	top1	单字强断言	hard
+zhen	真	top3	单字弱断言	hard
+che	车	top1	单字强断言	hard
+tang	唐	top3	单字弱断言	hard
+zao	早	top1	单字强断言	hard
+hou	后	top1	单字强断言	hard
+a	啊	top1	单字强断言	hard
+pi	皮	top3	单字弱断言	hard
+long	龙	top3	单字弱断言	hard
+pei	陪	top3	单字弱断言	hard
+quan	全	top3	单字弱断言	hard
+xi	西	top3	单字弱断言	hard
+ce	侧	top3	单字弱断言	hard
+ka	卡	top3	单字弱断言	hard
+tai	太	top3	单字弱断言	hard
+bo	波	top3	单字弱断言	hard
+ting	听	top1	单字强断言	hard
+lve	略	top1	单字强断言	hard
+hao	好	top3	单字弱断言	hard
+mi	米	top1	单字强断言	hard
+ge	个	top3	单字弱断言	hard
+ao	奥	top3	单字弱断言	hard
+wa	瓦	top3	单字弱断言	hard
+qiong	穷	top1	单字强断言	hard
+dao	到	top3	单字弱断言	hard
+suo	所	top1	单字强断言	hard
+xun	讯	top3	单字弱断言	hard
+wei	为	top1	单字强断言	hard
+rong	容	top3	单字弱断言	hard
+luo	落	top3	单字弱断言	hard
+chou	抽	top3	单字弱断言	hard
+juan	涓	top3	单字弱断言	hard
+lun	论	top3	单字弱断言	hard
+sha	杀	top1	单字强断言	hard
+tao	逃	top3	单字弱断言	hard
+ta	他	top3	单字弱断言	hard
+gun	滚	top3	单字弱断言	hard
+zhan	占	top3	单字弱断言	hard
+lei	类	top1	单字强断言	hard
+lan	蓝	top3	单字弱断言	hard
+hen	很	top1	单字强断言	hard
+peng	捧	top3	单字弱断言	hard
+ye	也	top1	单字强断言	hard
+chu	出	top1	单字强断言	hard
+xiang	向	top3	单字弱断言	hard
+mou	某	top1	单字强断言	hard
+liang	两	top1	单字强断言	hard
+chuang	床	top3	单字弱断言	hard
+xiong	兄	top3	单字弱断言	hard
+ma	吗	top3	单字弱断言	hard
+nuo	诺	top3	单字弱断言	hard
+bing	并	top1	单字强断言	hard
+shou	手	top3	单字弱断言	hard
+gen	跟	top1	单字强断言	hard
+fa	法	top3	单字弱断言	hard
+bang	浜	top3	单字弱断言	hard
+guan	官	top3	单字弱断言	hard
+rang	让	top1	单字强断言	hard
+kui	亏	top3	单字弱断言	hard
+duo	多	top1	单字强断言	hard
+mang	忙	top1	单字强断言	hard
+die	爹	top3	单字弱断言	hard
+su	素	top3	单字弱断言	hard
+tuan	团	top3	单字弱断言	hard
+deng	等	top1	单字强断言	hard
+zong	总	top1	单字强断言	hard
+ding	定	top3	单字弱断言	hard
+nian	年	top1	单字强断言	hard
+ruan	软	top1	单字强断言	hard
+niao	鸟	top3	单字弱断言	hard
+min	民	top1	单字强断言	hard
+miao	庙	top3	单字弱断言	hard
+sui	虽	top3	单字弱断言	hard
+kou	口	top1	单字强断言	hard
+yong	用	top1	单字强断言	hard
+er	而	top1	单字强断言	hard
+leng	冷	top1	单字强断言	hard
+ming	名	top3	单字弱断言	hard
+tou	头	top1	单字强断言	hard
+run	润	top3	单字弱断言	hard
+ke	可	top1	单字强断言	hard
+la	拉	top3	单字弱断言	hard
+nong	弄	top1	单字强断言	hard
+geng	更	top1	单字强断言	hard
+pan	盘	top3	单字弱断言	hard
+sun	孙	top1	单字强断言	hard
+dong	东	top3	单字弱断言	hard
+cha	茶	top3	单字弱断言	hard
+ku	哭	top3	单字弱断言	hard
+guai	怪	top1	单字强断言	hard
+cong	从	top1	单字强断言	hard
+shua	刷	top3	单字弱断言	hard
+diao	掉	top3	单字弱断言	hard
+mai	买	top3	单字弱断言	hard
+niu	牛	top1	单字强断言	hard
+jiu	就	top1	单字强断言	hard
+chan	产	top3	单字弱断言	hard
+cun	村	top3	单字弱断言	hard
+zhai	寨	top1	单字强断言	hard
+tian	天	top1	单字强断言	hard
+chun	春	top3	单字弱断言	hard
+da	大	top1	单字强断言	hard
+rui	睿	top3	单字弱断言	hard
+dun	吨	top3	单字弱断言	hard
 ng	嗯	top1	单字强断言	hard
+wang	王	top3	单字弱断言	hard
+dui	对	top1	单字强断言	hard
+que	却	top1	单字强断言	hard
+fen	分	top1	单字强断言	hard
+ling	另	top3	单字弱断言	hard
+na	那	top1	单字强断言	hard
+bai	白	top3	单字弱断言	hard
+huai	坏	top3	单字弱断言	hard
+san	三	top1	单字强断言	hard
+zuo	做	top3	单字弱断言	hard
+niang	娘	top1	单字强断言	hard
+nao	闹	top3	单字弱断言	hard
+pai	派	top1	单字强断言	hard
+ping	平	top3	单字弱断言	hard
+dian	点	top3	单字弱断言	hard
+sao	扫	top3	单字弱断言	hard
+zu	足	top3	单字弱断言	hard
+lai	来	top1	单字强断言	hard
+cao	草	top3	单字弱断言	hard
+teng	疼	top3	单字弱断言	hard
+ba	把	top1	单字强断言	hard
+ning	宁	top3	单字弱断言	hard
+kuan	宽	top1	单字强断言	hard
+piao	票	top3	单字弱断言	hard
+ben	本	top1	单字强断言	hard
+ze	则	top1	单字强断言	hard
+fei	非	top3	单字弱断言	hard
+e	鄂	top3	单字弱断言	hard
+ou	藕	top3	单字弱断言	hard
+suan	算	top3	单字弱断言	hard
+keng	坑	top3	单字弱断言	hard
+bei	被	top1	单字强断言	hard
+nu	怒	top1	单字强断言	hard
+cou	凑	top3	单字弱断言	hard
+duan	段	top1	单字强断言	hard
+biao	表	top1	单字强断言	hard
+chuo	戳	top3	单字弱断言	hard
+qun	群	top1	单字强断言	hard
+zei	贼	top1	单字强断言	hard
+tiao	条	top3	单字弱断言	hard
+can	参	top3	单字弱断言	hard
+nan	南	top3	单字弱断言	hard
+ceng	曾	top1	单字强断言	hard
+nai	乃	top1	单字强断言	hard
+o	哦	top1	单字强断言	hard
+sa	撒	top3	单字弱断言	hard
+zhua	抓	top1	单字强断言	hard
+bie	别	top1	单字强断言	hard
+nv	女	top1	单字强断言	hard
+kan	看	top1	单字强断言	hard
+guang	光	top3	单字弱断言	hard
+kang	抗	top3	单字弱断言	hard
+nei	内	top1	单字强断言	hard
+shuo	说	top1	单字强断言	hard
+zun	尊	top3	单字弱断言	hard
+tie	铁	top3	单字弱断言	hard
+nin	您	top1	单字强断言	hard
+mie	灭	top1	单字强断言	hard
+zhuang	装	top3	单字弱断言	hard
+cen	涔	top3	单字弱断言	hard
+tui	退	top3	单字弱断言	hard
+tun	吞	top3	单字弱断言	hard
+kao	靠	top3	单字弱断言	hard
+pen	喷	top3	单字弱断言	hard
+diu	丢	top1	单字强断言	hard
+se	色	top3	单字弱断言	hard
+fou	否	top3	单字弱断言	hard
+kua	跨	top3	单字弱断言	hard
+sai	塞	top3	单字弱断言	hard
+te	特	top1	单字强断言	hard
+zou	走	top1	单字强断言	hard
+cang	藏	top1	单字强断言	hard
+rao	绕	top3	单字弱断言	hard
+rou	肉	top3	单字弱断言	hard
+ri	日	top1	单字强断言	hard
+gei	给	top1	单字强断言	hard
+wai	外	top1	单字强断言	hard
+me	么	top3	单字弱断言	hard
+shun	顺	top1	单字强断言	hard
+nuan	暖	top1	单字强断言	hard
+yo	哟	top3	单字弱断言	hard
+ha	哈	top3	单字弱断言	hard
+ne	呢	top3	单字弱断言	hard
+reng	仍	top1	单字强断言	hard
+seng	僧	top1	单字强断言	hard
+lia	俩	top1	单字强断言	hard
+shei	谁	top1	单字强断言	hard
+zen	怎	top1	单字强断言	hard
 neng	能	top1	单字强断言	hard
-dei	得	top1	单字强断言	hard
 yi ge	一个	contain	词组覆盖	soft
 zhong guo	中国	contain	词组覆盖	soft
 wo men	我们	contain	词组覆盖	soft
@@ -751,7 +714,6 @@ mu biao	目标	contain	词组覆盖	soft
 ji di	基地	contain	词组覆盖	soft
 nong cun	农村	contain	词组覆盖	soft
 chuan tong	传统	contain	词组覆盖	soft
-shou dao	受到	contain	词组覆盖	soft
 quan bu	全部	contain	词组覆盖	soft
 fa guo	法国	contain	词组覆盖	soft
 bi sai	比赛	contain	词组覆盖	soft
@@ -809,3 +771,63 @@ jian chi	坚持	contain	词组覆盖	soft
 gong ren	工人	contain	词组覆盖	soft
 qi che	汽车	contain	词组覆盖	soft
 er shi	而是	contain	词组覆盖	soft
+di ren	敌人	contain	词组覆盖	soft
+shang pin	商品	contain	词组覆盖	soft
+shuo hua	说话	contain	词组覆盖	soft
+gai bian	改变	contain	词组覆盖	soft
+xian hou	先后	contain	词组覆盖	soft
+li liang	力量	contain	词组覆盖	soft
+shi ye	事业	contain	词组覆盖	soft
+kan jian	看见	contain	词组覆盖	soft
+kai fa	开发	contain	词组覆盖	soft
+zhan lve	战略	contain	词组覆盖	soft
+biao zhun	标准	contain	词组覆盖	soft
+shi fou	是否	contain	词组覆盖	soft
+chu qu	出去	contain	词组覆盖	soft
+jin nian	今年	contain	词组覆盖	soft
+bao dao	报道	contain	词组覆盖	soft
+cheng du	程度	contain	词组覆盖	soft
+ping jun	平均	contain	词组覆盖	soft
+xiao xi	消息	contain	词组覆盖	soft
+hai shi	还是	contain	词组覆盖	soft
+an quan	安全	contain	词组覆盖	soft
+du li	独立	contain	词组覆盖	soft
+zhu yi	注意	contain	词组覆盖	soft
+ji hui	机会	contain	词组覆盖	soft
+fu qin	父亲	contain	词组覆盖	soft
+ci wai	此外	contain	词组覆盖	soft
+jing yan	经验	contain	词组覆盖	soft
+cai qu	采取	contain	词组覆盖	soft
+xi huan	喜欢	contain	词组覆盖	soft
+gen ben	根本	contain	词组覆盖	soft
+ling yu	领域	contain	词组覆盖	soft
+ju ti	具体	contain	词组覆盖	soft
+lian xi	联系	contain	词组覆盖	soft
+ji hu	几乎	contain	词组覆盖	soft
+gan bu	干部	contain	词组覆盖	soft
+yin du	印度	contain	词组覆盖	soft
+ru jin	如今	contain	词组覆盖	soft
+da hui	大会	contain	词组覆盖	soft
+bu ke	不可	contain	词组覆盖	soft
+xiong di	兄弟	contain	词组覆盖	soft
+de guo	德国	contain	词组覆盖	soft
+jie duan	阶段	contain	词组覆盖	soft
+gan dao	感到	contain	词组覆盖	soft
+wu fa	无法	contain	词组覆盖	soft
+xian fa	宪法	contain	词组覆盖	soft
+si hu	似乎	contain	词组覆盖	soft
+yuan ze	原则	contain	词组覆盖	soft
+zhen zheng	真正	contain	词组覆盖	soft
+fa gui	法规	contain	词组覆盖	soft
+dou zheng	斗争	contain	词组覆盖	soft
+ren lei	人类	contain	词组覆盖	soft
+mu di	目的	contain	词组覆盖	soft
+zao cheng	造成	contain	词组覆盖	soft
+fan dui	反对	contain	词组覆盖	soft
+xiang tong	相同	contain	词组覆盖	soft
+er zi	儿子	contain	词组覆盖	soft
+yi qian	以前	contain	词组覆盖	soft
+zhu ming	著名	contain	词组覆盖	soft
+zhong ren	众人	contain	词组覆盖	soft
+jian yi	建议	contain	词组覆盖	soft
+xun su	迅速	contain	词组覆盖	soft
