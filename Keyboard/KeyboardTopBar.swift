@@ -122,12 +122,11 @@ final class KeyboardTopBar: UIView {
         candidateScroll.clipsToBounds = true
         candidateScroll.translatesAutoresizingMaskIntoConstraints = false
         addSubview(candidateScroll)
-        // REQ-§9.8：整格可点——点「拼音行 / 英文译文 / 汉字」任一处都上屏该候选。
-        // 统一加在整条 scroll 上：候选行按落点 x 归到最近候选格；顶部拼音串（不属于单个候选）点按选第一个。
-        // 关键：require(toFail: pan) —— 轻点才选中，横向拖动优先被 scroll pan 吃掉，绝不误选（满足「点按等 pan 失败」）。
+        // REQ-§9.8：整列可点。候选行（英文/汉字）点按→按 x 归到对应候选；
+        // 顶部拼音/空白另加独立透明点击层覆盖（见下），保证「候选文字上方空白」也能选中。
+        // 不使用 require(toFail: pan)（真机反馈轻点易被 pan 吃掉导致没反应）：改用 canCancelContentTouches 在拖动时取消 tap。
         let candidateTap = UITapGestureRecognizer(target: self, action: #selector(candidateAreaTapped(_:)))
         candidateTap.cancelsTouchesInView = false
-        candidateTap.require(toFail: candidateScroll.panGestureRecognizer)
         candidateScroll.addGestureRecognizer(candidateTap)
 
         candidateStack.axis = .horizontal
@@ -143,6 +142,14 @@ final class KeyboardTopBar: UIView {
         pinyinLabel.isUserInteractionEnabled = false
         pinyinLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(pinyinLabel)
+
+        // 顶部拼音/空白：独立透明点击层（覆盖候选行以上整块 18pt），保证「候选文字上方空白」按 x 选中对应候选，
+        // 不依赖 scroll 的 tap（真机反馈上方点击无反应）。候选行仍由 scroll 的 tap 处理。
+        let pinyinTapArea = UIView()
+        pinyinTapArea.backgroundColor = .clear
+        pinyinTapArea.translatesAutoresizingMaskIntoConstraints = false
+        pinyinTapArea.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(candidateAreaTapped(_:))))
+        addSubview(pinyinTapArea)
 
         pinyinTrailing = pinyinLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock)
         candidateTrailing = candidateScroll.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock)
@@ -163,6 +170,11 @@ final class KeyboardTopBar: UIView {
             pinyinTrailing,
             pinyinLabel.topAnchor.constraint(equalTo: topAnchor, constant: 2),
             pinyinLabel.heightAnchor.constraint(equalToConstant: 14),
+            // 顶部拼音/空白点击层：从栏顶到候选行顶（约 18pt），左右与候选区一致（右侧让开收起箭头）
+            pinyinTapArea.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            pinyinTapArea.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock),
+            pinyinTapArea.topAnchor.constraint(equalTo: topAnchor),
+            pinyinTapArea.heightAnchor.constraint(equalToConstant: 18),
         ])
     }
 
