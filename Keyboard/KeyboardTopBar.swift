@@ -139,13 +139,13 @@ final class KeyboardTopBar: UIView {
         pinyinLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(pinyinLabel)
 
-        // 顶部拼音/空白：独立透明点击层（覆盖候选行以上整块 18pt），保证「候选文字上方空白」按 x 选中对应候选，
-        // 不依赖 scroll 的 tap（真机反馈上方点击无反应）。候选行仍由 scroll 的 tap 处理。
+        // 顶部拼音/空白带：放进 candidateScroll 内部（固定覆盖顶部 18pt）。这样这片区域**既能轻点选字、又能左右拖动滑候选**
+        // （拖动＝scroll 的 pan 惯性翻页；轻点＝tap 选字；scroll canCancelContentTouches 保证拖动时取消 tap，不误选）。
         let pinyinTapArea = UIView()
         pinyinTapArea.backgroundColor = .clear
         pinyinTapArea.translatesAutoresizingMaskIntoConstraints = false
         pinyinTapArea.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(candidateAreaTapped(_:))))
-        addSubview(pinyinTapArea)
+        candidateScroll.addSubview(pinyinTapArea)
 
         pinyinTrailing = pinyinLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock)
         candidateTrailing = candidateScroll.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock)
@@ -166,10 +166,10 @@ final class KeyboardTopBar: UIView {
             pinyinTrailing,
             pinyinLabel.topAnchor.constraint(equalTo: topAnchor, constant: 2),
             pinyinLabel.heightAnchor.constraint(equalToConstant: 14),
-            // 顶部拼音/空白点击层：从栏顶到候选行顶（约 18pt），左右与候选区一致（右侧让开收起箭头）
-            pinyinTapArea.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            pinyinTapArea.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock),
-            pinyinTapArea.topAnchor.constraint(equalTo: topAnchor),
+            // 顶部拼音/空白带（在 scroll 内、固定于 frame 顶部）：点选 + 拖动翻页都在这一片
+            pinyinTapArea.leadingAnchor.constraint(equalTo: candidateScroll.frameLayoutGuide.leadingAnchor),
+            pinyinTapArea.trailingAnchor.constraint(equalTo: candidateScroll.frameLayoutGuide.trailingAnchor),
+            pinyinTapArea.topAnchor.constraint(equalTo: candidateScroll.frameLayoutGuide.topAnchor),
             pinyinTapArea.heightAnchor.constraint(equalToConstant: 18),
         ])
     }
