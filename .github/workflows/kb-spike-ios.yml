@@ -40,8 +40,8 @@ jobs:
             test -n "$APP"
             D=$(dirname "$APP")
             rm -rf "$D/Payload"; mkdir -p "$D/Payload"; cp -R "$APP" "$D/Payload/"
-            ( cd "$D" && zip -rq "KBSpike-C2-1.94-$cfg.ipa" Payload )
-            echo "--- [$cfg] ipa ---"; ls -la "$D/KBSpike-C2-1.94-$cfg.ipa"
+            ( cd "$D" && zip -rq "KBSpike-C2-1.95-$cfg.ipa" Payload )
+            echo "--- [$cfg] ipa ---"; ls -la "$D/KBSpike-C2-1.95-$cfg.ipa"
             echo "[$cfg] app CFBundleIdentifier:"; /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP/Info.plist"
             echo "[$cfg] app CFBundleDisplayName:"; /usr/libexec/PlistBuddy -c "Print :CFBundleDisplayName" "$APP/Info.plist"
             echo "[$cfg] version:"; /usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$APP/Info.plist"
@@ -53,14 +53,15 @@ jobs:
       - name: Upload zh ipa
         uses: actions/upload-artifact@v4
         with:
-          name: KBSpike-C2-1.94-zh
-          path: build_zh/Build/Products/ReleaseZh-iphoneos/KBSpike-C2-1.94-zh.ipa
+          name: KBSpike-C2-1.95-zh
+          path: build_zh/Build/Products/ReleaseZh-iphoneos/KBSpike-C2-1.95-zh.ipa
           if-no-files-found: error
       - name: Upload en ipa
         uses: actions/upload-artifact@v4
         with:
-          name: KBSpike-C2-1.94-en
-          path: build_en/Build/Products/ReleaseEn-iphoneos/KBSpike-C2-1.94-en.ipa
+          name: KBSpike-C2-1.95-en
+          path: build_en/Build/Products/ReleaseEn-iphoneos/KBSpike-C2-1.95-en.ipa
           if-no-files-found: error
+
 
 
