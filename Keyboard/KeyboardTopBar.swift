@@ -4,7 +4,7 @@ import UIKit
 /// · 空态（无输入/无候选）：左 ⚙ 圆钮32 ＋ 右 ↓ 圆钮32；
 /// · 输入态（有输入/有候选）：候选占满，右侧改「裸向下箭头(无圆)＋左侧竖直小分隔线」，⚙ 隐藏；打字中也能一键收键盘。
 /// 两态顶栏都 44 高、切换不跳；候选点击/拼音显示都在这里，拼音串不丢。
-final class KeyboardTopBar: UIView {
+final class KeyboardTopBar: UIView, UIGestureRecognizerDelegate {
     static let height: CGFloat = 44
 
     var onSettings: (() -> Void)?
@@ -139,13 +139,13 @@ final class KeyboardTopBar: UIView {
         pinyinLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(pinyinLabel)
 
-        // 顶部拼音/空白带：放进 candidateScroll 内部（固定覆盖顶部 18pt）。这样这片区域**既能轻点选字、又能左右拖动滑候选**
-        // （拖动＝scroll 的 pan 惯性翻页；轻点＝tap 选字；scroll canCancelContentTouches 保证拖动时取消 tap，不误选）。
-        let pinyinTapArea = UIView()
-        pinyinTapArea.backgroundColor = .clear
-        pinyinTapArea.translatesAutoresizingMaskIntoConstraints = false
-        pinyinTapArea.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(candidateAreaTapped(_:))))
-        candidateScroll.addSubview(pinyinTapArea)
+        // 顶部拼音/空白区：不做独立可点层。candidateScroll 覆盖整栏全高、候选字贴底，
+        // 上方空白 touch 直接落到 scroll → 拖动＝原生惯性翻页；轻点由 scroll 上一个「只接管候选行以上」的 tap（delegate 限 y）处理。
+        let blankTap = UITapGestureRecognizer(target: self, action: #selector(candidateAreaTapped(_:)))
+        blankTap.cancelsTouchesInView = false
+        blankTap.require(toFail: candidateScroll.panGestureRecognizer)
+        blankTap.delegate = self
+        candidateScroll.addGestureRecognizer(blankTap)
 
         pinyinTrailing = pinyinLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock)
         candidateTrailing = candidateScroll.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inputRightBlock)
@@ -166,11 +166,6 @@ final class KeyboardTopBar: UIView {
             pinyinTrailing,
             pinyinLabel.topAnchor.constraint(equalTo: topAnchor, constant: 2),
             pinyinLabel.heightAnchor.constraint(equalToConstant: 14),
-            // 顶部拼音/空白带（在 scroll 内、固定于 frame 顶部）：点选 + 拖动翻页都在这一片
-            pinyinTapArea.leadingAnchor.constraint(equalTo: candidateScroll.frameLayoutGuide.leadingAnchor),
-            pinyinTapArea.trailingAnchor.constraint(equalTo: candidateScroll.frameLayoutGuide.trailingAnchor),
-            pinyinTapArea.topAnchor.constraint(equalTo: candidateScroll.frameLayoutGuide.topAnchor),
-            pinyinTapArea.heightAnchor.constraint(equalToConstant: 18),
         ])
     }
 
@@ -269,5 +264,12 @@ final class KeyboardTopBar: UIView {
     @objc private func candidateCellTapped(_ sender: UITapGestureRecognizer) {
         KeyFeedback.shared.play()
         onCandidate?(sender.view?.tag ?? 0)
+    }
+
+    /// 只让「候选行以上」的空白由 scroll 的 blankTap 处理；候选行内交给 cell 自带 tap（避免重复/误触）。
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        let y = touch.location(in: self).y
+        let candidateRowTop = bounds.height - 26
+        return y < candidateRowTop
     }
 }
