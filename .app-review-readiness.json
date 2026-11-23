@@ -1,0 +1,23 @@
+{
+  "build": "1.99 (102)",
+  "checked_on": "2026-11-24",
+  "enforce": false,
+  "checks": {
+    "demo_account": "n/a",
+    "live_backend": "n/a",
+    "review_notes": "todo",
+    "screenshots_match_build": "todo",
+    "account_deletion_device_test": "n/a",
+    "privacy_labels_match_runtime": "pass",
+    "iap_reachable_by_reviewer": "n/a"
+  },
+  "notes": {
+    "demo_account": "无账号体系、无需登录，故 n/a。",
+    "live_backend": "纯本地离线，无后端、无业务网络请求，故 n/a。",
+    "account_deletion_device_test": "无账号、无删除路径，故 n/a。",
+    "iap_reachable_by_reviewer": "无内购，故 n/a。",
+    "privacy_labels_match_runtime": "不收集任何用户数据；PrivacyInfo 仅声明 UserDefaults(CA92.1)，无追踪；对应商店隐私标签『不收集数据』。",
+    "review_notes": "待补：审核备注需写明键盘启用路径（设置→通用→键盘→键盘→添加新键盘→词桥输入法→输入框地球键切换）。",
+    "screenshots_match_build": "待真机实拍 6.9″(1320×2868) 与 6.5″(1242×2688/1284×2778) 两档，每版 5 张。"
+  }
+}
