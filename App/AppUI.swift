@@ -219,13 +219,17 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
         ])
     }
 
-    func numberOfSections(in tableView: UITableView) -> Int { 2 }
+    // 三个分组：0 关于与开源许可（数据词库等）｜1 底层依赖（librime 等，随包全文）｜2 应用
+    func numberOfSections(in tableView: UITableView) -> Int { 3 }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // 「应用」区只保留「隐私政策」（用户要求删除「使用引导」「联系我们」两行）
         section == 0 ? docs.count : 1
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        section == 0 ? L10n.t("关于与开源许可", "About & Licenses") : L10n.t("应用", "App")
+        switch section {
+        case 0: return L10n.t("关于与开源许可", "About & Licenses")
+        case 1: return L10n.t("底层依赖（librime 等）", "Third-Party Libraries")
+        default: return L10n.t("应用", "App")
+        }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
@@ -234,6 +238,10 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
             let d = docs[indexPath.row]
             cfg.text = d.title
             cfg.secondaryText = d.subtitle
+        } else if indexPath.section == 1 {
+            cfg.text = L10n.t("底层依赖许可（17 项·随包全文）", "Third-Party Licenses (17 items, bundled)")
+            cfg.secondaryText = L10n.t("librime / leveldb / OpenCC / boost 等 · BSD/MIT/Apache/BSL，无 GPL",
+                                       "librime / leveldb / OpenCC / boost etc. · BSD/MIT/Apache/BSL, no GPL")
         } else {
             cfg.text = L10n.t("隐私政策", "Privacy Policy")
             cfg.secondaryText = L10n.t("不收集任何个人数据", "Collects no personal data")
@@ -246,6 +254,8 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
             navigationController?.pushViewController(DocDetailViewController(doc: docs[indexPath.row]), animated: true)
+        } else if indexPath.section == 1 {
+            navigationController?.pushViewController(ThirdPartyLicensesViewController(), animated: true)
         } else {
             navigationController?.pushViewController(DocDetailViewController(doc: AppDocs.privacyDoc), animated: true)
         }
