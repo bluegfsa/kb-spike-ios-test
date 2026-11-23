@@ -108,6 +108,16 @@ BOOL RimeKbInit(NSString *sharedDir, NSString *userDir) {
     NSFileManager *fm = [NSFileManager defaultManager];
     [fm createDirectoryAtPath:sharedDir withIntermediateDirectories:YES attributes:nil error:nil];
     [fm createDirectoryAtPath:userDir withIntermediateDirectories:YES attributes:nil error:nil];
+    // 清用户学习缓存（userdb）：历史选过「再」等会被 Rime 学习并置顶，导致同音字候选漂移。
+    // 每次初始化都清（本产品不需要用户词学习，保证排序只由随包词典权重决定）。
+    {
+        NSArray<NSString *> *uditems = [fm contentsOfDirectoryAtPath:userDir error:nil];
+        for (NSString *it in uditems) {
+            if ([it hasSuffix:@".userdb"] || [it isEqualToString:@"userdb"]) {
+                [fm removeItemAtPath:[userDir stringByAppendingPathComponent:it] error:nil];
+            }
+        }
+    }
     // 配置/词库：仅在缺失或内容不同（SHA 不一致）时复制（一次拷贝，之后跳过）。
     NSArray<NSString *> *yml = @[@"default", @"pinyin_simp.schema", @"pinyin_simp.dict",
                                  @"key_bindings", @"punctuation", @"symbols"];
@@ -118,7 +128,7 @@ BOOL RimeKbInit(NSString *sharedDir, NSString *userDir) {
     NSString *dictPath = [sharedDir stringByAppendingPathComponent:@"pinyin_simp.dict.yaml"];
     NSString *defPath = [sharedDir stringByAppendingPathComponent:@"default.yaml"];
     NSString *schemaPath = [sharedDir stringByAppendingPathComponent:@"pinyin_simp.schema.yaml"];
-    NSString *deployVer = [NSString stringWithFormat:@"v3-%@-%@-%@",
+    NSString *deployVer = [NSString stringWithFormat:@"v4-%@-%@-%@",
                            KBSha8(dictPath), KBSha8(defPath), KBSha8(schemaPath)];
 
     RimeTraits traits; memset(&traits, 0, sizeof(traits));
