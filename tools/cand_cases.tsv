@@ -14,7 +14,7 @@ o o	哦哦	min=120000	叠词	hard
 ha ha	哈哈	min=200000	叠词(原1864过低)	hard
 he he	呵呵	min=60000	叠词	hard
 hei hei	嘿嘿	min=150000	叠词	hard
-bai bai	拜拜	top2	叠词(拜拜进前列但不越白白)	hard
+bai bai	拜拜	top3	叠词(拜拜进前列但不越白白,回jieba原值天然第3)	hard
 me me	么么	min=60000	叠词	hard
 me me da	么么哒	min=80000	叠词	hard
 hao de	好的	min=200000	短语	hard
