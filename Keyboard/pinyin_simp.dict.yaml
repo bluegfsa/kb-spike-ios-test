@@ -1102,7 +1102,7 @@ sort: by_weight
 拜把子	bai ba zi	31
 白白	bai bai	510
 摆摆	bai bai	240
-拜拜	bai bai	37
+拜拜	bai bai	120000
 白白地	bai bai de	85
 白白的	bai bai de	63
 白白胖胖	bai bai pang pang	27
@@ -21019,7 +21019,7 @@ sort: by_weight
 哈佛	ha fo	153
 哈佛大学	ha fo da xue	252
 哈工大	ha gong da	66
-哈哈	ha ha	1864
+哈哈	ha ha	200000
 哈哈大笑	ha ha da xiao	1577
 哈哈哈	ha ha ha	221
 哈航	ha hang	26
@@ -22076,7 +22076,7 @@ sort: by_weight
 核国家	he guo jia	42
 贺海	he hai	79
 河海	he hai	24
-呵呵	he he	119
+呵呵	he he	60000
 赫赫	he he	115
 赫赫的	he he de	21
 和和气气	he he qi qi	27
@@ -22449,7 +22449,7 @@ sort: by_weight
 黑河	hei he	111
 黑盒	hei he	33
 黑褐色	hei he se	107
-嘿嘿	hei hei	965
+嘿嘿	hei hei	150000
 黑黑的	hei hei de	40
 黑红	hei hong	160
 黑乎乎	hei hu hu	85
@@ -32003,7 +32003,7 @@ sort: by_weight
 科研所	ke yan suo	30
 科研院所	ke yan yuan suo	42
 课业	ke ye	37
-可以	ke yi	70958
+可以	ke yi	100000
 可疑	ke yi	341
 刻意	ke yi	336
 课以	ke yi	69
@@ -38441,7 +38441,7 @@ sort: by_weight
 眉梢	mei shao	111
 没什么	mei shen me	2111
 美食	mei shi	1025
-没事	mei shi	516
+没事	mei shi	80000
 美式	mei shi	94
 美事	mei shi	25
 美食城	mei shi cheng	38
@@ -52119,7 +52119,7 @@ sort: by_weight
 寿诞	shou dan	20
 首当其冲	shou dang qi chong	115
 受到	shou dao	11428
-收到	shou dao	1823
+收到	shou dao	80000
 首道	shou dao	30
 手到拿来	shou dao na lai	20
 手到擒来	shou dao qin lai	62
@@ -63895,7 +63895,7 @@ sort: by_weight
 泻下	xie xia	42
 斜线	xie xian	65
 些小	xie xiao	116
-谢谢	xie xie	1089
+谢谢	xie xie	120000
 歇歇	xie xie	221
 泄泻	xie xie	41
 写写	xie xie	32
@@ -78866,3 +78866,15 @@ sort: by_weight
 坐坐	zuo zuo	192
 做作	zuo zuo	107
 做做	zuo zuo	106
+
+嗯	en	100000
+嗯嗯	en en	300000
+恩恩	en en	60000
+哦哦	o o	120000
+么么	me me	60000
+么么哒	me me da	80000
+好的	hao de	200000
+是啊	shi a	150000
+不客气	bu ke qi	60000
+我在	wo zai	850000
+我在看电视	wo zai kan dian shi	900000
