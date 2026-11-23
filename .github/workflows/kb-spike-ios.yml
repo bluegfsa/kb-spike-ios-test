@@ -1,4 +1,4 @@
-﻿﻿name: kb-spike-ios
+﻿name: kb-spike-ios
 on:
   push:
     branches: [ main ]
