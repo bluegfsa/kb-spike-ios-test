@@ -222,7 +222,9 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
     // 三个分组：0 关于与开源许可（数据词库等）｜1 底层依赖（librime 等，随包全文）｜2 应用
     func numberOfSections(in tableView: UITableView) -> Int { 3 }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? docs.count : 1
+        if section == 0 { return docs.count }
+        if section == 1 { return 1 }
+        return appSectionRowCount
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
@@ -243,8 +245,9 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
             cfg.secondaryText = L10n.t("librime / leveldb / OpenCC / boost 等 · BSD/MIT/Apache/BSL，无 GPL",
                                        "librime / leveldb / OpenCC / boost etc. · BSD/MIT/Apache/BSL, no GPL")
         } else {
-            cfg.text = L10n.t("隐私政策", "Privacy Policy")
-            cfg.secondaryText = L10n.t("不收集任何个人数据", "Collects no personal data")
+            let entry = appEntry(at: indexPath.row)
+            cfg.text = entry.title
+            cfg.secondaryText = entry.subtitle
         }
         cell.contentConfiguration = cfg
         cell.accessoryType = .disclosureIndicator
@@ -257,10 +260,41 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
         } else if indexPath.section == 1 {
             navigationController?.pushViewController(ThirdPartyLicensesViewController(), animated: true)
         } else {
-            navigationController?.pushViewController(DocDetailViewController(doc: AppDocs.privacyDoc), animated: true)
+            selectAppRow(indexPath.row)
         }
     }
-}
+
+    // MARK: - 「应用」分组行（隐私/支持入口；AppLinks 常量为空时整行隐藏，避免死链）
+    private var appSectionRowCount: Int {
+        1 + (AppLinks.privacyPolicyURL.isEmpty ? 0 : 1) + (AppLinks.supportURL.isEmpty ? 0 : 1)
+    }
+    private func appEntry(at row: Int) -> (title: String, subtitle: String) {
+        if row == 0 {
+            return (L10n.t("隐私政策", "Privacy Policy"), L10n.t("不收集任何个人数据", "Collects no personal data"))
+        }
+        var idx = 1
+        if !AppLinks.privacyPolicyURL.isEmpty {
+            if row == idx { return (L10n.t("隐私政策（线上版）", "Privacy Policy (online)"), AppLinks.privacyPolicyURL) }
+            idx += 1
+        }
+        return (L10n.t("支持与反馈", "Support"), AppLinks.supportURL)
+    }
+    private func selectAppRow(_ row: Int) {
+        if row == 0 {
+            navigationController?.pushViewController(DocDetailViewController(doc: AppDocs.privacyDoc), animated: true)
+            return
+        }
+        var idx = 1
+        if !AppLinks.privacyPolicyURL.isEmpty {
+            if row == idx { openURLString(AppLinks.privacyPolicyURL); return }
+            idx += 1
+        }
+        openURLString(AppLinks.supportURL)
+    }
+    private func openURLString(_ s: String) {
+        guard !s.isEmpty, let url = URL(string: s) else { return }
+        UIApplication.shared.open(url)
+    }}
 
 // MARK: - 文档详情 / 许可全文
 final class DocDetailViewController: UIViewController {
