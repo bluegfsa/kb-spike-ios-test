@@ -133,13 +133,13 @@ final class OnboardingViewController: UIViewController {
         content.translatesAutoresizingMaskIntoConstraints = false
         scroll.addSubview(content)
 
-        let title = label(L10n.t("添加「语桥输入法」", "Add \"WordBridge\""), size: 28, weight: .bold)
+        let title = label(L10n.t("添加「词桥输入法」", "Add \"Vocabridge\""), size: 28, weight: .bold)
         let steps = UIStackView(); steps.axis = .vertical; steps.spacing = 18
         steps.addArrangedSubview(stepRow(1, L10n.t("打开「设置」→「通用」→「键盘」→「键盘」", "Open Settings → General → Keyboard → Keyboards")))
-        steps.addArrangedSubview(stepRow(2, L10n.t("点「添加新键盘」→ 选「语桥输入法」", "Tap Add New Keyboard → choose WordBridge")))
+        steps.addArrangedSubview(stepRow(2, L10n.t("点「添加新键盘」→ 选「词桥输入法」", "Tap Add New Keyboard → choose Vocabridge")))
         content.addArrangedSubview(title)
         content.addArrangedSubview(steps)
-        content.addArrangedSubview(hint(L10n.t("无需「完全访问」：键盘纯本地运行、不联网。添加后在任意输入框页面长按小地球键即可切到「语桥输入法」。", "No \"Full Access\" needed: the keyboard runs fully on-device and offline. After adding, long-press the globe key in any text field to switch to WordBridge.")))
+        content.addArrangedSubview(hint(L10n.t("无需「完全访问」：键盘纯本地运行、不联网。添加后在任意输入框页面长按小地球键即可切到「词桥输入法」。", "No \"Full Access\" needed: the keyboard runs fully on-device and offline. After adding, long-press the globe key in any text field to switch to Vocabridge.")))
 
         view.addSubview(back); view.addSubview(scroll); view.addSubview(openBtn)
         NSLayoutConstraint.activate([
@@ -205,7 +205,7 @@ final class DocsListViewController: UIViewController, UITableViewDataSource, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGroupedBackground
-        title = L10n.t("语桥输入法", "WordBridge")
+        title = L10n.t("词桥输入法", "Vocabridge")
         navigationController?.setNavigationBarHidden(false, animated: false)
         table.dataSource = self; table.delegate = self
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
