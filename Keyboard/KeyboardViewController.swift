@@ -18,7 +18,14 @@ final class KeyboardViewController: UIInputViewController {
     private var hudOn = false
 #endif
     private var returnKeyTimer: Timer?
-
+    /// 键盘内用户可见文案本地化：单语包按 Info.plist ForceLanguage 强制（zh 包中文 / en 包英文），
+    /// 未设置时回退系统语言（只有中文系统用中文）。仅用于键盘扩展内提示文案。
+    private func loc(_ zh: String, _ en: String) -> String {
+        if let forced = Bundle.main.object(forInfoDictionaryKey: "ForceLanguage") as? String, !forced.isEmpty {
+            return forced.lowercased().hasPrefix("en") ? en : zh
+        }
+        return (Locale.preferredLanguages.first ?? "en").lowercased().hasPrefix("zh") ? zh : en
+    }
     override func viewDidLoad() {
         super.viewDidLoad()        // #8（微信输入法同款）：自己做「半透明底」不依赖采壁纸（UI v0.8：浅 #F2F3F5 / 深 #1C1C1E，alpha 0.88）；
         // 键盘/候选栏透明露出底色，配合键盘顶部上探 kbTopCover 盖住系统那条白圆角。
@@ -213,10 +220,10 @@ final class KeyboardViewController: UIInputViewController {
         case .ready:
             statusBanner.isHidden = true
         case .needInit:
-            statusBanner.text = "请先打开『双译键盘』App 完成首次初始化"
+            statusBanner.text = loc("请先打开『词桥输入法』App 完成首次初始化", "Please open the Vocabridge app once to finish initialization")
             statusBanner.isHidden = false
         case .error(let message):
-            statusBanner.text = "词典未就绪：\(message)"
+            statusBanner.text = loc("词典未就绪：\(message)", "Dictionary not ready: \(message)")
             statusBanner.isHidden = false
         }
     }
