@@ -42,7 +42,8 @@ jobs:
         with:
           name: appstore-compliance-report
           path: compliance-report.txt
-          if-no-files-found: ignore      - name: Build zh (ReleaseZh)
+          if-no-files-found: ignore
+      - name: Build zh (ReleaseZh)
         run: |
           set -o pipefail
           xcodebuild -project KBSpike.xcodeproj -scheme KBSpike-zh -configuration ReleaseZh \
