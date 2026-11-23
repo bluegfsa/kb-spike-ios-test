@@ -27,7 +27,7 @@ enum AppDocs {
     private static let privacyZH = LicenseDoc(
         title: "隐私政策", subtitle: "最后更新：2026-11-22",
         body: """
-        语桥输入法不收集任何个人数据。
+        词桥输入法不收集任何个人数据。
 
         · 不联网：键盘扩展与 App 均无网络请求，输入内容只在本机处理、不上传。
         · 不请求「完全访问」：无需完全访问权限即可使用。
@@ -41,7 +41,7 @@ enum AppDocs {
     private static let privacyEN = LicenseDoc(
         title: "Privacy Policy", subtitle: "Last updated: 2026-11-22",
         body: """
-        WordBridge collects no personal data.
+        Vocabridge collects no personal data.
 
         · No network: neither the keyboard extension nor the app makes network requests; input is processed only on this device and never uploaded.
         · No "Full Access": the keyboard works without Full Access.
@@ -70,7 +70,7 @@ enum AppDocs {
         LicenseDoc(
             title: "CC-CEDICT 汉英词典", subtitle: "CC BY-SA 4.0",
             body: """
-            中→英短译表（zh2en.txt）由 CC-CEDICT 数据生成，并合并青简 official glossary（CC BY-SA 4.0）补充。
+            中→英短译表（zh2en.txt）由 CC-CEDICT 数据生成。
 
             项目：CC-CEDICT (Chinese-English Dictionary)
             来源：https://www.mdbg.net/chinese/dictionary?page=cc-cedict
@@ -80,7 +80,7 @@ enum AppDocs {
         LicenseDoc(
             title: "ECDICT 词库", subtitle: "MIT License",
             body: """
-            英→中短译表（en2zh.txt）由 ECDICT 数据生成，并合并青简 official glossary（CC BY-SA 4.0）补充，仅取常用词并抽取主译短义。
+            英→中短译表（en2zh.txt）由 ECDICT 数据生成，仅取常用词并抽取主译短义。
 
             项目：ECDICT (Free English to Chinese Dictionary Database)
             作者：skywind3000
@@ -121,13 +121,11 @@ enum AppDocs {
             """,
             licenseFile: "LICENSE.prelude.txt"),
         LicenseDoc(
-            title: "关于语桥输入法", subtitle: "版本 \(version)",
+            title: "关于词桥输入法", subtitle: "版本 \(version)",
             body: """
-            语桥输入法：边打字边看中英词/短语对照的输入法辅助。
+            词桥输入法：边打字边看中英词/短语对照的输入法辅助。
 
             词库全部离线、不联网；输入内容只在本机处理。
-
-            词库来源：CC-CEDICT / ECDICT + 青简 official（CC BY-SA 4.0）。
 
             词库数据以 CC BY-SA 4.0 公开发布：https://github.com/bluegfsa/kb-lexicon
             """,
@@ -151,7 +149,7 @@ enum AppDocs {
         LicenseDoc(
             title: "CC-CEDICT Dictionary", subtitle: "CC BY-SA 4.0",
             body: """
-            The Chinese→English short-translation table (zh2en.txt) is generated from CC-CEDICT, and supplemented by merging the Qingjian official glossary (CC BY-SA 4.0).
+            The Chinese→English short-translation table (zh2en.txt) is generated from CC-CEDICT.
 
             Project: CC-CEDICT (Chinese-English Dictionary)
             Source: https://www.mdbg.net/chinese/dictionary?page=cc-cedict
@@ -161,7 +159,7 @@ enum AppDocs {
         LicenseDoc(
             title: "ECDICT Lexicon", subtitle: "MIT License",
             body: """
-            The English→Chinese short-translation table (en2zh.txt) is generated from ECDICT, supplemented by merging the Qingjian official glossary (CC BY-SA 4.0), using common words and their primary short sense.
+            The English→Chinese short-translation table (en2zh.txt) is generated from ECDICT, using common words and their primary short sense.
 
             Project: ECDICT (Free English to Chinese Dictionary Database)
             Author: skywind3000
@@ -202,13 +200,11 @@ enum AppDocs {
             """,
             licenseFile: "LICENSE.prelude.txt"),
         LicenseDoc(
-            title: "About WordBridge", subtitle: "Version \(version)",
+            title: "About Vocabridge", subtitle: "Version \(version)",
             body: """
-            WordBridge: an input-method assistant that shows Chinese–English word/phrase pairs as you type.
+            Vocabridge: an input-method assistant that shows Chinese–English word/phrase pairs as you type.
 
             All dictionaries are offline; nothing is uploaded. Your input is processed only on this device.
-
-            Lexicon sources: CC-CEDICT / ECDICT + Qingjian official (CC BY-SA 4.0).
 
             Lexicon data is published under CC BY-SA 4.0: https://github.com/bluegfsa/kb-lexicon
             """,
