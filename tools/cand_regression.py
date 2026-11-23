@@ -93,8 +93,8 @@ def main():
                 lim = int(t.split('=')[1])
                 if w is not None and w < lim:
                     probs.append('权重过低: %d < %d' % (w, lim))
-            elif t.startswith('topN='):
-                n = int(t.split('=')[1])
+            elif t.startswith('top'):
+                n = int(t.split('=')[1]) if '=' in t else int(t[3:])
                 r, rw, top5 = rank_in(by_code, code, expected)
                 if r is None:
                     pass
