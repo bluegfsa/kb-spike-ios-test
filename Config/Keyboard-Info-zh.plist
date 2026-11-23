@@ -10,7 +10,7 @@
     <key>CFBundleDisplayName</key><string>词桥输入法</string>
     <key>CFBundlePackageType</key><string>XPC!</string>
     <key>CFBundleShortVersionString</key><string>1.99</string>
-    <key>CFBundleVersion</key><string>102</string>
+    <key>CFBundleVersion</key><string>103</string>
     <key>NSExtension</key>
     <dict>
         <key>NSExtensionPointIdentifier</key><string>com.apple.keyboard-service</string>
@@ -24,5 +24,6 @@
         </dict>
     </dict>
     <key>ForceLanguage</key><string>zh</string>
+    <key>ITSAppUsesNonExemptEncryption</key><false/>
 </dict>
 </plist>
