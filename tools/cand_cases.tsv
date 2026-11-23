@@ -1,0 +1,811 @@
+code	expected	rule	category	tier
+en	嗯	top3,min=100000	语气词别名(原只有ng)	hard
+zai	在	top1,min=100000	在/再同码	hard
+wo	我	top1	常用代词	hard
+chi	吃	top1	chi桶干净	hard
+shi	是	top1	高频单字	hard
+de	的	top1	高频单字	hard
+le	了	top1	高频单字	hard
+hang	行	top1	多音字	hard
+chong	重	top1	多音字	hard
+en en	嗯嗯	min=300000	叠词(治enen→鄂嫩)	hard
+en en	恩恩	min=60000	叠词次选	hard
+o o	哦哦	min=120000	叠词	hard
+ha ha	哈哈	min=200000	叠词(原1864过低)	hard
+he he	呵呵	min=60000	叠词	hard
+hei hei	嘿嘿	min=150000	叠词	hard
+bai bai	拜拜	min=120000	叠词(原37过低)	hard
+me me	么么	min=60000	叠词	hard
+me me da	么么哒	min=80000	叠词	hard
+hao de	好的	min=200000	短语	hard
+shi a	是啊	min=150000	短语	hard
+xie xie	谢谢	min=120000	叠词	hard
+bu ke qi	不客气	min=60000	短语	hard
+mei shi	没事	min=80000	短语	hard
+ke yi	可以	min=100000	短语	hard
+shou dao	收到	min=80000	短语	hard
+wo zai	我在	min=800000	短语兜底(在/再)	hard
+wo zai kan dian shi	我在看电视	min=800000	整句兜底	hard
+ping guo	苹果	contain	既有词(仅需在)	hard
+ji	给	top3	单字弱断言	hard
+heng	行	top1	单字强断言	hard
+tu	图	top3	单字弱断言	hard
+xu	需	top3	单字弱断言	hard
+suo	所	top1	单字强断言	hard
+qi	其	top3	单字弱断言	hard
+zha	查	top3	单字弱断言	hard
+li	里	top1	单字强断言	hard
+guo	过	top1	单字强断言	hard
+he	和	top1	单字强断言	hard
+que	却	top1	单字强断言	hard
+chang	长	top1	单字强断言	hard
+di	的	top3	单字弱断言	hard
+yu	与	top3	单字弱断言	hard
+cuo	错	top3	单字弱断言	hard
+jin	进	top3	单字弱断言	hard
+tan	谈	top3	单字弱断言	hard
+wu	无	top3	单字弱断言	hard
+tou	头	top1	单字强断言	hard
+zhu	住	top3	单字弱断言	hard
+fu	副	top3	单字弱断言	hard
+chao	朝	top1	单字强断言	hard
+zhao	着	top1	单字强断言	hard
+xiao	小	top3	单字弱断言	hard
+dao	到	top3	单字弱断言	hard
+shu	属	top3	单字弱断言	hard
+jian	见	top3	单字弱断言	hard
+peng	捧	top3	单字弱断言	hard
+yan	言	top3	单字弱断言	hard
+dai	大	top1	单字强断言	hard
+qing	请	top3	单字弱断言	hard
+chen	称	top1	单字强断言	hard
+shua	刷	top3	单字弱断言	hard
+tai	太	top3	单字弱断言	hard
+bi	比	top1	单字强断言	hard
+san	三	top1	单字强断言	hard
+quan	全	top3	单字弱断言	hard
+juan	涓	top3	单字弱断言	hard
+zhi	之	top3	单字弱断言	hard
+xi	西	top3	单字弱断言	hard
+mian	面	top1	单字强断言	hard
+ao	奥	top3	单字弱断言	hard
+xian	见	top3	单字弱断言	hard
+jing	经	top3	单字弱断言	hard
+yao	要	top1	单字强断言	hard
+zi	自	top3	单字弱断言	hard
+wan	万	top3	单字弱断言	hard
+niao	鸟	top3	单字弱断言	hard
+huo	和	top1	单字强断言	hard
+long	龙	top3	单字弱断言	hard
+ze	则	top1	单字强断言	hard
+gong	共	top3	单字弱断言	hard
+an	按	top3	单字弱断言	hard
+chan	产	top3	单字弱断言	hard
+duan	段	top1	单字强断言	hard
+lian	连	top3	单字弱断言	hard
+xun	讯	top3	单字弱断言	hard
+gei	给	top1	单字强断言	hard
+ti	提	top3	单字弱断言	hard
+zan	咱	top1	单字强断言	hard
+yi	一	top3	单字弱断言	hard
+deng	等	top1	单字强断言	hard
+me	么	top3	单字弱断言	hard
+feng	风	top3	单字弱断言	hard
+zao	早	top1	单字强断言	hard
+teng	疼	top3	单字弱断言	hard
+cuan	窜	top3	单字弱断言	hard
+kuang	矿	top3	单字弱断言	hard
+zhan	占	top3	单字弱断言	hard
+ling	另	top3	单字弱断言	hard
+ying	应	top1	单字强断言	hard
+fen	分	top1	单字强断言	hard
+er	而	top1	单字强断言	hard
+hong	红	top1	单字强断言	hard
+jia	家	top1	单字强断言	hard
+yuan	元	top3	单字弱断言	hard
+dian	点	top3	单字弱断言	hard
+can	参	top3	单字弱断言	hard
+pu	铺	top3	单字弱断言	hard
+zhou	州	top3	单字弱断言	hard
+zhen	真	top3	单字弱断言	hard
+jiang	将	top1	单字强断言	hard
+cong	从	top1	单字强断言	hard
+qian	前	top1	单字强断言	hard
+tun	吞	top3	单字弱断言	hard
+zhuang	装	top3	单字弱断言	hard
+lei	类	top1	单字强断言	hard
+chuan	穿	top3	单字弱断言	hard
+sheng	省	top3	单字弱断言	hard
+chu	出	top1	单字强断言	hard
+biao	表	top1	单字强断言	hard
+zhe	这	top3	单字弱断言	hard
+dan	但	top1	单字强断言	hard
+ren	人	top1	单字强断言	hard
+pin	品	top3	单字弱断言	hard
+du	都	top1	单字强断言	hard
+jun	军	top3	单字弱断言	hard
+cha	茶	top3	单字弱断言	hard
+e	鄂	top3	单字弱断言	hard
+xue	学	top3	单字弱断言	hard
+liao	了	top1	单字强断言	hard
+gan	干	top3	单字弱断言	hard
+ju	据	top3	单字弱断言	hard
+kun	坤	top3	单字弱断言	hard
+hao	好	top3	单字弱断言	hard
+cheng	成	top3	单字弱断言	hard
+bo	波	top3	单字弱断言	hard
+you	有	top3	单字弱断言	hard
+hua	话	top3	单字弱断言	hard
+guan	官	top3	单字弱断言	hard
+xiu	修	top3	单字弱断言	hard
+wen	问	top1	单字强断言	hard
+mo	没	top3	单字弱断言	hard
+huan	还	top1	单字强断言	hard
+luo	落	top3	单字弱断言	hard
+tong	同	top1	单字强断言	hard
+min	民	top1	单字强断言	hard
+gao	高	top1	单字强断言	hard
+dui	对	top1	单字强断言	hard
+shan	山	top1	单字强断言	hard
+xuan	选	top1	单字强断言	hard
+cai	才	top1	单字强断言	hard
+ya	呀	top3	单字弱断言	hard
+fa	法	top3	单字弱断言	hard
+mi	米	top1	单字强断言	hard
+mei	没	top3	单字弱断言	hard
+han	汉	top3	单字弱断言	hard
+mang	忙	top1	单字强断言	hard
+tuan	团	top3	单字弱断言	hard
+ke	可	top1	单字强断言	hard
+nong	弄	top1	单字强断言	hard
+luan	乱	top1	单字强断言	hard
+she	设	top1	单字强断言	hard
+jie	接	top3	单字弱断言	hard
+yin	因	top1	单字强断言	hard
+pei	陪	top3	单字弱断言	hard
+shen	身	top3	单字弱断言	hard
+jue	觉	top3	单字弱断言	hard
+huang	黄	top3	单字弱断言	hard
+liu	流	top3	单字弱断言	hard
+fei	非	top3	单字弱断言	hard
+hu	和	top1	单字强断言	hard
+ting	听	top1	单字强断言	hard
+shao	少	top1	单字强断言	hard
+su	素	top3	单字弱断言	hard
+ai	爱	top1	单字强断言	hard
+tian	天	top1	单字强断言	hard
+la	拉	top3	单字弱断言	hard
+hui	会	top1	单字强断言	hard
+qie	且	top1	单字强断言	hard
+wa	瓦	top3	单字弱断言	hard
+qin	亲	top1	单字强断言	hard
+qu	去	top1	单字强断言	hard
+qiang	将	top1	单字强断言	hard
+kuai	会	top1	单字强断言	hard
+lu	路	top1	单字强断言	hard
+run	润	top3	单字弱断言	hard
+yang	杨	top1	单字强断言	hard
+tiao	条	top3	单字弱断言	hard
+shuo	说	top1	单字强断言	hard
+zhuo	着	top1	单字强断言	hard
+wang	王	top3	单字弱断言	hard
+cou	凑	top3	单字弱断言	hard
+xie	些	top3	单字弱断言	hard
+cui	催	top3	单字弱断言	hard
+ban	办	top3	单字弱断言	hard
+sui	虽	top3	单字弱断言	hard
+dang	当	top3	单字弱断言	hard
+bang	浜	top3	单字弱断言	hard
+pang	房	top3	单字弱断言	hard
+chai	差	top1	单字强断言	hard
+zhang	长	top3	单字弱断言	hard
+ge	个	top3	单字弱断言	hard
+bian	便	top1	单字强断言	hard
+pen	喷	top3	单字弱断言	hard
+gang	刚	top3	单字弱断言	hard
+ye	也	top1	单字强断言	hard
+si	死	top3	单字弱断言	hard
+zui	最	top1	单字强断言	hard
+rui	睿	top3	单字弱断言	hard
+mou	某	top1	单字强断言	hard
+lv	率	top3	单字弱断言	hard
+rang	让	top1	单字强断言	hard
+zheng	正	top1	单字强断言	hard
+piao	票	top3	单字弱断言	hard
+tuo	脱	top3	单字弱断言	hard
+shuang	双	top1	单字强断言	hard
+jiao	叫	top3	单字弱断言	hard
+kong	空	top3	单字弱断言	hard
+ping	平	top3	单字弱断言	hard
+xin	新	top3	单字弱断言	hard
+liang	两	top1	单字强断言	hard
+na	那	top1	单字强断言	hard
+nuo	诺	top3	单字弱断言	hard
+se	色	top3	单字弱断言	hard
+qiao	瞧	top3	单字弱断言	hard
+ou	藕	top3	单字弱断言	hard
+yun	云	top3	单字弱断言	hard
+fang	放	top3	单字弱断言	hard
+zhong	中	top1	单字强断言	hard
+dou	都	top1	单字强断言	hard
+zuo	做	top3	单字弱断言	hard
+gui	归	top3	单字弱断言	hard
+zong	总	top1	单字强断言	hard
+keng	坑	top3	单字弱断言	hard
+ruan	软	top1	单字强断言	hard
+pi	皮	top3	单字弱断言	hard
+sang	丧	top3	单字弱断言	hard
+qiu	求	top3	单字弱断言	hard
+sha	杀	top1	单字强断言	hard
+yue	月	top1	单字强断言	hard
+bai	白	top3	单字弱断言	hard
+tie	铁	top3	单字弱断言	hard
+gua	挂	top1	单字强断言	hard
+duo	多	top1	单字强断言	hard
+ku	哭	top3	单字弱断言	hard
+zu	足	top3	单字弱断言	hard
+ga	夹	top1	单字强断言	hard
+po	破	top3	单字弱断言	hard
+sun	孙	top1	单字强断言	hard
+tao	逃	top3	单字弱断言	hard
+yong	用	top1	单字强断言	hard
+nao	闹	top3	单字弱断言	hard
+chuo	戳	top3	单字弱断言	hard
+kuo	阔	top3	单字弱断言	hard
+ka	卡	top3	单字弱断言	hard
+diao	掉	top3	单字弱断言	hard
+zei	贼	top1	单字强断言	hard
+gu	家	top1	单字强断言	hard
+ma	吗	top3	单字弱断言	hard
+gou	句	top3	单字弱断言	hard
+sao	扫	top3	单字弱断言	hard
+tui	退	top3	单字弱断言	hard
+lou	楼	top3	单字弱断言	hard
+bing	并	top1	单字强断言	hard
+lie	列	top3	单字弱断言	hard
+ce	侧	top3	单字弱断言	hard
+lin	林	top1	单字强断言	hard
+xia	下	top1	单字强断言	hard
+shou	手	top3	单字弱断言	hard
+kui	亏	top3	单字弱断言	hard
+zhua	抓	top1	单字强断言	hard
+qun	群	top1	单字强断言	hard
+xing	省	top3	单字弱断言	hard
+ning	宁	top3	单字弱断言	hard
+mao	毛	top3	单字弱断言	hard
+gun	滚	top3	单字弱断言	hard
+ba	把	top1	单字强断言	hard
+dun	吨	top3	单字弱断言	hard
+kan	看	top1	单字强断言	hard
+kou	口	top1	单字强断言	hard
+guai	怪	top1	单字强断言	hard
+zhun	准	top1	单字强断言	hard
+wei	为	top1	单字强断言	hard
+zang	藏	top1	单字强断言	hard
+che	车	top1	单字强断言	hard
+cu	卒	top3	单字弱断言	hard
+qiong	穷	top1	单字强断言	hard
+tang	唐	top3	单字弱断言	hard
+lao	老	top1	单字强断言	hard
+jiu	就	top1	单字强断言	hard
+nei	内	top1	单字强断言	hard
+chuang	床	top3	单字弱断言	hard
+qia	卡	top1	单字强断言	hard
+rong	容	top3	单字弱断言	hard
+da	大	top1	单字强断言	hard
+cang	藏	top1	单字强断言	hard
+gai	该	top1	单字强断言	hard
+ci	此	top3	单字弱断言	hard
+ming	名	top3	单字弱断言	hard
+xiang	向	top3	单字弱断言	hard
+ding	定	top3	单字弱断言	hard
+sa	撒	top3	单字弱断言	hard
+bu	不	top1	单字强断言	hard
+meng	梦	top3	单字弱断言	hard
+nai	乃	top1	单字强断言	hard
+zhai	寨	top1	单字强断言	hard
+geng	更	top1	单字强断言	hard
+zeng	曾	top1	单字强断言	hard
+fan	反	top3	单字弱断言	hard
+ru	如	top3	单字弱断言	hard
+nu	怒	top1	单字强断言	hard
+ni	你	top1	单字强断言	hard
+guang	光	top3	单字弱断言	hard
+cao	草	top3	单字弱断言	hard
+die	爹	top3	单字弱断言	hard
+ben	本	top1	单字强断言	hard
+chou	抽	top3	单字弱断言	hard
+hun	婚	top3	单字弱断言	hard
+ken	肯	top1	单字强断言	hard
+nian	年	top1	单字强断言	hard
+nie	捏	top3	单字弱断言	hard
+rou	肉	top3	单字弱断言	hard
+nin	您	top1	单字强断言	hard
+man	满	top1	单字强断言	hard
+hou	后	top1	单字强断言	hard
+mie	灭	top1	单字强断言	hard
+kang	抗	top3	单字弱断言	hard
+bei	被	top1	单字强断言	hard
+ruo	若	top1	单字强断言	hard
+hai	还	top1	单字强断言	hard
+kua	跨	top3	单字弱断言	hard
+bie	别	top1	单字强断言	hard
+bao	报	top3	单字弱断言	hard
+zou	走	top1	单字强断言	hard
+ran	然	top1	单字强断言	hard
+diu	丢	top1	单字强断言	hard
+song	送	top3	单字弱断言	hard
+shang	上	top1	单字强断言	hard
+zhuan	转	top3	单字弱断言	hard
+niu	牛	top1	单字强断言	hard
+pai	派	top1	单字强断言	hard
+zhui	追	top1	单字强断言	hard
+ta	他	top3	单字弱断言	hard
+miao	庙	top3	单字弱断言	hard
+men	们	top3	单字弱断言	hard
+kai	开	top1	单字强断言	hard
+lan	蓝	top3	单字弱断言	hard
+lang	廊	top3	单字弱断言	hard
+pa	派	top3	单字弱断言	hard
+chui	吹	top3	单字弱断言	hard
+chun	春	top3	单字弱断言	hard
+shuai	率	top1	单字强断言	hard
+dong	东	top3	单字弱断言	hard
+shai	色	top1	单字强断言	hard
+xiong	兄	top3	单字弱断言	hard
+mai	买	top3	单字弱断言	hard
+mu	墓	top3	单字弱断言	hard
+kuan	宽	top1	单字强断言	hard
+leng	冷	top1	单字强断言	hard
+en	恩	top1	单字强断言	hard
+lun	论	top3	单字弱断言	hard
+weng	翁	top3	单字弱断言	hard
+pao	跑	top1	单字强断言	hard
+zun	尊	top3	单字弱断言	hard
+lve	略	top1	单字强断言	hard
+pian	便	top1	单字强断言	hard
+gen	跟	top1	单字强断言	hard
+zhuai	转	top1	单字强断言	hard
+sou	艘	top3	单字弱断言	hard
+lai	来	top1	单字强断言	hard
+hen	很	top1	单字强断言	hard
+pan	盘	top3	单字弱断言	hard
+lia	俩	top1	单字强断言	hard
+yo	哟	top3	单字弱断言	hard
+za	咱	top3	单字弱断言	hard
+zuan	钻	top1	单字强断言	hard
+ri	日	top1	单字强断言	hard
+reng	仍	top1	单字强断言	hard
+wai	外	top1	单字强断言	hard
+shui	说	top1	单字强断言	hard
+kao	靠	top3	单字弱断言	hard
+suan	算	top3	单字弱断言	hard
+re	若	top3	单字弱断言	hard
+niang	娘	top1	单字强断言	hard
+seng	僧	top1	单字强断言	hard
+te	特	top1	单字强断言	hard
+ha	哈	top3	单字弱断言	hard
+rao	绕	top3	单字弱断言	hard
+ne	呢	top3	单字弱断言	hard
+a	啊	top1	单字强断言	hard
+ceng	曾	top1	单字强断言	hard
+cun	村	top3	单字弱断言	hard
+nan	南	top3	单字弱断言	hard
+nv	女	top1	单字强断言	hard
+nuan	暖	top1	单字强断言	hard
+hei	黑	top1	单字强断言	hard
+cen	涔	top3	单字弱断言	hard
+nang	囊	top3	单字弱断言	hard
+ca	擦	top1	单字强断言	hard
+nen	嫩	top1	单字强断言	hard
+huai	坏	top3	单字弱断言	hard
+fou	否	top3	单字弱断言	hard
+o	哦	top1	单字强断言	hard
+sai	塞	top3	单字弱断言	hard
+shei	谁	top1	单字强断言	hard
+shun	顺	top1	单字强断言	hard
+zen	怎	top1	单字强断言	hard
+zhei	这	top1	单字强断言	hard
+fo	佛	top1	单字强断言	hard
+ng	嗯	top1	单字强断言	hard
+neng	能	top1	单字强断言	hard
+dei	得	top1	单字强断言	hard
+yi ge	一个	contain	词组覆盖	soft
+zhong guo	中国	contain	词组覆盖	soft
+wo men	我们	contain	词组覆盖	soft
+ta men	他们	contain	词组覆盖	soft
+zi ji	自己	contain	词组覆盖	soft
+mei you	没有	contain	词组覆盖	soft
+guo jia	国家	contain	词组覆盖	soft
+fa zhan	发展	contain	词组覆盖	soft
+gong zuo	工作	contain	词组覆盖	soft
+zhe ge	这个	contain	词组覆盖	soft
+shen me	什么	contain	词组覆盖	soft
+zhu yao	主要	contain	词组覆盖	soft
+wen ti	问题	contain	词组覆盖	soft
+jin xing	进行	contain	词组覆盖	soft
+di fang	地方	contain	词组覆盖	soft
+yi jing	已经	contain	词组覆盖	soft
+zhe yang	这样	contain	词组覆盖	soft
+quan guo	全国	contain	词组覆盖	soft
+jing ji	经济	contain	词组覆盖	soft
+zhe xie	这些	contain	词组覆盖	soft
+bu shi	不是	contain	词组覆盖	soft
+gong si	公司	contain	词组覆盖	soft
+ren min	人民	contain	词组覆盖	soft
+she hui	社会	contain	词组覆盖	soft
+zhi dao	知道	contain	词组覆盖	soft
+zhe zhong	这种	contain	词组覆盖	soft
+qi lai	起来	contain	词组覆盖	soft
+di qu	地区	contain	词组覆盖	soft
+ru guo	如果	contain	词组覆盖	soft
+kai shi	开始	contain	词组覆盖	soft
+ji shu	技术	contain	词组覆盖	soft
+zhong yao	重要	contain	词组覆盖	soft
+mei guo	美国	contain	词组覆盖	soft
+cheng wei	成为	contain	词组覆盖	soft
+yin wei	因为	contain	词组覆盖	soft
+tong guo	通过	contain	词组覆盖	soft
+yan jiu	研究	contain	词组覆盖	soft
+wen hua	文化	contain	词组覆盖	soft
+qi ye	企业	contain	词组覆盖	soft
+bei jing	北京	contain	词组覆盖	soft
+li shi	历史	contain	词组覆盖	soft
+shi jie	世界	contain	词组覆盖	soft
+qi zhong	其中	contain	词组覆盖	soft
+xian zai	现在	contain	词组覆盖	soft
+bu neng	不能	contain	词组覆盖	soft
+yi xie	一些	contain	词组覆盖	soft
+shi jian	时间	contain	词组覆盖	soft
+sheng chan	生产	contain	词组覆盖	soft
+qing kuang	情况	contain	词组覆盖	soft
+dai biao	代表	contain	词组覆盖	soft
+jue ding	决定	contain	词组覆盖	soft
+hu bei	湖北	contain	词组覆盖	soft
+guan xi	关系	contain	词组覆盖	soft
+ling dao	领导	contain	词组覆盖	soft
+sheng huo	生活	contain	词组覆盖	soft
+shi hou	时候	contain	词组覆盖	soft
+yi zhong	一种	contain	词组覆盖	soft
+ke neng	可能	contain	词组覆盖	soft
+chu lai	出来	contain	词组覆盖	soft
+xue sheng	学生	contain	词组覆盖	soft
+yi ji	以及	contain	词组覆盖	soft
+shi shou	石首	contain	词组覆盖	soft
+yi ban	一般	contain	词组覆盖	soft
+tong shi	同时	contain	词组覆盖	soft
+ren wei	认为	contain	词组覆盖	soft
+you yu	由于	contain	词组覆盖	soft
+suo yi	所以	contain	词组覆盖	soft
+bu tong	不同	contain	词组覆盖	soft
+zhe li	这里	contain	词组覆盖	soft
+xue yuan	学院	contain	词组覆盖	soft
+zuo wei	作为	contain	词组覆盖	soft
+hui yi	会议	contain	词组覆盖	soft
+dan shi	但是	contain	词组覆盖	soft
+bu fen	部分	contain	词组覆盖	soft
+huo dong	活动	contain	词组覆盖	soft
+xu yao	需要	contain	词组覆盖	soft
+zen me	怎么	contain	词组覆盖	soft
+guan li	管理	contain	词组覆盖	soft
+fang mian	方面	contain	词组覆盖	soft
+shi chang	市场	contain	词组覆盖	soft
+zu zhi	组织	contain	词组覆盖	soft
+gong ye	工业	contain	词组覆盖	soft
+jian she	建设	contain	词组覆盖	soft
+xing cheng	形成	contain	词组覆盖	soft
+qi ta	其他	contain	词组覆盖	soft
+chu xian	出现	contain	词组覆盖	soft
+xu duo	许多	contain	词组覆盖	soft
+ri ben	日本	contain	词组覆盖	soft
+zhi jian	之间	contain	词组覆盖	soft
+yi ding	一定	contain	词组覆盖	soft
+ju you	具有	contain	词组覆盖	soft
+cheng shi	城市	contain	词组覆盖	soft
+yi shang	以上	contain	词组覆盖	soft
+zheng zhi	政治	contain	词组覆盖	soft
+ren men	人们	contain	词组覆盖	soft
+fa xian	发现	contain	词组覆盖	soft
+ji zhe	记者	contain	词组覆盖	soft
+guo ji	国际	contain	词组覆盖	soft
+gui ding	规定	contain	词组覆盖	soft
+ji guan	机关	contain	词组覆盖	soft
+wu han	武汉	contain	词组覆盖	soft
+sui ran	虽然	contain	词组覆盖	soft
+gen ju	根据	contain	词组覆盖	soft
+fa lv	法律	contain	词组覆盖	soft
+ying xiang	影响	contain	词组覆盖	soft
+fa sheng	发生	contain	词组覆盖	soft
+bao kuo	包括	contain	词组覆盖	soft
+shi yong	使用	contain	词组覆盖	soft
+zhong xin	中心	contain	词组覆盖	soft
+jiao yu	教育	contain	词组覆盖	soft
+yao qiu	要求	contain	词组覆盖	soft
+zheng fu	政府	contain	词组覆盖	soft
+yin ci	因此	contain	词组覆盖	soft
+ren kou	人口	contain	词组覆盖	soft
+jian li	建立	contain	词组覆盖	soft
+can jia	参加	contain	词组覆盖	soft
+chan pin	产品	contain	词组覆盖	soft
+er qie	而且	contain	词组覆盖	soft
+yi yang	一样	contain	词组覆盖	soft
+mian ji	面积	contain	词组覆盖	soft
+ge zhong	各种	contain	词组覆盖	soft
+ti chu	提出	contain	词组覆盖	soft
+wo guo	我国	contain	词组覆盖	soft
+zuo yong	作用	contain	词组覆盖	soft
+huang di	皇帝	contain	词组覆盖	soft
+bi xu	必须	contain	词组覆盖	soft
+xing zheng	行政	contain	词组覆盖	soft
+bian ji	编辑	contain	词组覆盖	soft
+zhi ye	职业	contain	词组覆盖	soft
+zhi du	制度	contain	词组覆盖	soft
+ni men	你们	contain	词组覆盖	soft
+yi hou	以后	contain	词组覆盖	soft
+shuo dao	说道	contain	词组覆盖	soft
+shi ji	世纪	contain	词组覆盖	soft
+wei le	为了	contain	词组覆盖	soft
+ying gai	应该	contain	词组覆盖	soft
+zhi yi	之一	contain	词组覆盖	soft
+zhi hou	之后	contain	词组覆盖	soft
+zhu xi	主席	contain	词组覆盖	soft
+xi tong	系统	contain	词组覆盖	soft
+you guan	有关	contain	词组覆盖	soft
+zu cheng	组成	contain	词组覆盖	soft
+min zu	民族	contain	词组覆盖	soft
+ji ben	基本	contain	词组覆盖	soft
+zeng zhang	增长	contain	词组覆盖	soft
+zi ran	自然	contain	词组覆盖	soft
+da xue	大学	contain	词组覆盖	soft
+ru he	如何	contain	词组覆盖	soft
+zheng ti	政体	contain	词组覆盖	soft
+ge ji	各级	contain	词组覆盖	soft
+ren yuan	人员	contain	词组覆盖	soft
+ji hua	计划	contain	词组覆盖	soft
+bu hui	不会	contain	词组覆盖	soft
+chan sheng	产生	contain	词组覆盖	soft
+shi qi	时期	contain	词组覆盖	soft
+zui hou	最后	contain	词组覆盖	soft
+yi ci	一次	contain	词组覆盖	soft
+biao shi	表示	contain	词组覆盖	soft
+ji gou	机构	contain	词组覆盖	soft
+dang shi	当时	contain	词组覆盖	soft
+da jia	大家	contain	词组覆盖	soft
+te bie	特别	contain	词组覆盖	soft
+gai ge	改革	contain	词组覆盖	soft
+chang jiang	长江	contain	词组覆盖	soft
+na me	那么	contain	词组覆盖	soft
+zhe me	这么	contain	词组覆盖	soft
+dong xi	东西	contain	词组覆盖	soft
+neng li	能力	contain	词组覆盖	soft
+ge ming	革命	contain	词组覆盖	soft
+yi zhi	一直	contain	词组覆盖	soft
+ji chu	基础	contain	词组覆盖	soft
+hai you	还有	contain	词组覆盖	soft
+de dao	得到	contain	词组覆盖	soft
+jin ru	进入	contain	词组覆盖	soft
+yun dong	运动	contain	词组覆盖	soft
+mu qian	目前	contain	词组覆盖	soft
+dui yu	对于	contain	词组覆盖	soft
+guo cheng	过程	contain	词组覆盖	soft
+fang fa	方法	contain	词组覆盖	soft
+ju xing	举行	contain	词组覆盖	soft
+qun zhong	群众	contain	词组覆盖	soft
+di yi	第一	contain	词组覆盖	soft
+dan wei	单位	contain	词组覆盖	soft
+ru ci	如此	contain	词组覆盖	soft
+hai zi	孩子	contain	词组覆盖	soft
+suo you	所有	contain	词组覆盖	soft
+zi yuan	资源	contain	词组覆盖	soft
+guo qu	过去	contain	词组覆盖	soft
+bu guo	不过	contain	词组覆盖	soft
+tiao jian	条件	contain	词组覆盖	soft
+xue xiao	学校	contain	词组覆盖	soft
+ti gao	提高	contain	词组覆盖	soft
+gong cheng	工程	contain	词组覆盖	soft
+huan jing	环境	contain	词组覆盖	soft
+ti gong	提供	contain	词组覆盖	soft
+fang shi	方式	contain	词组覆盖	soft
+bai ke	百科	contain	词组覆盖	soft
+bao gao	报告	contain	词组覆盖	soft
+huo zhe	或者	contain	词组覆盖	soft
+xia lai	下来	contain	词组覆盖	soft
+jun shi	军事	contain	词组覆盖	soft
+bu men	部门	contain	词组覆盖	soft
+fen bie	分别	contain	词组覆盖	soft
+shi fen	十分	contain	词组覆盖	soft
+shang hai	上海	contain	词组覆盖	soft
+wan cheng	完成	contain	词组覆盖	soft
+yi qie	一切	contain	词组覆盖	soft
+na xie	那些	contain	词组覆盖	soft
+ran hou	然后	contain	词组覆盖	soft
+nong ye	农业	contain	词组覆盖	soft
+jing guo	经过	contain	词组覆盖	soft
+zhuan ye	专业	contain	词组覆盖	soft
+zhun bei	准备	contain	词组覆盖	soft
+zeng jia	增加	contain	词组覆盖	soft
+huo de	获得	contain	词组覆盖	soft
+lv you	旅游	contain	词组覆盖	soft
+yi sheng	一声	contain	词组覆盖	soft
+jue de	觉得	contain	词组覆盖	soft
+yi qi	一起	contain	词组覆盖	soft
+li lun	理论	contain	词组覆盖	soft
+jin tian	今天	contain	词组覆盖	soft
+fei chang	非常	contain	词组覆盖	soft
+zhong yang	中央	contain	词组覆盖	soft
+bi jiao	比较	contain	词组覆盖	soft
+biao xian	表现	contain	词组覆盖	soft
+jia zhi	价值	contain	词组覆盖	soft
+ke ji	科技	contain	词组覆盖	soft
+wan quan	完全	contain	词组覆盖	soft
+you xie	有些	contain	词组覆盖	soft
+cun zai	存在	contain	词组覆盖	soft
+da dao	达到	contain	词组覆盖	soft
+nei rong	内容	contain	词组覆盖	soft
+shi xing	实行	contain	词组覆盖	soft
+si xiang	思想	contain	词组覆盖	soft
+shi qing	事情	contain	词组覆盖	soft
+shi xian	实现	contain	词组覆盖	soft
+shen zhi	甚至	contain	词组覆盖	soft
+ren wu	任务	contain	词组覆盖	soft
+xuan ju	选举	contain	词组覆盖	soft
+xing shi	形式	contain	词组覆盖	soft
+yuan lai	原来	contain	词组覆盖	soft
+you ren	有人	contain	词组覆盖	soft
+tu ran	突然	contain	词组覆盖	soft
+bu duan	不断	contain	词组覆盖	soft
+zan men	咱们	contain	词组覆盖	soft
+bian hua	变化	contain	词组覆盖	soft
+zhi jie	直接	contain	词组覆盖	soft
+xin zhong	心中	contain	词组覆盖	soft
+zhan zheng	战争	contain	词组覆盖	soft
+ke shi	可是	contain	词组覆盖	soft
+bu zhi	不知	contain	词组覆盖	soft
+zheng ce	政策	contain	词组覆盖	soft
+bu yao	不要	contain	词组覆盖	soft
+zi ben	资本	contain	词组覆盖	soft
+ji xu	继续	contain	词组覆盖	soft
+nian dai	年代	contain	词组覆盖	soft
+qi jian	期间	contain	词组覆盖	soft
+wei yu	位于	contain	词组覆盖	soft
+ren he	任何	contain	词组覆盖	soft
+quan li	权力	contain	词组覆盖	soft
+na ge	那个	contain	词组覆盖	soft
+zhi xing	执行	contain	词组覆盖	soft
+xian sheng	先生	contain	词组覆盖	soft
+jie jue	解决	contain	词组覆盖	soft
+jian zhu	建筑	contain	词组覆盖	soft
+neng gou	能够	contain	词组覆盖	soft
+cheng wei	称为	contain	词组覆盖	soft
+jie gou	结构	contain	词组覆盖	soft
+yi dian	一点	contain	词组覆盖	soft
+cheng li	成立	contain	词组覆盖	soft
+ying guo	英国	contain	词组覆盖	soft
+tong yi	统一	contain	词组覆盖	soft
+xian jin	先进	contain	词组覆盖	soft
+jie guo	结果	contain	词组覆盖	soft
+tou zi	投资	contain	词组覆盖	soft
+hou lai	后来	contain	词组覆盖	soft
+yi xia	一下	contain	词组覆盖	soft
+shui ping	水平	contain	词组覆盖	soft
+bao hu	保护	contain	词组覆盖	soft
+zhu ren	主任	contain	词组覆盖	soft
+guan yu	关于	contain	词组覆盖	soft
+fu ze	负责	contain	词组覆盖	soft
+zhi ding	制定	contain	词组覆盖	soft
+yi shu	艺术	contain	词组覆盖	soft
+li yong	利用	contain	词组覆盖	soft
+yu shi	于是	contain	词组覆盖	soft
+xue xi	学习	contain	词组覆盖	soft
+he zuo	合作	contain	词组覆盖	soft
+ke xue	科学	contain	词组覆盖	soft
+kan dao	看到	contain	词组覆盖	soft
+xiang mu	项目	contain	词组覆盖	soft
+xiang yang	襄阳	contain	词组覆盖	soft
+ji ge	几个	contain	词组覆盖	soft
+na li	那里	contain	词组覆盖	soft
+gong li	公里	contain	词组覆盖	soft
+fu wu	服务	contain	词组覆盖	soft
+jing shen	精神	contain	词组覆盖	soft
+ren da	人大	contain	词组覆盖	soft
+quan sheng	全省	contain	词组覆盖	soft
+dang ran	当然	contain	词组覆盖	soft
+ge ren	个人	contain	词组覆盖	soft
+chao guo	超过	contain	词组覆盖	soft
+chong dian	重点	contain	词组覆盖	soft
+yuan yin	原因	contain	词组覆盖	soft
+ji qi	及其	contain	词组覆盖	soft
+gong min	公民	contain	词组覆盖	soft
+xi wang	希望	contain	词组覆盖	soft
+xin wen	新闻	contain	词组覆盖	soft
+she ji	设计	contain	词组覆盖	soft
+xiang guan	相关	contain	词组覆盖	soft
+guo nei	国内	contain	词组覆盖	soft
+fen bu	分布	contain	词组覆盖	soft
+zui gao	最高	contain	词组覆盖	soft
+bu dui	部队	contain	词组覆盖	soft
+ta men	它们	contain	词组覆盖	soft
+ji tuan	集团	contain	词组覆盖	soft
+xin xi	信息	contain	词组覆盖	soft
+zhong da	重大	contain	词组覆盖	soft
+cai yong	采用	contain	词组覆盖	soft
+hui lai	回来	contain	词组覆盖	soft
+fan wei	范围	contain	词组覆盖	soft
+yin qi	引起	contain	词组覆盖	soft
+shi ji	实际	contain	词组覆盖	soft
+qi shi	其实	contain	词组覆盖	soft
+bu jin	不仅	contain	词组覆盖	soft
+qu de	取得	contain	词组覆盖	soft
+feng fu	丰富	contain	词组覆盖	soft
+nong min	农民	contain	词组覆盖	soft
+zheng ge	整个	contain	词组覆盖	soft
+wei zhu	为主	contain	词组覆盖	soft
+liao jie	了解	contain	词组覆盖	soft
+jia ge	价格	contain	词组覆盖	soft
+di wei	地位	contain	词组覆盖	soft
+zhe shi	这时	contain	词组覆盖	soft
+lao dong	劳动	contain	词组覆盖	soft
+an zhao	按照	contain	词组覆盖	soft
+kong zhi	控制	contain	词组覆盖	soft
+mu biao	目标	contain	词组覆盖	soft
+ji di	基地	contain	词组覆盖	soft
+nong cun	农村	contain	词组覆盖	soft
+chuan tong	传统	contain	词组覆盖	soft
+shou dao	受到	contain	词组覆盖	soft
+quan bu	全部	contain	词组覆盖	soft
+fa guo	法国	contain	词组覆盖	soft
+bi sai	比赛	contain	词组覆盖	soft
+jun dui	军队	contain	词组覆盖	soft
+tu di	土地	contain	词组覆盖	soft
+gui mo	规模	contain	词组覆盖	soft
+jing zhou	荆州	contain	词组覆盖	soft
+yan jing	眼睛	contain	词组覆盖	soft
+zuo you	左右	contain	词组覆盖	soft
+xuan ze	选择	contain	词组覆盖	soft
+pi zhun	批准	contain	词组覆盖	soft
+shen shang	身上	contain	词组覆盖	soft
+zhuan jia	专家	contain	词组覆盖	soft
+fen xi	分析	contain	词组覆盖	soft
+tong zhi	统治	contain	词组覆盖	soft
+jia qiang	加强	contain	词组覆盖	soft
+bu dao	不到	contain	词组覆盖	soft
+tie lu	铁路	contain	词组覆盖	soft
+bai du	百度	contain	词组覆盖	soft
+mei nian	每年	contain	词组覆盖	soft
+gao su	告诉	contain	词组覆盖	soft
+zhi chi	支持	contain	词组覆盖	soft
+jiao tong	交通	contain	词组覆盖	soft
+ming bai	明白	contain	词组覆盖	soft
+chu li	处理	contain	词组覆盖	soft
+zuo zhan	作战	contain	词组覆盖	soft
+shi dai	时代	contain	词组覆盖	soft
+huang shang	皇上	contain	词组覆盖	soft
+shi shi	实施	contain	词组覆盖	soft
+zhi yao	只要	contain	词组覆盖	soft
+cheng gong	成功	contain	词组覆盖	soft
+ban fa	办法	contain	词组覆盖	soft
+sui zhe	随着	contain	词组覆盖	soft
+zhi zhong	之中	contain	词组覆盖	soft
+xin li	心里	contain	词组覆盖	soft
+zhong yu	终于	contain	词组覆盖	soft
+da liang	大量	contain	词组覆盖	soft
+ren wu	人物	contain	词组覆盖	soft
+gong tong	共同	contain	词组覆盖	soft
+xia qu	下去	contain	词组覆盖	soft
+duo shao	多少	contain	词组覆盖	soft
+yan zhong	严重	contain	词组覆盖	soft
+ci tiao	词条	contain	词组覆盖	soft
+jie shou	接受	contain	词组覆盖	soft
+shou ru	收入	contain	词组覆盖	soft
+yi lai	以来	contain	词组覆盖	soft
+cheng bang	城邦	contain	词组覆盖	soft
+sheng yin	声音	contain	词组覆盖	soft
+yi jian	意见	contain	词组覆盖	soft
+guo lai	过来	contain	词组覆盖	soft
+bao chi	保持	contain	词组覆盖	soft
+jin ri	今日	contain	词组覆盖	soft
+ling wai	另外	contain	词组覆盖	soft
+jian chi	坚持	contain	词组覆盖	soft
+gong ren	工人	contain	词组覆盖	soft
+qi che	汽车	contain	词组覆盖	soft
+er shi	而是	contain	词组覆盖	soft
