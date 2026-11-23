@@ -1,14 +1,12 @@
 import UIKit
 
-/// 键盘内设置面板（UI 定稿）：声音/震动均为「拨钮开关」，全图标化、无文字标题、纯黑白灰（不用蓝）。
-/// 点开关＝一次性动效（不循环）：声音＝声波弹一下/斜杠画出；震动＝机身抖一下/斜杠画出；✓ 收起。
-/// 调「声音」只出声、调「震动」只震不出声；改完即存 config.json（重启键盘仍在）。
+/// 键盘内设置面板（UI 定稿）：**仅「震动」拨钮开关**（用户 2026-11-23 要求：去掉键盘声音、只留震动，「声音」开关已删）。
+/// 点开关＝一次性动效（不循环）：震动＝机身抖一下/斜杠画出；✓ 收起。
+/// 调「震动」只震不出声；改完即存 config.json（重启键盘仍在）。
 final class KeyboardSettingsPanel: UIView {
     var onClose: (() -> Void)?
 
-    private let soundIcon = SettingsIconView(kind: .sound)
     private let hapticIcon = SettingsIconView(kind: .vibration)
-    private let soundToggle = SettingsToggleControl()
     private let hapticToggle = SettingsToggleControl()
 
     override init(frame: CGRect) {
@@ -22,18 +20,14 @@ final class KeyboardSettingsPanel: UIView {
 
     private func setup() {
         let s = SettingsStore.shared()
-        soundToggle.isOn = s.keySoundLevel > 0
         hapticToggle.isOn = s.keyHapticLevel > 0
-        soundIcon.isOn = soundToggle.isOn
         hapticIcon.isOn = hapticToggle.isOn
-        soundToggle.addTarget(self, action: #selector(soundChanged), for: .valueChanged)
         hapticToggle.addTarget(self, action: #selector(hapticChanged), for: .valueChanged)
 
-        let soundRow = makeRow(iconView: soundIcon, toggle: soundToggle)
         let hapticRow = makeRow(iconView: hapticIcon, toggle: hapticToggle)
         let doneWrap = makeDone()
 
-        let stack = UIStackView(arrangedSubviews: [soundRow, hapticRow, doneWrap])
+        let stack = UIStackView(arrangedSubviews: [hapticRow, doneWrap])
         stack.axis = .vertical
         stack.spacing = 14
         stack.alignment = .fill
@@ -103,13 +97,6 @@ final class KeyboardSettingsPanel: UIView {
             doneIcon.heightAnchor.constraint(equalToConstant: 34),
         ])
         return doneWrap
-    }
-
-    @objc private func soundChanged() {
-        SettingsStore.update { $0.keySoundLevel = self.soundToggle.isOn ? 1 : 0 }
-        soundIcon.isOn = soundToggle.isOn
-        soundIcon.playToggleAnimation(toOn: soundToggle.isOn)
-        if soundToggle.isOn { KeyFeedback.shared.playSound() } // 调声音：只出声
     }
 
     @objc private func hapticChanged() {
