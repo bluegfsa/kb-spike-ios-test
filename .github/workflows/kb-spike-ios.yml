@@ -1,4 +1,4 @@
-﻿name: kb-spike-ios
+﻿﻿name: kb-spike-ios
 on:
   push:
     branches: [ main ]
@@ -11,7 +11,16 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install XcodeGen
         run: brew install xcodegen
-      - name: Generate dictionary (mmap asset)
+      - name: Candidate quality regression (dict gate)
+        run: |
+          set -e
+          if [ -f tools/cand_regression.py ] && [ -f tools/cand_cases.tsv ]; then
+            echo '== 候选质量回归：Keyboard/pinyin_simp.dict.yaml =='
+            python3 tools/cand_regression.py Keyboard/pinyin_simp.dict.yaml tools/cand_cases.tsv
+            echo '候选回归通过'
+          else
+            echo '::warning file=tools/cand_regression.py::候选回归脚本或用例集未入仓，本次跳过门禁（测试工程师入仓后自动生效）'
+          fi      - name: Generate dictionary (mmap asset)
         run: node tools/gen_dict.js
       - name: Generate Xcode project
         run: |
