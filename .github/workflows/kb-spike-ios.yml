@@ -27,7 +27,22 @@ jobs:
         run: |
           xcodegen generate
           ls -la Keyboard
-      - name: Build zh (ReleaseZh)
+      - name: App Store compliance scan (non-blocking, report only)
+        continue-on-error: true
+        run: |
+          echo '== app-store-compliance 体检（非阻断，仅出报告，不拦出包）=='
+          rm -rf /tmp/asc
+          git clone --depth 1 https://github.com/mjmirza/app-store-compliance /tmp/asc || { echo 'clone failed (non-blocking)'; exit 0; }
+          bash /tmp/asc/agent-os/hooks/app-store-compliance-guard.sh "$PWD" 2>&1 | tee compliance-report.txt || echo "guard exit=$? (non-blocking)"
+          if [ -d store-metadata ]; then python3 /tmp/asc/scripts/metadata-audit.py --metadata store-metadata 2>&1 | tee -a compliance-report.txt || true; fi
+      - name: Upload compliance report
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: appstore-compliance-report
+          path: compliance-report.txt
+          if-no-files-found: ignore      - name: Build zh (ReleaseZh)
         run: |
           set -o pipefail
           xcodebuild -project KBSpike.xcodeproj -scheme KBSpike-zh -configuration ReleaseZh \
