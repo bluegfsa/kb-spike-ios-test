@@ -20,7 +20,8 @@ jobs:
             echo '候选回归通过'
           else
             echo '::warning file=tools/cand_regression.py::候选回归脚本或用例集未入仓，本次跳过门禁（测试工程师入仓后自动生效）'
-          fi      - name: Generate dictionary (mmap asset)
+          fi
+      - name: Generate dictionary (mmap asset)
         run: node tools/gen_dict.js
       - name: Generate Xcode project
         run: |
