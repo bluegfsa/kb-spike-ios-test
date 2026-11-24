@@ -1,0 +1,86 @@
+name: kb-spike-sign
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "validate or upload"
+        required: true
+        default: "validate"
+      app:
+        description: "zh | en | both"
+        required: true
+        default: "zh"
+jobs:
+  sign:
+    runs-on: macos-26
+    timeout-minutes: 90
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      DEVELOPMENT_TEAM: ${{ secrets.DEVELOPMENT_TEAM }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Prepare ASC API key
+        run: |
+          set -e
+          mkdir -p "$HOME/.appstoreconnect/private_keys"
+          KEYFILE="$HOME/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8"
+          printf '%s' "${{ secrets.ASC_KEY_P8 }}" > "$KEYFILE"
+          chmod 600 "$KEYFILE"
+          echo "ASC_KEY_PATH=$KEYFILE" >> "$GITHUB_ENV"
+      - name: Generate Xcode project
+        run: |
+          xcodegen generate
+          echo "xcodegen ok"
+      - name: Write ExportOptions
+        run: |
+          cat > ExportOptions.plist <<'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>export</string>
+            <key>teamID</key><string>82B538YL4Y</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>uploadSymbols</key><true/>
+            <key>stripSwiftSymbols</key><true/>
+          </dict>
+          </plist>
+          EOF
+      - name: Build+sign+export (+validate/upload)
+        run: |
+          set -o pipefail
+          build_one() {
+            CFG="$1"; SCHEME="$2"
+            echo "===== $CFG ====="
+            xcodebuild archive -project KBSpike.xcodeproj -scheme "$SCHEME" -configuration "$CFG" -sdk iphoneos \
+              -archivePath "build_$CFG/KBSpike-$CFG.xcarchive" \
+              -allowProvisioningUpdates \
+              -authenticationKeyPath "$ASC_KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+              DEVELOPMENT_TEAM="$DEVELOPMENT_TEAM" CODE_SIGNING_ALLOWED=YES CODE_SIGNING_REQUIRED=YES CODE_SIGN_STYLE=Automatic | tail -30
+            xcodebuild -exportArchive -archivePath "build_$CFG/KBSpike-$CFG.xcarchive" -exportPath "build_$CFG/export" \
+              -exportOptionsPlist ExportOptions.plist -allowProvisioningUpdates \
+              -authenticationKeyPath "$ASC_KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" | tail -30
+            IPA=$(find "build_$CFG/export" -name '*.ipa' | head -1)
+            echo "IPA[$CFG]=$IPA"
+            if [ "${{ inputs.mode }}" = "upload" ]; then
+              xcrun altool --upload-app -f "$IPA" -t ios --apiKey "$ASC_KEY_ID" --apiIssuer "$ASC_ISSUER_ID" --verbose
+            else
+              xcrun altool --validate-app -f "$IPA" -t ios --apiKey "$ASC_KEY_ID" --apiIssuer "$ASC_ISSUER_ID" --verbose
+            fi
+          }
+          case "${{ inputs.app }}" in
+            both) build_one ReleaseZh KBSpike-zh; build_one ReleaseEn KBSpike-en ;;
+            en) build_one ReleaseEn KBSpike-en ;;
+            *) build_one ReleaseZh KBSpike-zh ;;
+          esac
+      - name: Upload signed ipa artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: signed-ipa
+          path: build_*/export/*.ipa
+          if-no-files-found: ignore
