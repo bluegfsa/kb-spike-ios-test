@@ -220,7 +220,7 @@ final class KeyboardViewController: UIInputViewController {
         case .ready:
             statusBanner.isHidden = true
         case .needInit:
-            statusBanner.text = loc("请先打开『词桥输入法』App 完成首次初始化", "Please open the Vocabridge app once to finish initialization")
+            statusBanner.text = loc("正在准备词库，请稍候…", "Preparing dictionary…")
             statusBanner.isHidden = false
         case .error(let message):
             statusBanner.text = loc("词典未就绪：\(message)", "Dictionary not ready: \(message)")
