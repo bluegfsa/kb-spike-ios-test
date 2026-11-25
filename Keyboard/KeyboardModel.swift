@@ -131,7 +131,7 @@ final class KeyboardModel: KeyboardModeling {
         guard let cd = cedict, !term.isEmpty else { return nil }
         if zh2en {
             if let p = PhraseGlossary.en(term) { return p }
-            if let poss = templateZhPossessive(term) { return poss }
+            if let poss = ZhEnPolicy.possessiveWord(term) { return poss }
             if let t = templateZh(term) { return t }
             if let q = templateZhQuestion(term) { return q }
             if let e = cd.exact(term, zh2en: true) { return e }
@@ -166,16 +166,7 @@ final class KeyboardModel: KeyboardModeling {
         return nil
     }
 
-    /// 所有格模板：整串恰为「代词＋的」（闭集）→ 物主词。仅「X的」整串命中，
-    /// 裸「我/你/他…」不在此列（仍走整词 exact→I/you），杜绝把「我」误变 my。
-    /// 覆盖 我们的→our、你们的→your 等词典缺整词条的组合，避免被 segmentZh 切成「we of」。
-    private func templateZhPossessive(_ term: String) -> String? {
-        let map: [String: String] = [
-            "我的": "my", "你的": "your", "您的": "your", "他的": "his", "她的": "her", "它的": "its",
-            "我们的": "our", "你们的": "your", "他们的": "their", "她们的": "their"
-        ]
-        return map[term]
-    }
+    // 所有格模板已抽到 ZhEnPolicy.possessiveWord（Keyboard/TranslationLogic.swift），此处不再保留。
 
     /// 问句/进行体/过去式模板：
     ///  - 代词+在+动词(宾语) → "{Pe} {be} {v-ing} {obj}"（他在吃葡萄→he is eating grapes；我在看电视→I am watching TV，be 随人称变位）
@@ -229,14 +220,7 @@ final class KeyboardModel: KeyboardModeling {
         return nil
     }
 
-    /// 单字虚词（不允许作为分词拼接的一段；出现即判定硬拼错义，宁缺毋滥）。
-    private static let singleCharFunctionWords: Set<String> = [
-        "的", "地", "得", "了", "吗", "呢", "吧", "啊", "呀", "嘛",
-        "在", "是", "和", "与", "及", "或", "就", "都", "也", "又",
-        "很", "太", "更", "最", "不", "没", "会", "要", "能", "把",
-        "被", "着", "过", "而", "却", "才", "还", "给", "让", "对",
-        "有", "从", "向", "为", "但"
-    ]
+    // 单字虚词集合已抽到 ZhEnPolicy.functionWords（Keyboard/TranslationLogic.swift）。
 
     /// 贪心最长匹配分词：把 term 从左往右切成若干已知词，各自取英译并用空格拼接。
     /// 拼接受限（宁缺毋滥）：段数 >2、任一段为单字虚词、或有字无译 → 返回 nil，
@@ -273,10 +257,8 @@ final class KeyboardModel: KeyboardModeling {
             // 表外疑问句（含 吗/呢 且没被模板/短语命中）→ 宁返回 nil，不硬拼出错义
             if qmarks.contains(where: { term.contains($0) }) { return nil }
         }
-        // 硬拼栏杆：有字无译 / 段数>2 / 任一段为单字虚词 → 拼接必错，返回 nil（宁可暂无译词）。
-        if skipped { return nil }
-        if segs.count > 2 { return nil }
-        if segs.contains(where: { $0.count == 1 && Self.singleCharFunctionWords.contains($0) }) { return nil }
+        // 硬拼栏杆交给 ZhEnPolicy：有字无译 / 段数>2 / 任一段为单字虚词 → 禁止拼接，返回 nil（宁可暂无译词）。
+        guard ZhEnPolicy.allowsSegmentation(segments: segs, allTranslated: !skipped) else { return nil }
         return parts.isEmpty ? nil : parts.joined(separator: " ")
     }
 
