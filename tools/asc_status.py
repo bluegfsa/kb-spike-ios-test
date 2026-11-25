@@ -16,22 +16,23 @@ def get(path):
     except urllib.error.HTTPError as e: return e.code,e.read().decode("utf-8","ignore")[:300]
     except Exception as e: return -1,str(e)
 APPS=[("词桥输入法","6838559017"),("Vocabridge","6838559237")]
-print("=== ASC 状态查询 ", time.strftime("%Y-%m-%d %H:%M:%S"), " ===")
+print("=== ASC 详细查询", time.strftime("%Y-%m-%d %H:%M:%S"),"===")
 for label,aid in APPS:
-    print("---",label,aid)
+    print("####",label,aid)
     st,v=get("/v1/apps/"+aid+"/appStoreVersions?limit=5")
-    if st!=200: print("   versions err",st,v); continue
+    if st!=200: print("  ver err",st,v); continue
     for it in v.get("data",[]):
         va=it["attributes"]; vid=it["id"]
-        print("   VER",va.get("versionString"),"state=",va.get("appStoreState"),"platform=",va.get("platform"))
-        st2,b=get("/v1/appStoreVersions/"+vid+"/build")
-        if st2==200: ba=b["data"]["attributes"]; print("      build",ba.get("version"),"processing=",ba.get("processingState"))
-        else: print("      build none",st2)
-        # 若被拒，尝试拉最��一次 reviewSubmission 信息
-        if va.get("appStoreState") in ("REJECTED","DEVELOPER_REJECTED","METADATA_REJECTED"):
-            st3,rs=get("/v1/apps/"+aid+"/reviewSubmissions?limit=3")
-            print("      reviewSubmissions",st3, (json.dumps(rs,)[:400] if st3==200 else str(rs)[:200]))
-        # 拉 version 上的审核备注/本地化(可能含被拒信息)
-        st4,lz=get("/v1/appStoreVersions/"+vid+"/appStoreVersionLocalizations?limit=10")
-        # 不打印敏感，只提示数量
-        print("      localizations",st4, ("count="+str(len(lz.get("data",[]))) if st4==200 else ""))
+        print("  VER",va.get("versionString"),"state=",va.get("appStoreState"))
+        st3,rs=get("/v1/apps/"+aid+"/reviewSubmissions?limit=3")
+        if st3==200:
+            for rsm in rs.get("data",[]):
+                sid=rsm["id"]; print("   submission",sid,"state=",rsm["attributes"].get("state"),"submitted=",rsm["attributes"].get("submittedDate"))
+                sti,items=get("/v1/reviewSubmissions/"+sid+"/items?limit=50")
+                if sti==200:
+                    for itm in items.get("data",[]):
+                        print("     ITEM type=",itm.get("type"),"state=",itm.get("attributes",{}).get("state"),"attrs=",json.dumps(itm.get("attributes",{}),ensure_ascii=False)[:300])
+                else: print("     items err",sti,items)
+        # appStoreReviewDetail（我们填的审核备注，非拒绝原因）
+        st5,rd=get("/v1/appStoreVersions/"+vid+"/appStoreReviewDetail")
+        if st5==200 and rd.get("data"): print("   reviewDetail notes=", (rd["data"]["attributes"].get("notes") or "")[:120])
