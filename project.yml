@@ -49,6 +49,17 @@ targets:
           xcrun --sdk macosx swiftc -sdk "$SYSROOT" -o "$OUT" \
             "$SRCROOT/Keyboard/KeyboardLogic.swift" "$SRCROOT/tools/SelfTest/main.swift"
           "$OUT"
+      - name: TranslationLogicSelfTest
+        basedOnDependencyAnalysis: false
+        script: |
+          set -e
+          unset SDKROOT
+          unset SWIFT_EXEC
+          SYSROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          OUT="${TMPDIR:-/tmp}/kbspike_translation_selftest"
+          xcrun --sdk macosx swiftc -sdk "$SYSROOT" -o "$OUT" \
+            "$SRCROOT/Keyboard/TranslationLogic.swift" "$SRCROOT/tools/TranslationLogicTests.swift"
+          "$OUT"
     dependencies:
       - target: KBSpikeKeyboard
         embed: true
