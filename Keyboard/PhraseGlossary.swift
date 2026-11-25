@@ -22,6 +22,8 @@ enum PhraseGlossary {
         "一路顺风": "Have a good trip", "辛苦了": "Thanks for your hard work", "加油": "Cheer up",
         "无聊": "boring", "什么意思": "What does it mean", "怎么回事": "What happened",
         "大家好": "Hello everyone", "好久不见": "Long time no see", "我爱你吗": "Do you love me",
+        // 所有格整词（与 templateZhPossessive 互为保险，防被分词拼成 we of / you of）
+        "我们的": "our", "你们的": "your", "您的": "your", "他们的": "their", "她们的": "their",
     ]
 
     /// 取短语英译；无则 nil。
