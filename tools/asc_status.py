@@ -19,6 +19,17 @@ APPS=[("词桥输入法","6838559017"),("Vocabridge","6838559237")]
 print("=== ASC 详细查询", time.strftime("%Y-%m-%d %H:%M:%S"),"===")
 for label,aid in APPS:
     print("####",label,aid)
+    # builds：处理态（Processing/Valid/Invalid）＋出口合规
+    stb,bs=get("/v1/builds?filter[app]="+aid+"&sort=-uploadedDate&limit=8")
+    if stb==200:
+        for bld in bs.get("data",[]):
+            ba=bld["attributes"]
+            print("  BUILD version=",ba.get("version"),"state=",ba.get("processingState"),
+                  "expired=",ba.get("expired"),
+                  "usesNonExemptEncryption=",ba.get("usesNonExemptEncryption"),
+                  "uploaded=",ba.get("uploadedDate"),"id=",bld.get("id"))
+    else:
+        print("  builds err",stb,bs)
     st,v=get("/v1/apps/"+aid+"/appStoreVersions?limit=5")
     if st!=200: print("  ver err",st,v); continue
     for it in v.get("data",[]):
@@ -33,6 +44,5 @@ for label,aid in APPS:
                     for itm in items.get("data",[]):
                         print("     ITEM type=",itm.get("type"),"state=",itm.get("attributes",{}).get("state"),"attrs=",json.dumps(itm.get("attributes",{}),ensure_ascii=False)[:300])
                 else: print("     items err",sti,items)
-        # appStoreReviewDetail（我们填的审核备注，非拒绝原因）
         st5,rd=get("/v1/appStoreVersions/"+vid+"/appStoreReviewDetail")
         if st5==200 and rd.get("data"): print("   reviewDetail notes=", (rd["data"]["attributes"].get("notes") or "")[:120])
