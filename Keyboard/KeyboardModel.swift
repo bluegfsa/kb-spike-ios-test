@@ -148,7 +148,8 @@ final class KeyboardModel: KeyboardModeling {
         for lineSub in raw.split(whereSeparator: { $0 == "\n" || $0 == ";" }) {
             var t = String(lineSub).trimmingCharacters(in: .whitespaces)
             if t.isEmpty || t.hasPrefix("[") { continue }
-            if bad.contains(where: { t.contains($0) }) { continue }
+            // 仅当整段就是「变形标注」(如 "过去式"/"过去式: went"/"复数") 才跳过；像 "be的现在时复数或第二人称单数" 是正常释义，不能因含"复数"就丢（BUG: are/is/was 不出释义）
+            if bad.contains(where: { t == $0 || t.hasPrefix($0 + ":") || t.hasPrefix($0 + "：") || t.hasPrefix($0 + " ") }) { continue }
             if let r = t.range(of: "^[A-Za-z]+\\.\\s*", options: .regularExpression) { t.removeSubrange(r) }
             if let cut = t.firstIndex(where: { "，,；;。.…".contains($0) }) { t = String(t[..<cut]) }
             t = t.trimmingCharacters(in: .whitespaces)
