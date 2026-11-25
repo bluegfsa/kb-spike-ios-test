@@ -22,6 +22,9 @@ struct TranslationLogicSelftest {
         // 裸词不变：不能被当成所有格
         expect(ZhEnPolicy.possessiveWord("我") == nil, "裸我->nil(不误变 my)")
         expect(ZhEnPolicy.possessiveWord("你") == nil, "裸你->nil(不误变 your)")
+        // 我们的老师：不被当所有格；若被切成 我们+的+老师（段>2 且含虚词「的」）必须禁止拼接 → 端到端等价 nil
+        expect(ZhEnPolicy.possessiveWord("我们的老师") == nil, "我们的老师 未被当所有格")
+        expect(!ZhEnPolicy.allowsSegmentation(segments: ["我们", "的", "老师"], allTranslated: true), "我们+的+老师->禁止(=我们的老师→nil)")
 
         // 单字虚词集合含评审官补的 有/从/向/为/但
         expect(ZhEnPolicy.functionWords.isSuperset(of: ["有", "从", "向", "为", "但"]), "虚词含 有/从/向/为/但")
