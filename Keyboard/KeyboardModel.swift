@@ -136,12 +136,19 @@ final class KeyboardModel: KeyboardModeling {
             if let e = cd.exact(term, zh2en: true) { return e }
             return segmentZh(term, cd)
         } else {
-            // en2zh：清洗 ECDICT 长释义（去掉词性/时态变形/多义堆叠，取首条干净中文义）
+            // en2zh：高频功能词/be 动词给干净中文（词典里 are/is 是语法描述，直接展示不友好、且易被清洗误杀）
+            if let o = Self.enFunctionGloss[term.lowercased()] { return o }
+            // 清洗 ECDICT 长释义（去掉词性/时态变形/多义堆叠，取首条干净中文义）
             return Self.cleanEnGloss(cd.exact(term.lowercased(), zh2en: false))
         }
     }
 
     /// 清洗英文→中文释义：跳过时态/变形注记行、去词性前缀、取首个分句，仅保留含汉字的干净义项。
+    /// 英→中：高频功能词 / be 动词的干净中文覆盖（词典原文是「be的现在时复数…」这类语法描述，展示不友好）。
+    private static let enFunctionGloss: [String: String] = [
+        "am": "是", "is": "是", "are": "是", "was": "是", "were": "是",
+        "be": "是", "been": "是", "being": "是"
+    ]
     private static func cleanEnGloss(_ raw: String?) -> String? {
         guard let raw, !raw.isEmpty else { return nil }
         let bad = ["过去式", "过去分词", "复数", "现在分词", "第三人称单数", "比较级", "最高级"]
