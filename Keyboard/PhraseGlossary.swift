@@ -24,6 +24,8 @@ enum PhraseGlossary {
         "大家好": "Hello everyone", "好久不见": "Long time no see", "我爱你吗": "Do you love me",
         // 所有格整词（与 templateZhPossessive 互为保险，防被分词拼成 we of / you of）
         "我们的": "our", "你们的": "your", "您的": "your", "他们的": "their", "她们的": "their",
+        // 专有名词歧义修正：zh2en.txt 的「苹果」只收公司义，中文版候选栏改取水果义（只影响中→英）
+        "苹果": "apple",
     ]
 
     /// 取短语英译；无则 nil。
