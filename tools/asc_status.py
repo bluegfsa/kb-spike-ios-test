@@ -23,7 +23,7 @@ def decode_id(i):
         return {}
 for label,aid in [("词桥输入法","6838559017"),("Vocabridge","6838559237")]:
     print("####",label,aid)
-    st,v=get("/v1/apps/"+aid+"/appAvailabilityV2?include=territoryAvailabilities&limit=200")
+    st,v=get("/v1/apps/"+aid+"/appAvailabilityV2?include=territoryAvailabilities")
     print("  status",st)
     if st!=200 or not isinstance(v,dict):
         print("  body",str(v)[:200]); continue
