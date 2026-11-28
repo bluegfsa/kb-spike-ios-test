@@ -15,29 +15,28 @@ def get(path):
         with urllib.request.urlopen(req,timeout=40) as x: return x.status,json.load(x)
     except urllib.error.HTTPError as e: return e.code,e.read().decode("utf-8","ignore")[:200]
     except Exception as e: return -1,str(e)
-aid="6838559017"
-print("=== TERR probe", time.strftime("%H:%M:%S"),"===")
-paths=[
- "/v1/appAvailabilities/"+aid+"/territoryAvailabilities?limit=200",
- "/v1/appAvailabilityV2/"+aid+"/territoryAvailabilities?limit=200",
- "/v1/appAvailabilityV2/"+aid+"/territories?limit=200",
- "/v1/apps/"+aid+"/appAvailabilityV2?include=territoryAvailabilities",
- "/v1/apps/"+aid+"/appAvailabilities?include=territoryAvailabilities",
-]
-for p in paths:
-    st,v=get(p)
-    print("PATH",p,"->",st)
-    if st==200 and isinstance(v,dict):
-        data=v.get("data")
-        if isinstance(data,list):
-            ids=[]
-            for d in data:
-                ids.append(d.get("id"))
-            print("   list ids n=",len(ids),"CHN_in=",("CHN" in ids),"sample",ids[:10])
-        else:
-            print("   data=",json.dumps(data,ensure_ascii=False)[:300])
-        if v.get("included"):
-            inc_ids=[i.get("id") for i in v["included"]]
-            print("   included n=",len(inc_ids),"CHN_in=",("CHN" in inc_ids),"sample",inc_ids[:10])
-    else:
-        print("   body",str(v)[:160])
+def decode_id(i):
+    try:
+        pad=i+"="*(-len(i)%4)
+        return json.loads(base64.urlsafe_b64decode(pad.encode()))
+    except Exception:
+        return {}
+for label,aid in [("词桥输入法","6838559017"),("Vocabridge","6838559237")]:
+    print("####",label,aid)
+    st,v=get("/v1/apps/"+aid+"/appAvailabilityV2?include=territoryAvailabilities&limit=200")
+    print("  status",st)
+    if st!=200 or not isinstance(v,dict):
+        print("  body",str(v)[:200]); continue
+    inc=v.get("included",[])
+    print("  included count",len(inc),"total_paging",v.get("data",{}).get("relationships",{}).get("territoryAvailabilities",{}).get("meta"))
+    avail_true=0; avail_false=0; chn=None
+    for it in inc:
+        t=decode_id(it.get("id","")).get("t")
+        at=it.get("attributes",{})
+        av=at.get("available")
+        if av is True: avail_true+=1
+        elif av is False: avail_false+=1
+        if t=="CHN":
+            chn={"id":it.get("id"),"attrs":at}
+    print("  available_true=",avail_true,"available_false=",avail_false)
+    print("  CHN=",json.dumps(chn,ensure_ascii=False))
